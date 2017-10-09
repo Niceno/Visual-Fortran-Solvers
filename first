@@ -1,0 +1,7 @@
+#!/bin/bash
+
+aclocal
+touch NEWS AUTHORS ChangeLog
+automake --add-missing
+autoconf
+./configure
