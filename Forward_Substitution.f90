@@ -11,7 +11,7 @@
   real    :: sum
 !----------------------------------------------------------------------!
 
-  n = size(a,1)  ! some checks are possible 
+  n = size(a,1)  ! some checks would be possible
 
   do i=1,n
     sum = b(i)

@@ -10,7 +10,7 @@
   real    :: sum1, sum2
 !----------------------------------------------------------------------!
 
-  n = size(a,1)
+  n = size(a,1)  ! some checks would be possible
 
   do k=1,n
     sum1 = a(k,k)

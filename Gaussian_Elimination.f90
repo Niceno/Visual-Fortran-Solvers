@@ -9,7 +9,7 @@
   real    :: xmult
 !----------------------------------------------------------------------!
 
-  n = size(a,1)
+  n = size(a,1)  ! some checks would be possible
 
   do k=1,n-1
     do i=k+1,n      

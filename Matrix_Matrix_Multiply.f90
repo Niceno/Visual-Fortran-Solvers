@@ -10,7 +10,7 @@
   integer :: i, j, k, n
 !----------------------------------------------------------------------!
 
-  n = size(a, 1)
+  n = size(a, 1)  ! some checks would be possible
 
   do i = 1, n
     do j = 1, n
