@@ -1,1 +1,1 @@
-rm -fR aclocal.m4 AUTHORS ChangeLog config.log config.status COPYING INSTALL install-sh Makefile Makefile.in missing NEWS README autom4te.cache configure
+rm -fR aclocal.m4 AUTHORS ChangeLog config.log config.status COPYING INSTALL install-sh Makefile Makefile.in missing NEWS autom4te.cache configure
