@@ -1,0 +1,6 @@
+interface
+  subroutine Print_Vector(a)
+    implicit none
+    real, dimension(:) :: a
+  end subroutine Print_Vector
+end interface

@@ -1,0 +1,6 @@
+interface
+  subroutine Gaussian_Elimination(a)
+    implicit none
+    real, dimension(:,:) :: a
+  end subroutine Gaussian_Elimination
+end interface

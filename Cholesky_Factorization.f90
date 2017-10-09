@@ -1,15 +1,16 @@
 !======================================================================!
-  subroutine Cholesky_Factorization(l, a, n)
+  subroutine Cholesky_Factorization(l, a)
 !----------------------------------------------------------------------!
   implicit none
 !----------------------------------------------------------------------!
-  integer              :: n
-  real, dimension(n,n) :: l
-  real, dimension(n,n) :: a
+  real, dimension(:,:) :: l
+  real, dimension(:,:) :: a
 !----------------------------------------------------------------------!
-  integer :: i, k, m
+  integer :: i, k, m, n
   real    :: sum1, sum2
 !----------------------------------------------------------------------!
+
+  n = size(a,1)
 
   do k=1,n
     sum1 = a(k,k)

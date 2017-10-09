@@ -1,0 +1,8 @@
+interface 
+  subroutine Backward_Substitution(x, a, b)
+    implicit none
+    real, dimension(:)   :: x
+    real, dimension(:,:) :: a
+    real, dimension(:)   :: b
+  end subroutine Backward_Substitution
+end interface

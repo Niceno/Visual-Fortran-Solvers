@@ -1,17 +1,16 @@
 !======================================================================!
-  subroutine Transpose_Matrix(b, a, n)
+  subroutine Transpose_Matrix(b, a)
 !----------------------------------------------------------------------!
   implicit none
 !----------------------------------------------------------------------!
-  integer              :: n
-  real, dimension(n,n) :: b
-  real, dimension(n,n) :: a
+  real, dimension(:,:) :: b
+  real, dimension(:,:) :: a
 !----------------------------------------------------------------------!
   integer :: row, col
 !----------------------------------------------------------------------!
 
-  do row=1,n
-    do col=1,n
+  do row=1, size(b,1)
+    do col=1, size(b,2)
       b(col,row) = a(row,col)
     end do
   end do

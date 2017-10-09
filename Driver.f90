@@ -3,6 +3,15 @@
 !----------------------------------------------------------------------!
   implicit none
 !----------------------------------------------------------------------!
+  include "Backward_Substitution.int"
+  include "Forward_Substitution.int"
+  include "Print_Matrix.int"               
+  include "Print_Vector.int"               
+  include "Cholesky_Factorization.int"
+  include "Gaussian_Elimination.int"
+  include "Matrix_Matrix_Multiply.int"
+  include "Transpose_Matrix.int" 
+!----------------------------------------------------------------------!
   integer :: row, col
 !----------------------------------------------------------------------!
 
@@ -52,50 +61,50 @@
   !   Demonstrate Gussian elimination   !
   !-------------------------------------!
   write(*,*) "Original matrix a1:"
-  call Print_Matrix(a1, n1)
+  call Print_Matrix(a1)
 
-  call Gaussian_Elimination(a1, n1)
+  call Gaussian_Elimination(a1)
 
   write(*,*) "Matrix a1 after elimination:"
-  call Print_Matrix(a1, n1)
+  call Print_Matrix(a1)
 
   !----------------------------------------!
   !   Demonstrate Cholesky Factorization   !
   !----------------------------------------!
   l2 = 0
-  call Cholesky_Factorization(l2, a2, n2)
+  call Cholesky_Factorization(l2, a2)
 
   write(*,*) "Matrix l2 after Cholesky factorization:"
-  call Print_Matrix(l2, n2)
+  call Print_Matrix(l2)
 
-  call Transpose_Matrix(u2, l2, n2)
+  call Transpose_Matrix(u2, l2)
 
   write(*,*) "Matrix u2 after inversion:"
-  call Print_Matrix(u2, n2)
+  call Print_Matrix(u2)
 
-  call Matrix_Matrix_Multiply(p2, l2, u2, n2)
+  call Matrix_Matrix_Multiply(p2, l2, u2)
 
   write(*,*) "Matrix p2 after multiplication:"
-  call Print_Matrix(p2, n2)
+  call Print_Matrix(p2)
 
   !---------------------------------------!
   !   Demonstrate Backward Substitution   !
   !---------------------------------------!
   write(*,*) "Matrix a3"                          
-  call Print_Matrix(a3, n3)
+  call Print_Matrix(a3)
 
-  call Forward_Substitution(y3, a3, b3, n3)
+  call Forward_Substitution(y3, a3, b3)
 
-  call Print_Vector(y3, n3) 
+  call Print_Vector(y3) 
  
   !--------------------------------------!
   !   Demonstrate Forward Substitution   !
   !--------------------------------------!
   write(*,*) "Matrix a4"                          
-  call Print_Matrix(a4, n4)
+  call Print_Matrix(a4)
 
-  call Backward_Substitution(y4, a4, b4, n4)
+  call Backward_Substitution(y4, a4, b4)
 
-  call Print_Vector(y4, n4) 
+  call Print_Vector(y4) 
  
   end program Driver

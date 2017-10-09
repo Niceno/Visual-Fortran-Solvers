@@ -1,16 +1,17 @@
 !======================================================================!
-  subroutine Backward_Substitution(x, a, b, n)
+  subroutine Backward_Substitution(x, a, b)
 !----------------------------------------------------------------------!
   implicit none
 !----------------------------------------------------------------------!
-  integer              :: n
-  real, dimension(n,n) :: a
-  real, dimension(n)   :: x
-  real, dimension(n)   :: b
+  real, dimension(:)   :: x
+  real, dimension(:,:) :: a
+  real, dimension(:)   :: b
 !----------------------------------------------------------------------!
-  integer :: i, j
+  integer :: i, j, n
   real    :: sum
 !----------------------------------------------------------------------!
+
+  n = size(a,1)  ! some checks are possible 
 
   do i=n,1,-1
     sum = b(i)
