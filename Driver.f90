@@ -1,8 +1,8 @@
-!======================================================================!
+!==============================================================================!
   program Driver
-!----------------------------------------------------------------------!
+!------------------------------------------------------------------------------!
   implicit none
-!----------------------------------------------------------------------!
+!------------------------------------------------------------------------------!
   include "Backward_Substitution.int"
   include "Forward_Substitution.int"
   include "Print_Matrix.int"               
@@ -12,9 +12,9 @@
   include "Matrix_Matrix_Multiply.int"
   include "Matrix_Vector_Multiply.int"
   include "Transpose_Matrix.int" 
-!----------------------------------------------------------------------!
+!------------------------------------------------------------------------------!
   integer :: row, col, choice
-!----------------------------------------------------------------------!
+!------------------------------------------------------------------------------!
 
 !-----------------------------------+
 ! Matrix 1 for Gaussian elimination !
@@ -33,43 +33,23 @@
 !-------------------------------------+
 ! Matrix 2 for Cholesky factorization !
 !-------------------------------------!
-  integer, parameter      :: n2 = 3
+  integer, parameter      :: n2 = 7
   real, dimension(n2, n2) :: a2, l2, u2, p2
   real, dimension(n2)     :: b2, x2, y2
-  data (a2(1,col), col=1,n2) / 60.0, 30.0, 20.0 /  ! =--> row 1
-  data (a2(2,col), col=1,n2) / 30.0, 20.0, 15.0 /  ! =--> row 2
-  data (a2(3,col), col=1,n2) / 20.0, 15.0, 12.0 /  ! =--> row 3
-  data (b2(row),   row=1,n2) /  5.0, 16.0, 15.0 /
-
-!-----------------------------------+
-! Matrix 3 for Forward substitution !
-!-----------------------------------!
-  integer, parameter      :: n3 = 3
-  real, dimension(n3, n3) :: a3
-  real, dimension(n3)     :: b3, y3
-  data (a3(1,col), col=1,n3) / 6.0, 0.0, 0.0 /  ! =--> row 1
-  data (a3(2,col), col=1,n3) / 3.0, 2.0, 0.0 /  ! =--> row 2
-  data (a3(3,col), col=1,n3) / 4.0, 2.0, 1.0 /  ! =--> row 3
-  data (b3(row),   row=1,n3) / 6.0, 5.0, 7.0 /
-
-!------------------------------------+
-! Matrix 4 for Backward substitution !
-!------------------------------------!
-  integer, parameter      :: n4 = 3
-  real, dimension(n4, n4) :: a4
-  real, dimension(n4)     :: b4, y4
-  data (a4(1,col), col=1,n4) / 4.0, 2.0, 1.0 /  ! =--> row 1
-  data (a4(2,col), col=1,n4) / 0.0, 3.0, 2.0 /  ! =--> row 2
-  data (a4(3,col), col=1,n4) / 0.0, 0.0, 6.0 /  ! =--> row 3
-  data (b4(row),   row=1,n4) / 7.0, 5.0, 6.0 /
-!----------------------------------------------------------------------!
+  data (a2(1,col), col=1,n2) / 44., -4., -3., -2., -1.,  0.,  0. /  ! =--> row 1
+  data (a2(2,col), col=1,n2) / -4., 44., -4., -3., -2., -1.,  0. /  ! =--> row 2
+  data (a2(3,col), col=1,n2) / -3., -4., 44., -4., -3., -2., -1. /  ! =--> row 3
+  data (a2(4,col), col=1,n2) / -2., -3., -4., 44., -4., -3., -2. /  ! =--> row 4
+  data (a2(5,col), col=1,n2) / -1., -2., -3., -4., 44., -4., -3. /  ! =--> row 5
+  data (a2(6,col), col=1,n2) /  0., -1., -2., -3., -4., 44., -4. /  ! =--> row 6
+  data (a2(7,col), col=1,n2) /  0.,  0., -1., -2., -3., -4., 44. /  ! =--> row 7
+  data (b2(row),   row=1,n2) /  1.,  2.,  3.,  4.,  3.,  2.,  1. /
+!------------------------------------------------------------------------------!
 
   write(*,*) '============================'
   write(*,*) 'Select a case to demonstrate'
   write(*,*) '1 - Gaussian elimination'
   write(*,*) '2 - Cholesky factorization'
-  write(*,*) '3 - Backward substitution'
-  write(*,*) '4 - Forward substitution'
   write(*,*) '----------------------------'
   read(*,*) choice
 
@@ -129,22 +109,4 @@
     call Print_Vector("Vector y2 should recover the source term:", y2)
   end if
 
-  !---------------------------------------!
-  !   Demonstrate Backward Substitution   !
-  !---------------------------------------!
-  if(choice == 3) then
-    call Print_Matrix("Matrix a3:", a3)
-    call Forward_Substitution(y3, a3, b3)
-    call Print_Vector("Vector y3", y3) 
-  end if
- 
-  !--------------------------------------!
-  !   Demonstrate Forward Substitution   !
-  !--------------------------------------!
-  if(choice == 4) then
-    call Print_Matrix("Matrix a4:", a4)
-    call Backward_Substitution(y4, a4, b4)
-    call Print_Vector("Vector y4:", y4) 
-  end if
- 
   end program Driver
