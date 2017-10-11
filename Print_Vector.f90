@@ -1,15 +1,18 @@
 !======================================================================!
-  subroutine Print_Vector(a)
+  subroutine Print_Vector(message, vector)
 !----------------------------------------------------------------------!
   implicit none
 !----------------------------------------------------------------------!
-  real, dimension(:) :: a
+  character(len=*)   :: message
+  real, dimension(:) :: vector
 !----------------------------------------------------------------------!
-  integer :: row, col
+  integer :: row
 !----------------------------------------------------------------------!
 
-  do row = 1, size(a)
-    write(*,"(f8.3)") a(row)
+  write(*,*) message
+
+  do row = 1, size(vector)
+    write(*,"(f8.3)") vector(row)
   end do           
 
   end subroutine Print_Vector

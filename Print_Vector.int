@@ -1,6 +1,7 @@
 interface
-  subroutine Print_Vector(a)
+  subroutine Print_Vector(message, vector)
     implicit none
-    real, dimension(:) :: a
+    character(len=*)   :: message
+    real, dimension(:) :: vector
   end subroutine Print_Vector
 end interface

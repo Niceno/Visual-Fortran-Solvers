@@ -1,6 +1,7 @@
 interface
-  subroutine Print_Matrix(a)
+  subroutine Print_Matrix(message, matrix)
     implicit none
-    real, dimension(:,:) :: a
+    character(len=*)     :: message
+    real, dimension(:,:) :: matrix
   end subroutine Print_Matrix
 end interface
