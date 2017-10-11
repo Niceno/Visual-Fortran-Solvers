@@ -1,0 +1,8 @@
+interface
+  subroutine Matrix_Vector_Multiply(y, a, x)
+    implicit none
+    real, dimension(:)   :: y
+    real, dimension(:,:) :: a
+    real, dimension(:)   :: x
+  end subroutine Matrix_Vector_Multiply
+end interface
