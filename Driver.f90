@@ -1,8 +1,11 @@
 !==============================================================================!
   program Driver
 !------------------------------------------------------------------------------!
-  implicit none
+!----------------------------------[Modules]-----------------------------------!
+  use Matrix_Mod
 !------------------------------------------------------------------------------!
+  implicit none
+!---------------------------------[Interfaces]---------------------------------!
   include "Backward_Substitution.int"
   include "Forward_Substitution.int"
   include "Print_Matrix.int"               
@@ -12,8 +15,9 @@
   include "Matrix_Matrix_Multiply.int"
   include "Matrix_Vector_Multiply.int"
   include "Transpose_Matrix.int" 
-!------------------------------------------------------------------------------!
-  integer :: row, col, choice
+  include "Compress_Matrix.int"               
+!-----------------------------------[Locals]-----------------------------------!
+  integer :: row, col, choice, i
 !==============================================================================!
 
 !-----------------------------------+
@@ -42,12 +46,18 @@
   data (a2(6,col), col=1,n2) /  0., -1., -2., -3., -4., 44., -4. /  ! =--> row 6
   data (a2(7,col), col=1,n2) /  0.,  0., -1., -2., -3., -4., 44. /  ! =--> row 7
   data (b2(row),   row=1,n2) /  1.,  2.,  3.,  4.,  3.,  2.,  1. /
+
+!-------------------!                   
+! Compressed matrix !
+!-------------------!
+  type(Matrix) :: ac2
 !------------------------------------------------------------------------------!
 
   write(*,*) '============================'
   write(*,*) 'Select a case to demonstrate'
   write(*,*) '1 - Gaussian elimination'
   write(*,*) '2 - Cholesky factorization'
+  write(*,*) '3 - Compressed matrices'
   write(*,*) '----------------------------'
   read(*,*) choice
 
@@ -105,6 +115,30 @@
     ! Multiply original matrix with solution vector to check result
     call Matrix_Vector_Multiply(y2, a2, x2)
     call Print_Vector("Vector y2 should recover the source term:", y2)
+  end if
+
+  if(choice == 3) then
+
+    call Print_Matrix("Original matrix a2", a2)
+
+    ! Compress matrix "a2" and store it in "ac2"
+    call Compress_Matrix(ac2, a2)
+
+    call Print_Vector("ac2 % val:", ac2 % val)
+
+    write(*,*) "ac2 % col = "
+    do i=1, size(ac2 % col)
+      write(*,'(2I4)'), i, ac2 % col(i)
+    end do 
+    write(*,*) "ac2 % row = "
+    do i=1, size(ac2 % row)
+      write(*,'(2I4)'), i, ac2 % row(i)
+    end do 
+    write(*,*) "ac2 % dia = "
+    do i=1, size(ac2 % dia)
+      write(*,'(2I4)'), i, ac2 % dia(i)
+    end do 
+
   end if
 
   end program Driver
