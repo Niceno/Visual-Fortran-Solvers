@@ -28,7 +28,7 @@
   do i=n,1,-1
     sum = b(i)
     do j=i+1,n
-      sum = sum - l(j,i)*x(j)
+      sum = sum - l(j,i)*x(j)  ! cumbersome for compressed row format
     end do
     x(i) = sum/l(i,i)
   end do

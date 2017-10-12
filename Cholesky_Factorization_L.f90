@@ -26,13 +26,13 @@
   do k=1,n
     sum1 = a(k,k)
     do m=1,k-1
-      sum1 = sum1 - l(k,m)**2.0
+      sum1 = sum1 - l(k,m)**2.0  ! straightforward for compressed row format
     end do
     l(k,k) = sqrt(sum1)
     do i=k+1,n
       sum2 = a(i,k)
       do m=1,k-1
-        sum2 = sum2 - l(i,m)*l(k,m)
+        sum2 = sum2 - l(i,m)*l(k,m)  ! cumbersome for compressed row format
       end do
       l(i,k) = sum2/l(k,k)
     end do
