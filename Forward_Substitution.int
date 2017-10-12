@@ -1,8 +1,0 @@
-interface 
-  subroutine Forward_Substitution(x, a, b)
-    implicit none
-    real, dimension(:)   :: x
-    real, dimension(:,:) :: a
-    real, dimension(:)   :: b
-  end subroutine Forward_Substitution
-end interface

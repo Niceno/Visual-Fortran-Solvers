@@ -6,11 +6,14 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Interfaces]---------------------------------!
-  include "Backward_Substitution.int"
-  include "Forward_Substitution.int"
+  include "Backward_Substitution_U.int"
+  include "Backward_Substitution_L.int"
+  include "Forward_Substitution_L.int"
+  include "Forward_Substitution_U.int"
   include "Print_Matrix.int"               
   include "Print_Vector.int"               
-  include "Cholesky_Factorization.int"
+  include "Cholesky_Factorization_L.int"
+  include "Cholesky_Factorization_U.int"
   include "Gaussian_Elimination.int"
   include "Matrix_Matrix_Multiply.int"
   include "Matrix_Vector_Multiply.int"
@@ -75,7 +78,7 @@
     call Print_Vector("R.h.s vector b1 after elimination:", b1)
 
     ! Perform backward substitution
-    call Backward_Substitution(x1, g1, b1)
+    call Backward_Substitution_U(x1, g1, b1)
     call Print_Vector("Solution vector x1: ", x1)
 
     ! Multiply original matrix with solution vector to check result
@@ -93,23 +96,23 @@
     call Print_Matrix("Original matrix a1:", a2)
 
     ! Perform Cholesky factorization on the matrix to fin the lower one
-    call Cholesky_Factorization(l2, a2)
-    call Print_Matrix("Matrix l2 after Cholesky factorization", l2)
+    call Cholesky_Factorization_U(u2, a2)
+    call Print_Matrix("Matrix u2 after Cholesky factorization", u2)
 
     ! Transpose the lower matrix to get the upper
-    call Transpose_Matrix(u2, l2)
-    call Print_Matrix("Matrix u2 after transpose:", u2)
+    call Transpose_Matrix(l2, u2)
+    call Print_Matrix("Matrix l2 after transpose:", l2)
 
     ! Multiply lower and upper to check
     call Matrix_Matrix_Multiply(p2, l2, u2)
     call Print_Matrix("Matrix p2 after multiplication of l2 and u2:", p2)
 
     ! Compute y by forward substitution
-    call Forward_Substitution(y2, l2, b2)
+    call Forward_Substitution_U(y2, u2, b2)
     call Print_Vector("Vector y2 after forward substitution:", y2) 
 
     ! Compute x by backward substitution
-    call Backward_Substitution(x2, u2, y2)
+    call Backward_Substitution_L(x2, l2, y2)
     call Print_Vector("Vector x2 after forward substitution:", x2) 
 
     ! Multiply original matrix with solution vector to check result

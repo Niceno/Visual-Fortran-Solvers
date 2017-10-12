@@ -1,7 +1,7 @@
 interface
-  subroutine Cholesky_Factorization(l, a)
+  subroutine Cholesky_Factorization_U(l, a)
     implicit none
     real, dimension(:,:) :: l
     real, dimension(:,:) :: a
-  end subroutine Cholesky_Factorization
+  end subroutine Cholesky_Factorization_U
 end interface
