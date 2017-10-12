@@ -2,12 +2,15 @@ bin_PROGRAMS = SFS
 
 SFS_SOURCES =			\
   Matrix_Mod.f90		\
+  Backward_Substitution.f90	\
   Backward_Substitution_L.f90	\
   Backward_Substitution_U.f90	\
+  Cholesky_Factorization.f90	\
   Cholesky_Factorization_L.f90	\
   Cholesky_Factorization_U.f90	\
   Compress_Matrix.f90		\
   Driver.f90             	\
+  Forward_Substitution.f90	\
   Forward_Substitution_L.f90	\
   Forward_Substitution_U.f90	\
   Gaussian_Elimination.f90	\
