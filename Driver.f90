@@ -27,8 +27,6 @@
   data (a1(3,col), col=1,n1) /  4.0,  4.0,  3.0,  4.0 /  ! =--> row 3
   data (a1(4,col), col=1,n1) /  2.0,  0.0,  1.0,  5.0 /  ! =--> row 4
   data (b1(row),   row=1,n1) /  5.0, 16.0, 22.0, 15.0 /
-  data (x1(row),   row=1,n1) /  0.0,  0.0,  0.0,  0.0 /
-  data (y1(row),   row=1,n1) /  0.0,  0.0,  0.0,  0.0 /
 
 !-------------------------------------+
 ! Matrix 2 for Cholesky factorization !
