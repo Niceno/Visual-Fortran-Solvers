@@ -123,10 +123,6 @@
 
     call Print_Vector("ac3 % val:", ac3 % val)
 
-    write(*,*) "ac3 % col = "
-    do i=1, size(ac3 % col)
-      write(*,'(2I4)'), i, ac3 % col(i)
-    end do 
     write(*,*) "ac3 % row = "
     do i=1, size(ac3 % row)
       write(*,'(2I4)'), i, ac3 % row(i)
@@ -134,6 +130,14 @@
     write(*,*) "ac3 % dia = "
     do i=1, size(ac3 % dia)
       write(*,'(2I4)'), i, ac3 % dia(i)
+    end do 
+    write(*,*) "ac3 % col = "
+    do i=1, size(ac3 % col)
+      write(*,'(2I4)'), i, ac3 % col(i)
+    end do 
+    write(*,*) "ac3 % mir = "
+    do i=1, size(ac3 % mir)
+      write(*,'(2I4)'), i, ac3 % mir(i)
     end do 
 
     ! Expand matrix "ac2" and store it in "a3"

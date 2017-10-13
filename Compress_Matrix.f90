@@ -10,6 +10,7 @@
   real, dimension(:,:) :: a
 !------------------------------------------------------------------------------!
   integer :: row, col  ! row used to be "i", col used to be "j"
+  integer :: row_a, col_a, pos_a, row_b, col_b, pos_b
   integer :: n, pos
   integer :: non_zeros
 !==============================================================================!
@@ -41,6 +42,7 @@
   allocate (c % dia(n));         c % dia = 0
   allocate (c % col(non_zeros)); c % col = 0
   allocate (c % val(non_zeros)); c % val = 0
+  allocate (c % mir(non_zeros)); c % mir = 0
 
   !--------------------------------------------!
   !   Form the compressed row storage matrix   !
@@ -71,5 +73,30 @@
   
   ! Store last position as the upper boundary of the array
   c % row(n+1) = pos
+
+  !-----------------------------------------------------------------!
+  !   Find it's mirror (it is non_zeros * noz_zeros operation :-(   !
+  !-----------------------------------------------------------------!
+
+  ! Outer loop
+  do row_a = 1, n
+    do pos_a = c % row(row_a), c % row(row_a + 1) - 1 
+      col_a = c % col(pos_a)  ! at this point you have row_a and col_a  
+      
+      ! Inner loop (it might probably go from 1 to row_a-1
+      do row_b = 1, n
+        do pos_b = c % row(row_b), c % row(row_b + 1) - 1 
+          col_b = c % col(pos_b)  ! at this point you have row_b and col_b 
+
+          if( (col_b == row_a) .and. (row_b == col_a) ) then
+            c % mir(pos_a) = pos_b 
+            c % mir(pos_b) = pos_a 
+            goto 1  ! done with the inner loop, get out
+          end if
+        end do
+      end do       
+1     continue
+    end do       
+  end do           
 
   end subroutine Compress_Matrix

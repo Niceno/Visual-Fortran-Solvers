@@ -36,6 +36,7 @@
     integer, allocatable :: col(:)    ! beginning of each row   
     integer, allocatable :: row(:)    ! column positions
     integer, allocatable :: dia(:)    ! diagonal positions 
+    integer, allocatable :: mir(:)    ! position of the mirror entry
   end type Matrix
 
 end module Matrix_Mod
