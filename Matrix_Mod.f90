@@ -30,11 +30,12 @@
 !   A % dia = [   1   5   9  12 ]                                              !
 !==============================================================================!
   type Matrix
-    integer              :: nonzeros               ! number of nonzero entries
-    real,    allocatable :: val(:)                 ! value
-    integer, allocatable :: col(:)                 ! beginning of each row   
-    integer, allocatable :: row(:)                 ! column positions
-    integer, allocatable :: dia(:)                 ! diagonal positions 
+    integer              :: n         ! matrix dimension
+    integer              :: nonzeros  ! number of nonzero entries
+    real,    allocatable :: val(:)    ! value
+    integer, allocatable :: col(:)    ! beginning of each row   
+    integer, allocatable :: row(:)    ! column positions
+    integer, allocatable :: dia(:)    ! diagonal positions 
   end type Matrix
 
 end module Matrix_Mod

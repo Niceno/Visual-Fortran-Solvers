@@ -1,0 +1,8 @@
+interface
+  subroutine Expand_Matrix(a, c)
+    use Matrix_Mod
+    implicit none
+    real, allocatable :: a(:,:)
+    type(Matrix)      :: c
+  end subroutine Expand_Matrix
+end interface

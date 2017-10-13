@@ -16,6 +16,7 @@
   include "Matrix_Vector_Multiply.int"
   include "Transpose_Matrix.int" 
   include "Compress_Matrix.int"               
+  include "Expand_Matrix.int"               
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col, choice, i
 !==============================================================================!
@@ -47,10 +48,11 @@
   data (a2(7,col), col=1,n2) /  0.,  0., -1.,  0., -3., -4., 44. /  ! =--> row 7
   data (b2(row),   row=1,n2) /  1.,  2.,  3.,  4.,  3.,  2.,  1. /
 
-!-------------------!                   
-! Compressed matrix !
-!-------------------!
-  type(Matrix) :: ac2
+!----------------------------------------! 
+! Matrices for compressing and expanding !
+!----------------------------------------!
+  type(Matrix)      :: ac3
+  real, allocatable :: a3(:,:)
 !------------------------------------------------------------------------------!
 
   write(*,*) '============================'
@@ -109,27 +111,35 @@
     call Print_Vector("Vector y2 should recover the source term:", y2)
   end if
 
+  !---------------------------------------------------!
+  !   Demonstrate compressing and expanding matrices  !
+  !---------------------------------------------------!
   if(choice == 3) then
 
     call Print_Matrix("Original matrix a2", a2)
 
-    ! Compress matrix "a2" and store it in "ac2"
-    call Compress_Matrix(ac2, a2)
+    ! Compress matrix "a2" and store it in "ac3"
+    call Compress_Matrix(ac3, a2)
 
-    call Print_Vector("ac2 % val:", ac2 % val)
+    call Print_Vector("ac3 % val:", ac3 % val)
 
-    write(*,*) "ac2 % col = "
-    do i=1, size(ac2 % col)
-      write(*,'(2I4)'), i, ac2 % col(i)
+    write(*,*) "ac3 % col = "
+    do i=1, size(ac3 % col)
+      write(*,'(2I4)'), i, ac3 % col(i)
     end do 
-    write(*,*) "ac2 % row = "
-    do i=1, size(ac2 % row)
-      write(*,'(2I4)'), i, ac2 % row(i)
+    write(*,*) "ac3 % row = "
+    do i=1, size(ac3 % row)
+      write(*,'(2I4)'), i, ac3 % row(i)
     end do 
-    write(*,*) "ac2 % dia = "
-    do i=1, size(ac2 % dia)
-      write(*,'(2I4)'), i, ac2 % dia(i)
+    write(*,*) "ac3 % dia = "
+    do i=1, size(ac3 % dia)
+      write(*,'(2I4)'), i, ac3 % dia(i)
     end do 
+
+    ! Expand matrix "ac2" and store it in "a3"
+    call Expand_Matrix(a3, ac3)
+
+    call Print_Matrix("Epanded matrix ac3:", a3)
 
   end if
 

@@ -10,6 +10,7 @@ SFS_SOURCES =			\
   Cholesky_Factorization_U.f90	\
   Compress_Matrix.f90		\
   Driver.f90             	\
+  Expand_Matrix.f90		\
   Forward_Substitution.f90	\
   Forward_Substitution_L.f90	\
   Forward_Substitution_U.f90	\
