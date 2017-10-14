@@ -1,15 +1,15 @@
 !==============================================================================!
   subroutine Forward_Substitution(x, f, b)
 !------------------------------------------------------------------------------!
-!   Performs forward substitution using only lower trinangular matrix.         !
-!   It is the same as Forward_Substitution_L                                   !
+!   Performs forward substitution on a full matrix.                            !
+!   It will address only elements in lower trinangular part though.            !
 !------------------------------------------------------------------------------!
   implicit none
-!------------------------------------------------------------------------------!
+!---------------------------------[Arguments]----------------------------------!
   real, dimension(:)   :: x
   real, dimension(:,:) :: f
   real, dimension(:)   :: b
-!------------------------------------------------------------------------------!
+!-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, n
   real    :: sum
 !==============================================================================!

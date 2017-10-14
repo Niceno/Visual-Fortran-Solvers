@@ -67,6 +67,6 @@
   call Print_Vector("Vector y should resemble source term:", y) 
   r = b - y
   call Vector_Vector_Dot_Product(error, r, r)
-  write(*,*) "Error: ", error  
+  write(*,*) "Error: ", sqrt(error)
 
   end subroutine Demo_Incomplete_Cholesky_Solver

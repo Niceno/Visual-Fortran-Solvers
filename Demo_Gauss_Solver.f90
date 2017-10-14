@@ -8,6 +8,7 @@
   include "Print_Vector.int"               
   include "Gaussian_Elimination.int"
   include "Matrix_Vector_Multiply.int"
+  include "Vector_Vector_Dot_Product.int"
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col, choice, i
   real    :: error
@@ -41,6 +42,6 @@
   call Print_Vector("Vector y should recover the source term:", y)
   r = b_o - y
   call Vector_Vector_Dot_Product(error, r, r)
-  write(*,*) "Error: ", error  
+  write(*,*) "Error: ", sqrt(error)  
 
   end subroutine Demo_Gauss_Solver
