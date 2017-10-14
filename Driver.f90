@@ -11,6 +11,7 @@
   include "Print_Matrix.int"               
   include "Print_Vector.int"               
   include "Cholesky_Factorization.int"
+  include "Cholesky_Factorization_Compressed.int"
   include "Gaussian_Elimination.int"
   include "Matrix_Matrix_Multiply.int"
   include "Matrix_Vector_Multiply.int"
@@ -145,6 +146,9 @@
 
     call Print_Matrix("Epanded matrix ac3:", a3)
 
+    ! Perform Cholesky factorization on the matrix to fin the lower one
+    call Cholesky_Factorization_Compressed(ac3, a2)
+    call Print_Vector("ac3 % val:", ac3 % val)
   end if
 
   end program Driver

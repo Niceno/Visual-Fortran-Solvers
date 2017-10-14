@@ -4,6 +4,7 @@ SFS_SOURCES =			\
   Matrix_Mod.f90		\
   Backward_Substitution.f90	\
   Cholesky_Factorization.f90	\
+  Cholesky_Factorization_Compressed.f90	\
   Compress_Matrix.f90		\
   Driver.f90             	\
   Expand_Matrix.f90		\
