@@ -1,0 +1,9 @@
+interface
+  subroutine Matrix_Vector_Multiply_Compressed(y, c, x)
+    use Matrix_Mod
+    implicit none
+    real, dimension(:) :: y
+    type(Matrix)       :: c
+    real, dimension(:) :: x
+  end subroutine Matrix_Vector_Multiply_Compressed
+end interface
