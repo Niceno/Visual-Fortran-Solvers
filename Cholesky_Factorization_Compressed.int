@@ -3,6 +3,6 @@ interface
     use Matrix_Mod
     implicit none
     type(Matrix)         :: f
-    real, dimension(:,:) :: a
+    type(Matrix)         :: a
   end subroutine Cholesky_Factorization_Compressed
 end interface

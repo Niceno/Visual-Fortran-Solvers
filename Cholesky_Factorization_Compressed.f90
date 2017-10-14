@@ -9,14 +9,14 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Matrix)         :: f
-  real, dimension(:,:) :: a
+  type(Matrix)         :: a
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, m, n, k_m, k_i, m_j
   real    :: sum1, sum2
   real, allocatable :: work(:)
 !==============================================================================!
 
-  n = size(a,1)  ! some checks would be possible
+  n = a % n  ! some checks would be possible
   allocate( work(n) ); work = 0.0
 
   do k=1,n
@@ -24,7 +24,7 @@
     !--------------------!
     !   Diagonal entry   !
     !--------------------!
-    sum1 = a(k,k)
+    sum1 = a % val(a % dia(k))
     do k_m = f % row(k), f % dia(k) - 1  
       sum1 = sum1 - f % val(k_m)**2.0    
     end do
@@ -35,7 +35,7 @@
     !------------------------!
     do k_i = f % dia(k) + 1, f % row(k+1) -1 
       i = f % col(k_i)
-      sum2 = a(i,k)  ! a(i,k) should be the same as a(k,i), right?
+      sum2 = a % val(k_i)  ! a(i,k) should be the same as a(k,i), right?
 
       do k_m = f % row(k), f % dia(k) - 1
         m = f % col(k_m)
