@@ -13,7 +13,9 @@
   include "Cholesky_Factorization_Compressed.int"
   include "Compress_Matrix.int"               
   include "Forward_Substitution_Compressed.int"
+  include "Backward_Substitution_Compressed.int"
   include "Expand_Matrix.int"               
+  include "Matrix_Vector_Multiply.int"
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col, choice, i
 !==============================================================================!
@@ -50,5 +52,13 @@
   ! Compute y by forward substitution
   call Forward_Substitution_Compressed(y, c_matrix, b)
   call Print_Vector("Vector y after forward substitution:", y) 
+
+  ! Compute x by backward substitution
+  call Backward_Substitution_Compressed(x, c_matrix, y)
+  call Print_Vector("Vector x after forward substitution:", x) 
+
+  ! Multiply original matrix with solution vector to check result
+  call Matrix_Vector_Multiply(y, f_matrix, x)
+  call Print_Vector("Vector y should recover the source term:", y)
 
   end subroutine Demo_Incomplete_Cholesky_Solver
