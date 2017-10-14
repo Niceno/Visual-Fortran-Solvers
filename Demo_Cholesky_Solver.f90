@@ -14,9 +14,9 @@
 !==============================================================================!
 
   ! Matrix 2 for Cholesky factorization
-  integer, parameter      :: n = 7
+  integer, parameter    :: n = 7
   real, dimension(n, n) :: matrix_a, matrix_f
-  real, dimension(n)     :: b, x, y
+  real, dimension(n)    :: b, x, y
   data (matrix_a(1,col), col=1,n) / 44., -4., -3.,  0., -1.,  0.,  0. /
   data (matrix_a(2,col), col=1,n) / -4., 44., -4., -3.,  0., -1.,  0. /
   data (matrix_a(3,col), col=1,n) / -3., -4., 44., -4., -3.,  0., -1. /
