@@ -34,7 +34,7 @@
 
   ! Perform backward substitution
   call Backward_Substitution(x, matrix_g, b)
-  call Print_Vector("solution vector x: ", x)
+  call Print_Vector("Solution x after backward substitution:", x) 
 
   ! Multiply original matrix with solution vector to check result
   call Matrix_Vector_Multiply(y, matrix_a, x)

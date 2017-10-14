@@ -17,7 +17,7 @@
 
   ! Matrix 2 for Cholesky factorization
   integer, parameter    :: n = 10
-  real, dimension(n, n) :: a_matrix, f_matrix
+  real, dimension(n, n) :: a_matrix, p_matrix
   real, dimension(n)    :: b, x, y, r
   data (a_matrix( 1,col), col=1,n) / 44, -4, -3,  0, -1,  0,  0,  0,  0,  0 /
   data (a_matrix( 2,col), col=1,n) / -4, 44, -4, -3,  0, -1,  0,  0,  0,  0 /
@@ -35,19 +35,20 @@
   call Print_Matrix("a_matrix:", a_matrix)
 
   ! Perform Cholesky factorization on the matrix to fin the lower one
-  call Cholesky_Factorization(f_matrix, a_matrix)
-  call Print_Matrix("f_matrix after Cholesky factorization", f_matrix)
+  call Cholesky_Factorization(p_matrix, a_matrix)
+  call Print_Matrix("p_matrix after Cholesky factorization", p_matrix)
 
   ! Compute y by forward substitution
-  call Forward_Substitution(y, f_matrix, b)
+  call Forward_Substitution(y, p_matrix, b)
   call Print_Vector("Vector y after forward substitution:", y) 
 
   ! Compute x by backward substitution
-  call Backward_Substitution(x, f_matrix, y)
-  call Print_Vector("Vector x after backward substitution:", x) 
+  call Backward_Substitution(x, p_matrix, y)
+  call Print_Vector("Solution x after backward substitution:", x) 
 
   ! Check result
   call Matrix_Vector_Multiply(y, a_matrix, x)
+  call Print_Vector("Vector y should recover the source term:", y) 
   r = b - y
   call Vector_Vector_Dot_Product(error, r, r)
   write(*,*) "Error: ", error  

@@ -1,8 +1,8 @@
 interface
   subroutine Vector_Vector_Dot_Product(sum, x, y)
     implicit none
-    real,               intent(out) :: sum
-    real, dimension(:), intent(in)  :: x
-    real, dimension(:), intent(in)  :: y
+    real               :: sum
+    real, dimension(:) :: x
+    real, dimension(:) :: y
   end subroutine Vector_Vector_Dot_Product
 end interface
