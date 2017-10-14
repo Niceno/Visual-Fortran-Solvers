@@ -15,14 +15,27 @@
 !==============================================================================!
 
   ! Matrix for Gaussian elimination 
-  integer, parameter      :: n = 4
-  real, dimension(n, n) :: matrix_a, matrix_g
-  real, dimension(n)     :: b, b_o, x, y, r
-  data (matrix_a(1,col), col=1,n) /  1.0,  2.0,  1.0, -1.0 /  ! =--> row 1
-  data (matrix_a(2,col), col=1,n) /  3.0,  2.0,  4.0,  4.0 /  ! =--> row 2
-  data (matrix_a(3,col), col=1,n) /  4.0,  4.0,  3.0,  4.0 /  ! =--> row 3
-  data (matrix_a(4,col), col=1,n) /  2.0,  0.0,  1.0,  5.0 /  ! =--> row 4
-  data (b(row),   row=1,n)        /  5.0, 16.0, 22.0, 15.0 /
+  integer           :: n = 10
+  real, allocatable :: matrix_a(:,:), matrix_g(:,:)
+  real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
+
+  ! Read the system from the file system
+  open(9, file="A_b.dat")
+  read(9, *) n
+  allocate (matrix_a(n,n))
+  do row=1,n
+    read(9, *) (matrix_a(row,col), col=1,n)
+  end do
+  allocate (b(n))
+  read(9, *) (b(row), row=1,n)
+  close(9)
+
+  ! Finish memory allocation
+  allocate (matrix_g(n,n))
+  allocate (b_o(n))
+  allocate (x  (n))
+  allocate (y  (n))
+  allocate (r  (n))
 
   ! Just print original matrix
   call Print_Matrix("matrix_a:", matrix_a)
