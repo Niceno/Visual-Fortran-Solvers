@@ -8,28 +8,24 @@
   include "Print_Matrix.int"               
   include "Print_Vector.int"               
   include "Cholesky_Factorization.int"
+  include "Load_Linear_System.int"
   include "Matrix_Vector_Multiply.int"
   include "Vector_Vector_Dot_Product.int"
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: row, col, choice, i
-  real    :: error
+  integer           :: n
+  real, allocatable :: a_matrix(:,:), p_matrix(:,:)
+  real, allocatable :: b(:), x(:), y(:), r(:)
+  real              :: error
 !==============================================================================!
 
-  ! Matrix 2 for Cholesky factorization
-  integer, parameter    :: n = 10
-  real, dimension(n, n) :: a_matrix, p_matrix
-  real, dimension(n)    :: b, x, y, r
-  data (a_matrix( 1,col), col=1,n) / 44, -4, -3,  0, -1,  0,  0,  0,  0,  0 /
-  data (a_matrix( 2,col), col=1,n) / -4, 44, -4, -3,  0, -1,  0,  0,  0,  0 /
-  data (a_matrix( 3,col), col=1,n) / -3, -4, 44, -4, -3,  0, -1,  0,  0,  0 /
-  data (a_matrix( 4,col), col=1,n) /  0, -3, -4, 44, -4, -3,  0, -1,  0,  0 /
-  data (a_matrix( 5,col), col=1,n) / -1,  0, -3, -4, 44, -4, -3,  0, -1,  0 /
-  data (a_matrix( 6,col), col=1,n) /  0, -1,  0, -3, -4, 44, -4, -3,  0, -1 /
-  data (a_matrix( 7,col), col=1,n) /  0,  0, -1,  0, -3, -4, 44, -4, -3,  0 /
-  data (a_matrix( 8,col), col=1,n) /  0,  0,  0, -1,  0, -3, -4, 44, -4, -3 /
-  data (a_matrix( 9,col), col=1,n) /  0,  0,  0,  0, -1,  0, -3, -4, 44, -4 /
-  data (a_matrix(10,col), col=1,n) /  0,  0,  0,  0,  0, -1,  0, -3, -4, 44 /
-  data (b(row), row=1,n)           /  1,  2,  3,  4,  5,  5,  4,  3,  2,  1 /
+  ! Read the system from the file system
+  call Load_Linear_System(n, a_matrix, b)
+
+  ! Finish memory allocation
+  allocate (p_matrix(n,n))
+  allocate (x(n))
+  allocate (y(n))
+  allocate (r(n))
 
   ! Just print original matrix
   call Print_Matrix("a_matrix:", a_matrix)

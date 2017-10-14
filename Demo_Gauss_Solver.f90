@@ -7,28 +7,18 @@
   include "Print_Matrix.int"               
   include "Print_Vector.int"               
   include "Gaussian_Elimination.int"
+  include "Load_Linear_System.int"
   include "Matrix_Vector_Multiply.int"
   include "Vector_Vector_Dot_Product.int"
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: row, col, choice, i
-  real    :: error
-!==============================================================================!
-
-  ! Matrix for Gaussian elimination 
-  integer           :: n = 10
+  integer           :: n
   real, allocatable :: matrix_a(:,:), matrix_g(:,:)
   real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
+  real              :: error
+!==============================================================================!
 
   ! Read the system from the file system
-  open(9, file="A_b.dat")
-  read(9, *) n
-  allocate (matrix_a(n,n))
-  do row=1,n
-    read(9, *) (matrix_a(row,col), col=1,n)
-  end do
-  allocate (b(n))
-  read(9, *) (b(row), row=1,n)
-  close(9)
+  call Load_Linear_System(n, matrix_a, b)
 
   ! Finish memory allocation
   allocate (matrix_g(n,n))

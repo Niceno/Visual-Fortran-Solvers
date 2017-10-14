@@ -11,7 +11,7 @@
   include "Compress_Matrix.int"               
   include "Expand_Matrix.int"               
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: row, col, choice, i
+  integer :: col
 !==============================================================================!
 
   ! Full matrix

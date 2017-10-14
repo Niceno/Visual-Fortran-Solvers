@@ -1,0 +1,8 @@
+interface
+  subroutine Load_Linear_System(n, a, b)
+    implicit none
+    integer           :: n
+    real, allocatable :: a(:,:)
+    real, allocatable :: b(:)
+  end subroutine Load_Linear_System
+end interface
