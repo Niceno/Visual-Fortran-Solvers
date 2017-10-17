@@ -31,14 +31,14 @@
 !==============================================================================!
 
   ! Create compressed system matrices
-  call Create_Matrix_Compressed(a_matrix, 7, 7, 7, 0)
+  call Create_Matrix_Compressed(a_matrix, 4, 4, 4, 0)
   n = a_matrix % n
-  if(n<50) call Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
+  if(n<=64) call Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
 
   ! Do the same with "p_matrix", just to allocate memory, really
-  call Create_Matrix_Compressed(p_matrix, 7, 7, 7, fill_in)
+  call Create_Matrix_Compressed(p_matrix, 4, 4, 4, fill_in)
   p_matrix % val = 0
-  if(n<50) call Print_Matrix_Compressed("Compressed p_matrix:", p_matrix)
+  ! if(n<=64) call Print_Matrix_Compressed("Compressed p_matrix:", p_matrix)
 
   ! Finish memory allocation
   allocate (b(n))
@@ -51,7 +51,7 @@
 
   ! Perform Cholesky factorization on the matrix to fin the lower one
   call Cholesky_Factorization_Compressed(p_matrix, a_matrix)
-  if(n<50) call Print_Matrix_Compressed("p_matrix after factorization:", p_matrix)
+  if(n<=64) call Print_Matrix_Compressed("p_matrix after factorization:", p_matrix)
 
   ! Compute y by forward substitution
   call Forward_Substitution_Compressed(y, p_matrix, b)

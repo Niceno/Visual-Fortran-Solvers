@@ -25,14 +25,14 @@
       ! c_matrix and print if you have found it
       do pos = c_matrix % row(row), c_matrix % row(row + 1) - 1
         if( c_matrix % col(pos) == col ) then
-          write(*,"(f8.3)",advance="no") c_matrix % val(pos)
+          write(*,"(f6.1)",advance="no") c_matrix % val(pos)
           found = .true.
         end if
       end do
 
       ! If you haven't found it, print something else
       if( .not. found ) then
-        write(*,"(a8)",advance="no") "    .    "     
+        write(*,"(a6)",advance="no") "   .   "     
       end if
     end do       
     write(*,*) ""

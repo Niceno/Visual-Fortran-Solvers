@@ -60,172 +60,177 @@
             mat % row(c) = non_zeros + 1
           end if
 
-          ! Bottom-South
-          if((fill_in > 0) .and. (k > 1) .and. (j > 1)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = bs
-              mat % val(non_zeros) = -1.111
-            end if 
-          end if
- 
-          ! Bottom-West
-          if((fill_in > 0) .and. (k > 1) .and. (i > 1)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = bw
-              mat % val(non_zeros) = -1.111
-            end if 
-          end if
- 
-          ! Bottom
+          !-------!
+          !   B   !
+          !-------!
           if(k > 1) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = b
-              mat % val(non_zeros) = -1.111
+              mat % val(non_zeros) = -1.1  
             end if 
           end if
           
-          ! Bottom-East
+          ! BE (good with TW)
           if((fill_in > 0) .and. (k > 1) .and. (i < ni)) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = be
-              mat % val(non_zeros) = -1.111
             end if 
           end if
  
-          ! Bottom-North
+          ! BEE (good with TWW)
+          if((fill_in > 1) .and. (k > 1) .and. (i < ni-1)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = be+1
+            end if 
+          end if
+ 
+          ! BN (Good with TS)
           if((fill_in > 0) .and. (k > 1) .and. (j < nj)) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = bn
-              mat % val(non_zeros) = -1.111
             end if 
           end if
  
-          ! South-West
-          if((fill_in > 0) .and. (j > 1) .and. (i > 1)) then
+          ! BNN (Good with TSS)
+          if((fill_in > 1) .and. (k > 1) .and. (j < nj-1)) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
-              mat % col(non_zeros) = sw
-              mat % val(non_zeros) = -1.111
+              mat % col(non_zeros) = bn+ni
             end if 
           end if
-
-          ! South
+ 
+          !-------!
+          !   S   !
+          !-------!
           if(j > 1) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = s
-              mat % val(non_zeros) = -1.111
+              mat % val(non_zeros) = -2.2
             end if 
           end if
 
-          ! South-East
+          ! SE (Good with NW)
           if((fill_in > 0) .and. (j > 1) .and. (i < ni)) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = se
-              mat % val(non_zeros) = -1.111
             end if 
           end if
 
-          ! West 
+          ! SEE (Good with NWW)
+          if((fill_in > 1) .and. (j > 1) .and. (i < ni-1)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = se+1
+            end if 
+          end if
+
+          !-------!
+          !   W   !
+          !-------!
           if(i > 1) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = w
-              mat % val(non_zeros) = -1.111
+              mat % val(non_zeros) = -3.3  
             end if 
           end if
   
+          !-------------
+          !
+          !   Central
+          !
+          !-------------
           non_zeros = non_zeros + 1
           if(pass == 2) then
             mat % col(non_zeros) = c
-            mat % val(non_zeros) = 7.777
+            mat % val(non_zeros) = 19.9  
             mat % dia(c) = non_zeros
           end if
   
-          ! East 
+          !-------!
+          !   E   !
+          !-------!
           if(i < ni) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = e
-              mat % val(non_zeros) = -1.111
+              mat % val(non_zeros) = -3.3  
             end if 
           end if
   
-          ! North-West
+          ! NW (Good with SE)
           if((fill_in > 0) .and. (j < nj) .and. (i > 1)) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = nw
-              mat % val(non_zeros) = -1.111
             end if 
           end if
 
+          ! NWW (Good with SEE)
+          if((fill_in > 1) .and. (j < nj) .and. (i > 2)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = nw-1
+            end if 
+          end if
+
+          !------
           ! North
+          !------
           if(j < nj) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = n
-              mat % val(non_zeros) = -1.111
+              mat % val(non_zeros) = -2.2  
             end if 
           end if
   
-          ! North-East
-          if((fill_in > 0) .and. (j < nj) .and. (i < ni)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = ne
-              mat % val(non_zeros) = -1.111
-            end if 
-          end if
-
-          ! Top-South
+          ! TS (Good with BN)
           if((fill_in > 0) .and. (k < nk) .and. (j > 1)) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = ts
-              mat % val(non_zeros) = -1.111
             end if 
           end if
 
-          ! Top-West
+          ! TSS (Good with BNN)
+          if((fill_in > 1) .and. (k < nk) .and. (j > 2)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = ts-ni
+            end if 
+          end if
+
+          ! TW (Good with BE)
           if((fill_in > 0) .and. (k < nk) .and. (i > 1)) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = tw
-              mat % val(non_zeros) = -1.111
             end if 
           end if
 
-          ! Top  
+          ! TWW (Good with BEE)
+          if((fill_in > 1) .and. (k < nk) .and. (i > 2)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = tw-1
+            end if 
+          end if
+
+          !-------!
+          !   T   !  
+          !-------!
           if(k < nk) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = t
-              mat % val(non_zeros) = -1.111
-            end if 
-          end if
-
-          ! Top-East
-          if((fill_in > 0) .and. (k < nk) .and. (i < ni)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = te
-              mat % val(non_zeros) = -1.111
-            end if 
-          end if
-
-          ! Top-North
-          if((fill_in > 0) .and. (k < nk) .and. (j < nj)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = tn
-              mat % val(non_zeros) = -1.111
+              mat % val(non_zeros) = -1.1  
             end if 
           end if
 

@@ -26,9 +26,9 @@
 !==============================================================================!
 
   ! Create compressed system matrix
-  call Create_Matrix_Compressed(c_matrix, 7, 7, 7, 0)
+  call Create_Matrix_Compressed(c_matrix, 4, 4, 4, 0)
   n = c_matrix % n
-  if(n<50) call Print_Matrix_Compressed("Compressed c_matrix:", c_matrix)
+  if(n<=64) call Print_Matrix_Compressed("Compressed c_matrix:", c_matrix)
 
   ! Create two full matrices from the compressed one
   call Expand_Matrix(a_matrix, c_matrix)
@@ -45,11 +45,11 @@
   b = 0.1
 
   ! Just print original matrix
-  if(n<50) call Print_Matrix("a_matrix:", a_matrix)
+  if(n<=64) call Print_Matrix("a_matrix:", a_matrix)
 
   ! Perform Cholesky factorization on the matrix to fin the lower one
   call Cholesky_Factorization(p_matrix, a_matrix)
-  if(n<50) call Print_Matrix("p_matrix after Cholesky factorization", p_matrix)
+  if(n<=64) call Print_Matrix("p_matrix after Cholesky factorization", p_matrix)
 
   ! Compute y by forward substitution
   call Forward_Substitution(y, p_matrix, b)

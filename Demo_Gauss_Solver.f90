@@ -23,9 +23,9 @@
 !==============================================================================!
 
   ! Create compressed system matrix
-  call Create_Matrix_Compressed(c_matrix, 7, 7, 7, 0)
+  call Create_Matrix_Compressed(c_matrix, 4, 4, 4, 0)
   n = c_matrix % n
-  if(n<50) call Print_Matrix_Compressed("Compressed c_matrix:", c_matrix)
+  if(n<=64) call Print_Matrix_Compressed("Compressed c_matrix:", c_matrix)
 
   ! Create two full matrices from the compressed one
   call Expand_Matrix(a_matrix, c_matrix)
@@ -43,13 +43,13 @@
   b = 0.1
 
   ! Just print original matrix
-  if(n<50) call Print_Matrix("a_matrix:", a_matrix)
+  if(n<=64) call Print_Matrix("a_matrix:", a_matrix)
 
   ! Perform gauissian elimination on matrix and r.h.s. vector
   b_o = b  ! store original "b" vector
   call Gaussian_Elimination(g_matrix, b, a_matrix)
-  if(n<50) call Print_Matrix("g_matrix after elimination:", g_matrix)
-  if(n<50) call Print_Vector("vector b after elimination:", b)
+  if(n<=64) call Print_Matrix("g_matrix after elimination:", g_matrix)
+  if(n<=64) call Print_Vector("vector b after elimination:", b)
 
   ! Perform backward substitution
   call Backward_Substitution(x, g_matrix, b)
