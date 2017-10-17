@@ -26,7 +26,7 @@
 !==============================================================================!
 
   ! Create compressed system matrix
-  call Create_Matrix_Compressed(c_matrix, 16, 16, 16, 0)
+  call Create_Matrix_Compressed(c_matrix, 10, 10, 10, 0)
   n = c_matrix % n
   if(n<=64) call Print_Matrix_Compressed("Compressed c_matrix:", c_matrix)
 
