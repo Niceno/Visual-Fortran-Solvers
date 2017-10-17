@@ -17,7 +17,7 @@
   write(*,*) '# 3 - Cholesky factorization'
   write(*,*) '# 4 - Incomplete Cholesky Solver'
   write(*,*) '# 5 - Incomplete Cholesky Solver with level 1 fill-in'
-  write(*,*) '# 5 - Incomplete Cholesky Solver with level 2 fill-in'
+  write(*,*) '# 6 - Incomplete Cholesky Solver with level 2 fill-in'
   write(*,*) '#----------------------------------------------------'
   read(*,*) choice
 
