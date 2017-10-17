@@ -11,7 +11,7 @@
   type(Matrix)         :: f
   type(Matrix)         :: a
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, m, n, k_m, k_i, m_j
+  integer :: i, j, k, m, n, k_m, k_i, m_j, k_i_a
   real    :: sum1, sum2
   real, allocatable :: work(:)
 !==============================================================================!
@@ -35,7 +35,13 @@
     !------------------------!
     do k_i = f % dia(k) + 1, f % row(k+1) -1 
       i = f % col(k_i)
-      sum2 = a % val(k_i)  ! a(i,k) should be the same as a(k,i), right?
+
+      sum2 = 0.0 
+      do k_i_a = a % row(k), a % row(k+1) - 1
+        if( a % col(k_i_a) == i ) then 
+          sum2 = a % val(k_i_a)  ! a(i,k) should be the same as a(k,i), right?
+        end if
+      end do
 
       do k_m = f % row(k), f % dia(k) - 1
         m = f % col(k_m)

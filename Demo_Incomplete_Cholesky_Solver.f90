@@ -1,10 +1,12 @@
 !==============================================================================!
-  subroutine Demo_Incomplete_Cholesky_Solver
+  subroutine Demo_Incomplete_Cholesky_Solver(fill_in)
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Matrix_Mod
 !------------------------------------------------------------------------------!
   implicit none
+!---------------------------------[Arguments]----------------------------------!
+  integer :: fill_in
 !---------------------------------[Interfaces]---------------------------------!
   include "Print_Matrix.int"               
   include "Print_Matrix_Compressed.int"               
@@ -29,12 +31,12 @@
 !==============================================================================!
 
   ! Create compressed system matrices
-  call Create_Matrix_Compressed(a_matrix, 7, 7, 7)
+  call Create_Matrix_Compressed(a_matrix, 7, 7, 7, 0)
   n = a_matrix % n
   if(n<50) call Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
 
   ! Do the same with "p_matrix", just to allocate memory, really
-  call Create_Matrix_Compressed(p_matrix, 7, 7, 7)
+  call Create_Matrix_Compressed(p_matrix, 7, 7, 7, fill_in)
   p_matrix % val = 0
   if(n<50) call Print_Matrix_Compressed("Compressed p_matrix:", p_matrix)
 

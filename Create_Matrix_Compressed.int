@@ -1,8 +1,9 @@
 interface
-  subroutine Create_Matrix_Compressed(mat, ni, nj, nk)
+  subroutine Create_Matrix_Compressed(mat, ni, nj, nk, fill_in)
     use Matrix_Mod 
     implicit none
-    type(Matrix)   :: mat
-    integer        :: ni, nj, nk
+    type(Matrix) :: mat
+    integer      :: ni, nj, nk
+    integer      :: fill_in
   end subroutine Create_Matrix_Compressed
 end interface

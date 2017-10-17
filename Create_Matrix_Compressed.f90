@@ -1,12 +1,13 @@
 !==============================================================================!
-  subroutine Create_Matrix_Compressed(mat, ni, nj, nk)
+  subroutine Create_Matrix_Compressed(mat, ni, nj, nk, fill_in)
 !----------------------------------[Modules]-----------------------------------!
   use Matrix_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Matrix)       :: mat
-  integer            :: ni, nj, nk
+  type(Matrix) :: mat
+  integer      :: ni, nj, nk
+  integer      :: fill_in
 !---------------------------------[Interfaces]---------------------------------!
   include "Print_Matrix.int"               
   include "Print_Matrix_Compressed.int"               
@@ -14,6 +15,7 @@
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, pass, non_zeros
   integer :: c, w, e, s, n, b, t
+  integer :: sw, se, nw, ne, bw, be, tw, te, bs, bn, ts, tn
   integer :: col_a, col_b, row_a, row_b, pos_a, pos_b
 !==============================================================================!
 
@@ -30,18 +32,52 @@
       do j=1,nj
         do i=1,ni
           c = (k-1)*ni*nj + (j-1)*ni + i
+
+          ! First neighbours
           e = c+1
           w = c-1
           n = c+ni
           s = c-ni
           t = c+ni*nj
           b = c-nj*nj 
+
+          ! Second neighbours
+          sw = s-1 
+          se = s+1 
+          nw = n-1 
+          ne = n+1 
+          bw = b-1 
+          be = b+1 
+          tw = t-1 
+          te = t+1 
+          bs = b-ni
+          bn = b+ni
+          ts = t-ni
+          tn = t+ni
   
           ! If second pass, set row index
           if(pass == 2) then
             mat % row(c) = non_zeros + 1
           end if
 
+          ! Bottom-South
+          if((fill_in > 0) .and. (k > 1) .and. (j > 1)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = bs
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+ 
+          ! Bottom-West
+          if((fill_in > 0) .and. (k > 1) .and. (i > 1)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = bw
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+ 
           ! Bottom
           if(k > 1) then
             non_zeros = non_zeros + 1
@@ -51,11 +87,47 @@
             end if 
           end if
           
+          ! Bottom-East
+          if((fill_in > 0) .and. (k > 1) .and. (i < ni)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = be
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+ 
+          ! Bottom-North
+          if((fill_in > 0) .and. (k > 1) .and. (j < nj)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = bn
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+ 
+          ! South-West
+          if((fill_in > 0) .and. (j > 1) .and. (i > 1)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = sw
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+
           ! South
           if(j > 1) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = s
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+
+          ! South-East
+          if((fill_in > 0) .and. (j > 1) .and. (i < ni)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = se
               mat % val(non_zeros) = -1.111
             end if 
           end if
@@ -85,6 +157,15 @@
             end if 
           end if
   
+          ! North-West
+          if((fill_in > 0) .and. (j < nj) .and. (i > 1)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = nw
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+
           ! North
           if(j < nj) then
             non_zeros = non_zeros + 1
@@ -94,11 +175,56 @@
             end if 
           end if
   
+          ! North-East
+          if((fill_in > 0) .and. (j < nj) .and. (i < ni)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = ne
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+
+          ! Top-South
+          if((fill_in > 0) .and. (k < nk) .and. (j > 1)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = ts
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+
+          ! Top-West
+          if((fill_in > 0) .and. (k < nk) .and. (i > 1)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = tw
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+
           ! Top  
           if(k < nk) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = t
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+
+          ! Top-East
+          if((fill_in > 0) .and. (k < nk) .and. (i < ni)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = te
+              mat % val(non_zeros) = -1.111
+            end if 
+          end if
+
+          ! Top-North
+          if((fill_in > 0) .and. (k < nk) .and. (j < nj)) then
+            non_zeros = non_zeros + 1
+            if(pass == 2) then
+              mat % col(non_zeros) = tn
               mat % val(non_zeros) = -1.111
             end if 
           end if

@@ -9,13 +9,15 @@
   integer :: choice
 !==============================================================================!
 
-  write(*,*) '=============================='
-  write(*,*) 'Select a case to demonstrate'
-  write(*,*) '1 - Compressed matrices'
-  write(*,*) '2 - Gaussian elimination'
-  write(*,*) '3 - Cholesky factorization'
-  write(*,*) '4 - Incomplete Cholesky Solver'
-  write(*,*) '------------------------------'
+  write(*,*) '#============================================'
+  write(*,*) '# Select a case to demonstrate'
+  write(*,*) '#--------------------------------------------'
+  write(*,*) '# 1 - Compressed matrices'
+  write(*,*) '# 2 - Gaussian elimination'
+  write(*,*) '# 3 - Cholesky factorization'
+  write(*,*) '# 4 - Incomplete Cholesky Solver'
+  write(*,*) '# 5 - Incomplete Cholesky Solver with fill-in'
+  write(*,*) '#--------------------------------------------'
   read(*,*) choice
 
   ! Demonstrate Compress and Decompress
@@ -32,8 +34,12 @@
 
   ! Demonstrate Incomplete Cholesky Solver
   else if(choice == 4) then
-    call Demo_Incomplete_Cholesky_Solver
+    call Demo_Incomplete_Cholesky_Solver(0)
+
+  ! Demonstrate Incomplete Cholesky Solver
+  else if(choice == 5) then
+    call Demo_Incomplete_Cholesky_Solver(1)
 
   end if
-
+ 
   end program Main
