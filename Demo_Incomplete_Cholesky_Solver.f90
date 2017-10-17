@@ -12,6 +12,7 @@
   include "Cholesky_Factorization.int"
   include "Cholesky_Factorization_Compressed.int"
   include "Compress_Matrix.int"               
+  include "Create_Matrix_Compressed.int"               
   include "Forward_Substitution_Compressed.int"
   include "Backward_Substitution_Compressed.int"
   include "Expand_Matrix.int"               
@@ -23,32 +24,32 @@
   integer           :: n
   real, allocatable :: o_matrix(:,:)
   real, allocatable :: b(:), x(:), y(:), r(:)
-  type(Matrix)      :: a_matrix, p_matrix
+  type(Matrix)      :: a_matrix, p_matrix, q_matrix
   real              :: error           
 !==============================================================================!
 
-  ! Read the system from the file system
-  call Load_Linear_System(n, o_matrix, b)
+  ! Create compressed system matrices
+  call Create_Matrix_Compressed(a_matrix, 7, 7, 7)
+  n = a_matrix % n
+  if(n<50) call Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
+
+  ! Do the same with "p_matrix", just to allocate memory, really
+  call Create_Matrix_Compressed(p_matrix, 7, 7, 7)
+  p_matrix % val = 0
+  if(n<50) call Print_Matrix_Compressed("Compressed p_matrix:", p_matrix)
 
   ! Finish memory allocation
+  allocate (b(n))
   allocate (x(n))
   allocate (y(n))
   allocate (r(n))
 
-  call Print_Matrix("Original matrix o_matrix", o_matrix)
-
-  ! Compress matrix "o_matrix" and store it in "a_matrix"
-  call Compress_Matrix(a_matrix, o_matrix)
-
-  ! Do the same with "p_matrix", just to allocate memory, really
-  call Compress_Matrix(p_matrix, o_matrix)
-  p_matrix % val = 0
-
-  call Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
+  ! Fill the right hand side
+  b = 0.1
 
   ! Perform Cholesky factorization on the matrix to fin the lower one
   call Cholesky_Factorization_Compressed(p_matrix, a_matrix)
-  call Print_Matrix_Compressed("p_matrix after factorization:", p_matrix)
+  if(n<50) call Print_Matrix_Compressed("p_matrix after factorization:", p_matrix)
 
   ! Compute y by forward substitution
   call Forward_Substitution_Compressed(y, p_matrix, b)

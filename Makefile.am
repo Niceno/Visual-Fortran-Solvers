@@ -7,6 +7,7 @@ SFS_SOURCES =					\
   Cholesky_Factorization.f90			\
   Cholesky_Factorization_Compressed.f90		\
   Compress_Matrix.f90				\
+  Create_Matrix_Compressed.f90			\
   Demo_Cholesky_Solver.f90			\
   Demo_Compress_Decompress.f90			\
   Demo_Gauss_Solver.f90				\

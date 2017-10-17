@@ -1,47 +1,62 @@
 !==============================================================================!
   subroutine Demo_Gauss_Solver
 !------------------------------------------------------------------------------!
+!----------------------------------[Modules]-----------------------------------!
+  use Matrix_Mod
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Interfaces]---------------------------------!
-  include "Backward_Substitution.int"
+  include "Create_Matrix_Compressed.int"               
+  include "Expand_Matrix.int"
   include "Print_Matrix.int"               
-  include "Print_Vector.int"               
   include "Gaussian_Elimination.int"
-  include "Load_Linear_System.int"
+  include "Print_Vector.int"               
   include "Matrix_Vector_Multiply.int"
   include "Vector_Vector_Dot_Product.int"
+  include "Backward_Substitution.int"
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: n
-  real, allocatable :: matrix_a(:,:), matrix_g(:,:)
+  real, allocatable :: a_matrix(:,:), g_matrix(:,:)
   real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
   real              :: error
+  type(Matrix)      :: c_matrix
 !==============================================================================!
 
-  ! Read the system from the file system
-  call Load_Linear_System(n, matrix_a, b)
+  ! Create compressed system matrix
+  call Create_Matrix_Compressed(c_matrix, 7, 7, 7)
+  n = c_matrix % n
+  if(n<50) call Print_Matrix_Compressed("Compressed c_matrix:", c_matrix)
+
+  ! Create two full matrices from the compressed one
+  call Expand_Matrix(a_matrix, c_matrix)
+  call Expand_Matrix(g_matrix, c_matrix)
+  g_matrix = 0
 
   ! Finish memory allocation
-  allocate (matrix_g(n,n))
+  allocate (b(n))
   allocate (b_o(n))
   allocate (x  (n))
   allocate (y  (n))
   allocate (r  (n))
 
+  ! Fill the right hand side
+  b = 0.1
+
   ! Just print original matrix
-  call Print_Matrix("matrix_a:", matrix_a)
+  if(n<50) call Print_Matrix("a_matrix:", a_matrix)
 
   ! Perform gauissian elimination on matrix and r.h.s. vector
   b_o = b  ! store original "b" vector
-  call Gaussian_Elimination(matrix_g, b, matrix_a)
-  call Print_Matrix("matrix_g after elimination:", matrix_g)
-  call Print_Vector("vector b after elimination:", b)
+  call Gaussian_Elimination(g_matrix, b, a_matrix)
+  if(n<50) call Print_Matrix("g_matrix after elimination:", g_matrix)
+  if(n<50) call Print_Vector("vector b after elimination:", b)
 
   ! Perform backward substitution
-  call Backward_Substitution(x, matrix_g, b)
+  call Backward_Substitution(x, g_matrix, b)
   call Print_Vector("Solution x after backward substitution:", x) 
 
   ! Multiply original matrix with solution vector to check result
-  call Matrix_Vector_Multiply(y, matrix_a, x)
+  call Matrix_Vector_Multiply(y, a_matrix, x)
   call Print_Vector("Vector y should recover the source term:", y)
   r = b_o - y
   call Vector_Vector_Dot_Product(error, r, r)
