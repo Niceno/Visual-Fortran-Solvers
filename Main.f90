@@ -18,6 +18,7 @@
   write(*,*) '# 4 - Incomplete Cholesky Solver'
   write(*,*) '# 5 - Incomplete Cholesky Solver with level 1 fill-in'
   write(*,*) '# 6 - Incomplete Cholesky Solver with level 2 fill-in'
+  write(*,*) '# 7 - Incomplete Cholesky Solver with level 3 fill-in'
   write(*,*) '#----------------------------------------------------'
   read(*,*) choice
 
@@ -44,6 +45,10 @@
   ! Demonstrate Incomplete Cholesky Solver with level 2 fill in
   else if(choice == 6) then
     call Demo_Incomplete_Cholesky_Solver(2)
+
+  ! Demonstrate Incomplete Cholesky Solver with level 3 fill in
+  else if(choice == 7) then
+    call Demo_Incomplete_Cholesky_Solver(3)
 
   end if
  

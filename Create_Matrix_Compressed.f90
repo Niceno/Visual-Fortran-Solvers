@@ -13,9 +13,8 @@
   include "Print_Matrix_Compressed.int"               
   include "Print_Vector.int"               
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, pass, non_zeros
+  integer :: i, j, k, pass, non_zeros, level
   integer :: c, w, e, s, n, b, t
-  integer :: sw, se, nw, ne, bw, be, tw, te, bs, bn, ts, tn
   integer :: col_a, col_b, row_a, row_b, pos_a, pos_b
 !==============================================================================!
 
@@ -41,20 +40,6 @@
           t = c+ni*nj
           b = c-nj*nj 
 
-          ! Second neighbours
-          sw = s-1 
-          se = s+1 
-          nw = n-1 
-          ne = n+1 
-          bw = b-1 
-          be = b+1 
-          tw = t-1 
-          te = t+1 
-          bs = b-ni
-          bn = b+ni
-          ts = t-ni
-          tn = t+ni
-  
           ! If second pass, set row index
           if(pass == 2) then
             mat % row(c) = non_zeros + 1
@@ -71,37 +56,25 @@
             end if 
           end if
           
-          ! BE (good with TW)
-          if((fill_in > 0) .and. (k > 1) .and. (i < ni)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = be
-            end if 
-          end if
+          ! BE, BEE, ... (good with TW, TWW, ...)
+          do level=1,fill_in
+            if((fill_in > 0) .and. (k > 1) .and. (i < ni-level+1)) then
+              non_zeros = non_zeros + 1
+              if(pass == 2) then
+                mat % col(non_zeros) = b + level
+              end if 
+            end if
+          end do 
  
-          ! BEE (good with TWW)
-          if((fill_in > 1) .and. (k > 1) .and. (i < ni-1)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = be+1
-            end if 
-          end if
- 
-          ! BN (Good with TS)
-          if((fill_in > 0) .and. (k > 1) .and. (j < nj)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = bn
-            end if 
-          end if
- 
-          ! BNN (Good with TSS)
-          if((fill_in > 1) .and. (k > 1) .and. (j < nj-1)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = bn+ni
-            end if 
-          end if
+          ! BN, BNN, ... (good with TS, TSS, ...)
+          do level=1,fill_in
+            if((fill_in > 0) .and. (k > 1) .and. (j < nj-level+1)) then
+              non_zeros = non_zeros + 1
+              if(pass == 2) then
+                mat % col(non_zeros) = b + ni * level
+              end if 
+            end if
+          end do 
  
           !-------!
           !   S   !
@@ -114,22 +87,16 @@
             end if 
           end if
 
-          ! SE (Good with NW)
-          if((fill_in > 0) .and. (j > 1) .and. (i < ni)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = se
-            end if 
-          end if
-
-          ! SEE (Good with NWW)
-          if((fill_in > 1) .and. (j > 1) .and. (i < ni-1)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = se+1
-            end if 
-          end if
-
+          ! SE, SEE, ... (good with NW, NWW, ...)
+          do level=1,fill_in
+            if((fill_in > 0) .and. (j > 1) .and. (i < ni-level+1)) then
+              non_zeros = non_zeros + 1
+              if(pass == 2) then
+                mat % col(non_zeros) = s + level
+              end if 
+            end if
+          end do 
+ 
           !-------!
           !   W   !
           !-------!
@@ -141,11 +108,11 @@
             end if 
           end if
   
-          !-------------
-          !
-          !   Central
-          !
-          !-------------
+          !-------------!
+          !             !
+          !   Central   !
+          !             !
+          !-------------!
           non_zeros = non_zeros + 1
           if(pass == 2) then
             mat % col(non_zeros) = c
@@ -163,26 +130,20 @@
               mat % val(non_zeros) = -3.3  
             end if 
           end if
+
+          ! NW, NWW, ... (good with SE, SEE, ...)
+          do level=1,fill_in
+            if((fill_in > 0) .and. (j < nj) .and. (i > level)) then
+              non_zeros = non_zeros + 1
+              if(pass == 2) then
+                mat % col(non_zeros) = n - level
+              end if 
+            end if
+          end do 
   
-          ! NW (Good with SE)
-          if((fill_in > 0) .and. (j < nj) .and. (i > 1)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = nw
-            end if 
-          end if
-
-          ! NWW (Good with SEE)
-          if((fill_in > 1) .and. (j < nj) .and. (i > 2)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = nw-1
-            end if 
-          end if
-
-          !------
-          ! North
-          !------
+          !-------!
+          !   N   !
+          !-------!
           if(j < nj) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
@@ -191,38 +152,26 @@
             end if 
           end if
   
-          ! TS (Good with BN)
-          if((fill_in > 0) .and. (k < nk) .and. (j > 1)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = ts
-            end if 
-          end if
+          ! TS, TSS, ... (good with BN, BNN, ...)
+          do level=1,fill_in
+            if((fill_in > 0) .and. (k < nk) .and. (j > level)) then
+              non_zeros = non_zeros + 1
+              if(pass == 2) then
+                mat % col(non_zeros) = t - ni * level
+              end if 
+            end if
+          end do 
 
-          ! TSS (Good with BNN)
-          if((fill_in > 1) .and. (k < nk) .and. (j > 2)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = ts-ni
-            end if 
-          end if
-
-          ! TW (Good with BE)
-          if((fill_in > 0) .and. (k < nk) .and. (i > 1)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = tw
-            end if 
-          end if
-
-          ! TWW (Good with BEE)
-          if((fill_in > 1) .and. (k < nk) .and. (i > 2)) then
-            non_zeros = non_zeros + 1
-            if(pass == 2) then
-              mat % col(non_zeros) = tw-1
-            end if 
-          end if
-
+          ! TW, TWW, ... (good with BE, BEE, ...)
+          do level=1,fill_in
+            if((fill_in > 0) .and. (k < nk) .and. (i > level)) then
+              non_zeros = non_zeros + 1
+              if(pass == 2) then
+                mat % col(non_zeros) = t - level
+              end if 
+            end if
+          end do 
+ 
           !-------!
           !   T   !  
           !-------!
