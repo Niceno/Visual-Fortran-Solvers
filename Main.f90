@@ -12,6 +12,7 @@
 1 write(*,*) '#===================================================='
   write(*,*) '# Select a case to demonstrate'
   write(*,*) '#----------------------------------------------------'
+  write(*,*) '# 0 - Exit'
   write(*,*) '# 1 - Compressed matrices'
   write(*,*) '# 2 - Gaussian elimination'
   write(*,*) '# 3 - Cholesky factorization'
@@ -22,8 +23,12 @@
   write(*,*) '#----------------------------------------------------'
   read(*,*) choice
 
+  ! Exit
+  if(choice == 0) then
+    return
+
   ! Demonstrate Compress and Decompress
-  if(choice == 1) then
+  else if(choice == 1) then
     call Demo_Compress_Decompress
 
   ! Demonstrate Gussian elimination
