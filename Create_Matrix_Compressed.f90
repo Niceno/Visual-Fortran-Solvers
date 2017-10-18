@@ -117,7 +117,7 @@
           if(pass == 2) then
             mat % col(non_zeros) = c
             mat % val(non_zeros) = 19.9  
-            mat % dia(c) = non_zeros
+!           mat % dia(c) = non_zeros
           end if
   
           !-------!
@@ -203,6 +203,20 @@
     end if 
   end do
 
+  !---------------------------------!
+  !   Find positions of diagonals   !
+  !---------------------------------!
+  do row_a = 1, n
+    do pos_a = mat % row(row_a), mat % row(row_a + 1) - 1 
+      col_a = mat % col(pos_a)  ! at this point you have row_a and col_a  
+      if(col_a == row_a) then
+        mat % dia(row_a) = pos_a
+        goto 1
+      end if
+    end do    
+1   continue   
+  end do       
+
   !-----------------------------------------------------------------!
   !   Find it's mirror (it is non_zeros * noz_zeros operation :-(   !
   !-----------------------------------------------------------------!
@@ -220,22 +234,12 @@
           if( (col_b == row_a) .and. (row_b == col_a) ) then
             mat % mir(pos_a) = pos_b 
             mat % mir(pos_b) = pos_a 
-            goto 1  ! done with the inner loop, get out
+            goto 2  ! done with the inner loop, get out
           end if
         end do
       end do       
-1     continue
+2     continue
     end do       
   end do       
-
-! do i=1, ni*nj*nk+1
-!   write(*,*) i, mat % row(i)
-! end do
-! do i=1, ni*nj*nk
-!   write(*,*) i, mat % dia(i)
-! end do
-! do i=1, non_zeros+1
-!   write(*,*) i, mat % val(i)
-! end do
 
   end subroutine Create_Matrix_Compressed
