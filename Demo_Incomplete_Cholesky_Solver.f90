@@ -24,9 +24,8 @@
   include "Vector_Vector_Dot_Product.int"
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: n
-  real, allocatable :: o_matrix(:,:)
   real, allocatable :: b(:), x(:), y(:), r(:)
-  type(Matrix)      :: a_matrix, p_matrix, q_matrix
+  type(Matrix)      :: a_matrix, p_matrix
   real              :: error           
 !==============================================================================!
 
@@ -66,5 +65,13 @@
   r = b - y
   call Vector_Vector_Dot_Product(error, r, r)
   write(*,*) "Error: ", sqrt(error)
+
+  ! Free memory
+  deallocate(b)
+  deallocate(x)
+  deallocate(y)
+  deallocate(r)
+  call deallocate_Matrix(a_matrix)
+  call deallocate_Matrix(p_matrix)
 
   end subroutine Demo_Incomplete_Cholesky_Solver

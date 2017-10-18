@@ -39,4 +39,26 @@
     integer, allocatable :: mir(:)    ! position of the mirror entry
   end type Matrix
 
+  contains
+
+!==============================================================================!
+  subroutine deallocate_Matrix(a)
+!------------------------------------------------------------------------------!
+!   Deallocates memeory occupied by type Matrix  
+!------------------------------------------------------------------------------!
+  implicit none
+!---------------------------------[Arguments]----------------------------------!
+  type(Matrix) :: a
+!------------------------------------------------------------------------------!
+
+  a % n        = 0
+  a % nonzeros = 0
+  deallocate(a % val)    ! value
+  deallocate(a % col)    ! beginning of each row   
+  deallocate(a % row)    ! column positions
+  deallocate(a % dia)    ! diagonal positions 
+  deallocate(a % mir)    ! position of the mirror entry
+
+  end subroutine
+
 end module Matrix_Mod

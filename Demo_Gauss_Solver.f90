@@ -62,4 +62,14 @@
   call Vector_Vector_Dot_Product(error, r, r)
   write(*,*) "Error: ", sqrt(error)  
 
+  ! Free memory
+  deallocate(a_matrix)
+  deallocate(g_matrix)
+  deallocate(b)
+  deallocate(b_o)
+  deallocate(x)
+  deallocate(y)
+  deallocate(r)
+  call deallocate_Matrix(c_matrix)
+
   end subroutine Demo_Gauss_Solver
