@@ -217,27 +217,25 @@
 1   continue   
   end do       
 
-  !-----------------------------------------------------------------!
-  !   Find it's mirror (it is non_zeros * noz_zeros operation :-(   !
-  !-----------------------------------------------------------------!
+  !----------------------!
+  !   Find it's mirror   !
+  !----------------------!
 
   ! Outer loop
   do row_a = 1, n
     do pos_a = mat % row(row_a), mat % row(row_a + 1) - 1 
       col_a = mat % col(pos_a)  ! at this point you have row_a and col_a  
       
-      ! Inner loop (it might probably go from 1 to row_a-1
-      do row_b = 1, n
-        do pos_b = mat % row(row_b), mat % row(row_b + 1) - 1 
-          col_b = mat % col(pos_b)  ! at this point you have row_b and col_b 
+      row_b = col_a
+      do pos_b = mat % row(row_b), mat % row(row_b + 1) - 1 
+        col_b = mat % col(pos_b)  ! at this point you have row_b and col_b 
 
-          if( (col_b == row_a) .and. (row_b == col_a) ) then
-            mat % mir(pos_a) = pos_b 
-            mat % mir(pos_b) = pos_a 
-            goto 2  ! done with the inner loop, get out
-          end if
-        end do
-      end do       
+        if( (col_b == row_a) .and. (row_b == col_a) ) then
+          mat % mir(pos_a) = pos_b 
+          mat % mir(pos_b) = pos_a 
+          goto 2  ! done with the inner loop, get out
+        end if
+      end do
 2     continue
     end do       
   end do       
