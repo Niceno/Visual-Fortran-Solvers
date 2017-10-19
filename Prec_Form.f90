@@ -22,6 +22,8 @@
       k = A % col(j)                    
       sum1 = sum1 - D % val(D % dia(k)) * A % val(j) * A % val(j)  
     end do
+
+    ! This is only the diagonal from LDL decomposition
     D % val(D % dia(i)) = 1.0 / sum1
   end do
 
