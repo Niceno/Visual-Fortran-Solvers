@@ -1,0 +1,10 @@
+interface
+  subroutine Prec_Form(N, A, D, prec) 
+    use Matrix_Mod
+    implicit none
+    integer      :: N
+    type(Matrix) :: A
+    type(Matrix) :: D    
+    integer      :: prec
+  end subroutine Prec_Form
+end interface

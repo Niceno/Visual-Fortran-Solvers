@@ -1,0 +1,11 @@
+interface
+  subroutine Prec_Solve(N, NB, A, D, x, b, prec) 
+    use Matrix_Mod
+    implicit none
+    integer      :: N, NB
+    type(Matrix) :: A
+    type(Matrix) :: D
+    real         :: x(-NB:N), b(N)
+    integer      :: prec
+  end subroutine Prec_Solve
+end interface
