@@ -1,5 +1,5 @@
 interface
-  subroutine Prec_Form(N, A, D, prec) 
+  subroutine Prec_Form(N, A, D) 
     use Matrix_Mod
     implicit none
     integer      :: N
