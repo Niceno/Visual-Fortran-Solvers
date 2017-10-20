@@ -1,8 +1,7 @@
 !==============================================================================!
   subroutine LDLT_Solution(x, f, b)
 !------------------------------------------------------------------------------!
-!   Performs forward substitution on a full matrix.                            !
-!   It will address only elements in lower trinangular part though.            !
+!   Solves system based on LDL^T decomposition.                                !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -32,11 +31,11 @@
 
   ! Backward substitution
   do i=n,1,-1
-    sum = b(i)
+    sum = x(i)
     do j=i+1,n
       sum = sum - f(i,j)*x(j)  ! straighforward for compressed row format
     end do
-    x(i) = sum 
+    x(i) = sum          
   end do
 
   end subroutine LDLT_Solution
