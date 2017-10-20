@@ -1,0 +1,8 @@
+interface
+  subroutine LDLT_Solution(x, f, b)
+    implicit none
+    real, dimension(:)   :: x
+    real, dimension(:,:) :: f
+    real, dimension(:)   :: b
+  end subroutine LDLT_Solution
+end interface

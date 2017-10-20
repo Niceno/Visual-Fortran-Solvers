@@ -1,7 +1,7 @@
 !==============================================================================!
-  subroutine Cholesky_Factorization(f, a)
+  subroutine LDLT_Factorization(f, a)
 !------------------------------------------------------------------------------!
-!   Computes Cholesky decomposition on full matrices.                          !
+!   Computes LDL^T decomposition on full matrices.                             !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -30,4 +30,4 @@
     end do
   end do
 
-  end subroutine Cholesky_Factorization
+  end subroutine LDLT_Factorization
