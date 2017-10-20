@@ -3,6 +3,7 @@
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Matrix_Mod
+  use Constants_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -31,8 +32,8 @@
 !==============================================================================!
 
   ! Create compressed system matrices
-  call Create_Matrix_Compressed(a_matrix,  3,  3,  3, 0)
-  call Create_Matrix_Compressed(p_matrix,  3,  3,  3, 0)
+  call Create_Matrix_Compressed(a_matrix, NX, NY, NZ, 0)
+  call Create_Matrix_Compressed(p_matrix, NX, NY, NZ, 0)
   n = a_matrix % n
   if(n<=64) call Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
 
