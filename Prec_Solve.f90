@@ -38,7 +38,7 @@
       k = A % col(j)                  
       sum1 = sum1 - A % val(j)*x(k)      
     end do
-    x(i) = sum1* D % val(D % dia(i))               ! BUG ?
+    x(i) = sum1 * D % val(D % dia(i))               ! BUG ?
   end do
 
   end subroutine Prec_Solve
