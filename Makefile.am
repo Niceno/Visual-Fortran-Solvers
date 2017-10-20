@@ -12,6 +12,7 @@ SFS_SOURCES =					\
   Demo_Compress_Decompress.f90			\
   Demo_Gauss_Solver.f90				\
   Demo_Incomplete_Cholesky_Solver.f90		\
+  Demo_Incomplete_LDLT_Solver.f90		\
   Demo_LDLT_Solver.f90				\
   Demo_LDLT_Solver_From_Tflows.f90		\
   Main.f90					\
@@ -20,7 +21,9 @@ SFS_SOURCES =					\
   Forward_Substitution_Compressed.f90		\
   Gaussian_Elimination.f90			\
   LDLT_Factorization.f90			\
+  LDLT_Factorization_Compressed.f90		\
   LDLT_Solution.f90				\
+  LDLT_Solution_Compressed.f90			\
   Load_Linear_System.f90			\
   Matrix_Matrix_Multiply.f90			\
   Matrix_Vector_Multiply.f90			\

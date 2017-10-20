@@ -12,16 +12,17 @@
 1 write(*,*) '#===================================================='
   write(*,*) '# Select a case to demonstrate'
   write(*,*) '#----------------------------------------------------'
-  write(*,*) '# 0 - Exit'
-  write(*,*) '# 1 - Compressed matrices'
-  write(*,*) '# 2 - Gaussian elimination'
-  write(*,*) '# 3 - Cholesky factorization'
-  write(*,*) '# 4 - LDL^T Solver'
-  write(*,*) '# 5 - Incomplete Cholesky Solver'
-  write(*,*) '# 6 - Incomplete Cholesky Solver with level 1 fill-in'
-  write(*,*) '# 7 - Incomplete Cholesky Solver with level 2 fill-in'
-  write(*,*) '# 8 - Incomplete Cholesky Solver with level 3 fill-in'
-  write(*,*) '# 9 - LDL^T Solver from T-FlowS' 
+  write(*,*) '#  0 - Exit'
+  write(*,*) '#  1 - Compressed matrices'
+  write(*,*) '#  2 - Gaussian elimination'
+  write(*,*) '#  3 - Cholesky factorization'
+  write(*,*) '#  4 - LDL^T Solver'
+  write(*,*) '#  5 - Incomplete Cholesky Solver'
+  write(*,*) '#  6 - Incomplete Cholesky Solver with level 1 fill-in'
+  write(*,*) '#  7 - Incomplete Cholesky Solver with level 2 fill-in'
+  write(*,*) '#  8 - Incomplete Cholesky Solver with level 3 fill-in'
+  write(*,*) '#  9 - LDL^T Solver from T-FlowS' 
+  write(*,*) '# 10 - Incomplete LDLT Solver'
   write(*,*) '#----------------------------------------------------'
   read(*,*) choice
 
@@ -64,6 +65,10 @@
   ! Demonstrate LDL^T Solver from T-FlowS
   else if(choice == 9) then
     call Demo_LDLT_Solver_From_Tflows
+
+  ! Demonstrate Incomplete LDLT Solver
+  else if(choice == 10) then
+    call Demo_Incomplete_LDLT_Solver(0)
 
   end if
 

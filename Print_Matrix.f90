@@ -15,7 +15,7 @@
 
   do row = 1, size(f_matrix, 1)
     do col = 1, size(f_matrix, 2)
-      write(*,"(f8.3)",advance="no") f_matrix(row,col)
+      write(*,"(f6.1)",advance="no") f_matrix(row,col)
     end do       
     write(*,*) ""
   end do           

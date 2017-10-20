@@ -14,7 +14,7 @@
   write(*,*) message
 
   do row = 1, size(vector)
-    write(*,"(f8.3)") vector(row)
+    write(*,"(f6.1)") vector(row)
   end do           
 
   end subroutine Print_Vector
