@@ -1,0 +1,30 @@
+interface
+
+  subroutine Load_Linear_System(name_in, n, a, b)
+    implicit none
+    character(len=*)  :: name_in
+    integer           :: n
+    real, allocatable :: a(:,:)
+    real, allocatable :: b(:)
+  end subroutine Load_Linear_System
+
+  subroutine Print_Matrix(message, matrix)
+    implicit none
+    character(len=*)     :: message
+    real, dimension(:,:) :: matrix
+  end subroutine Print_Matrix
+
+  subroutine Print_Matrix_Compressed(message, c_matrix)
+    use Matrix_Mod
+    implicit none
+    character(len=*) :: message
+    type(Matrix)     :: c_matrix
+  end subroutine Print_Matrix_Compressed
+
+  subroutine Print_Vector(message, vector)
+    implicit none
+    character(len=*)   :: message
+    real, dimension(:) :: vector
+  end subroutine Print_Vector
+
+end interface

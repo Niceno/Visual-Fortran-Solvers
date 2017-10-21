@@ -7,15 +7,10 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Interfaces]---------------------------------!
-  include "Print_Matrix.int"               
-  include "Print_Matrix_Compressed.int"               
-  include "Print_Vector.int"               
+  include "Input_Output/Input_Output.int"
+  include "Linear_Algebra/Linear_Algebra.int"
+  include "Linear_Solvers/Linear_Solvers.int"
   include "Create_Matrix_Compressed.int"               
-  include "LDLT_Factorization.int"  
-  include "LDLT_Solution.int"
-  include "Load_Linear_System.int"
-  include "Matrix_Vector_Multiply.int"
-  include "Vector_Vector_Dot_Product.int"
   include "Expand_Matrix.int"
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: n

@@ -7,14 +7,11 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Interfaces]---------------------------------!
+  include "Input_Output/Input_Output.int"
+  include "Linear_Algebra/Linear_Algebra.int"
+  include "Linear_Solvers/Linear_Solvers.int"
   include "Create_Matrix_Compressed.int"               
   include "Expand_Matrix.int"
-  include "Print_Matrix.int"               
-  include "Gaussian_Elimination.int"
-  include "Print_Vector.int"               
-  include "Matrix_Vector_Multiply.int"
-  include "Vector_Vector_Dot_Product.int"
-  include "Backward_Substitution.int"
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: n
   real, allocatable :: a_matrix(:,:), g_matrix(:,:)

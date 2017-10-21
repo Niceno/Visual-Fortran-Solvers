@@ -7,5 +7,9 @@ AC_PROG_FC
 AC_PROG_RANLIB
 
 AC_OUTPUT( 
-  Makefile
+  Makefile			\
+  Modules/Makefile		\
+  Input_Output/Makefile		\
+  Linear_Algebra/Makefile	\
+  Linear_Solvers/Makefile
 )

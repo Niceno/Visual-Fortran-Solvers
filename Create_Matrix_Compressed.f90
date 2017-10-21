@@ -9,9 +9,9 @@
   integer      :: ni, nj, nk
   integer      :: fill_in
 !---------------------------------[Interfaces]---------------------------------!
-  include "Print_Matrix.int"               
-  include "Print_Matrix_Compressed.int"               
-  include "Print_Vector.int"               
+  include "../Input_Output/Print_Matrix.int"               
+  include "../Input_Output/Print_Matrix_Compressed.int"               
+  include "../Input_Output/Print_Vector.int"               
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, pass, non_zeros, level
   integer :: c, w, e, s, n, b, t

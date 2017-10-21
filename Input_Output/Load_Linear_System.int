@@ -1,6 +1,7 @@
 interface
-  subroutine Load_Linear_System(n, a, b)
+  subroutine Load_Linear_System(name_in, n, a, b)
     implicit none
+    character(len=*)  :: name_in
     integer           :: n
     real, allocatable :: a(:,:)
     real, allocatable :: b(:)

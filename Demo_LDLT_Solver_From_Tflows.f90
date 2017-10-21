@@ -9,21 +9,12 @@
 !---------------------------------[Arguments]----------------------------------!
   integer :: fill_in
 !---------------------------------[Interfaces]---------------------------------!
-  include "Print_Matrix.int"               
-  include "Print_Matrix_Compressed.int"               
-  include "Print_Vector.int"               
-  include "Prec_Form.int"                 
-  include "Prec_Solve.int"                 
-  include "Cholesky_Factorization_Compressed.int"
+  include "Input_Output/Input_Output.int"
+  include "Linear_Algebra/Linear_Algebra.int"
+  include "Linear_Solvers/Linear_Solvers.int"
   include "Compress_Matrix.int"               
   include "Create_Matrix_Compressed.int"               
-  include "Forward_Substitution_Compressed.int"
-  include "Backward_Substitution_Compressed.int"
   include "Expand_Matrix.int"               
-  include "Load_Linear_System.int"
-  include "Matrix_Vector_Multiply.int"
-  include "Matrix_Vector_Multiply_Compressed.int"
-  include "Vector_Vector_Dot_Product.int"
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: n
   real, allocatable :: b(:), x(:), y(:), r(:)

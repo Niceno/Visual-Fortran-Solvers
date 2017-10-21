@@ -1,8 +1,9 @@
 !==============================================================================!
-  subroutine Load_Linear_System(n, a, b)
+  subroutine Load_Linear_System(name_in, n, a, b)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
+  character(len=*)  :: name_in
   integer           :: n
   real, allocatable :: a(:,:)
   real, allocatable :: b(:)
@@ -11,7 +12,7 @@
 !==============================================================================!
 
   ! Read the system from the file system
-  open(9, file="A_b.dat")
+  open(9, file=name_in)
   read(9, *) n
   allocate (a(n,n))
   do row=1,n

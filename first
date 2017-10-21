@@ -5,4 +5,4 @@ touch NEWS AUTHORS ChangeLog
 automake --add-missing
 autoconf
 # ./configure FCFLAGS=-g
-./configure FCFLAGS=-fdefault-real-8
+./configure FCFLAGS='-fdefault-real-8 -I'$PWD'/Modules'

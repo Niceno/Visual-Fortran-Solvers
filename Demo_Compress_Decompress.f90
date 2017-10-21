@@ -7,8 +7,8 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Interfaces]---------------------------------!
-  include "Print_Matrix.int"               
-  include "Print_Matrix_Compressed.int"               
+  include "Input_Output/Input_Output.int"
+  include "Linear_Algebra/Linear_Algebra.int"
   include "Compress_Matrix.int"               
   include "Expand_Matrix.int"               
 !-----------------------------------[Locals]-----------------------------------!
