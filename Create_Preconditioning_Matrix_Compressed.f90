@@ -20,8 +20,8 @@
 
   write(*,*) 'Nonzeros in original matrix: ', a_matrix % nonzeros
 
-  allocate(rows_new(a_matrix % nonzeros * f_in))
-  allocate(cols_new(a_matrix % nonzeros * f_in))
+  allocate(rows_new(a_matrix % nonzeros * (f_in+1)))
+  allocate(cols_new(a_matrix % nonzeros * (f_in+1)))
 
   !-----------------------------------------------!
   !   Add aditional diagonals (with duplicates)   !
@@ -35,7 +35,7 @@
       rows_new(non_zeros_tent) = row
       cols_new(non_zeros_tent) = col
 
-      if(pos < a_matrix % dia(row)) then
+      if(pos < a_matrix % dia(row) .and. f_in > 0) then
  
         ! Just add, with duplicates
         do f = 1, f_in 
@@ -84,7 +84,7 @@
       cols_new(non_zeros) = cols_new(entry)
     end if
   end do
-  non_zeros = non_zeros - 1
+! non_zeros = non_zeros - 1
 
   write(*,*) 'Final number of nonzeros in the expanded matrix: ', non_zeros
 
