@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Create_Matrix_Compressed(mat, ni, nj, nk, fill_in)
+  subroutine Create_Matrix_Compressed(mat, ni, nj, nk)
 !----------------------------------[Modules]-----------------------------------!
   use Matrix_Mod
 !------------------------------------------------------------------------------!
@@ -7,7 +7,6 @@
 !---------------------------------[Arguments]----------------------------------!
   type(Matrix) :: mat
   integer      :: ni, nj, nk
-  integer      :: fill_in
 !---------------------------------[Interfaces]---------------------------------!
   include "../Input_Output/Print_Matrix.int"               
   include "../Input_Output/Print_Matrix_Compressed.int"               
@@ -56,26 +55,6 @@
             end if 
           end if
           
-          ! BE, BEE, ... (good with TW, TWW, ...)
-          do level=1,fill_in
-            if((fill_in > 0) .and. (k > 1) .and. (i < ni-level+1)) then
-              non_zeros = non_zeros + 1
-              if(pass == 2) then
-                mat % col(non_zeros) = b + level
-              end if 
-            end if
-          end do 
- 
-          ! BN, BNN, ... (good with TS, TSS, ...)
-          do level=1,fill_in
-            if((fill_in > 0) .and. (k > 1) .and. (j < nj-level+1)) then
-              non_zeros = non_zeros + 1
-              if(pass == 2) then
-                mat % col(non_zeros) = b + ni * level
-              end if 
-            end if
-          end do 
- 
           !-------!
           !   S   !
           !-------!
@@ -87,16 +66,6 @@
             end if 
           end if
 
-          ! SE, SEE, ... (good with NW, NWW, ...)
-          do level=1,fill_in
-            if((fill_in > 0) .and. (j > 1) .and. (i < ni-level+1)) then
-              non_zeros = non_zeros + 1
-              if(pass == 2) then
-                mat % col(non_zeros) = s + level
-              end if 
-            end if
-          end do 
- 
           !-------!
           !   W   !
           !-------!
@@ -131,16 +100,6 @@
             end if 
           end if
 
-          ! NW, NWW, ... (good with SE, SEE, ...)
-          do level=1,fill_in
-            if((fill_in > 0) .and. (j < nj) .and. (i > level)) then
-              non_zeros = non_zeros + 1
-              if(pass == 2) then
-                mat % col(non_zeros) = n - level
-              end if 
-            end if
-          end do 
-  
           !-------!
           !   N   !
           !-------!
@@ -152,26 +111,6 @@
             end if 
           end if
   
-          ! TS, TSS, ... (good with BN, BNN, ...)
-          do level=1,fill_in
-            if((fill_in > 0) .and. (k < nk) .and. (j > level)) then
-              non_zeros = non_zeros + 1
-              if(pass == 2) then
-                mat % col(non_zeros) = t - ni * level
-              end if 
-            end if
-          end do 
-
-          ! TW, TWW, ... (good with BE, BEE, ...)
-          do level=1,fill_in
-            if((fill_in > 0) .and. (k < nk) .and. (i > level)) then
-              non_zeros = non_zeros + 1
-              if(pass == 2) then
-                mat % col(non_zeros) = t - level
-              end if 
-            end if
-          end do 
- 
           !-------!
           !   T   !  
           !-------!

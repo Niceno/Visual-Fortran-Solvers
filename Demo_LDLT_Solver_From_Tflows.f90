@@ -14,7 +14,7 @@
   include "Linear_Solvers/Linear_Solvers.int"
   include "Compress_Matrix.int"               
   include "Create_Matrix_Compressed.int"               
-  include "Expand_Matrix.int"               
+  include "Create_Preconditioning_Matrix_Compressed.int"
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: n
   real, allocatable :: b(:), x(:), y(:), r(:)
@@ -23,13 +23,12 @@
 !==============================================================================!
 
   ! Create compressed system matrices
-  call Create_Matrix_Compressed(a_matrix, NX, NY, NZ, 0)
-  call Create_Matrix_Compressed(p_matrix, NX, NY, NZ, 0)
+  call Create_Matrix_Compressed(a_matrix, NX, NY, NZ)
   n = a_matrix % n
   if(n<=64) call Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
 
-  p_matrix % val = 0
-  ! if(n<=64) call Print_Matrix_Compressed("Compressed p_matrix:", p_matrix)
+  call Create_Preconditioning_Matrix_Compressed(p_matrix, a_matrix, fill_in)
+  if(n<=64) call Print_Matrix_Compressed("Compressed p_matrix:", p_matrix)
 
   ! Finish memory allocation
   allocate (b(n))
