@@ -26,6 +26,7 @@
     !--------------------!
     sum1 = a % val(a % dia(k))
     do k_m = f % row(k), f % dia(k) - 1  
+      m = f % col(k_m)
       sum1 = sum1 - (f % val(k_m)**2.0) * f % val( f % dia(m) )    
     end do
     f % val( f % dia(k) ) = sum1

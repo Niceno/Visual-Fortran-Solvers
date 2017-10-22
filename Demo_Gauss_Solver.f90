@@ -61,13 +61,13 @@
   write(*,*) "Error: ", sqrt(error)  
 
   ! Free memory
-  deallocate(a_matrix)
-  deallocate(g_matrix)
-  deallocate(b)
-  deallocate(b_o)
-  deallocate(x)
-  deallocate(y)
   deallocate(r)
+  deallocate(y)
+  deallocate(x)
+  deallocate(b_o)
+  deallocate(b)
+  deallocate(g_matrix)
+  deallocate(a_matrix)
   call deallocate_Matrix(c_matrix)
 
   end subroutine Demo_Gauss_Solver

@@ -9,7 +9,7 @@
   real, dimension(:,:) :: a
   real, dimension(:)   :: x
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, n
+  integer :: i, j, n
 !==============================================================================!
 
   n = size(a, 1)  ! some checks would be possible

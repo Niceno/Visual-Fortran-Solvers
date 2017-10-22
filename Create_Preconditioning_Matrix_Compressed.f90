@@ -13,8 +13,8 @@
   include "Input_Output/Input_Output.int"
   include "Linear_Algebra/Linear_Algebra.int"
 !-----------------------------------[Locals]-----------------------------------!
-  integer      :: row, col, pos, non_zeros, non_zeros_tent, add, col_add, entry, f, l_new, l_old
-  integer      :: found, row_a, row_b, col_a, col_b, siz, pos_a, pos_b
+  integer      :: non_zeros, non_zeros_tent, entry, f, l_new, l_old
+  integer      :: row, col, pos, row_a, row_b, col_a, col_b, siz, pos_a, pos_b
   integer, allocatable :: rows_new(:), cols_new(:)
 !==============================================================================!
 
@@ -63,7 +63,7 @@
 
   ! Sort columns in each row 
   l_old = 1
-  do entry = 1, non_zeros_tent
+  do entry = 2, non_zeros_tent
     if( rows_new(entry) .ne. rows_new(entry-1) ) then
       l_new = entry
       if(l_new - l_old > 0) then

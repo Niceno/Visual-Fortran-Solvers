@@ -86,7 +86,7 @@
       J=NN
       R=.375
   110 IF (I .EQ. J) GO TO 155
-  115 IF (R .GT. .5898437) GO TO 120
+      IF (R .GT. .5898437) GO TO 120
       R=R+3.90625E-2
       GO TO 125
   120 R=R-.21875
@@ -169,7 +169,7 @@
       J=NN
       R=.375
   210 IF (I .EQ. J) GO TO 255
-  215 IF (R .GT. .5898437) GO TO 220
+      IF (R .GT. .5898437) GO TO 220
       R=R+3.90625E-2
       GO TO 225
   220 R=R-.21875

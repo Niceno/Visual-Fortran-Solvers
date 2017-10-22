@@ -12,7 +12,7 @@
   include "../Input_Output/Print_Matrix_Compressed.int"               
   include "../Input_Output/Print_Vector.int"               
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, pass, non_zeros, level
+  integer :: i, j, k, pass, non_zeros
   integer :: c, w, e, s, n, b, t
   integer :: col_a, col_b, row_a, row_b, pos_a, pos_b
 !==============================================================================!
@@ -86,7 +86,6 @@
           if(pass == 2) then
             mat % col(non_zeros) = c
             mat % val(non_zeros) = 19.9  
-!           mat % dia(c) = non_zeros
           end if
   
           !-------!
@@ -145,7 +144,7 @@
   !---------------------------------!
   !   Find positions of diagonals   !
   !---------------------------------!
-  do row_a = 1, n
+  do row_a = 1, mat % n
     do pos_a = mat % row(row_a), mat % row(row_a + 1) - 1 
       col_a = mat % col(pos_a)  ! at this point you have row_a and col_a  
       if(col_a == row_a) then
@@ -161,7 +160,7 @@
   !----------------------!
 
   ! Outer loop
-  do row_a = 1, n
+  do row_a = 1, mat % n
     do pos_a = mat % row(row_a), mat % row(row_a + 1) - 1 
       col_a = mat % col(pos_a)  ! at this point you have row_a and col_a  
       
