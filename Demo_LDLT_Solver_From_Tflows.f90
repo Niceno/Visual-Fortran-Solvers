@@ -3,7 +3,7 @@
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Matrix_Mod
-  use Constants_Mod
+  use Globals_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -19,15 +19,19 @@
   integer           :: n
   real, allocatable :: b(:), x(:), y(:), r(:)
   type(Matrix)      :: a_matrix, p_matrix
-  real              :: error           
+  real              :: error, time_s, time_e
 !==============================================================================!
+
+  !------------------!
+  !   Praparations   !
+  !------------------!
 
   ! Create compressed system matrices
   call Create_Matrix_Compressed(a_matrix, NX, NY, NZ)
   n = a_matrix % n
   if(n<=64) call Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
 
-  call Create_Preconditioning_Matrix_Compressed(p_matrix, a_matrix, fill_in)
+  call Create_Preconditioning_Matrix_Compressed(p_matrix, a_matrix, 0)
   if(n<=64) call Print_Matrix_Compressed("Compressed p_matrix:", p_matrix)
 
   ! Finish memory allocation
@@ -39,17 +43,25 @@
   ! Fill the right hand side
   b = 0.1
 
+  !------------------------!
+  !   Actual computation   !
+  !------------------------!
+  call Cpu_Time(time_s)
+
   ! Perform Cholesky factorization on the matrix to fin the lower one
   call Prec_Form(n, a_matrix, p_matrix)
   if(n<=64) call Print_Matrix_Compressed("p_matrix after factorization:", p_matrix)
 
   ! Compute x
   call Prec_Solve(n, -1, a_matrix, p_matrix, x, b) 
-  call Print_Vector("Solution x:", x) 
+  call Cpu_Time(time_e)
+  if(n<64) call Print_Vector("Solution x:", x) 
+
+  write(*,*) '# Solution reached in: ', time_e - time_s
 
   ! Check result
   call Matrix_Vector_Multiply_Compressed(y, a_matrix, x)
-  call Print_Vector("Vector y should resemble source term:", y) 
+  if(n<64) call Print_Vector("Vector y should resemble source term:", y) 
   r = b - y
   call Vector_Vector_Dot_Product(error, r, r)
   write(*,*) "Error: ", sqrt(error)

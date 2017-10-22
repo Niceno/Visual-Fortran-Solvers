@@ -88,10 +88,6 @@
 
   write(*,*) 'Final number of nonzeros in the expanded matrix: ', non_zeros
 
-  do entry = 1, non_zeros
-    write(*,*) rows_new(entry), cols_new(entry)
-  end do
-
   !---------------------------------------------!
   !   Allocate the memory for expanded matrix   !
   !---------------------------------------------!
@@ -128,13 +124,6 @@
     pos = c_matrix % row( row )
     siz = c_matrix % row( row+1 ) - pos
     call Sort_Int_Carry_Int(c_matrix % col(pos), c_matrix % col(pos), siz, 1)
-  end do
-
-  do row = 1, c_matrix % n
-    write(*,*) 'Row: ', row, ' holds columns:'
-    do pos = c_matrix % row(row), c_matrix % row(row + 1) - 1 
-      write(*,*) '  ', c_matrix % col(pos)
-    end do
   end do
 
   !---------------------------------!

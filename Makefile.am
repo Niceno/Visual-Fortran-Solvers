@@ -1,7 +1,7 @@
 bin_PROGRAMS = SFS
 
 SFS_SOURCES =					\
-  Constants_Mod.f90				\
+  Globals_Mod.f90				\
   Compress_Matrix.f90				\
   Create_Matrix_Compressed.f90			\
   Create_Preconditioning_Matrix_Compressed.f90	\

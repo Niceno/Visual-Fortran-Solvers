@@ -3,7 +3,7 @@
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Matrix_Mod
-  use Constants_Mod
+  use Globals_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Interfaces]---------------------------------!
@@ -16,9 +16,13 @@
   integer           :: n
   real, allocatable :: a_matrix(:,:), g_matrix(:,:)
   real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
-  real              :: error
+  real              :: error, time_s, time_e
   type(Matrix)      :: c_matrix
 !==============================================================================!
+
+  !------------------!
+  !   Praparations   !
+  !------------------!
 
   ! Create compressed system matrix
   call Create_Matrix_Compressed(c_matrix, NX, NY, NZ)
@@ -43,7 +47,12 @@
   ! Just print original matrix
   if(n<=64) call Print_Matrix("a_matrix:", a_matrix)
 
-  ! Perform gauissian elimination on matrix and r.h.s. vector
+  !------------------------!
+  !   Actual computation   !
+  !------------------------!
+  call Cpu_Time(time_s)
+
+  ! Perform Gaussian elimination on matrix and r.h.s. vector
   b_o = b  ! store original "b" vector
   call Gaussian_Elimination(g_matrix, b, a_matrix)
   if(n<=64) call Print_Matrix("g_matrix after elimination:", g_matrix)
@@ -51,16 +60,23 @@
 
   ! Perform backward substitution
   call Backward_Substitution(x, g_matrix, b)
-  call Print_Vector("Solution x after backward substitution:", x) 
+  call Cpu_Time(time_e)
+  if(n<64) call Print_Vector("Solution x after backward substitution:", x) 
 
-  ! Multiply original matrix with solution vector to check result
+  write(*,*) '# Solution reached in: ', time_e - time_s
+
+  !------------------------!
+  !   Check the solution   !
+  !------------------------!
   call Matrix_Vector_Multiply(y, a_matrix, x)
-  call Print_Vector("Vector y should recover the source term:", y)
+  if(n<64) call Print_Vector("Vector y should recover the source term:", y)
   r = b_o - y
   call Vector_Vector_Dot_Product(error, r, r)
   write(*,*) "Error: ", sqrt(error)  
 
-  ! Free memory
+  !-------------------------!
+  !   Clean-up the memory   !
+  !-------------------------!
   deallocate(r)
   deallocate(y)
   deallocate(x)

@@ -3,7 +3,7 @@
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Matrix_Mod
-  use Constants_Mod
+  use Globals_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Interfaces]---------------------------------!
@@ -17,8 +17,12 @@
   real, allocatable :: a_matrix(:,:), p_matrix(:,:)
   real, allocatable :: b(:), x(:), y(:), r(:)
   type(Matrix)      :: c_matrix
-  real              :: error
+  real              :: error, time_s, time_e
 !==============================================================================!
+
+  !------------------!
+  !   Praparations   !
+  !------------------!
 
   ! Create compressed system matrix
   call Create_Matrix_Compressed(c_matrix, NX, NY, NZ)
@@ -42,26 +46,38 @@
   ! Just print original matrix
   if(n<=64) call Print_Matrix("a_matrix:", a_matrix)
 
+  !------------------------!
+  !   Actual computation   !
+  !------------------------!
+  call Cpu_Time(time_s)
+
   ! Perform Cholesky factorization on the matrix to fin the lower one
   call Cholesky_Factorization(p_matrix, a_matrix)
   if(n<=64) call Print_Matrix("p_matrix after Cholesky factorization", p_matrix)
 
   ! Compute y by forward substitution
   call Forward_Substitution(y, p_matrix, b)
-  call Print_Vector("Vector y after forward substitution:", y) 
+  if(n<64) call Print_Vector("Vector y after forward substitution:", y) 
 
   ! Compute x by backward substitution
   call Backward_Substitution(x, p_matrix, y)
-  call Print_Vector("Solution x after backward substitution:", x) 
+  call Cpu_Time(time_e)
+  if(n<64) call Print_Vector("Solution x after backward substitution:", x) 
 
-  ! Check result
+  write(*,*) '# Solution reached in: ', time_e - time_s
+
+  !------------------------!
+  !   Check the solition   !
+  !------------------------!
   call Matrix_Vector_Multiply(y, a_matrix, x)
-  call Print_Vector("Vector y should recover the source term:", y) 
+  if(n<64) call Print_Vector("Vector y should recover the source term:", y) 
   r = b - y
   call Vector_Vector_Dot_Product(error, r, r)
   write(*,*) "Error: ", sqrt(error)  
 
-  ! Free memory
+  !-------------------------!
+  !   Clean-up the memory   !
+  !-------------------------!
   deallocate(a_matrix)
   deallocate(p_matrix)
   deallocate(b)

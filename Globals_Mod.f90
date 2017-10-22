@@ -1,13 +1,13 @@
 !==============================================================================!
-  module Constants_Mod
+  module Globals_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
 !   Defines global constants                                                   !
 !==============================================================================!
 
-  integer, parameter :: NX = 3
-  integer, parameter :: NY = 3
-  integer, parameter :: NZ = 3
+  integer :: nx = 10
+  integer :: ny = 10
+  integer :: nz = 10
 
-  end module Constants_Mod
+  end module Globals_Mod

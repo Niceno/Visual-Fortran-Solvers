@@ -74,7 +74,7 @@ ECHO_N =
 ECHO_T = 
 EXEEXT = 
 FC = gfortran
-FCFLAGS = -g -fcheck=all -Wall -fdefault-real-8 -I/Users/bojan/Development/SFS/Modules
+FCFLAGS = -fdefault-real-8 -I/Users/bojan/Development/SFS/Modules
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}

@@ -3,7 +3,7 @@
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Matrix_Mod
-  use Constants_Mod
+  use Globals_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Interfaces]---------------------------------!
@@ -16,9 +16,13 @@
   integer           :: n
   real, allocatable :: a_matrix(:,:), p_matrix(:,:)
   real, allocatable :: b(:), x(:), y(:), r(:)
+  real              :: error, time_s, time_e
   type(Matrix)      :: c_matrix
-  real              :: error
 !==============================================================================!
+
+  !------------------!
+  !   Praparations   !
+  !------------------!
 
   ! Create compressed system matrix
   call Create_Matrix_Compressed(c_matrix, NX, NY, NZ)
@@ -42,22 +46,31 @@
   ! Just print original matrix
   if(n<=64) call Print_Matrix("a_matrix:", a_matrix)
 
+  !------------------------!
+  !   Actual computation   !
+  !------------------------!
+  call Cpu_Time(time_s)
+
   ! Perform LDLT factorization on the matrix to fin the lower one
   call LDLT_Factorization(p_matrix, a_matrix)
   if(n<=64) call Print_Matrix("p_matrix after Cholesky factorization", p_matrix)
 
   ! Compute x
   call LDLT_Solution(x, p_matrix, b)
-  call Print_Vector("Solution x:", x) 
+  call Cpu_Time(time_e)
+  if(n<64) call Print_Vector("Solution x:", x) 
 
-  ! Check result
+  write(*,*) '# Solution reached in: ', time_e - time_s
+
+  !------------------------!
+  !   Check the solition   !
+  !------------------------!
   call Matrix_Vector_Multiply(y, a_matrix, x)
-  call Print_Vector("Vector y should recover the source term:", y) 
+  if(n<64) call Print_Vector("Vector y should recover the source term:", y) 
   r = b - y
-  call Vector_Vector_Dot_Product(error, r, r)
+  if(n<64) call Vector_Vector_Dot_Product(error, r, r)
   write(*,*) "Error: ", sqrt(error)  
 
-  ! Free memory
   deallocate(a_matrix)
   deallocate(p_matrix)
   deallocate(b)

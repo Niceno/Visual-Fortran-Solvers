@@ -17,13 +17,13 @@
   do k=1,n
     sum1 = a(k,k)
     do m=1,k-1
-      sum1 = sum1 - (f(k,m)**2.0) * f(m,m)  ! straightforward for compressed row format
+      sum1 = sum1 - f(k,m) * f(k,m) * f(m,m)
     end do
     f(k,k) = sum1
     do i=k+1,n
       sum2 = a(i,k)
       do m=1,k-1
-        sum2 = sum2 - f(m,i)*f(m,k) * f(m,m)  ! straighforward for compressed row format
+        sum2 = sum2 - f(m,i) * f(m,k) * f(m,m)
       end do
       f(k,i) = sum2/f(k,k)
       f(i,k) = sum2/f(k,k)  ! make it full

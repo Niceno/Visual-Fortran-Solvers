@@ -4,5 +4,5 @@ aclocal
 touch NEWS AUTHORS ChangeLog
 automake --add-missing
 autoconf
-./configure FCFLAGS='-g -fcheck=all -Wall -fdefault-real-8 -I'$PWD'/Modules'
-# ./configure FCFLAGS='-fdefault-real-8 -I'$PWD'/Modules'
+# ./configure FCFLAGS='-g -fcheck=all -Wall -fdefault-real-8 -I'$PWD'/Modules'
+./configure FCFLAGS='-fdefault-real-8 -I'$PWD'/Modules'
