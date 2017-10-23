@@ -16,7 +16,7 @@
   integer           :: n
   real, allocatable :: a_matrix(:,:), g_matrix(:,:)
   real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
-  real              :: error, time_s, time_e
+  real              :: error, time_ps, time_pe, time_ss, time_se
   type(Matrix)      :: c_matrix
 !==============================================================================!
 
@@ -50,20 +50,23 @@
   !------------------------!
   !   Actual computation   !
   !------------------------!
-  call Cpu_Time(time_s)
 
   ! Perform Gaussian elimination on matrix and r.h.s. vector
   b_o = b  ! store original "b" vector
+  call Cpu_Time(time_ps)
   call Gaussian_Elimination(g_matrix, b, a_matrix)
+  call Cpu_Time(time_pe)
   if(n<=64) call Print_Matrix("g_matrix after elimination:", g_matrix)
   if(n<=64) call Print_Vector("vector b after elimination:", b)
 
   ! Perform backward substitution
+  call Cpu_Time(time_ss)
   call Backward_Substitution(x, g_matrix, b)
-  call Cpu_Time(time_e)
+  call Cpu_Time(time_se)
   if(n<64) call Print_Vector("Solution x after backward substitution:", x) 
 
-  write(*,*) '# Solution reached in: ', time_e - time_s
+  write(*,*) '# Time for matrix preparation:', time_pe - time_ps
+  write(*,*) '# Time for solution:          ', time_se - time_ss
 
   !------------------------!
   !   Check the solution   !

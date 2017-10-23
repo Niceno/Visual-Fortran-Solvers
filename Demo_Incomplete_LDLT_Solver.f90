@@ -19,7 +19,7 @@
   integer           :: n
   real, allocatable :: b(:), x(:), y(:), r(:)
   type(Matrix)      :: a_matrix, p_matrix
-  real              :: error, time_s, time_e
+  real              :: error, time_ps, time_pe, time_ss, time_se
 !==============================================================================!
 
   !------------------!
@@ -46,18 +46,21 @@
   !------------------------!
   !   Actual computation   !
   !------------------------!
-  call Cpu_Time(time_s)
 
   ! Perform LDLT factorization on the matrix to fin the lower one
+  call Cpu_Time(time_ps)
   call LDLT_Factorization_Compressed(p_matrix, a_matrix)
+  call Cpu_Time(time_pe)
   if(n<=64) call Print_Matrix_Compressed("p_matrix after factorization:", p_matrix)
 
   ! Compute x
+  call Cpu_Time(time_ss)
   call LDLT_Solution_Compressed(x, p_matrix, b)
-  call Cpu_Time(time_e)
+  call Cpu_Time(time_se)
   if(n<64) call Print_Vector("Solution x:", x) 
 
-  write(*,*) '# Solution reached in: ', time_e - time_s
+  write(*,*) '# Time for matrix preparation:', time_pe - time_ps
+  write(*,*) '# Time for solution:          ', time_se - time_ss
 
   !------------------------!
   !   Check the solution   !
