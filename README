@@ -1,1 +1,11 @@
 SFS stands for Small Fortran Solvers :-)
+
+The embrio of this development started from algorithms in the book:
+
+Numerical Analysis: Mathematics of Scientific Computing
+by David Kincaid & Ward Cheney
+
+Starting from sources cordialy provided by the authors, I was converging
+towards the implementations in T-Flows.  Initial motivation was to check
+wheather fill-in makes sense for ICCG solvers, but recenlty I realized that
+they might also be useful to dive into GPU programming.
