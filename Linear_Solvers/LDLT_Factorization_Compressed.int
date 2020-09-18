@@ -1,8 +1,0 @@
-interface
-  subroutine LDLT_Factorization_Compressed(f, a)
-    use Matrix_Mod
-    implicit none
-    type(Matrix)         :: f
-    type(Matrix)         :: a
-  end subroutine LDLT_Factorization_Compressed
-end interface

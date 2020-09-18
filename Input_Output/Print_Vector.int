@@ -1,7 +1,0 @@
-interface
-  subroutine Print_Vector(message, vector)
-    implicit none
-    character(len=*)   :: message
-    real, dimension(:) :: vector
-  end subroutine Print_Vector
-end interface

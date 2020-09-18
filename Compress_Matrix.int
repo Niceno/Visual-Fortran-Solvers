@@ -1,8 +1,0 @@
-interface
-  subroutine Compress_Matrix(c, a)
-    use Matrix_Mod
-    implicit none
-    type(Matrix)         :: c
-    real, dimension(:,:) :: a
-  end subroutine Compress_Matrix
-end interface

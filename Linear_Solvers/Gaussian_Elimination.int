@@ -1,8 +1,0 @@
-interface
-  subroutine Gaussian_Elimination(g, b, a)
-    implicit none
-    real, dimension(:,:) :: g
-    real, dimension(:)   :: b
-    real, dimension(:,:) :: a
-  end subroutine Gaussian_Elimination
-end interface

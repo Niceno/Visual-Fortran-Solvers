@@ -1,7 +1,0 @@
-interface
-  subroutine Print_Matrix(message, matrix)
-    implicit none
-    character(len=*)     :: message
-    real, dimension(:,:) :: matrix
-  end subroutine Print_Matrix
-end interface

@@ -1,9 +1,0 @@
-interface
-  subroutine Backward_Substitution_Compressed(x, f, b)
-    use Matrix_Mod
-    implicit none
-    real, dimension(:) :: x
-    type(Matrix)       :: f
-    real, dimension(:) :: b
-  end subroutine Backward_Substitution_Compressed
-end interface

@@ -1,8 +1,0 @@
-interface
-  subroutine Matrix_Matrix_Multiply(c, a, b)
-    implicit none
-    real, dimension(:,:) :: c
-    real, dimension(:,:) :: a
-    real, dimension(:,:) :: b
-  end subroutine Matrix_Matrix_Multiply
-end interface

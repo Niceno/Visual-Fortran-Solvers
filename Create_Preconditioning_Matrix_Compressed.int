@@ -1,9 +1,0 @@
-interface
-  subroutine Create_Preconditioning_Matrix_Compressed(c_matrix, a_matrix, f_in)
-    use Matrix_Mod
-    implicit none
-    type(Matrix) :: c_matrix  ! preconditioning matrix
-    type(Matrix) :: a_matrix  ! original matrix
-    integer      :: f_in
-  end subroutine Create_Preconditioning_Matrix_Compressed
-end interface

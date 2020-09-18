@@ -2,8 +2,9 @@
   program Main
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
-  use Matrix_Mod
   use Globals_Mod
+! use Matrix_Mod
+  use Demo_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !-----------------------------------[Locals]-----------------------------------!
@@ -16,8 +17,10 @@
   write(*,*) '# Select a case to demonstrate'
   write(*,*) '#----------------------------------------------------'
   write(*,*) '#  0 - Exit'
-  write(*,'(a46,1i2)') '#  1 - Change fill-in level, currently at:   ', fill_in_level
-  write(*,'(a46,3i3)') '#  2 - Change grid resolution, currently at: ', nx, ny, nz
+  write(*,'(a46,1i2)') '#  1 - Change fill-in level, currently at:   ',  &
+                       fill_in_level
+  write(*,'(a46,3i3)') '#  2 - Change grid resolution, currently at: ',  &
+                       nx, ny, nz
   write(*,*) '# - - - - - - - - - - - - - - - - - - - - - - - - - -'
   write(*,*) '#  3 - Gaussian elimination'
   write(*,*) '#  4 - Cholesky solver'
@@ -41,15 +44,15 @@
     write(*,*) '# Enter the desired resolution: '   
     read(*,*) nx, ny, nz
   end if
-  if(choice ==  3) call Demo_Gauss_Solver
-  if(choice ==  4) call Demo_Cholesky_Solver
-  if(choice ==  5) call Demo_LDLT_Solver
-  if(choice ==  6) call Demo_Compress_Decompress
-  if(choice ==  7) call Demo_Fill_In(fill_in_level)
-  if(choice ==  8) call Demo_Incomplete_Cholesky_Solver(fill_in_level)
-  if(choice ==  9) call Demo_Incomplete_LDLT_Solver(fill_in_level)
-  if(choice == 10) call Demo_LDLT_Solver_From_Tflows
+  if(choice ==  3) call Demo_Mod_Gauss_Solver
+  if(choice ==  4) call Demo_Mod_Cholesky_Solver
+  if(choice ==  5) call Demo_Mod_Ldlt_Solver
+  if(choice ==  6) call Demo_Mod_Compress_Decompress
+  if(choice ==  7) call Demo_Mod_Fill_In(fill_in_level)
+  if(choice ==  8) call Demo_Mod_Incomplete_Cholesky_Solver(fill_in_level)
+  if(choice ==  9) call Demo_Mod_Incomplete_Ldlt_Solver(fill_in_level)
+  if(choice == 10) call Demo_Mod_Ldlt_Solver_From_Tflows
 
   goto 1
- 
+
   end program Main

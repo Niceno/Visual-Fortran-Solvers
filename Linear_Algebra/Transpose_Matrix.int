@@ -1,7 +1,0 @@
-interface
-  subroutine Transpose_Matrix(b, a)
-    implicit none
-    real, dimension(:,:) :: b
-    real, dimension(:,:) :: a
-  end subroutine Transpose_Matrix
-end interface
