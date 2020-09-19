@@ -1,7 +1,9 @@
 !==============================================================================!
-  subroutine Demo_Mod_Gauss_Solver
+  subroutine Demo_Mod_Gauss_Solver(grid)
 !------------------------------------------------------------------------------!
   implicit none
+!---------------------------------[Arguments]----------------------------------!
+  type(Grid_Type) :: grid
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: n
   real, allocatable :: a_matrix(:,:), g_matrix(:,:)
@@ -15,7 +17,7 @@
   !------------------!
 
   ! Create compressed system matrix
-  call Matrix_Mod_Create_Compressed(c_matrix, NX, NY, NZ)
+  call Matrix_Mod_Create_Compressed(c_matrix, grid)
   call In_Out_Mod_Print_Matrix_Compressed("Compressed c_matrix:", c_matrix)
 
   ! Create two full matrices from the compressed one

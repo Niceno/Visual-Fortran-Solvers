@@ -1,6 +1,9 @@
 !==============================================================================!
   module Matrix_Mod
 !------------------------------------------------------------------------------!
+!----------------------------------[Modules]-----------------------------------!
+  use Grid_Mod
+!------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
 !   Matrix type                                                                !
@@ -29,6 +32,12 @@
 !                                                                              !
 !   A % dia = [   1   5   9  12 ]                                              !
 !==============================================================================!
+
+  !-----------------!
+  !                 !
+  !   Matrix Type   !
+  !                 !
+  !-----------------!
   type Matrix
     integer              :: n         ! matrix dimension
     integer              :: nonzeros  ! number of nonzero entries
@@ -37,14 +46,14 @@
     integer, allocatable :: row(:)    ! column positions
     integer, allocatable :: dia(:)    ! diagonal positions 
     integer, allocatable :: mir(:)    ! position of the mirror entry
-  end type Matrix
+  end type
 
   contains
 
-  include 'Matrix_Mod/Compress_Matrix.f90'
-  include 'Matrix_Mod/Create_Matrix_Compressed.f90'
-  include 'Matrix_Mod/Create_Preconditioning_Matrix_Compressed.f90'
+  include 'Matrix_Mod/Compress.f90'
+  include 'Matrix_Mod/Create_Compressed.f90'
+  include 'Matrix_Mod/Create_Preconditioning_Compressed.f90'
   include 'Matrix_Mod/Deallocate.f90'
-  include 'Matrix_Mod/Expand_Matrix.f90'
+  include 'Matrix_Mod/Expand.f90'
 
   end module

@@ -1,9 +1,10 @@
 !==============================================================================!
-  subroutine Demo_Mod_Incomplete_Cholesky_Solver(fill_in)
+  subroutine Demo_Mod_Incomplete_Cholesky_Solver(fill_in, grid)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  integer :: fill_in
+  integer         :: fill_in
+  type(Grid_Type) :: grid
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: n
   real, allocatable :: b(:), x(:), y(:), r(:)
@@ -16,7 +17,7 @@
   !------------------!
 
   ! Create compressed system matrices
-  call Matrix_Mod_Create_Compressed(a_matrix, NX, NY, NZ)
+  call Matrix_Mod_Create_Compressed(a_matrix, grid)
   call In_Out_Mod_Print_Matrix_Compressed("Compressed a_matrix:", a_matrix)
 
   call Matrix_Mod_Create_Preconditioning_Compressed(p_matrix, a_matrix, fill_in)

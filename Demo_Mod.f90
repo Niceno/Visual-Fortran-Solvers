@@ -2,7 +2,7 @@
   module Demo_Mod
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
-  use Globals_Mod
+  use Grid_Mod
   use Matrix_Mod
   use In_Out_Mod
   use Lin_Alg_Mod
@@ -23,5 +23,6 @@
   include 'Demo_Mod/Incomplete_Ldlt_Solver.f90'
   include 'Demo_Mod/Ldlt_Solver.f90'
   include 'Demo_Mod/Ldlt_Solver_From_Tflows.f90'
+  include 'Demo_Mod/Main.f90'
 
   end module

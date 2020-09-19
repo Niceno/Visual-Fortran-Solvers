@@ -1,13 +1,20 @@
 !==============================================================================!
-  module Globals_Mod
+  module Grid_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
-!   Defines global constants                                                   !
+!   Defines grid (which is ludicrously simple)                                 !
 !==============================================================================!
 
-  integer :: nx = 10
-  integer :: ny = 10
-  integer :: nz = 10
+  !---------------!
+  !               !
+  !   Grid Type   !
+  !               !
+  !---------------!
+  type Grid_Type
+    integer :: nx
+    integer :: ny
+    integer :: nz
+  end type
 
-  end module Globals_Mod
+  end module

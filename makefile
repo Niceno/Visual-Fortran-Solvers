@@ -89,7 +89,7 @@ endif
 #-------------
 
 # Modules in shared directories
-SRC_MOD = Globals_Mod.f90	\
+SRC_MOD = Grid_Mod.f90		\
           Matrix_Mod.f90	\
           In_Out_Mod.f90	\
           Lin_Alg_Mod.f90	\
@@ -129,12 +129,12 @@ MOD = $(SRC_MOD_LOW:%.f90=$(DIR_MODULE)/%.mod)
 #---------------------------------------------------------
 
 # Modules
-$(DIR_OBJECT)/%.o: %.f90 %/*.f90
+$(DIR_OBJECT)/%.o: %.f90 %/*.f90 makefile*
 	@echo FC $<
 	@$(FC) $(OPT_COMP) -c -o $@ $<
 
 # Functions
-$(DIR_OBJECT)/%.o: %.f90
+$(DIR_OBJECT)/%.o: %.f90 makefile*
 	@echo FC $<
 	@$(FC) $(OPT_COMP) -c -o $@ $<
 
@@ -143,7 +143,7 @@ $(DIR_OBJECT)/%.o: %.f90
 #-----------------------------------
 #   Note: Should not be modified.
 #-----------------------------------
-$(PROGRAM_FILE): $(OBJ) 
+$(PROGRAM_FILE): $(OBJ)
 	@echo Linking "\033[0;32m $(PROGRAM_FILE) \033[0m"
 	@$(FC) $(OPT_LINK) -o $(PROGRAM_FILE) $(OBJ)
 

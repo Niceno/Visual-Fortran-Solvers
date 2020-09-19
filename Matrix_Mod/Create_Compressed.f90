@@ -1,15 +1,19 @@
 !==============================================================================!
-  subroutine Matrix_Mod_Create_Compressed(mat, ni, nj, nk)
+  subroutine Matrix_Mod_Create_Compressed(mat, grid)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Matrix) :: mat
-  integer      :: ni, nj, nk
+  type(Matrix)    :: mat
+  type(Grid_Type) :: grid
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, pass, non_zeros
+  integer :: i, j, k, ni, nj, nk, pass, non_zeros
   integer :: c, w, e, s, n, b, t
   integer :: col_a, col_b, row_a, row_b, pos_a, pos_b
 !==============================================================================!
+
+  ni = grid % nx
+  nj = grid % ny
+  nk = grid % nz
 
   !--------------------------------------------------------------------!
   !   Make two passes; in the first one count non-zeros and allocate   !
