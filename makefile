@@ -95,7 +95,6 @@ SRC_MOD = Globals_Mod.f90	\
           Lin_Alg_Mod.f90	\
           Solvers_Mod.f90	\
           Demo_Mod.f90
-$(info $(SRC_MOD))
 
 #---------------
 #   Functions
@@ -105,7 +104,6 @@ $(info $(SRC_MOD))
 SRC_FUN = $(shell ls -1 *.f90			\
                         | xargs -n1 basename	\
                         | grep -v -i _Mod)
-$(info $(SRC_FUN))
 
 #----------------------------------------------------------------------
 #   List of objects generated from the list of modules and functions
