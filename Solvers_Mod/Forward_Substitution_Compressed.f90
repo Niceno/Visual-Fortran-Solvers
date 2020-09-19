@@ -9,7 +9,7 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, dimension(:) :: x
-  type(Matrix)       :: f
+  type(Matrix_Type)  :: f
   real, dimension(:) :: b
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, i_j, n

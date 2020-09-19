@@ -8,10 +8,10 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  integer      :: n, nb
-  type(Matrix) :: a
-  type(Matrix) :: d
-  real         :: x(-nb:n), b(n)
+  integer           :: n, nb
+  type(Matrix_Type) :: a
+  type(Matrix_Type) :: d
+  real              :: x(-nb:n), b(n)
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k
   real    :: sum1

@@ -8,9 +8,9 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:)   :: x
-  type(Matrix)         :: f
-  real, dimension(:)   :: b
+  real, dimension(:) :: x
+  type(Matrix_Type)  :: f
+  real, dimension(:) :: b
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, i_j, n
   real    :: sum

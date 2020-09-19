@@ -3,8 +3,8 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Matrix)    :: mat
-  type(Grid_Type) :: grid
+  type(Matrix_Type) :: mat
+  type(Grid_Type)   :: grid
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, ni, nj, nk, pass, non_zeros
   integer :: c, w, e, s, n, b, t

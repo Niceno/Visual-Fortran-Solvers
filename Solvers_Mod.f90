@@ -11,7 +11,7 @@
 !==============================================================================!
 
   ! Working space matrices for incomplete solvers
-  type(Matrix) :: a_sparse, p_sparse
+  type(Matrix_Type) :: a_sparse, p_sparse
 
   ! Working (full) matrices
   real, allocatable :: a_matrix(:,:), p_matrix(:,:)

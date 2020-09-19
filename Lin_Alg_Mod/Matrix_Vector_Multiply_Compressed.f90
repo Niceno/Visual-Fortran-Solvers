@@ -6,7 +6,7 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, dimension(:) :: y
-  type(Matrix)       :: c
+  type(Matrix_Type)  :: c
   real, dimension(:) :: x
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, i_j, n

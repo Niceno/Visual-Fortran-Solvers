@@ -6,8 +6,8 @@
   integer         :: fill_in
   type(Grid_Type) :: grid
 !-----------------------------------[Locals]-----------------------------------!
-  type(Matrix) :: a_matrix  ! original matrix
-  type(Matrix) :: c_matrix  ! preconditioning matrix
+  type(Matrix_Type) :: a_matrix  ! original matrix
+  type(Matrix_Type) :: c_matrix  ! preconditioning matrix
 !==============================================================================!
 
   call Matrix_Mod_Create_Compressed(a_matrix, grid)

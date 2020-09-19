@@ -4,7 +4,7 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, allocatable :: a(:,:)
-  type(Matrix)      :: c
+  type(Matrix_Type) :: c
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col  ! row used to be "i", col used to be "j"
   integer :: n, pos

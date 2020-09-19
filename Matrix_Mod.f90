@@ -38,7 +38,7 @@
   !   Matrix Type   !
   !                 !
   !-----------------!
-  type Matrix
+  type Matrix_Type
     integer              :: n = 0     ! matrix dimension
     integer              :: nonzeros  ! number of nonzero entries
     real,    allocatable :: val(:)    ! value

@@ -4,9 +4,9 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Matrix) :: c_matrix  ! preconditioning matrix
-  type(Matrix) :: a_matrix  ! original matrix
-  integer      :: f_in
+  type(Matrix_Type) :: c_matrix  ! preconditioning matrix
+  type(Matrix_Type) :: a_matrix  ! original matrix
+  integer           :: f_in
 !-----------------------------------[Locals]-----------------------------------!
   integer      :: non_zeros, non_zeros_tent, entry, f, l_new, l_old
   integer      :: row, col, pos, row_a, row_b, col_a, col_b, siz, pos_a, pos_b

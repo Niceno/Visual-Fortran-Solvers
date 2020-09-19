@@ -18,7 +18,7 @@
   data (f_matrix(7,col), col=1,n) /  0.,  0., -1.,  0., -3., -4., 44. /
 
   ! Compressed matrix
-  type(Matrix)      :: c_matrix
+  type(Matrix_Type) :: c_matrix
   real, allocatable :: e_matrix(:,:)
 !------------------------------------------------------------------------------!
 
