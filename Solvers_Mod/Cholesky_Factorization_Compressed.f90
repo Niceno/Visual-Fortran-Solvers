@@ -4,7 +4,7 @@
 !   Computes Cholesky decomposition on compressed matrices.                    !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Demo_Mod_Incomplete_Cholesky_Solver                                      !
+!   - Solvers_Mod_Incomplete_Cholesky                                          !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!

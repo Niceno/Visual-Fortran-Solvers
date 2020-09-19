@@ -15,14 +15,8 @@
 
   contains
 
-  include 'Demo_Mod/Cholesky_Solver.f90'
   include 'Demo_Mod/Compress_Decompress.f90'
   include 'Demo_Mod/Fill_In.f90'
-  include 'Demo_Mod/Gauss_Solver.f90'
-  include 'Demo_Mod/Incomplete_Cholesky_Solver.f90'
-  include 'Demo_Mod/Incomplete_Ldlt_Solver.f90'
-  include 'Demo_Mod/Ldlt_Solver.f90'
-  include 'Demo_Mod/Ldlt_Solver_From_Tflows.f90'
   include 'Demo_Mod/Main.f90'
 
   end module

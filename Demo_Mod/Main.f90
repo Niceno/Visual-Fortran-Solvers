@@ -30,7 +30,7 @@
   write(*,*) '#  7 - Preconditioning matrix'
   write(*,*) '#  8 - Incomplete Cholesky solver'
   write(*,*) '#  9 - Incomplete LDLT solver'
-  write(*,*) '# 10 - Bare-bones LDL^T solver from T-FlowS' 
+  write(*,*) '# 10 - Bare-bones LDL^T solver from T-Flows'
   write(*,*) '#----------------------------------------------------'
   read(*,*) choice
 
@@ -40,17 +40,17 @@
     read(*,*) fill_in_level
   end if
   if(choice ==  2) then
-    write(*,*) '# Enter the desired resolution: '   
+    write(*,*) '# Enter the desired resolution: '
     read(*,*) grid % nx, grid % ny, grid % nz
   end if
-  if(choice ==  3) call Demo_Mod_Gauss_Solver                             (grid)
-  if(choice ==  4) call Demo_Mod_Cholesky_Solver                          (grid)
-  if(choice ==  5) call Demo_Mod_Ldlt_Solver                              (grid)
+  if(choice ==  3) call Solvers_Mod_Gauss   (grid)
+  if(choice ==  4) call Solvers_Mod_Cholesky(grid)
+  if(choice ==  5) call Solvers_Mod_Ldlt    (grid)
   if(choice ==  6) call Demo_Mod_Compress_Decompress
-  if(choice ==  7) call Demo_Mod_Fill_In                   (fill_in_level, grid)
-  if(choice ==  8) call Demo_Mod_Incomplete_Cholesky_Solver(fill_in_level, grid)
-  if(choice ==  9) call Demo_Mod_Incomplete_Ldlt_Solver    (fill_in_level, grid)
-  if(choice == 10) call Demo_Mod_Ldlt_Solver_From_Tflows                  (grid)
+  if(choice ==  7) call Demo_Mod_Fill_In               (fill_in_level, grid)
+  if(choice ==  8) call Solvers_Mod_Incomplete_Cholesky(fill_in_level, grid)
+  if(choice ==  9) call Solvers_Mod_Incomplete_Ldlt    (fill_in_level, grid)
+  if(choice == 10) call Solvers_Mod_Incomplete_Ldlt_From_Tflows       (grid)
 
   goto 1
 

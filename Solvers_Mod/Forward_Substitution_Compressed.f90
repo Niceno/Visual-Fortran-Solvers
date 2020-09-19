@@ -4,7 +4,7 @@
 !   Performs forward substitution using a matrix in compressed row format.     !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Demo_Mod_Incomplete_Cholesky_Solver                                      !
+!   - Solvers_Mod_Incomplete_Cholesky                                          !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!

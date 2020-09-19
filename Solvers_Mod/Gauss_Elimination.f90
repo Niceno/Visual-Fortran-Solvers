@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Gaussian_Elimination(g, b, a)
+  subroutine Solvers_Mod_Gauss_Elimination(g, b, a)
 !------------------------------------------------------------------------------!
 !   Performs Gaussian elimination on the given matrix "a" and source term "b". !
 !------------------------------------------------------------------------------!

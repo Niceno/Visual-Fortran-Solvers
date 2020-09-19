@@ -5,8 +5,8 @@
 !   It will address only elements in upper trinangular part.                   !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Demo_Mod_Cholesky_Solver                                                 !
-!   - Demo_Mod_Gauss_Solver                                                    !
+!   - Solvers_Mod_Cholesky                                                     !
+!   - Solvers_Mod_Gauss                                                        !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!

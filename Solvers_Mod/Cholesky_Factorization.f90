@@ -4,7 +4,7 @@
 !   Computes Cholesky decomposition on full matrices.                          !
 !
 !   Called by:                                                                 !
-!   - Demo_Mod_Cholesky_Solver                                                 !
+!   - Solvers_Mod_Cholesky                                                     !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!

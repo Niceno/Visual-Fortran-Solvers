@@ -5,7 +5,7 @@
 !   It will address only elements in lower trinangular part though.            !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Demo_Mod_Cholesky_Solver                                                 !
+!   - Solvers_Mod_Cholesky                                                     !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!

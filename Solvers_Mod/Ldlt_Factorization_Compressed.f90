@@ -4,7 +4,7 @@
 !   Computes LDLT decomposition on compressed matrices.                        !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Demo_Mod_Incomplete_Ldlt_Solver                                          !
+!   - Solvers_Mod_Incomplete_Ldlt                                              !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
