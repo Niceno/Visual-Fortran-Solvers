@@ -44,26 +44,7 @@
   include 'Matrix_Mod/Compress_Matrix.f90'
   include 'Matrix_Mod/Create_Matrix_Compressed.f90'
   include 'Matrix_Mod/Create_Preconditioning_Matrix_Compressed.f90'
+  include 'Matrix_Mod/Deallocate.f90'
   include 'Matrix_Mod/Expand_Matrix.f90'
-
-!==============================================================================!
-  subroutine Matrix_Mod_Deallocate(a)
-!------------------------------------------------------------------------------!
-!   Deallocates memeory occupied by type Matrix                                !
-!------------------------------------------------------------------------------!
-  implicit none
-!---------------------------------[Arguments]----------------------------------!
-  type(Matrix) :: a
-!------------------------------------------------------------------------------!
-
-  a % n        = 0
-  a % nonzeros = 0
-  deallocate(a % val)    ! value
-  deallocate(a % col)    ! beginning of each row
-  deallocate(a % row)    ! column positions
-  deallocate(a % dia)    ! diagonal positions
-  deallocate(a % mir)    ! position of the mirror entry
-
-  end subroutine
 
   end module
