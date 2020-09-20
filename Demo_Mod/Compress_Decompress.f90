@@ -3,7 +3,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: col
+  integer :: col, bw
 !==============================================================================!
 
   ! Full matrix
@@ -30,7 +30,7 @@
   call In_Out_Mod_Print_Matrix_Compressed("c_matrix:", c_matrix)
 
   ! Expand matrix "ac2" and store it in "e_matrix"
-  call Matrix_Mod_Expand(e_matrix, c_matrix)
+  call Matrix_Mod_Expand(e_matrix, c_matrix, bw)
 
   call In_Out_Mod_Print_Matrix("Epanded matrix c_matrix:", e_matrix)
 

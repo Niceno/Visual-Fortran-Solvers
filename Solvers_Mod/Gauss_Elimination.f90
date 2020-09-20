@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Gauss_Elimination(g, b, a)
+  subroutine Solvers_Mod_Gauss_Elimination(g, b, a, bw)
 !------------------------------------------------------------------------------!
 !   Performs Gaussian elimination on the given matrix "a" and source term "b". !
 !------------------------------------------------------------------------------!
@@ -8,6 +8,7 @@
   real, dimension(:,:) :: g
   real, dimension(:)   :: b
   real, dimension(:,:) :: a
+  integer              :: bw  ! band width
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, n
   real    :: mult
@@ -24,10 +25,10 @@
 
   ! Make elimination for resulting matrix
   do k = 1, n-1
-    do i = k+1, n
+    do i = k+1, min(k+bw,n)
       mult = g(i,k)/g(k,k)
       g(i,k) = 0.0
-      do j = k+1, n
+      do j = k+1, min(k+bw,n)
         g(i,j) = g(i,j) - mult*g(k,j)
       end do
       b(i) = b(i) - mult*b(k)
