@@ -1,11 +1,12 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Conjugate_Gradient(grid, fill_in, n_iter)
+  subroutine Solvers_Mod_Cg(grid, fill_in, n_iter, res)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Grid_Type) :: grid
   integer         :: fill_in
   integer         :: n_iter
+  real            :: res
 !-----------------------------------[Locals]-----------------------------------!
   integer :: n  ! number of unknowns
   integer :: i

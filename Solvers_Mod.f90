@@ -54,7 +54,7 @@
   include 'Solvers_Mod/Incomplete_Ldlt_From_Tflows.f90'
 
   ! Iterative solvers
-  include 'Solvers_Mod/Conjugate_Gradient.f90'
+  include 'Solvers_Mod/Cg.f90'
 
   ! Other functionality
   include 'Solvers_Mod/Check_Solution.f90'

@@ -59,7 +59,7 @@
   if(choice ==  5) call Solvers_Mod_Incomplete_Ldlt            (grid, fill_in)
   if(choice ==  6) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid)
 
-  if(choice ==  7) call Solvers_Mod_Conjugate_Gradient(grid, fill_in, n_iter)
+  if(choice ==  7) call Solvers_Mod_Cg(grid, fill_in, n_iter, res)
 
   if(choice ==  8) call Demo_Mod_Compress_Decompress
   if(choice ==  9) call Demo_Mod_Fill_In(fill_in, grid)
