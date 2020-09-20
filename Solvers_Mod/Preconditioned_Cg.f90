@@ -22,9 +22,7 @@
   call Solvers_Mod_Prepare_System(grid)
 
   call Cpu_Time(time_ps)
-! call Matrix_Mod_Create_Preconditioning_Compressed(p_sparse, a_sparse, fill_in)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Matrix_Compressed("Compressed p_sparse:", p_sparse)
 
   !------------------------!
   !                        !
