@@ -1,12 +1,12 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Preconditioned_Cg(grid, fill_in, n_iter, res)
+  subroutine Solvers_Mod_Preconditioned_Cg(grid, n_iter, res, f_in)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Grid_Type) :: grid
-  integer         :: fill_in
   integer         :: n_iter
   real            :: res
+  integer         :: f_in
 !-----------------------------------[Locals]-----------------------------------!
   integer :: n  ! number of unknowns
   integer :: i
@@ -21,7 +21,7 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  call Matrix_Mod_Create_Preconditioning_Compressed(p_sparse, a_sparse, 0)
+  call Matrix_Mod_Create_Preconditioning_Compressed(p_sparse, a_sparse, f_in)
   call In_Out_Mod_Print_Matrix_Compressed("Compressed p_sparse:", p_sparse)
 
   !------------------------!
@@ -96,7 +96,8 @@
     rho_old = rho
     call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, z)
 
-    print '(a,1es10.4)', ' # rho = ', sqrt(rho)
+    print '(a,i3,a,1es10.4)', ' #', i, '; rho = ', sqrt(rho)
+    if(sqrt(rho) < res) goto 1
 
     !---------------------------------!
     !   p = r + (rho / rho_old) * p   !
@@ -105,6 +106,7 @@
     p(1:n) = z(1:n) + beta * p(1:n)
   end do
 
+1 continue
   call Cpu_Time(time_se)
 
   call In_Out_Mod_Print_Vector("Solution x:", x)

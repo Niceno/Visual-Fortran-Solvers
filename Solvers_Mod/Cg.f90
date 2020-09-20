@@ -1,10 +1,9 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cg(grid, fill_in, n_iter, res)
+  subroutine Solvers_Mod_Cg(grid, n_iter, res)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Grid_Type) :: grid
-  integer         :: fill_in
   integer         :: n_iter
   real            :: res
 !-----------------------------------[Locals]-----------------------------------!
@@ -79,7 +78,8 @@
     rho_old = rho
     call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, r)
 
-    print '(a,1es10.4)', ' # rho = ', sqrt(rho)
+    print '(a,i3,a,1es10.4)', ' #', i, '; rho = ', sqrt(rho)
+    if(sqrt(rho) < res) goto 1
 
     !---------------------------------!
     !   p = r + (rho / rho_old) * p   !
@@ -88,6 +88,7 @@
     p(1:n) = r(1:n) + beta * p(1:n)
   end do
 
+1 continue
   call Cpu_Time(time_se)
 
   call In_Out_Mod_Print_Vector("Solution x:", x)
