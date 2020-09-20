@@ -40,7 +40,7 @@
           n = c+ni
           s = c-ni
           t = c+ni*nj
-          b = c-nj*nj
+          b = c-ni*nj
 
           ! If second pass, set row index
           if(pass == 2) then
