@@ -20,7 +20,7 @@
   real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
 
   ! Additional arrays for iterative solvers
-  real, allocatable :: p(:), ax(:), ap(:)
+  real, allocatable :: p(:), ax(:), ap(:), z(:)
 
   contains
 
@@ -40,8 +40,8 @@
   include 'Solvers_Mod/Ldlt_Factorization.f90'
   include 'Solvers_Mod/Ldlt_Solution_Compressed.f90'
   include 'Solvers_Mod/Ldlt_Solution.f90'
-  include 'Solvers_Mod/Prec_Form.f90'
-  include 'Solvers_Mod/Prec_Solve.f90'
+  include 'Solvers_Mod/Ldlt_Factorization_From_Tflows.f90'
+  include 'Solvers_Mod/Ldlt_Solution_From_Tflows.f90'
 
   ! Full solvers
   include 'Solvers_Mod/Cholesky.f90'

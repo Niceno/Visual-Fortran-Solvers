@@ -20,16 +20,18 @@
   !   Actual computation   !
   !------------------------!
 
-  ! Perform Cholesky factorization on the matrix to fin the lower one
+  ! Perform LDL^T factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Prec_Form(a_sparse % n, a_sparse, p_sparse)
+  call Solvers_Mod_Ldlt_Factorization_From_Tflows(a_sparse % n,  &
+                                                  a_sparse, p_sparse)
   call Cpu_Time(time_pe)
   call In_Out_Mod_Print_Matrix_Compressed(  &
        "p_sparse after factorization:", p_sparse)
 
   ! Compute x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Prec_Solve(a_sparse % n, -1, a_sparse, p_sparse, x, b)
+  call Solvers_Mod_Ldlt_Solution_From_Tflows(a_sparse % n, -1,  &
+                                             a_sparse, p_sparse, x, b)
   call Cpu_Time(time_se)
   call In_Out_Mod_Print_Vector("Solution x:", x)
 
