@@ -8,9 +8,14 @@
   real            :: res
 !==============================================================================!
 
+  ! Initialize the grid
+  grid % lx =  1.0
+  grid % ly =  1.0
+  grid % lz =  1.0
   grid % nx = 10
   grid % ny = 10
   grid % nz = 10
+
   fill_in   =  1
   n_iter    = 10
   res       =  1.0e-15
@@ -25,7 +30,7 @@
   write(*,*) '#  3 - LDL^T solver'
   write(*,*) '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   write(*,*) '#  4 - Incomplete Cholesky solver'
-  write(*,*) '#  5 - Incomplete LDLT solver'
+  write(*,*) '#  5 - Incomplete LDL^T solver'
   write(*,*) '#  6 - Bare-bones LDL^T solver from T-Flows'
   write(*,*) '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   write(*,*) '#  7 - Conjugate gradient solver'

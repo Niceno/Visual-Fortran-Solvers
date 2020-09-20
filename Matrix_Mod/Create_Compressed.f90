@@ -9,11 +9,16 @@
   integer :: i, j, k, ni, nj, nk, pass, non_zeros
   integer :: c, w, e, s, n, b, t
   integer :: col_a, col_b, row_a, row_b, pos_a, pos_b
+  real    :: dx, dy, dz
 !==============================================================================!
 
   ni = grid % nx
   nj = grid % ny
   nk = grid % nz
+
+  dx = grid % lx / grid % nx
+  dy = grid % ly / grid % ny
+  dz = grid % lz / grid % nz
 
   !--------------------------------------------------------------------!
   !   Make two passes; in the first one count non-zeros and allocate   !
@@ -49,7 +54,7 @@
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = b
-              mat % val(non_zeros) = -1.1
+              mat % val(non_zeros) = -(dx*dy) / dz
             end if
           end if
 
@@ -60,7 +65,7 @@
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = s
-              mat % val(non_zeros) = -2.2
+              mat % val(non_zeros) = -(dx*dz) / dy
             end if
           end if
 
@@ -71,7 +76,7 @@
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = w
-              mat % val(non_zeros) = -3.3
+              mat % val(non_zeros) = -(dy*dz) / dx
             end if
           end if
 
@@ -83,7 +88,7 @@
           non_zeros = non_zeros + 1
           if(pass == 2) then
             mat % col(non_zeros) = c
-            mat % val(non_zeros) = 19.9
+            mat % val(non_zeros) = 2.0 * ( dx*dy/dz + dx*dz/dy + dy*dz/dx )
           end if
 
           !-------!
@@ -93,7 +98,7 @@
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = e
-              mat % val(non_zeros) = -3.3
+              mat % val(non_zeros) = -(dy*dz) / dx
             end if
           end if
 
@@ -104,7 +109,7 @@
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = n
-              mat % val(non_zeros) = -2.2
+              mat % val(non_zeros) = -(dx*dz) / dy
             end if
           end if
 
@@ -115,7 +120,7 @@
             non_zeros = non_zeros + 1
             if(pass == 2) then
               mat % col(non_zeros) = t
-              mat % val(non_zeros) = -1.1
+              mat % val(non_zeros) = -(dx*dy) / dz
             end if
           end if
 
