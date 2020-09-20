@@ -31,11 +31,11 @@
 
           ! Diagonal terms in red
           if(row .eq. col) then
-            call write_formatted(item, 'red', forward='no')
+            call Foul_Mod_Write(item, 'red', forward='no')
 
           ! Off-diagonal terms
           else
-            call write_formatted(item, 'green', forward='no')
+            call Foul_Mod_Write(item, 'green', forward='no')
           end if
 
           found = .true.
@@ -44,7 +44,7 @@
 
       ! If you haven't found it, print something else
       if( .not. found ) then
-        call write_formatted('    . ', 'blue', forward='no')
+        call Foul_Mod_Write('    . ', 'blue', forward='no')
       end if
     end do
     print *, ""

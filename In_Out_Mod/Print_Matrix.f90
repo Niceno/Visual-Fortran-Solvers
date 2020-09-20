@@ -22,14 +22,14 @@
 
       ! Diagonal terms in red
       if(row .eq. col) then
-        call write_formatted(item, 'red', forward='no')
+        call Foul_Mod_Write(item, 'red', forward='no')
 
       ! Off-diagonal terms
       else
         if(abs(full(row,col)) < TINY) then
-          call write_formatted(item, 'blue', forward='no')
+          call Foul_Mod_Write(item, 'blue', forward='no')
         else
-          call write_formatted(item, 'green', forward='no')
+          call Foul_Mod_Write(item, 'green', forward='no')
         end if
       end if
 
