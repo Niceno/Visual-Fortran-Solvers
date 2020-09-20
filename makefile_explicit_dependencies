@@ -16,27 +16,50 @@ Demo_Mod/*.f90
 $(DIR_OBJECT)/In_Out_Mod.o:\
 $(DIR_OBJECT)/Matrix_Mod.o \
 Matrix_Mod/*.f90 \
-In_Out_Mod/*.f90 
+In_Out_Mod/*.f90 \
+$(DIR_OBJECT)/Foul_Mod.o \
+Foul_Mod/*.f90 
+
+#-- ./Foul_Mod.f90
+$(DIR_OBJECT)/Foul_Mod.o:\
+Foul_Mod/*.f90 
 
 #-- ./Matrix_Mod/Expand.f90
 #-- ./Matrix_Mod/Compress.f90
 #-- ./Matrix_Mod/Create_Preconditioning_Compressed.f90
 #-- ./Matrix_Mod/Create_Compressed.f90
 #-- ./Matrix_Mod/Deallocate.f90
+#-- ./Foul_Mod/Lower_Case.f90
+#-- ./Foul_Mod/Integer_To_String.f90
+#-- ./Foul_Mod/Split_String.f90
+#-- ./Foul_Mod/Get_Escape_Sequence.f90
+#-- ./Foul_Mod/Write.f90
 #-- ./Grid_Mod.f90
 #-- ./Sort_Int_Carry_Int.f90
+#-- ./Solvers_Mod/Ldlt.f90
+#-- ./Solvers_Mod/Cholesky.f90
+#-- ./Solvers_Mod/Cg.f90
+#-- ./Solvers_Mod/Prepare_System.f90
+#-- ./Solvers_Mod/Preconditioned_Cg.f90
 #-- ./Solvers_Mod/Ldlt_Solution.f90
+#-- ./Solvers_Mod/Ldlt_Factorization_From_Tflows.f90
 #-- ./Solvers_Mod/Forward_Substitution.f90
+#-- ./Solvers_Mod/Check_Solution.f90
 #-- ./Solvers_Mod/Ldlt_Solution_Compressed.f90
 #-- ./Solvers_Mod/Ldlt_Factorization_Compressed.f90
 #-- ./Solvers_Mod/Backward_Substitution_Compressed.f90
+#-- ./Solvers_Mod/Incomplete_Cholesky.f90
 #-- ./Solvers_Mod/Cholesky_Factorization.f90
-#-- ./Solvers_Mod/Gaussian_Elimination.f90
+#-- ./Solvers_Mod/Allocate_Vectors.f90
+#-- ./Solvers_Mod/Gauss.f90
 #-- ./Solvers_Mod/Forward_Substitution_Compressed.f90
+#-- ./Solvers_Mod/Incomplete_Ldlt.f90
 #-- ./Solvers_Mod/Backward_Substitution.f90
+#-- ./Solvers_Mod/Ldlt_Solution_From_Tflows.f90
+#-- ./Solvers_Mod/Deallocate.f90
+#-- ./Solvers_Mod/Gauss_Elimination.f90
+#-- ./Solvers_Mod/Incomplete_Ldlt_From_Tflows.f90
 #-- ./Solvers_Mod/Ldlt_Factorization.f90
-#-- ./Solvers_Mod/Prec_Solve.f90
-#-- ./Solvers_Mod/Prec_Form.f90
 #-- ./Solvers_Mod/Cholesky_Factorization_Compressed.f90
 #-- ./Main.f90
 $(DIR_OBJECT)/Main.o:\
@@ -53,14 +76,8 @@ Demo_Mod/*.f90
 #-- ./Lin_Alg_Mod/Matrix_Vector_Multiply.f90
 #-- ./Lin_Alg_Mod/Matrix_Vector_Multiply_Compressed.f90
 #-- ./Demo_Mod/Fill_In.f90
-#-- ./Demo_Mod/Ldlt_Solver_From_Tflows.f90
 #-- ./Demo_Mod/Compress_Decompress.f90
-#-- ./Demo_Mod/Incomplete_Cholesky_Solver.f90
-#-- ./Demo_Mod/Cholesky_Solver.f90
-#-- ./Demo_Mod/Gauss_Solver.f90
 #-- ./Demo_Mod/Main.f90
-#-- ./Demo_Mod/Incomplete_Ldlt_Solver.f90
-#-- ./Demo_Mod/Ldlt_Solver.f90
 #-- ./Lin_Alg_Mod.f90
 $(DIR_OBJECT)/Lin_Alg_Mod.o:\
 $(DIR_OBJECT)/Matrix_Mod.o \
@@ -71,8 +88,10 @@ Lin_Alg_Mod/*.f90
 $(DIR_OBJECT)/Solvers_Mod.o:\
 Solvers_Mod/readme \
 Solvers_Mod/*.f90 \
-$(DIR_OBJECT)/Matrix_Mod.o \
-Matrix_Mod/*.f90 
+$(DIR_OBJECT)/Lin_Alg_Mod.o \
+Lin_Alg_Mod/*.f90 \
+$(DIR_OBJECT)/In_Out_Mod.o \
+In_Out_Mod/*.f90 
 
 #-- ./Matrix_Mod.f90
 $(DIR_OBJECT)/Matrix_Mod.o:\
