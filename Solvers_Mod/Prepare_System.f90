@@ -17,4 +17,7 @@
   b  (:) = 0.1
   b_o(:) = b(:)  ! original value
 
+  ! Set initial guess to zero, since it can influence iteratie solvers
+  x(:) = 0.0
+
   end subroutine
