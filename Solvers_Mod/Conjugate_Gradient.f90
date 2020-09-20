@@ -79,7 +79,7 @@
     !----------------------!
     call Lin_Alg_Mod_Vector_Vector_Dot_Product(res_new, r, r)
 
-    print *, '# res_new = ', sqrt(res_new)
+    print '(a,1es10.4)', ' # res_new = ', sqrt(res_new)
 
     !-------------------------------------!
     !   p = r + (res_new / res_old) * p   !
