@@ -10,7 +10,7 @@
 !-----------------------------------[Locals]-----------------------------------!
   integer      :: row, col, pos  ! row used to be "i", col used to be "j"
   logical      :: found
-  character(6) :: item
+  character(2) :: item
 !==============================================================================!
 
   if(sparse % n > 64) return
@@ -25,17 +25,17 @@
       ! sparse and print if you have found it
       do pos = sparse % row(row), sparse % row(row + 1) - 1
 
-        write(item(1:6), '(f6.1)') sparse % val(pos)
+        write(item(1:2), '(a2)') '  '
 
         if( sparse % col(pos) == col ) then
 
           ! Diagonal terms in red
           if(row .eq. col) then
-            call Foul_Mod_Write(item, 'red', forward='no')
+            call Foul_Mod_Write(item, 'red background_red', forward='no')
 
           ! Off-diagonal terms
           else
-            call Foul_Mod_Write(item, 'green', forward='no')
+            call Foul_Mod_Write(item, 'green background_green', forward='no')
           end if
 
           found = .true.
@@ -44,10 +44,10 @@
 
       ! If you haven't found it, print something else
       if( .not. found ) then
-        call Foul_Mod_Write('    . ', 'blue', forward='no')
+        call Foul_Mod_Write(item, 'black', forward='no')
       end if
     end do
-    print *, ""
+    print *, ''
   end do
 
   end subroutine
