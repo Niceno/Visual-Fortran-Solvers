@@ -34,13 +34,13 @@
   call Solvers_Mod_Gauss_Elimination(p_matrix, b, a_matrix)
   call Cpu_Time(time_pe)
   call In_Out_Mod_Print_Matrix("p_matrix after elimination:", p_matrix)
-  call In_Out_Mod_Print_Vector("vector b after elimination:", b)
+  !@ call In_Out_Mod_Print_Vector("vector b after elimination:", b)
 
   ! Perform backward substitution
   call Cpu_Time(time_ss)
   call Solvers_Mod_Backward_Substitution(x, p_matrix, b)
   call Cpu_Time(time_se)
-  call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
+  !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
   print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss

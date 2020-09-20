@@ -16,6 +16,8 @@
   real, allocatable :: work(:)
 !==============================================================================!
 
+  print *, '# Factorizing compressed matrix with Cholesky method'
+
   n = a % n  ! some checks would be possible
   allocate( work(n) ); work = 0.0
 

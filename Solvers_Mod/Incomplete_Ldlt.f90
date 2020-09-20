@@ -36,7 +36,7 @@
   call Cpu_Time(time_ss)
   call Solvers_Mod_Ldlt_Solution_Compressed(x, p_sparse, b)
   call Cpu_Time(time_se)
-  call In_Out_Mod_Print_Vector("Solution x:", x)
+  !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
   print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss

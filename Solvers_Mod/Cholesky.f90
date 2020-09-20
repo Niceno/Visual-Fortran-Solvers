@@ -39,11 +39,11 @@
   ! Compute y by forward substitution
   call Cpu_Time(time_ss)
   call Solvers_Mod_Forward_Substitution(y, p_matrix, b)
-  call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
+  !@ call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
 
   ! Compute x by backward substitution
   call Solvers_Mod_Backward_Substitution(x, p_matrix, y)
-  call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
+  !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
   call Cpu_Time(time_se)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps

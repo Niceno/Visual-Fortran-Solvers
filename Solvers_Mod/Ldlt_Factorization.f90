@@ -15,6 +15,8 @@
   real    :: sum1, sum2
 !==============================================================================!
 
+  print *, '# Factorizing full matrix with LDL^T method'
+
   n = size(a,1)  ! some checks would be possible
 
   do k = 1, n
