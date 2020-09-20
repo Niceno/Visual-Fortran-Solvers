@@ -133,7 +133,7 @@
     end if
 
     if(pass == 1) then
-      write(*,*) 'Number of nonzeros: ', non_zeros
+      print *, '# Number of nonzeros: ', non_zeros
       mat % n        = ni*nj*nk
       mat % nonzeros = non_zeros
       allocate (mat % row(ni*nj*nk+1)); mat % row = 0

@@ -13,7 +13,7 @@
   integer, allocatable :: rows_new(:), cols_new(:)
 !==============================================================================!
 
-  write(*,*) 'Nonzeros in original matrix: ', a_matrix % nonzeros
+  print *, 'Nonzeros in original matrix: ', a_matrix % nonzeros
 
   allocate(rows_new(a_matrix % nonzeros * (f_in+1)))
   allocate(cols_new(a_matrix % nonzeros * (f_in+1)))
@@ -47,7 +47,7 @@
     end do
   end do
 
-  write(*,*) 'Tentative number of nonzeros in the expanded matrix: ', non_zeros_tent
+  print *, 'Tentative number of nonzeros in the expanded matrix: ', non_zeros_tent
 
   !--------------------------------!
   !   Take duplicate entries out   !
@@ -81,7 +81,7 @@
   end do
 ! non_zeros = non_zeros - 1
 
-  write(*,*) 'Final number of nonzeros in the expanded matrix: ', non_zeros
+  print *, '# Final number of nonzeros in the expanded matrix: ', non_zeros
 
   !---------------------------------------------!
   !   Allocate the memory for expanded matrix   !
