@@ -88,7 +88,7 @@
           non_zeros = non_zeros + 1
           if(pass == 2) then
             mat % col(non_zeros) = c
-            mat % val(non_zeros) = 2.0 * ( dx*dy/dz + dx*dz/dy + dy*dz/dx )
+            mat % val(non_zeros) = 4.0 * ( dx*dy/dz + dx*dz/dy + dy*dz/dx )
           end if
 
           !-------!

@@ -55,6 +55,7 @@
 
   ! Iterative solvers
   include 'Solvers_Mod/Cg.f90'
+  include 'Solvers_Mod/Preconditioned_Cg.f90'
 
   ! Other functionality
   include 'Solvers_Mod/Check_Solution.f90'
