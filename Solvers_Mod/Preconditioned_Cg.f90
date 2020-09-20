@@ -10,7 +10,7 @@
 !-----------------------------------[Locals]-----------------------------------!
   integer :: n  ! number of unknowns
   integer :: i
-  real    :: alpha, res_old, res_new, rr, pap
+  real    :: alpha, beta, rho_old, rho, pap
   real    :: time_ps, time_pe, time_ss, time_se
 !==============================================================================!
 
@@ -21,8 +21,8 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  call Cpu_Time(time_ps)
-  call Cpu_Time(time_pe)
+  call Matrix_Mod_Create_Preconditioning_Compressed(p_sparse, a_sparse, 0)
+  call In_Out_Mod_Print_Matrix_Compressed("Compressed p_sparse:", p_sparse)
 
   !------------------------!
   !                        !
@@ -31,21 +31,32 @@
   !------------------------!
   n = a_sparse % n
 
+  ! Perform Cholesky factorization on the matrix to find the lower one
+  call Cpu_Time(time_ps)
+  call Solvers_Mod_Ldlt_Factorization_Compressed(p_sparse, a_sparse)
+  call Cpu_Time(time_pe)
+
   !----------------!
   !   r = b - Ax   !
   !----------------!
   call Lin_Alg_Mod_Matrix_Vector_Multiply_Compressed(ax, a_sparse, x)
   r(1:n) = b(1:n) - ax(1:n)
 
-  !--------------------------------!
-  !   Calculate initial residual   !
-  !--------------------------------!
-  call Lin_Alg_Mod_Vector_Vector_Dot_Product(res_old, r, r)
+  !---------------------!
+  !   solve M * z = r   !
+  !---------------------!
+  ! z(1:n) = r(1:n)
+  call Solvers_Mod_Ldlt_Solution_Compressed(z, p_sparse, r)
+
+  !------------------!
+  !   rho = r' * z   !
+  !------------------!
+  call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, z)
 
   !-----------!
-  !   p = r   !
+  !   p = z   !
   !-----------!
-  p(1:n) = r(1:n)
+  p(1:n) = z(1:n)
 
   !-------------------------------!
   !                               !
@@ -60,11 +71,11 @@
     !------------!
     call Lin_Alg_Mod_Matrix_Vector_Multiply_Compressed(ap, a_sparse, p)
 
-    !---------------------------!
-    !   alpha = res_old / pAp   !
-    !---------------------------!
+    !-----------------------!
+    !   alpha = rho / pAp   !
+    !-----------------------!
     call Lin_Alg_Mod_Vector_Vector_Dot_Product(pap, p, ap)
-    alpha = res_old / pap
+    alpha = rho / pap
 
     !---------------------!
     !   x = x + alfa p    !
@@ -73,21 +84,27 @@
     x(1:n) = x(1:n) + alpha * p(1:n)
     r(1:n) = r(1:n) - alpha * ap(1:n)
 
-    !----------------------!
-    !   res_new = r' * r   !
-    !----------------------!
-    call Lin_Alg_Mod_Vector_Vector_Dot_Product(res_new, r, r)
+    !---------------------!
+    !   solve M * z = r   !
+    !---------------------!
+    ! z(1:n) = r(1:n)
+    call Solvers_Mod_Ldlt_Solution_Compressed(z, p_sparse, r)
 
-    print '(a,1es10.4)', ' # res_new = ', sqrt(res_new)
+    !------------------!
+    !   rho = r' * z   !
+    !------------------!
+    rho_old = rho
+    call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, z)
 
-    !-------------------------------------!
-    !   p = r + (res_new / res_old) * p   !
-    !-------------------------------------!
-    rr = res_new / max(res_old, 1.0e-12)
-    p(1:n) = r(1:n) + rr * p(1:n)
+    print '(a,1es10.4)', ' # rho = ', sqrt(rho)
 
-    res_old = res_new
+    !---------------------------------!
+    !   p = r + (rho / rho_old) * p   !
+    !---------------------------------!
+    beta = rho / max(rho_old, 1.0e-12)
+    p(1:n) = z(1:n) + beta * p(1:n)
   end do
+
   call Cpu_Time(time_se)
 
   call In_Out_Mod_Print_Vector("Solution x:", x)

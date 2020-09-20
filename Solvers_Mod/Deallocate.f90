@@ -11,6 +11,7 @@
   deallocate(b)
 
   deallocate(p)
+  deallocate(z)
   deallocate(ax)
   deallocate(ap)
 

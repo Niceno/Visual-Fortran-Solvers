@@ -13,6 +13,7 @@
   allocate (r  (n))
 
   allocate (p  (n))
+  allocate (z  (n))
   allocate (ax (n))
   allocate (ap (n))
 

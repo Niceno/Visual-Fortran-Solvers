@@ -10,7 +10,7 @@
 !-----------------------------------[Locals]-----------------------------------!
   integer :: n  ! number of unknowns
   integer :: i
-  real    :: alpha, res_old, res_new, rr, pap
+  real    :: alpha, beta, rho_old, rho, pap
   real    :: time_ps, time_pe, time_ss, time_se
 !==============================================================================!
 
@@ -37,10 +37,10 @@
   call Lin_Alg_Mod_Matrix_Vector_Multiply_Compressed(ax, a_sparse, x)
   r(1:n) = b(1:n) - ax(1:n)
 
-  !--------------------------------!
-  !   Calculate initial residual   !
-  !--------------------------------!
-  call Lin_Alg_Mod_Vector_Vector_Dot_Product(res_old, r, r)
+  !------------------!
+  !   rho = r' * r   !
+  !------------------!
+  call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, r)
 
   !-----------!
   !   p = r   !
@@ -60,11 +60,11 @@
     !------------!
     call Lin_Alg_Mod_Matrix_Vector_Multiply_Compressed(ap, a_sparse, p)
 
-    !---------------------------!
-    !   alpha = res_old / pAp   !
-    !---------------------------!
+    !-----------------------!
+    !   alpha = rho / pAp   !
+    !-----------------------!
     call Lin_Alg_Mod_Vector_Vector_Dot_Product(pap, p, ap)
-    alpha = res_old / pap
+    alpha = rho / pap
 
     !---------------------!
     !   x = x + alfa p    !
@@ -73,21 +73,21 @@
     x(1:n) = x(1:n) + alpha * p(1:n)
     r(1:n) = r(1:n) - alpha * ap(1:n)
 
-    !----------------------!
-    !   res_new = r' * r   !
-    !----------------------!
-    call Lin_Alg_Mod_Vector_Vector_Dot_Product(res_new, r, r)
+    !------------------!
+    !   rho = r' * r   !
+    !------------------!
+    rho_old = rho
+    call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, r)
 
-    print '(a,1es10.4)', ' # res_new = ', sqrt(res_new)
+    print '(a,1es10.4)', ' # rho = ', sqrt(rho)
 
-    !-------------------------------------!
-    !   p = r + (res_new / res_old) * p   !
-    !-------------------------------------!
-    rr = res_new / max(res_old, 1.0e-12)
-    p(1:n) = r(1:n) + rr * p(1:n)
-
-    res_old = res_new
+    !---------------------------------!
+    !   p = r + (rho / rho_old) * p   !
+    !---------------------------------!
+    beta = rho / max(rho_old, 1.0e-12)
+    p(1:n) = r(1:n) + beta * p(1:n)
   end do
+
   call Cpu_Time(time_se)
 
   call In_Out_Mod_Print_Vector("Solution x:", x)
