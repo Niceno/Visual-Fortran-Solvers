@@ -8,13 +8,14 @@
   character(len=*)  :: message
   type(Matrix_Type) :: sparse
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: row, col, pos  ! row used to be "i", col used to be "j"
-  logical :: found
+  integer      :: row, col, pos  ! row used to be "i", col used to be "j"
+  logical      :: found
+  character(6) :: item
 !==============================================================================!
 
   if(sparse % n > 64) return
 
-  write(*,*) message
+  print *, message
 
   do row = 1, sparse % n
     do col = 1, sparse % n
@@ -23,18 +24,30 @@
       ! Look for position row, col in the compressed
       ! sparse and print if you have found it
       do pos = sparse % row(row), sparse % row(row + 1) - 1
+
+        write(item(1:6), '(f6.1)') sparse % val(pos)
+
         if( sparse % col(pos) == col ) then
-          write(*,"(f6.1)",advance="no") sparse % val(pos)
+
+          ! Diagonal terms in red
+          if(row .eq. col) then
+            call write_formatted(item, 'red', forward='no')
+
+          ! Off-diagonal terms
+          else
+            call write_formatted(item, 'green', forward='no')
+          end if
+
           found = .true.
         end if
       end do
 
       ! If you haven't found it, print something else
       if( .not. found ) then
-        write(*,"(a6)",advance="no") "   .   "
+        call write_formatted('    . ', 'blue', forward='no')
       end if
     end do
-    write(*,*) ""
+    print *, ""
   end do
 
   end subroutine

@@ -8,18 +8,33 @@
   character(len=*)     :: message
   real, dimension(:,:) :: full
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: row, col  ! row used to be "i", col used to be "j"
+  integer      :: row, col  ! row used to be "i", col used to be "j"
+  character(6) :: item
 !==============================================================================!
 
   if(size(full,1) > 64) return
 
-  write(*,*) message
+  print *, message
 
   do row = 1, size(full, 1)
     do col = 1, size(full, 2)
-      write(*,"(f6.1)",advance="no") full(row,col)
+      write(item(1:6), '(f6.1)') full(row,col)
+
+      ! Diagonal terms in red
+      if(row .eq. col) then
+        call write_formatted(item, 'red', forward='no')
+
+      ! Off-diagonal terms
+      else
+        if(abs(full(row,col)) < TINY) then
+          call write_formatted(item, 'blue', forward='no')
+        else
+          call write_formatted(item, 'green', forward='no')
+        end if
+      end if
+
     end do
-    write(*,*) ""
+    print *, ""
   end do
 
   end subroutine

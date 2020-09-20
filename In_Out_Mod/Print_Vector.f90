@@ -8,15 +8,17 @@
   character(len=*)   :: message
   real, dimension(:) :: vector
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: row
+  integer      :: row
+  character(6) :: item
 !==============================================================================!
 
   if(size(vector) > 64) return
 
-  write(*,*) message
+  print *, message
 
   do row = 1, size(vector)
-    write(*,"(f6.1)") vector(row)
+    write(item(1:6), '(f6.1)') vector(row)
+    call write_formatted(item, 'green', forward='yes')
   end do
 
   end subroutine
