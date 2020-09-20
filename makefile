@@ -1,6 +1,6 @@
 #===============================================================================
 #
-#   Divide Makefile
+#   SFS Makefile
 #
 #-------------------------------------------------------------------------------
 
@@ -45,7 +45,8 @@ $(info #-----------------------------------------------------------------------)
 ifeq ($(FORTRAN), gnu)
   FC = gfortran
   ifeq ($(DEBUG),yes)
-    OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O0 -g
+    OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O0 -g  \
+                                -Wunused-parameter -Warray-temporaries -Wall
   else
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O3
   endif 
