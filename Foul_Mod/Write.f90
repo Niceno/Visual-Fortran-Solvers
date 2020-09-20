@@ -49,9 +49,9 @@
 
   if (present(text_1) .and. present(style_1)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_1, escape_sequence)
+      call Get_Escape_Sequence(style_1, escape_sequence)
 
-            ! Append escape sequence to output as single character strings
+      ! Append escape sequence to output as single character strings
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
         output_strings(output_string_count) = escape_sequence(i : i)
@@ -71,7 +71,7 @@
 
   if (present(text_2) .and. present(style_2)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_2, escape_sequence)
+      call Get_Escape_Sequence(style_2, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -90,7 +90,7 @@
 
   if (present(text_3) .and. present(style_3)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_3, escape_sequence)
+      call Get_Escape_Sequence(style_3, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -109,7 +109,7 @@
 
   if (present(text_4) .and. present(style_4)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_4, escape_sequence)
+      call Get_Escape_Sequence(style_4, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -128,7 +128,7 @@
 
   if (present(text_5) .and. present(style_5)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_5, escape_sequence)
+      call Get_Escape_Sequence(style_5, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -147,7 +147,7 @@
 
   if (present(text_6) .and. present(style_6)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_6, escape_sequence)
+      call Get_Escape_Sequence(style_6, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -166,7 +166,7 @@
 
   if (present(text_7) .and. present(style_7)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_7, escape_sequence)
+      call Get_Escape_Sequence(style_7, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -185,7 +185,7 @@
 
   if (present(text_8) .and. present(style_8)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_8, escape_sequence)
+      call Get_Escape_Sequence(style_8, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -204,7 +204,7 @@
 
   if (present(text_9) .and. present(style_9)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_9, escape_sequence)
+      call Get_Escape_Sequence(style_9, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -223,7 +223,7 @@
 
   if (present(text_10) .and. present(style_10)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_10, escape_sequence)
+      call Get_Escape_Sequence(style_10, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -242,7 +242,7 @@
 
   if (present(text_11) .and. present(style_11)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_11, escape_sequence)
+      call Get_Escape_Sequence(style_11, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -261,7 +261,7 @@
 
   if (present(text_12) .and. present(style_12)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_12, escape_sequence)
+      call Get_Escape_Sequence(style_12, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -280,7 +280,7 @@
 
   if (present(text_13) .and. present(style_13)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_13, escape_sequence)
+      call Get_Escape_Sequence(style_13, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -299,7 +299,7 @@
 
   if (present(text_14) .and. present(style_14)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_14, escape_sequence)
+      call Get_Escape_Sequence(style_14, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -318,7 +318,7 @@
 
   if (present(text_15) .and. present(style_15)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_15, escape_sequence)
+      call Get_Escape_Sequence(style_15, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -337,7 +337,7 @@
 
   if (present(text_16) .and. present(style_16)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_16, escape_sequence)
+      call Get_Escape_Sequence(style_16, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -356,7 +356,7 @@
 
   if (present(text_17) .and. present(style_17)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_17, escape_sequence)
+      call Get_Escape_Sequence(style_17, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -375,7 +375,7 @@
 
   if (present(text_18) .and. present(style_18)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_18, escape_sequence)
+      call Get_Escape_Sequence(style_18, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -394,7 +394,7 @@
 
   if (present(text_19) .and. present(style_19)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_19, escape_sequence)
+      call Get_Escape_Sequence(style_19, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -413,7 +413,7 @@
 
   if (present(text_20) .and. present(style_20)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_20, escape_sequence)
+      call Get_Escape_Sequence(style_20, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -432,7 +432,7 @@
 
   if (present(text_21) .and. present(style_21)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_21, escape_sequence)
+      call Get_Escape_Sequence(style_21, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -451,7 +451,7 @@
 
   if (present(text_22) .and. present(style_22)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_22, escape_sequence)
+      call Get_Escape_Sequence(style_22, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -470,7 +470,7 @@
 
   if (present(text_23) .and. present(style_23)) then
     if (use_escape_codes) then
-            call Get_Escape_Sequence(style_23, escape_sequence)
+      call Get_Escape_Sequence(style_23, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
