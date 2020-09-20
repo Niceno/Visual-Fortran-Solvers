@@ -16,8 +16,11 @@
   ! Working (full) matrices
   real, allocatable :: a_matrix(:,:), p_matrix(:,:)
 
-  ! Working arrays
+  ! Working arrays for direct solvers
   real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
+
+  ! Additional arrays for iterative solvers
+  real, allocatable :: p(:), ax(:), ap(:)
 
   contains
 
@@ -49,6 +52,9 @@
   include 'Solvers_Mod/Incomplete_Cholesky.f90'
   include 'Solvers_Mod/Incomplete_Ldlt.f90'
   include 'Solvers_Mod/Incomplete_Ldlt_From_Tflows.f90'
+
+  ! Iterative solvers
+  include 'Solvers_Mod/Conjugate_Gradient.f90'
 
   ! Other functionality
   include 'Solvers_Mod/Check_Solution.f90'
