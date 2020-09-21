@@ -8,7 +8,7 @@
   type(Matrix_Type) :: a_matrix  ! original matrix
   integer           :: f_in
 !-----------------------------------[Locals]-----------------------------------!
-  integer      :: non_zeros, non_zeros_tent, entry, f, l_new, l_old
+  integer      :: non_zeros, non_zeros_tent, entry, f
   integer      :: row, col, pos, row_a, row_b, col_a, col_b, siz, pos_a, pos_b
   integer, allocatable :: rows_new(:), cols_new(:)
 !==============================================================================!
@@ -54,20 +54,8 @@
   !--------------------------------!
 
   ! Sort rows
-  call Sort_Int_Carry_Int(rows_new, cols_new, non_zeros_tent, 2)
-
-  ! Sort columns in each row
-  l_old = 1
-  do entry = 2, non_zeros_tent
-    if( rows_new(entry) .ne. rows_new(entry-1) ) then
-      l_new = entry
-      if(l_new - l_old > 0) then
-        call Sort_Int_Carry_Int(cols_new(l_old), cols_new(l_old), l_new-l_old, 1)
-      end if
-      l_old = l_new
-    end if
-  end do
-  call Sort_Int_Carry_Int(cols_new(l_old), cols_new(l_old), non_zeros_tent-l_old+1, 1)
+  call Sort_Mod_2_Int(rows_new(1:non_zeros_tent),  &
+                      cols_new(1:non_zeros_tent))
 
   ! Compress them taking the duplicates out
   non_zeros = 1
@@ -111,15 +99,6 @@
     end if
   end do
   c_matrix % row(c_matrix % n + 1) = non_zeros + 1  ! wrap it up
-
-  !-------------------------------!
-  !   Sort columns in every row   !
-  !-------------------------------!
-  do row = 1, c_matrix % n
-    pos = c_matrix % row( row )
-    siz = c_matrix % row( row+1 ) - pos
-    call Sort_Int_Carry_Int(c_matrix % col(pos), c_matrix % col(pos), siz, 1)
-  end do
 
   !---------------------------------!
   !   Find positions of diagonals   !

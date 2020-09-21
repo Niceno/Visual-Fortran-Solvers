@@ -1,9 +1,9 @@
 grid_lx   1.0
 grid_ly   1.0
 grid_lz   1.0
-grid_nx  20
-grid_ny  20
-grid_nz  20
+grid_nx   3
+grid_ny   2
+grid_nz   3
 
 f_in     1
 n_iter  10
