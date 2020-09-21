@@ -27,7 +27,7 @@ $(info #=======================================================================)
 $(info # Compiling $(PROGRAM_NAME) with compiler $(FORTRAN))
 $(info #-----------------------------------------------------------------------)
 $(info # Usage:                                                                )
-$(info #   make <FORTRAN=gnu/intel/portland> <DEBUG=yes/no>                    )
+$(info #   make <FORTRAN=gnu/intel/portland> <DEBUG=yes/no> <GPU=yes/no>       )
 $(info #                                                                       )
 $(info # Examples:                                                             )
 $(info #   make                 - compile with gnu compiler                    )
@@ -72,6 +72,9 @@ ifeq ($(FORTRAN), portland)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g
   else
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3
+  endif
+  ifeq ($(GPU),yes)
+    OPT_COMP += -acc -Minfo=accel
   endif
   OPT_LINK = $(OPT_COMP)
 endif 
