@@ -12,9 +12,7 @@
   !   Praparations   !
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
-
   call Matrix_Mod_Create_Preconditioning_Compressed(p_sparse, a_sparse, 0)
-  call In_Out_Mod_Print_Matrix_Compressed("Compressed p_sparse:", p_sparse)
 
   !------------------------!
   !   Actual computation   !
@@ -24,6 +22,8 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Ldlt_Factorization_From_Tflows(a_sparse, p_sparse)
   call Cpu_Time(time_pe)
+  call In_Out_Mod_Print_Matrix_Compressed(  &
+       "p_sparse after factorization:", p_sparse)
 
   ! Compute x
   call Cpu_Time(time_ss)
