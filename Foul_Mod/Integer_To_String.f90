@@ -13,8 +13,13 @@
 !   Return value: String resulting from conversion
 !------------------------------------------------------------------------------!
   implicit none
-!------------------------------------------------------------------------------!
+!---------------------------------[Arguments]----------------------------------!
   integer, intent(in) :: integer_value, string_length
+!-----------------------------------[Locals]-----------------------------------!
+  character(max(1 + floor(log10(real(abs(integer_value))))    &
+                  + int((sign(1, -integer_value) + 1) / 2),   &
+                    string_length, 1)) :: Integer_To_String
+  character(16) :: string_buffer
 !------------------------------------------------------------------------------!
 !   1 + floor(log10(real(abs(integer_value)))) =
 !   number of digits needed to represent integer_value
@@ -23,11 +28,6 @@
 !   0, if integer_value is positive
 !   1, if integer_value is negative
 !   (used to make room for sign)
-!------------------------------------------------------------------------------!
-  character(max(1 + floor(log10(real(abs(integer_value))))    &
-                  + int((sign(1, -integer_value) + 1) / 2),   &
-                    string_length, 1)) :: Integer_To_String
-  character(16) :: string_buffer
 !==============================================================================!
 
   write(string_buffer, '(I16)') integer_value

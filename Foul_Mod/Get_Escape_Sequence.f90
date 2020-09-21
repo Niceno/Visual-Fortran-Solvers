@@ -12,10 +12,10 @@
 !   escape_sequence: ANSI escape sequence generated from the specified styles
 !------------------------------------------------------------------------------!
   implicit none
-!------------------------------------------------------------------------------!
+!---------------------------------[Arguments]----------------------------------!
   character(*),  intent(in)  :: style_string
   character(16), intent(out) :: escape_sequence
-!------------------------------------------------------------------------------!
+!-----------------------------------[Locals]-----------------------------------!
   integer       :: i
   character(32) :: style_substrings(16)
   integer       :: style_substring_count
