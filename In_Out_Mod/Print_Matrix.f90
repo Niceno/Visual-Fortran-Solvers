@@ -26,20 +26,23 @@
     do col = 1, size(full, 2)
       write(item(1:2), '(a2)') '  '
 
-      if( abs(full(row, col)) > 0.5 * max_val) then
+      if(      abs(full(row, col)) > SCALE(1) * max_val) then
         call Foul_Mod_Write(item, 'red background_red', forward='no')
-      else if( abs(full(row, col)) > 0.01 * max_val) then
+      else if( abs(full(row, col)) > SCALE(2) * max_val) then
         call Foul_Mod_Write(item, 'yellow background_yellow', forward='no')
-      else if( abs(full(row, col)) > 0.001 * max_val) then
+      else if( abs(full(row, col)) > SCALE(3) * max_val) then
         call Foul_Mod_Write(item, 'green background_green', forward='no')
-      else if( abs(full(row, col)) > TINY * max_val) then
+      else if( abs(full(row, col)) > SCALE(4) * max_val) then
         call Foul_Mod_Write(item, 'blue background_blue', forward='no')
       else
         call Foul_Mod_Write(item, 'magenta background_magenta', forward='no')
       end if
 
     end do
-    print *, ""
+
+    ! Print legend too
+    call In_Out_Mod_Legend(row, max_val)
+
   end do
 
   end subroutine

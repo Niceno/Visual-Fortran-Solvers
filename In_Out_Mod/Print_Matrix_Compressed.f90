@@ -34,13 +34,13 @@
 
         if( sparse % col(pos) == col ) then
 
-          if( abs(sparse % val(pos)) > 0.5 * max_val) then
+          if(      abs(sparse % val(pos)) > SCALE(1) * max_val) then
             call Foul_Mod_Write(item, 'red background_red', forward='no')
-          else if( abs(sparse % val(pos)) > 0.01 * max_val) then
+          else if( abs(sparse % val(pos)) > SCALE(2) * max_val) then
             call Foul_Mod_Write(item, 'yellow background_yellow', forward='no')
-          else if( abs(sparse % val(pos)) > 0.001 * max_val) then
+          else if( abs(sparse % val(pos)) > SCALE(3) * max_val) then
             call Foul_Mod_Write(item, 'green background_green', forward='no')
-          else if( abs(sparse % val(pos)) > TINY * max_val) then
+          else if( abs(sparse % val(pos)) > SCALE(4) * max_val) then
             call Foul_Mod_Write(item, 'blue background_blue', forward='no')
           else
             call Foul_Mod_Write(item, 'magenta background_magenta', forward='no')
@@ -55,7 +55,10 @@
         call Foul_Mod_Write(item, 'black', forward='no')
       end if
     end do
-    print *, ''
+
+    ! Print legend too
+    call In_Out_Mod_Legend(row, max_val)
+
   end do
 
   end subroutine
