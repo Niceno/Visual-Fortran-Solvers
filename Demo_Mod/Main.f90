@@ -5,11 +5,15 @@
 !-----------------------------------[Locals]-----------------------------------!
   type(Grid_Type) :: grid
   character(80)   :: dummy
-  integer         :: choice, f_in, n_iter
-  integer         :: file_unit
+  character(32)   :: arg = ''              ! command line argument
+  integer         :: choice, f_in, n_iter, file_unit, test
   real            :: res
   logical         :: file_exists
 !==============================================================================!
+
+  !-------------------------------------!
+  !   Read init.dat file if it exists   !
+  !-------------------------------------!
 
   ! First check if the init file exists
   inquire(file  = 'init.dat',  &
@@ -50,6 +54,13 @@
     read(file_unit, *) dummy, res
   end if
 
+  !------------------------------------------------------!
+  !   Check if command line argument has been supplied   !
+  !------------------------------------------------------!
+  call get_command_argument(1, arg)
+  test = -1
+  if(arg .ne. '') read(arg,*) test
+
   ! Open the main menu
 1 print *, '#=========================================================='
   print *, '# Select a case to demonstrate'
@@ -79,7 +90,12 @@
   write(*,'(a46,1es13.4)') '# 14 - Change target residual, currently at: ',  &
                        res
   print *, '#----------------------------------------------------------'
-  read *, choice
+
+  if(test .eq. -1) then
+    read *, choice
+  else
+    choice = test
+  end if
 
   if(choice ==  0) return
 
@@ -114,6 +130,6 @@
     read *, res
   end if
 
-  goto 1
+  if(test .eq. -1) goto 1
 
   end subroutine
