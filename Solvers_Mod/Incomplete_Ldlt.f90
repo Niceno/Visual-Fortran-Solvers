@@ -29,8 +29,6 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Ldlt_Factorization_Compressed(p_sparse, a_sparse)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Matrix_Compressed(  &
-       "p_sparse after factorization:", p_sparse)
 
   ! Compute x
   call Cpu_Time(time_ss)

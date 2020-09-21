@@ -29,18 +29,15 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Cholesky_Factorization_Compressed(p_sparse, a_sparse)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Matrix_Compressed(  &
-       "p_sparse after factorization:", p_sparse)
 
   ! Compute y by forward substitution
   call Cpu_Time(time_ss)
   call Solvers_Mod_Forward_Substitution_Compressed(y, p_sparse, b)
-  !@ call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
 
   ! Compute x by backward substitution
   call Solvers_Mod_Backward_Substitution_Compressed(x, p_sparse, y)
   call Cpu_Time(time_se)
-  !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
+  !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
   print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss

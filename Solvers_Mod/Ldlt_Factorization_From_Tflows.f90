@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Ldlt_Factorization_From_Tflows(n, a, d)
+  subroutine Solvers_Mod_Ldlt_Factorization_From_Tflows(a, d)
 !------------------------------------------------------------------------------!
 !   Forms preconditioning matrix "d" from provided matrix "a".                 !
 !                                                                              !
@@ -8,13 +8,14 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  integer           :: n
   type(Matrix_Type) :: a
   type(Matrix_Type) :: d
 !-----------------------------------[Locals]-----------------------------------!
   real     :: sum1
-  integer  :: i, j, k
+  integer  :: n, i, j, k
 !==============================================================================!
+
+  n = a % n
 
   do i = 1,n
     sum1 = a % val(a % dia(i))       ! take diaginal entry
