@@ -120,14 +120,6 @@ OBJ_MOD = $(SRC_MOD:%.f90=$(DIR_OBJECT)/%.o)
 OBJ_FUN = $(SRC_FUN:%.f90=$(DIR_OBJECT)/%.o)
 OBJ = $(OBJ_MOD) $(OBJ_FUN)
 
-#-------------------------------------------------------
-#   List of modules currently used for target "clean" 
-#-------------------------------------------------------
-#   Note: This doesn't need editing.
-#-------------------------------------------------------
-SRC_MOD_LOW = $(shell echo $(SRC_MOD) | tr A-Z a-z)
-MOD = $(SRC_MOD_LOW:%.f90=$(DIR_MODULE)/%.mod)
-
 #---------------------------------------------------------
 #   Default rule to build Fortran modules and functions
 #---------------------------------------------------------
