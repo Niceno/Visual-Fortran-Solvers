@@ -27,7 +27,8 @@ $(info #=======================================================================)
 $(info # Compiling $(PROGRAM_NAME) with compiler $(FORTRAN))
 $(info #-----------------------------------------------------------------------)
 $(info # Usage:                                                                )
-$(info #   make <FORTRAN=gnu/intel/portland> <DEBUG=yes/no> <GPU=yes/no>       )
+$(info #   make <FORTRAN=gnu/intel/portland/nvidia> <DEBUG=yes/no> \           )
+$(info #        <GPU=yes/no>                                                   )
 $(info #                                                                       )
 $(info # Examples:                                                             )
 $(info #   make                 - compile with gnu compiler                    )
@@ -43,6 +44,7 @@ $(info #-----------------------------------------------------------------------)
  
 # Fortran == gnu
 ifeq ($(FORTRAN), gnu)
+  $(info  # Using GNU Fortran compiler with options:)
   FC = gfortran
   ifeq ($(DEBUG),yes)
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O0 -g  \
@@ -55,6 +57,7 @@ endif
 
 # Fortran == intel
 ifeq ($(FORTRAN), intel)
+  $(info  # Using Intel Fortran compiler with options:)
   FC = ifort
   ifeq ($(DEBUG),yes)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g -warn all -check all \
@@ -67,7 +70,23 @@ endif
 
 # Fortran == portland
 ifeq ($(FORTRAN), portland)
+  $(info  # Using Portland Group Fortran compiler with options:)
   FC = pgfortran
+  ifeq ($(DEBUG),yes)
+    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g
+  else
+    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3
+  endif
+  ifeq ($(GPU),yes)
+    OPT_COMP += -acc -Minfo=accel -gpu=cuda11.0
+  endif
+  OPT_LINK = $(OPT_COMP)
+endif
+
+# Fortran == nvidia
+ifeq ($(FORTRAN), nvidia)
+  $(info  # Using Nvidia Fortran compiler with options:)
+  FC = nvfortran
   ifeq ($(DEBUG),yes)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g
   else
@@ -77,7 +96,9 @@ ifeq ($(FORTRAN), portland)
     OPT_COMP += -acc -Minfo=accel
   endif
   OPT_LINK = $(OPT_COMP)
-endif 
+endif
+
+$(info  $(OPT_COMP))
 
 #------------------------------------------------------
 #   List of sources for modules and functions
