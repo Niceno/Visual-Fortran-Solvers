@@ -1,6 +1,6 @@
 # SFS (Small Fortran Solvers)
 
-## Origin
+## Origin and Motivation
 
 The embrio of this development started from algorithms in the book:
 
@@ -8,9 +8,10 @@ Numerical Analysis: Mathematics of Scientific Computing
 by David Kincaid & Ward Cheney
 
 Starting from sources cordialy provided by the authors, I was converging
-towards the implementations in T-Flows.  Initial motivation was to check
-wheather fill-in makes sense for ICCG solvers, but recenlty I realized that
-they might also be useful to dive into GPU programming.
+towards the implementations in _T-Flows_ (https://github.com/DelNov/T-Flows).  
+Initial motivation was to check wheather fill-in makes sense for _ICCG_ 
+solvers, but recenlty I realized that they might also be useful to dive 
+into GPU programming.
 
 ## GPU Programming
 
