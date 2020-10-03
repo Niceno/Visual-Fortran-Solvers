@@ -25,7 +25,7 @@ all seems to work fine.  What will be with next release(s), no one can tell.)
 
 A couple of hints for compilation with OpenACC.
 
-- Compile with "-acc -Minfo=accel" option
+- Compile with ```-acc -Minfo=accel``` option
 - For profiling, use: "nsys profile --trace=openacc ./SFS <option>" and later
   launch "nsight-sys" to load the profile file.
 
