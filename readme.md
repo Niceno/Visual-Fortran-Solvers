@@ -1,4 +1,6 @@
-# SFS stands for Small Fortran Solvers :-)
+# SFS (Small Fortran Solvers)
+
+## Origin
 
 The embrio of this development started from algorithms in the book:
 
