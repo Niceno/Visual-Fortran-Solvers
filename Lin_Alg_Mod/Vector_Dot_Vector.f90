@@ -1,24 +1,27 @@
 !==============================================================================!
-  subroutine Lin_Alg_Mod_Matrix_Vector_Multiply(y, a, x)
+  subroutine Lin_Alg_Mod_Vector_Dot_Vector(dot, x, y)
 !------------------------------------------------------------------------------!
-!   Computes matrix vector product where matrix is full.                       !
+!   Computes vector dot product.                                               !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:)   :: y
-  real, dimension(:,:) :: a
-  real, dimension(:)   :: x
+  real               :: dot
+  real, dimension(:) :: x
+  real, dimension(:) :: y
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, n
+  integer :: i, n
 !==============================================================================!
 
-  n = size(a, 1)  ! some checks would be possible
+  n = size(x, 1)  ! some checks would be possible
 
+  !$acc parallel present(dot)
+  dot = 0
+  !$acc end parallel
+
+  !$acc  parallel loop reduction(+:dot)  &
+  !$acc& present(x, y, dot)
   do i = 1, n
-    y(i) = 0.0
-    do j = 1, n
-      y(i) = y(i) + a(i,j) * x(j)
-    end do
+    dot = dot + x(i) * y(i)
   end do
 
   end subroutine

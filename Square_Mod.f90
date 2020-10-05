@@ -1,22 +1,28 @@
 !==============================================================================!
-  module Demo_Mod
+  module Square_Mod
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Grid_Mod
-  use Sparse_Mod
-  use In_Out_Mod
-  use Lin_Alg_Mod
-  use Solvers_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
-!   A suite of routines for solver demonstration                               !
+!   Square (full) matrix type                                                  !
 !==============================================================================!
+
+  !-----------------!
+  !                 !
+  !   Square Type   !
+  !                 !
+  !-----------------!
+  type Square_Type
+    integer              :: n = 0     ! matrix dimension
+    integer              :: nonzeros  ! number of nonzero entries
+    real,    allocatable :: val(:,:)  ! value
+  end type
 
   contains
 
-  include 'Demo_Mod/Compress_Decompress.f90'
-  include 'Demo_Mod/Fill_In.f90'
-  include 'Demo_Mod/Main.f90'
+  include 'Square_Mod/Allocate.f90'
+  include 'Square_Mod/Deallocate.f90'
 
   end module

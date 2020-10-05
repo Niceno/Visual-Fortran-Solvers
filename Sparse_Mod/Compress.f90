@@ -1,11 +1,11 @@
 !==============================================================================!
-  subroutine Matrix_Mod_Compress(c, a)
+  subroutine Sparse_Mod_Compress(c, a)
 !------------------------------------------------------------------------------!
 !   Compresses matrix to the compressed row format.                            !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Matrix_Type)    :: c
+  type(Sparse_Type)    :: c
   real, dimension(:,:) :: a
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col  ! row used to be "i", col used to be "j"

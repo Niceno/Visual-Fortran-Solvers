@@ -1,15 +1,16 @@
 !==============================================================================!
-  module Matrix_Mod
+  module Sparse_Mod
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Sort_Mod
   use Grid_Mod
+  use Square_Mod  ! will use square (full) matrices
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
-!   Matrix type                                                                !
+!   Sparse matrix type                                                         !
 !                                                                              !
-!   Matrix is stored in compressed row format.                                 !
+!   Sparse matrix is stored in compressed row format.                          !
 !   (See: http://netlib.org/linalg/html_templates/node91.html)                 !
 !                                                                              !
 !   Example:                                                                   !
@@ -36,10 +37,10 @@
 
   !-----------------!
   !                 !
-  !   Matrix Type   !
+  !   Sparse Type   !
   !                 !
   !-----------------!
-  type Matrix_Type
+  type Sparse_Type
     integer              :: n = 0     ! matrix dimension
     integer              :: nonzeros  ! number of nonzero entries
     real,    allocatable :: val(:)    ! value
@@ -51,10 +52,10 @@
 
   contains
 
-  include 'Matrix_Mod/Compress.f90'
-  include 'Matrix_Mod/Create_Compressed.f90'
-  include 'Matrix_Mod/Create_Preconditioning_Compressed.f90'
-  include 'Matrix_Mod/Deallocate.f90'
-  include 'Matrix_Mod/Expand.f90'
+  include 'Sparse_Mod/Compress.f90'
+  include 'Sparse_Mod/Create.f90'
+  include 'Sparse_Mod/Create_Preconditioning.f90'
+  include 'Sparse_Mod/Deallocate.f90'
+  include 'Sparse_Mod/Expand.f90'
 
   end module

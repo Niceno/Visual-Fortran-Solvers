@@ -17,7 +17,7 @@
   !   Praparations   !
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
-  call Matrix_Mod_Create_Preconditioning_Compressed(p_sparse, a_sparse, fill_in)
+  call Sparse_Mod_Create_Preconditioning(p_sparse, a_sparse, fill_in)
 
   !------------------------!
   !   Actual computation   !
@@ -25,14 +25,13 @@
 
   ! Perform LDLT factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Ldlt_Factorization_Compressed(p_sparse, a_sparse)
+  call Solvers_Mod_Ldlt_Factorization_Sparse(p_sparse, a_sparse)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Matrix_Compressed(  &
-       "p_sparse after factorization:", p_sparse)
+  call In_Out_Mod_Print_Sparse("p_sparse after factorization:", p_sparse)
 
   ! Compute x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Ldlt_Solution_Compressed(x, p_sparse, b)
+  call Solvers_Mod_Ldlt_Solution_Sparse(x, p_sparse, b)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
@@ -42,7 +41,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution(sparse = a_sparse)
+  call Solvers_Mod_Check_Solution_Sparse(a_sparse)
 
   !-------------------------!
   !   Clean-up the memory   !

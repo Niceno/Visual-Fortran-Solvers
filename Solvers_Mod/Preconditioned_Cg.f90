@@ -25,8 +25,8 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  call Matrix_Mod_Create_Preconditioning_Compressed(p_sparse, a_sparse, f_in)
-  call In_Out_Mod_Print_Matrix_Compressed("Compressed p_sparse:", p_sparse)
+  call Sparse_Mod_Create_Preconditioning(p_sparse, a_sparse, f_in)
+  call In_Out_Mod_Print_Sparse("Sparse p_sparse:", p_sparse)
 
   !------------------------!
   !                        !
@@ -37,25 +37,25 @@
 
   ! Perform Cholesky factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Ldlt_Factorization_Compressed(p_sparse, a_sparse)
+  call Solvers_Mod_Ldlt_Factorization_Sparse(p_sparse, a_sparse)
   call Cpu_Time(time_pe)
 
   !----------------!
   !   r = b - Ax   !
   !----------------!
-  call Lin_Alg_Mod_Matrix_Vector_Multiply_Compressed(ax, a_sparse, x)
+  call Lin_Alg_Mod_Sparse_X_Vector(ax, a_sparse, x)
   r(1:n) = b(1:n) - ax(1:n)
 
   !---------------------!
   !   solve M * z = r   !
   !---------------------!
   ! z(1:n) = r(1:n)
-  call Solvers_Mod_Ldlt_Solution_Compressed(z, p_sparse, r)
+  call Solvers_Mod_Ldlt_Solution_Sparse(z, p_sparse, r)
 
   !------------------!
   !   rho = r' * z   !
   !------------------!
-  call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, z)
+  call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, z)
 
   !-----------!
   !   p = z   !
@@ -73,12 +73,12 @@
     !------------!
     !   p = Ap   !
     !------------!
-    call Lin_Alg_Mod_Matrix_Vector_Multiply_Compressed(ap, a_sparse, p)
+    call Lin_Alg_Mod_Sparse_X_Vector(ap, a_sparse, p)
 
     !-----------------------!
     !   alpha = rho / pAp   !
     !-----------------------!
-    call Lin_Alg_Mod_Vector_Vector_Dot_Product(pap, p, ap)
+    call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, ap)
     alpha = rho / pap
 
     !---------------------!
@@ -92,13 +92,13 @@
     !   solve M * z = r   !
     !---------------------!
     ! z(1:n) = r(1:n)
-    call Solvers_Mod_Ldlt_Solution_Compressed(z, p_sparse, r)
+    call Solvers_Mod_Ldlt_Solution_Sparse(z, p_sparse, r)
 
     !------------------!
     !   rho = r' * z   !
     !------------------!
     rho_old = rho
-    call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, z)
+    call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, z)
 
     print '(a,i3,a,1es10.4)', ' #', i, '; rho = ', sqrt(rho)
     if(sqrt(rho) < res) goto 1
@@ -123,7 +123,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution(sparse = a_sparse)
+  call Solvers_Mod_Check_Solution_Sparse(a_sparse)
 
   !-------------------------!
   !   Clean-up the memory   !

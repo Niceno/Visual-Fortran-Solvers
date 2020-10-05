@@ -1,25 +1,23 @@
 !==============================================================================!
-  subroutine Lin_Alg_Mod_Matrix_Matrix_Multiply(c, a, b)
+  subroutine Lin_Alg_Mod_Square_X_Vector(y, a, x)
 !------------------------------------------------------------------------------!
-!   Multiplies two full matrices.                                              !
+!   Computes matrix vector product where matrix is full.                       !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:,:) :: c
-  real, dimension(:,:) :: a
-  real, dimension(:,:) :: b
+  real, dimension(:) :: y
+  type(Square_Type)  :: a
+  real, dimension(:) :: x
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, n
+  integer :: i, j, n
 !==============================================================================!
 
-  n = size(a, 1)  ! some checks would be possible
+  n = a % n  ! some checks would be possible
 
   do i = 1, n
+    y(i) = 0.0
     do j = 1, n
-      c(i,j) = 0
-      do k = 1, n
-        c(i,j) = c(i,j) + a(i,k) * b(k,j)
-      end do
+      y(i) = y(i) + a % val(i,j) * x(j)
     end do
   end do
 

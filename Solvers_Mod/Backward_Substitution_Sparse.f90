@@ -1,31 +1,30 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Backward_Substitution(x, f, b)
+  subroutine Solvers_Mod_Backward_Substitution_Sparse(x, f, b)
 !------------------------------------------------------------------------------!
-!   Performs backward substitution on a full matrix.                           !
-!   It will address only elements in upper trinangular part.                   !
+!   Performs backward substitution using a sparse matrix.                      !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Solvers_Mod_Cholesky                                                     !
-!   - Solvers_Mod_Gauss                                                        !
+!   - Solvers_Mod_Incomplete_Cholesky                                          !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:)   :: x
-  real, dimension(:,:) :: f
-  real, dimension(:)   :: b
+  real, dimension(:) :: x
+  type(Sparse_Type)  :: f
+  real, dimension(:) :: b
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, n
+  integer :: i, j, i_j, n
   real    :: sum
 !==============================================================================!
 
-  n = size(f,1)  ! some checks would be possible
+  n = f % n      ! some checks would be possible
 
   do i = n, 1, -1
     sum = b(i)
-    do j = i+1, n
-      sum = sum - f(i,j)*x(j)  ! straighforward for compressed row format
+    do i_j = f % dia(i) + 1, f % row(i + 1) - 1
+      j = f % col(i_j)
+      sum = sum - f % val(i_j) * x(j)
     end do
-    x(i) = sum / f(i,i)
+    x(i) = sum / f % val( f % dia(i) )
   end do
 
   end subroutine

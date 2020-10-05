@@ -1,10 +1,10 @@
 !==============================================================================!
-  subroutine Matrix_Mod_Expand(a, c, bw)
+  subroutine Sparse_Mod_Expand(a, c, bw)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, allocatable :: a(:,:)
-  type(Matrix_Type) :: c
+  type(Square_Type) :: a
+  type(Sparse_Type) :: c
   integer           :: bw  ! band width
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col  ! row used to be "i", col used to be "j"
@@ -16,8 +16,7 @@
   !---------------------!
   !   Allocate memory   !
   !---------------------!
-  allocate (a(n,n))
-  a = 0.0
+  call Square_Mod_Allocate(a, n)
 
   !------------------------------!
   !   Form the expanded matrix   !
@@ -28,7 +27,7 @@
   do row = 1, n                                  ! browse through rows
     do pos = c % row(row), c % row(row + 1) - 1  ! brows through columns
       col = c % col(pos)                         ! take the real column number
-      a(row, col) = c % val(pos)
+      a % val(row, col) = c % val(pos)
 
       bw = max(bw, abs(col-row))
     end do

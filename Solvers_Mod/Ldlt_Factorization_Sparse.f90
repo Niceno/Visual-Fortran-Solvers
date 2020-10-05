@@ -1,22 +1,22 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cholesky_Factorization_Compressed(f, a)
+  subroutine Solvers_Mod_Ldlt_Factorization_Sparse(f, a)
 !------------------------------------------------------------------------------!
-!   Computes Cholesky decomposition on compressed matrices.                    !
+!   Computes LDLT decomposition on sparse matrices.                            !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Solvers_Mod_Incomplete_Cholesky                                          !
+!   - Solvers_Mod_Incomplete_Ldlt                                              !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Matrix_Type) :: f
-  type(Matrix_Type) :: a
+  type(Sparse_Type) :: f
+  type(Sparse_Type) :: a
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, m, n, k_m, k_i, m_j, k_i_a
   real    :: sum1, sum2
   real, allocatable :: work(:)
 !==============================================================================!
 
-  print *, '# Factorizing compressed matrix with Cholesky method'
+  print *, '# Factorizing sparse matrix with LDL^T method'
 
   n = a % n  ! some checks would be possible
   allocate( work(n) ); work = 0.0
@@ -28,14 +28,15 @@
     !--------------------!
     sum1 = a % val(a % dia(k))
     do k_m = f % row(k), f % dia(k) - 1
-      sum1 = sum1 - f % val(k_m)**2.0
+      m = f % col(k_m)
+      sum1 = sum1 - (f % val(k_m)**2.0) * f % val( f % dia(m) )
     end do
-    f % val( f % dia(k) ) = sqrt(sum1)
+    f % val( f % dia(k) ) = sum1
 
     !------------------------!
     !   Non-diagonal entry   !
     !------------------------!
-    do k_i = f % dia(k) + 1, f % row(k+1) - 1
+    do k_i = f % dia(k) + 1, f % row(k+1) -1
       i = f % col(k_i)
 
       sum2 = 0.0
@@ -54,7 +55,7 @@
           work(j) = f % val(m_j)
         end do
 
-        sum2 = sum2 - work(i)*work(k)
+        sum2 = sum2 - work(i)*work(k) * f % val( f % dia(m) )
 
         ! set the row back to zero
         work = 0.0

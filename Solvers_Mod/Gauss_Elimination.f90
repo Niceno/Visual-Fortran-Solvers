@@ -5,31 +5,31 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:,:) :: g
-  real, dimension(:)   :: b
-  real, dimension(:,:) :: a
-  integer              :: bw  ! band width
+  type(Square_Type)  :: g
+  real, dimension(:) :: b
+  type(Square_Type)  :: a
+  integer            :: bw  ! band width
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, n
   real    :: mult
 !==============================================================================!
 
-  n = size(a,1)  ! some checks would be possible
+  n = a % n  ! some checks would be possible
 
   ! Copy the matrix first
   do i = 1, n
     do j = 1, n
-      g(i,j) = a(i,j)
+      g % val(i,j) = a % val(i,j)
     end do
   end do
 
   ! Make elimination for resulting matrix
   do k = 1, n-1
     do i = k+1, min(k+bw,n)
-      mult = g(i,k)/g(k,k)
-      g(i,k) = 0.0
+      mult = g % val(i,k) / g % val(k,k)
+      g % val(i,k) = 0.0
       do j = k+1, min(k+bw,n)
-        g(i,j) = g(i,j) - mult*g(k,j)
+        g % val(i,j) = g % val(i,j) - mult*g % val(k,j)
       end do
       b(i) = b(i) - mult*b(k)
     end do

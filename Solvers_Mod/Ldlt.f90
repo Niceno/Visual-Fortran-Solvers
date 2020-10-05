@@ -18,13 +18,13 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  ! Create two full matrices from the compressed one
-  call Matrix_Mod_Expand(a_matrix, a_sparse, bw)
-  call Matrix_Mod_Expand(p_matrix, a_sparse, bw)
-  p_matrix = 0
+  ! Create two full matrices from a sparse one
+  call Sparse_Mod_Expand(a_square, a_sparse, bw)
+  call Sparse_Mod_Expand(p_square, a_sparse, bw)
+  p_square % val(:,:) = 0
 
   ! Just print original matrix
-  call In_Out_Mod_Print_Matrix("a_matrix:", a_matrix)
+  call In_Out_Mod_Print_Square("a_square:", a_square)
 
   !------------------------!
   !   Actual computation   !
@@ -32,14 +32,14 @@
 
   ! Perform LDLT factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Ldlt_Factorization(p_matrix, a_matrix, bw)
+  call Solvers_Mod_Ldlt_Factorization_Square(p_square, a_square, bw)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Matrix(   &
-       "p_matrix after Cholesky factorization", p_matrix)
+  call In_Out_Mod_Print_Square(   &
+       "p_square after Cholesky factorization", p_square)
 
   ! Compute x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Ldlt_Solution(x, p_matrix, b)
+  call Solvers_Mod_Ldlt_Solution_Square(x, p_square, b)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
@@ -51,7 +51,7 @@
   !------------------------!
   !   Check the solition   !
   !------------------------!
-  call Solvers_Mod_Check_Solution(full = a_matrix)
+  call Solvers_Mod_Check_Solution_Square(a_square)
 
   !-------------------------!
   !   Clean-up the memory   !

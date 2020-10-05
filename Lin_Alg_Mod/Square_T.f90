@@ -1,19 +1,21 @@
 !==============================================================================!
-  subroutine Lin_Alg_Mod_Transpose_Matrix(b, a)
+  subroutine Lin_Alg_Mod_Square_T(b, a)
 !------------------------------------------------------------------------------!
-!   Transposes a full matrix.                                                  !
+!   Transposes a square (full) matrix.                                         !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:,:) :: b
-  real, dimension(:,:) :: a
+  type(Square_Type) :: b
+  type(Square_Type) :: a
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: row, col
+  integer :: n, row, col
 !==============================================================================!
 
-  do row=1, size(b,1)
-    do col=1, size(b,2)
-      b(col,row) = a(row,col)
+  n = a % n  ! some checks would be possible
+
+  do row = 1, n
+    do col = 1, n
+      b % val(col, row) = a % val(row, col)
     end do
   end do
 

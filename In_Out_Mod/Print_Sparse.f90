@@ -1,12 +1,12 @@
 !==============================================================================!
-  subroutine In_Out_Mod_Print_Matrix_Compressed(message, sparse)
+  subroutine In_Out_Mod_Print_Sparse(message, sparse)
 !------------------------------------------------------------------------------!
 !   Prints compressed matrix out.                                              !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   character(len=*)  :: message
-  type(Matrix_Type) :: sparse
+  type(Sparse_Type) :: sparse
 !-----------------------------------[Locals]-----------------------------------!
   integer      :: row, col, pos  ! row used to be "i", col used to be "j"
   logical      :: found

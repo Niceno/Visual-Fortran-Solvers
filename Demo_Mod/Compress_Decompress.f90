@@ -8,30 +8,28 @@
 
   ! Full matrix
   integer, parameter    :: n = 7
-  real, dimension(n, n) :: f_matrix
-  data (f_matrix(1,col), col=1,n) / 44., -4., -3.,  0., -1.,  0.,  0. /
-  data (f_matrix(2,col), col=1,n) / -4., 44., -4., -3.,  0., -1.,  0. /
-  data (f_matrix(3,col), col=1,n) / -3., -4., 44., -4., -3.,  0., -1. /
-  data (f_matrix(4,col), col=1,n) /  0., -3., -4., 44., -4., -3.,  0. /
-  data (f_matrix(5,col), col=1,n) / -1.,  0., -3., -4., 44., -4., -3. /
-  data (f_matrix(6,col), col=1,n) /  0., -1.,  0., -3., -4., 44., -4. /
-  data (f_matrix(7,col), col=1,n) /  0.,  0., -1.,  0., -3., -4., 44. /
+  real, dimension(n, n) :: f
+  data (f(1,col), col=1,n) / 44., -4., -3.,  0., -1.,  0.,  0. /
+  data (f(2,col), col=1,n) / -4., 44., -4., -3.,  0., -1.,  0. /
+  data (f(3,col), col=1,n) / -3., -4., 44., -4., -3.,  0., -1. /
+  data (f(4,col), col=1,n) /  0., -3., -4., 44., -4., -3.,  0. /
+  data (f(5,col), col=1,n) / -1.,  0., -3., -4., 44., -4., -3. /
+  data (f(6,col), col=1,n) /  0., -1.,  0., -3., -4., 44., -4. /
+  data (f(7,col), col=1,n) /  0.,  0., -1.,  0., -3., -4., 44. /
 
   ! Compressed matrix
-  type(Matrix_Type) :: c_matrix
-  real, allocatable :: e_matrix(:,:)
+  type(Sparse_Type) :: c
+  type(Square_Type) :: e
 !------------------------------------------------------------------------------!
 
-  call In_Out_Mod_Print_Matrix("Original matrix f_matrix", f_matrix)
+  ! Compress matrix "f" and store it in "c"
+  call Sparse_Mod_Compress(c, f)
 
-  ! Compress matrix "f_matrix" and store it in "c_matrix"
-  call Matrix_Mod_Compress(c_matrix, f_matrix)
+  call In_Out_Mod_Print_Sparse("c:", c)
 
-  call In_Out_Mod_Print_Matrix_Compressed("c_matrix:", c_matrix)
+  ! Expand matrix "ac2" and store it in "e"
+  call Sparse_Mod_Expand(e, c, bw)
 
-  ! Expand matrix "ac2" and store it in "e_matrix"
-  call Matrix_Mod_Expand(e_matrix, c_matrix, bw)
-
-  call In_Out_Mod_Print_Matrix("Epanded matrix c_matrix:", e_matrix)
+  call In_Out_Mod_Print_Square("Epanded matrix c:", e)
 
   end subroutine

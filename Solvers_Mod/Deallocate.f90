@@ -15,9 +15,9 @@
   deallocate(ax)
   deallocate(ap)
 
-  if(allocated(p_matrix)) deallocate(p_matrix)
-  if(allocated(a_matrix)) deallocate(a_matrix)
-  if(a_sparse % n > 0) call Matrix_Mod_Deallocate(a_sparse)
-  if(p_sparse % n > 0) call Matrix_Mod_Deallocate(p_sparse)
+  if(a_square % n > 0) call Square_Mod_Deallocate(a_square)
+  if(p_square % n > 0) call Square_Mod_Deallocate(p_square)
+  if(a_sparse % n > 0) call Sparse_Mod_Deallocate(a_sparse)
+  if(p_sparse % n > 0) call Sparse_Mod_Deallocate(p_sparse)
 
   end subroutine

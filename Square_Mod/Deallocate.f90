@@ -1,19 +1,14 @@
 !==============================================================================!
-  subroutine Matrix_Mod_Deallocate(a)
+  subroutine Square_Mod_Deallocate(a)
 !------------------------------------------------------------------------------!
-!   Deallocates memory occupied by type Matrix                                 !
+!   Deallocates memory occupied by Square_Type                                 !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Matrix_Type) :: a
+  type(Square_Type) :: a
 !------------------------------------------------------------------------------!
 
-  a % n        = 0
-  a % nonzeros = 0
-  deallocate(a % val)    ! value
-  deallocate(a % col)    ! beginning of each row
-  deallocate(a % row)    ! column positions
-  deallocate(a % dia)    ! diagonal positions
-  deallocate(a % mir)    ! position of the mirror entry
+  a % n = 0
+  deallocate(a % val)    ! matrix entries
 
   end subroutine

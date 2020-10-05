@@ -1,27 +1,26 @@
 !==============================================================================!
-  subroutine Lin_Alg_Mod_Vector_Vector_Dot_Product(sum, x, y)
+  subroutine Lin_Alg_Mod_Square_X_Square(c, a, b)
 !------------------------------------------------------------------------------!
-!   Computes vector dot product.                                               !
+!   Multiplies two square (full) matrices.                                     !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real               :: sum
-  real, dimension(:) :: x
-  real, dimension(:) :: y
+  type(Square_Type) :: c
+  type(Square_Type) :: a
+  type(Square_Type) :: b
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, n
+  integer :: i, j, k, n
 !==============================================================================!
 
-  n = size(x, 1)  ! some checks would be possible
+  n = a % n  ! some checks would be possible
 
-  !$acc parallel present(sum)
-  sum = 0
-  !$acc end parallel
-
-  !$acc  parallel loop reduction(+:sum)  &
-  !$acc& present(x, y, sum)
   do i = 1, n
-    sum = sum + x(i) * y(i)
+    do j = 1, n
+      c % val(i,j) = 0
+      do k = 1, n
+        c % val(i,j) = c % val(i,j) + a % val(i,k) * b % val(k,j)
+      end do
+    end do
   end do
 
   end subroutine

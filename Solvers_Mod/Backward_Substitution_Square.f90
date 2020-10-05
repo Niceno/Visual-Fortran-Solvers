@@ -1,30 +1,31 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Forward_Substitution_Compressed(x, f, b)
+  subroutine Solvers_Mod_Backward_Substitution_Square(x, f, b)
 !------------------------------------------------------------------------------!
-!   Performs forward substitution using a matrix in compressed row format.     !
+!   Performs backward substitution on a square (full) matrix.                  !
+!   It will address only elements in upper trinangular part.                   !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Solvers_Mod_Incomplete_Cholesky                                          !
+!   - Solvers_Mod_Cholesky                                                     !
+!   - Solvers_Mod_Gauss                                                        !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, dimension(:) :: x
-  type(Matrix_Type)  :: f
+  type(Square_Type)  :: f
   real, dimension(:) :: b
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, i_j, n
+  integer :: i, j, n
   real    :: sum
 !==============================================================================!
 
-  n = f % n      ! some checks would be possible
+  n = f % n  ! some checks would be possible
 
-  do i = 1, n
+  do i = n, 1, -1
     sum = b(i)
-    do i_j = f % row(i), f % dia(i) - 1
-      j = f % col(i_j)
-      sum = sum - f % val(i_j) * x(j)
+    do j = i+1, n
+      sum = sum - f % val(i,j)*x(j)  ! straighforward for sparse matrix
     end do
-    x(i) = sum / f % val( f % dia(i) )
+    x(i) = sum / f % val(i,i)
   end do
 
   end subroutine

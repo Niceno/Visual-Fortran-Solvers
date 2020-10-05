@@ -3,7 +3,8 @@
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Foul_Mod
-  use Matrix_Mod
+  use Square_Mod
+  use Sparse_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
@@ -51,8 +52,8 @@
   end subroutine
 
   include 'In_Out_Mod/Load_Linear_System.f90'
-  include 'In_Out_Mod/Print_Matrix_Compressed.f90'
-  include 'In_Out_Mod/Print_Matrix.f90'
+  include 'In_Out_Mod/Print_Sparse.f90'
+  include 'In_Out_Mod/Print_Square.f90'
   include 'In_Out_Mod/Print_Vector.f90'
 
   end module

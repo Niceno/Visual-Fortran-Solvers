@@ -9,8 +9,8 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   integer           :: n, nb
-  type(Matrix_Type) :: a
-  type(Matrix_Type) :: d
+  type(Sparse_Type) :: a
+  type(Sparse_Type) :: d
   real              :: x(-nb:n), b(n)
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k

@@ -1,9 +1,9 @@
 !==============================================================================!
-  subroutine Matrix_Mod_Create_Compressed(mat, grid)
+  subroutine Sparse_Mod_Create(a, grid)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Matrix_Type) :: mat
+  type(Sparse_Type) :: a
   type(Grid_Type)   :: grid
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, ni, nj, nk, pass, non_zeros
@@ -28,7 +28,7 @@
 
     non_zeros = 0
 
-    ! Browse in a way in which cell number "mat" will increase one by one
+    ! Browse in a way in which cell number "a" will increase one by one
     do k = 1, nk
       do j = 1, nj
         do i = 1, ni
@@ -44,7 +44,7 @@
 
           ! If second pass, set row index
           if(pass == 2) then
-            mat % row(c) = non_zeros + 1
+            a % row(c) = non_zeros + 1
           end if
 
           !-------!
@@ -53,8 +53,8 @@
           if(k > 1) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
-              mat % col(non_zeros) = b
-              mat % val(non_zeros) = -(dx*dy) / dz
+              a % col(non_zeros) = b
+              a % val(non_zeros) = -(dx*dy) / dz
             end if
           end if
 
@@ -64,8 +64,8 @@
           if(j > 1) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
-              mat % col(non_zeros) = s
-              mat % val(non_zeros) = -(dx*dz) / dy
+              a % col(non_zeros) = s
+              a % val(non_zeros) = -(dx*dz) / dy
             end if
           end if
 
@@ -75,8 +75,8 @@
           if(i > 1) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
-              mat % col(non_zeros) = w
-              mat % val(non_zeros) = -(dy*dz) / dx
+              a % col(non_zeros) = w
+              a % val(non_zeros) = -(dy*dz) / dx
             end if
           end if
 
@@ -87,8 +87,8 @@
           !-------------!
           non_zeros = non_zeros + 1
           if(pass == 2) then
-            mat % col(non_zeros) = c
-            mat % val(non_zeros) = 4.0 * ( dx*dy/dz + dx*dz/dy + dy*dz/dx )
+            a % col(non_zeros) = c
+            a % val(non_zeros) = 4.0 * ( dx*dy/dz + dx*dz/dy + dy*dz/dx )
           end if
 
           !-------!
@@ -97,8 +97,8 @@
           if(i < ni) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
-              mat % col(non_zeros) = e
-              mat % val(non_zeros) = -(dy*dz) / dx
+              a % col(non_zeros) = e
+              a % val(non_zeros) = -(dy*dz) / dx
             end if
           end if
 
@@ -108,8 +108,8 @@
           if(j < nj) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
-              mat % col(non_zeros) = n
-              mat % val(non_zeros) = -(dx*dz) / dy
+              a % col(non_zeros) = n
+              a % val(non_zeros) = -(dx*dz) / dy
             end if
           end if
 
@@ -119,8 +119,8 @@
           if(k < nk) then
             non_zeros = non_zeros + 1
             if(pass == 2) then
-              mat % col(non_zeros) = t
-              mat % val(non_zeros) = -(dx*dy) / dz
+              a % col(non_zeros) = t
+              a % val(non_zeros) = -(dx*dy) / dz
             end if
           end if
 
@@ -129,29 +129,29 @@
     end do
 
     if(pass == 2) then
-      mat % row(ni*nj*nk+1) = non_zeros+1
+      a % row(ni*nj*nk+1) = non_zeros+1
     end if
 
     if(pass == 1) then
       print *, '# Number of nonzeros: ', non_zeros
-      mat % n        = ni*nj*nk
-      mat % nonzeros = non_zeros
-      allocate (mat % row(ni*nj*nk+1)); mat % row = 0
-      allocate (mat % dia(ni*nj*nk));   mat % dia = 0
-      allocate (mat % col(non_zeros));  mat % col = 0
-      allocate (mat % val(non_zeros));  mat % val = 0
-      allocate (mat % mir(non_zeros));  mat % mir = 0
+      a % n        = ni*nj*nk
+      a % nonzeros = non_zeros
+      allocate (a % row(ni*nj*nk+1)); a % row = 0
+      allocate (a % dia(ni*nj*nk));   a % dia = 0
+      allocate (a % col(non_zeros));  a % col = 0
+      allocate (a % val(non_zeros));  a % val = 0
+      allocate (a % mir(non_zeros));  a % mir = 0
     end if
   end do
 
   !---------------------------------!
   !   Find positions of diagonals   !
   !---------------------------------!
-  do row_a = 1, mat % n
-    do pos_a = mat % row(row_a), mat % row(row_a + 1) - 1
-      col_a = mat % col(pos_a)  ! at this point you have row_a and col_a
+  do row_a = 1, a % n
+    do pos_a = a % row(row_a), a % row(row_a + 1) - 1
+      col_a = a % col(pos_a)  ! at this point you have row_a and col_a
       if(col_a == row_a) then
-        mat % dia(row_a) = pos_a
+        a % dia(row_a) = pos_a
         goto 1
       end if
     end do
@@ -163,17 +163,17 @@
   !----------------------!
 
   ! Outer loop
-  do row_a = 1, mat % n
-    do pos_a = mat % row(row_a), mat % row(row_a + 1) - 1
-      col_a = mat % col(pos_a)  ! at this point you have row_a and col_a
+  do row_a = 1, a % n
+    do pos_a = a % row(row_a), a % row(row_a + 1) - 1
+      col_a = a % col(pos_a)  ! at this point you have row_a and col_a
 
       row_b = col_a
-      do pos_b = mat % row(row_b), mat % row(row_b + 1) - 1
-        col_b = mat % col(pos_b)  ! at this point you have row_b and col_b
+      do pos_b = a % row(row_b), a % row(row_b + 1) - 1
+        col_b = a % col(pos_b)  ! at this point you have row_b and col_b
 
         if( (col_b == row_a) .and. (row_b == col_a) ) then
-          mat % mir(pos_a) = pos_b
-          mat % mir(pos_b) = pos_a
+          a % mir(pos_a) = pos_b
+          a % mir(pos_b) = pos_a
           goto 2  ! done with the inner loop, get out
         end if
       end do

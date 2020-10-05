@@ -45,7 +45,7 @@
   !----------------!
   !   r = b - Ax   !
   !----------------!
-  call Lin_Alg_Mod_Matrix_Vector_Multiply_Compressed(ax, a_sparse, x)
+  call Lin_Alg_Mod_Sparse_X_Vector(ax, a_sparse, x)
   !$acc  parallel loop      &
   !$acc& present(r, b, ax)
   do i = 1, n
@@ -55,7 +55,7 @@
   !------------------!
   !   rho = r' * r   !
   !------------------!
-  call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, r)
+  call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, r)
 
   !-----------!
   !   p = r   !
@@ -77,12 +77,12 @@
     !------------!
     !   p = Ap   !
     !------------!
-    call Lin_Alg_Mod_Matrix_Vector_Multiply_Compressed(ap, a_sparse, p)
+    call Lin_Alg_Mod_Sparse_X_Vector(ap, a_sparse, p)
 
     !-----------------------!
     !   alpha = rho / pAp   !
     !-----------------------!
-    call Lin_Alg_Mod_Vector_Vector_Dot_Product(pap, p, ap)
+    call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, ap)
 
     !$acc kernels present(alpha, rho, pap)
     alpha = rho / pap
@@ -111,7 +111,7 @@
     rho_old = rho
     !$acc end parallel
 
-    call Lin_Alg_Mod_Vector_Vector_Dot_Product(rho, r, r)
+    call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, r)
 
     !$acc update self(rho)
     print '(a,i3,a,1es10.4)', ' #', iter, '; rho = ', sqrt(rho)
@@ -144,7 +144,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution(sparse = a_sparse)
+  call Solvers_Mod_Check_Solution_Sparse(a_sparse)
 
   ! Clean the data from the device
   !$acc exit data delete(alpha, beta, rho, rho_old, pap)

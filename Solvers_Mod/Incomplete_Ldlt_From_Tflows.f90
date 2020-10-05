@@ -12,7 +12,7 @@
   !   Praparations   !
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
-  call Matrix_Mod_Create_Preconditioning_Compressed(p_sparse, a_sparse, 0)
+  call Sparse_Mod_Create_Preconditioning(p_sparse, a_sparse, 0)
 
   !------------------------!
   !   Actual computation   !
@@ -22,8 +22,7 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Ldlt_Factorization_From_Tflows(a_sparse, p_sparse)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Matrix_Compressed(  &
-       "p_sparse after factorization:", p_sparse)
+  call In_Out_Mod_Print_Sparse("p_sparse after factorization:", p_sparse)
 
   ! Compute x
   call Cpu_Time(time_ss)
@@ -38,7 +37,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution(sparse = a_sparse)
+  call Solvers_Mod_Check_Solution_Sparse(a_sparse)
 
   !-------------------------!
   !   Clean-up the memory   !
