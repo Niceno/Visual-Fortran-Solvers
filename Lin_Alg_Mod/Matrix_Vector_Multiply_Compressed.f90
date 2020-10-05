@@ -15,9 +15,13 @@
 
   n  = c % n  ! some checks would be possible
 
-  !$acc  parallel loop                                      &
-  !$acc& copyin (c, c % row(:), c % col(:), c % val(:), x)  &
-  !$acc& copyout(y)                                         &
+  !$acc  parallel loop        &
+  !$acc& present(y)           &
+  !$acc& present(c)           &
+  !$acc& present(c % row(:))  &
+  !$acc& present(c % col(:))  &
+  !$acc& present(c % val(:))  &
+  !$acc& present(x)           &
   !$acc& gang worker vector_length(32) num_workers(32)
   do i = 1, n
     y_i_sum = 0.0

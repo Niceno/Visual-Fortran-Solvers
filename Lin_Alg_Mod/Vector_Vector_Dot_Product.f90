@@ -14,8 +14,12 @@
 
   n = size(x, 1)  ! some checks would be possible
 
+  !$acc parallel present(sum)
   sum = 0
-  !$acc parallel loop reduction(+:sum)
+  !$acc end parallel
+
+  !$acc  parallel loop reduction(+:sum)  &
+  !$acc& present(x, y, sum)
   do i = 1, n
     sum = sum + x(i) * y(i)
   end do
