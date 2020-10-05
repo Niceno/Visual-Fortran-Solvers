@@ -20,7 +20,7 @@
 
   ! Perform LDL^T factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Ldlt_Factorization_From_Tflows(a_sparse, p_sparse)
+  call Solvers_Mod_Ldlt_Factorization_From_Tflows(p_sparse, a_sparse)
   call Cpu_Time(time_pe)
   call In_Out_Mod_Print_Sparse("p_sparse after factorization:", p_sparse)
 
