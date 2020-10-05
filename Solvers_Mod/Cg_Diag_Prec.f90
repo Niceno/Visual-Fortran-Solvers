@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cg(grid, n_iter, res)
+  subroutine Solvers_Mod_Cg_Diag_Prec(grid, n_iter, res)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -29,7 +29,8 @@
   !$acc enter data copyin(a_sparse % row(:))
   !$acc enter data copyin(a_sparse % col(:))
   !$acc enter data copyin(a_sparse % val(:))
-  !$acc enter data copyin(ax(:), ap(:), x(:), p(:), r(:), b(:))
+  !$acc enter data copyin(a_sparse % dia(:))
+  !$acc enter data copyin(ax(:), ap(:), x(:), p(:), r(:), z(:), b(:))
   !$acc enter data copyin(alpha, beta, rho, rho_old, pap)
 
   call Cpu_Time(time_ps)
@@ -52,18 +53,27 @@
     r(i) = b(i) - ax(i)
   end do
 
+  !---------------------!
+  !   solve M * z = r   !
+  !---------------------!
+  !$acc  parallel loop                                            &
+  !$acc& present(a_sparse, a_sparse % val, a_sparse % dia, z, r)
+  do i = 1, n
+    z(i) = r(i) * a_sparse % val(a_sparse % dia(i))
+  end do
+
   !------------------!
-  !   rho = r' * r   !
+  !   rho = r' * z   !
   !------------------!
-  call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, r)
+  call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, z)
 
   !-----------!
-  !   p = r   !
+  !   p = z   !
   !-----------!
   !$acc  parallel loop  &
-  !$acc& present(p, r)
+  !$acc& present(p, z)
   do i = 1, n
-    p(i) = r(i)
+    p(i) = z(i)
   end do
 
   !-------------------------------!
@@ -104,14 +114,23 @@
       r(i) = r(i) - alpha * ap(i)
     end do
 
+    !---------------------!
+    !   solve M * z = r   !
+    !---------------------!
+    !$acc  parallel loop                                            &
+    !$acc& present(a_sparse, a_sparse % val, a_sparse % dia, z, r)
+    do i = 1, n
+      z(i) = r(i) * a_sparse % val(a_sparse % dia(i))
+    end do
+
     !------------------!
-    !   rho = r' * r   !
+    !   rho = r' * z   !
     !------------------!
     !$acc parallel present(rho_old, rho)
     rho_old = rho
     !$acc end parallel
 
-    call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, r)
+    call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, z)
 
     !$acc update self(rho)
     print '(a,i3,a,1es10.4)', ' #', iter, '; rho = ', sqrt(rho)
@@ -127,7 +146,7 @@
     !$acc  parallel loop  &
     !$acc& present(p, r, beta)
     do i = 1, n
-      p(i) = r(i) + beta * p(i)
+      p(i) = z(i) + beta * p(i)
     end do
   end do
 
@@ -148,7 +167,8 @@
 
   ! Clean the data from the device
   !$acc exit data delete(alpha, beta, rho, rho_old, pap)
-  !$acc exit data delete(ax, ap, x, p, r, b)
+  !$acc exit data delete(ax, ap, x, p, r, z, b)
+  !$acc exit data delete(a_sparse % dia(:))
   !$acc exit data delete(a_sparse % val(:))
   !$acc exit data delete(a_sparse % col(:))
   !$acc exit data delete(a_sparse % row(:))

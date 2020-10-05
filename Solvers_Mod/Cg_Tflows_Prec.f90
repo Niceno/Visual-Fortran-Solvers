@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Tflows_Cg(grid, n_iter, res)
+  subroutine Solvers_Mod_Cg_Tflows_Prec(grid, n_iter, res)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -130,7 +130,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Sparse(a_sparse)
+  print '(a,1es10.4)', " # Error:                       ", sqrt(rho)
 
   !-------------------------!
   !   Clean-up the memory   !
