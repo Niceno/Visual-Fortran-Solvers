@@ -76,18 +76,19 @@
   print *, '#  6 - Bare-bones LDL^T solver from T-Flows'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   print *, '#  7 - CG solver'
-  print *, '#  8 - Preconditioned CG solver'
+  print *, '#  8 - T-Flows CG solver'
+  print *, '#  9 - Preconditioned CG solver'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '#  9 - Compressed matrices'
-  print *, '# 10 - Preconditioning matrix'
+  print *, '# 10 - Compressed matrices'
+  print *, '# 11 - Preconditioning matrix'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  write(*,'(a46,3i4)') '# 11 - Change grid resolution, currently at: ',  &
+  write(*,'(a46,3i4)') '# 12 - Change grid resolution, currently at: ',  &
                        grid % nx, grid % ny, grid % nz
-  write(*,'(a46,1i4)') '# 12 - Change fill-in level, currently at:   ',  &
+  write(*,'(a46,1i4)') '# 13 - Change fill-in level, currently at:   ',  &
                        f_in
-  write(*,'(a46,1i4)') '# 13 - Change num iterations, currently at:  ',  &
+  write(*,'(a46,1i4)') '# 14 - Change num iterations, currently at:  ',  &
                        n_iter
-  write(*,'(a46,1es13.4)') '# 14 - Change target residual, currently at: ',  &
+  write(*,'(a46,1es13.4)') '# 15 - Change target residual, currently at: ',  &
                        res
   print *, '#----------------------------------------------------------'
 
@@ -108,24 +109,25 @@
   if(choice ==  6) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid)
 
   if(choice ==  7) call Solvers_Mod_Cg               (grid, n_iter, res)
-  if(choice ==  8) call Solvers_Mod_Preconditioned_Cg(grid, n_iter, res, f_in)
+  if(choice ==  8) call Solvers_Mod_Tflows_Cg        (grid, n_iter, res)
+  if(choice ==  9) call Solvers_Mod_Preconditioned_Cg(grid, n_iter, res, f_in)
 
-  if(choice ==  9) call Demo_Mod_Compress_Decompress
-  if(choice == 10) call Demo_Mod_Fill_In(f_in, grid)
+  if(choice == 10) call Demo_Mod_Compress_Decompress
+  if(choice == 11) call Demo_Mod_Fill_In(f_in, grid)
 
-  if(choice == 11) then
+  if(choice == 12) then
     print *, '# Enter the desired resolution: '
     read *, grid % nx, grid % ny, grid % nz
   end if
-  if(choice == 12) then
+  if(choice == 13) then
     print *, '# Enter the desired fill-in level: '
     read *, f_in
   end if
-  if(choice == 13) then
+  if(choice == 14) then
     print *, '# Enter the desired number of iterations: '
     read *, n_iter
   end if
-  if(choice == 14) then
+  if(choice == 15) then
     print *, '# Enter the desired target residual: '
     read *, res
   end if
