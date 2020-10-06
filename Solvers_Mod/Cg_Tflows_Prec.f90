@@ -97,7 +97,7 @@
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
-    call Solvers_Mod_Ldlt_Solution_Sparse(z, p_sparse, r)
+    call Solvers_Mod_Ldlt_Solution_From_Tflows(n, -1, a_sparse, p_sparse, z, r)
 
     !------------------!
     !   rho = r' * z   !
