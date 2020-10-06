@@ -17,8 +17,12 @@
 
   n = a % n
 
+  !$acc  parallel loop seq                               &
+  !$acc& present(a, a % row, a % col, a % dia, a % val)  &
+  !$acc& present(f, f % row, f % col, f % dia, f % val)
   do i = 1,n
     sum1 = a % val(a % dia(i))       ! take diaginal entry
+    !$acc loop vector reduction(+:sum1)
     do j = a % row(i), a % dia(i)-1  ! only lower traingular
       k = a % col(j)
       sum1 = sum1 - f % val(f % dia(k)) * a % val(j) * a % val(j)
