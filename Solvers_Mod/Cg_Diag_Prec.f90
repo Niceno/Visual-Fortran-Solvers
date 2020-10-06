@@ -14,7 +14,7 @@
 !==============================================================================!
 
   print *, '#=========================================================='
-  print *, '# Solving the sytem with CG method'
+  print *, '# Solving the sytem with diagonally CG method'
   print *, '#----------------------------------------------------------'
 
   !------------------!
@@ -33,15 +33,15 @@
   !$acc enter data copyin(ax(:), ap(:), x(:), p(:), r(:), z(:), b(:))
   !$acc enter data copyin(alpha, beta, rho, rho_old, pap)
 
-  call Cpu_Time(time_ps)
-  call Cpu_Time(time_pe)
-
   !------------------------!
   !                        !
   !   Actual computation   !
   !                        !
   !------------------------!
   n = a_sparse % n
+
+  call Cpu_Time(time_ps)
+  call Cpu_Time(time_pe)
 
   !----------------!
   !   r = b - Ax   !
