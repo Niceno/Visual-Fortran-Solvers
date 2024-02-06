@@ -1,21 +1,26 @@
 !==============================================================================!
   subroutine Solvers_Mod_Cg_Diag_Prec(grid, n_iter, res)
 !------------------------------------------------------------------------------!
+!>  Performs diagonally preconditioned CG solution of a linear system
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type) :: grid
-  integer         :: n_iter
-  real            :: res
+  type(Grid_Type) :: grid    !! computational grid
+  integer         :: n_iter  !! number of iterations
+  real            :: res     !! target residual
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: n  ! number of unknowns
-  integer :: i, iter
-  real    :: alpha, beta, rho_old, rho, pap
-  real    :: time_ps, time_pe, time_ss, time_se
+  integer                    :: n  ! number of unknowns
+  integer                    :: i, iter
+  real                       :: alpha, beta, rho_old, rho, pap
+  real                       :: time_ps, time_pe, time_ss, time_se
+  type(Sparse_Type), pointer :: A
 !==============================================================================!
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with diagonally CG method'
   print *, '#----------------------------------------------------------'
+
+  A => a_sparse
 
   !------------------!
   !                  !
@@ -29,7 +34,7 @@
   !   Actual computation   !
   !                        !
   !------------------------!
-  n = a_sparse % n
+  n = A % n
 
   call Cpu_Time(time_ps)
   call Cpu_Time(time_pe)
@@ -37,7 +42,7 @@
   !----------------!
   !   r = b - Ax   !
   !----------------!
-  call Lin_Alg_Mod_Sparse_X_Vector(ax, a_sparse, x)
+  call Lin_Alg_Mod_Sparse_X_Vector(ax, A, x)
   do i = 1, n
     r(i) = b(i) - ax(i)
   end do
@@ -46,7 +51,7 @@
   !   solve M * z = r   !
   !---------------------!
   do i = 1, n
-    z(i) = r(i) * a_sparse % val(a_sparse % dia(i))
+    z(i) = r(i) * A % val(A % dia(i))
   end do
 
   !------------------!
@@ -70,14 +75,14 @@
   do iter = 1, n_iter
 
     !------------!
-    !   p = Ap   !
+    !   q = Ap   !
     !------------!
-    call Lin_Alg_Mod_Sparse_X_Vector(ap, a_sparse, p)
+    call Lin_Alg_Mod_Sparse_X_Vector(q, A, p)
 
     !-----------------------!
     !   alpha = rho / pAp   !
     !-----------------------!
-    call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, ap)
+    call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, q)
 
     alpha = rho / pap
 
@@ -90,14 +95,14 @@
     end do
 
     do i = 1, n
-      r(i) = r(i) - alpha * ap(i)
+      r(i) = r(i) - alpha * q(i)
     end do
 
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
     do i = 1, n
-      z(i) = r(i) * a_sparse % val(a_sparse % dia(i))
+      z(i) = r(i) * A % val(A % dia(i))
     end do
 
     !------------------!

@@ -1,21 +1,21 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Check_Solution_Dense(a)
+  subroutine Solvers_Mod_Check_Solution_Dense(A)
 !------------------------------------------------------------------------------!
 !   Check the solution                                                         !
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
-  type(Dense_Type) :: a
+  type(Dense_Type) :: A
 !-----------------------------------[Locals]-----------------------------------!
   real :: error
 !==============================================================================!
 
-  call Lin_Alg_Mod_Dense_X_Vector(y, a, x)
+  call Lin_Alg_Mod_Dense_X_Vector(y, A, x)
 
   r = b_o - y
 
   call Lin_Alg_Mod_Vector_Dot_Vector(error, r, r)
 
-  print '(a,1es10.4)', " # Error:                       ", sqrt(error)
+  print '(A,1es10.4)', " # Error:                       ", sqrt(error)
 
   end subroutine

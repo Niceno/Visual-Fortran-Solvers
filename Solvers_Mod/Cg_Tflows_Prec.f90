@@ -73,14 +73,14 @@
   do iter = 1, n_iter
 
     !------------!
-    !   p = Ap   !
+    !   q = Ap   !
     !------------!
-    call Lin_Alg_Mod_Sparse_X_Vector(ap, a_sparse, p)
+    call Lin_Alg_Mod_Sparse_X_Vector(q, a_sparse, p)
 
     !-----------------------!
     !   alpha = rho / pAp   !
     !-----------------------!
-    call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, ap)
+    call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, q)
 
     alpha = rho / pap
 
@@ -93,7 +93,7 @@
     end do
 
     do i = 1, n
-      r(i) = r(i) - alpha * ap(i)
+      r(i) = r(i) - alpha * q(i)
     end do
 
     !---------------------!

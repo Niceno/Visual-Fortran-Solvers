@@ -1,17 +1,25 @@
 !==============================================================================!
   subroutine Solvers_Mod_Gauss(grid)
 !------------------------------------------------------------------------------!
+!   In a nutshell:                                                             !
+!   1 - calls Gaussian Elimination                                             !
+!   2 - calls Backward Substitution                                            !
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Grid_Type) :: grid
 !-----------------------------------[Locals]-----------------------------------!
-  real    :: time_ps, time_pe, time_ss, time_se
-  integer :: bw
+  real                      :: time_ps, time_pe, time_ss, time_se
+  integer                   :: bw
+  type(Dense_Type), pointer :: A, U
 !==============================================================================!
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with Gaussian elimination'
   print *, '#----------------------------------------------------------'
+
+  A => a_square
+  U => q_square
 
   !------------------!
   !   Praparations   !
@@ -19,12 +27,12 @@
   call Solvers_Mod_Prepare_System(grid)
 
   ! Create two full matrices from a sparse
-  call Sparse_Mod_Expand(a_square, a_sparse, bw)
-  call Sparse_Mod_Expand(p_square, a_sparse, bw)
-  p_square % val(:,:) = 0
+  call Sparse_Mod_Expand(A, a_sparse, bw)
+  call Sparse_Mod_Expand(U, a_sparse, bw)
+  U % val(:,:) = 0
 
   ! Just print original matrix
-  call In_Out_Mod_Print_Dense("a_square:", a_square)
+  call In_Out_Mod_Print_Dense("A:", A)
 
   !------------------------!
   !   Actual computation   !
@@ -32,14 +40,14 @@
 
   ! Perform Gauss elimination on matrix and r.h.s. vector
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Gauss_Elimination(p_square, b, a_square, bw)
+  call Solvers_Mod_Gauss_Elimination(U, b, A, bw)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Dense("p_square after elimination:", p_square)
+  call In_Out_Mod_Print_Dense("U after elimination:", U)
   !@ call In_Out_Mod_Print_Vector("vector b after elimination:", b)
 
-  ! Perform backward substitution
+  ! Perform backward substitution Ub=x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Backward_Substitution_Dense(x, p_square, b)
+  call Solvers_Mod_Backward_Substitution_Dense(x, U, b)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
 
@@ -51,7 +59,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Dense(a_square)
+  call Solvers_Mod_Check_Solution_Dense(A)
 
   !-------------------------!
   !   Clean-up the memory   !

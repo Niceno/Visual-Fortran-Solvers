@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cholesky_Factorization_Dense(f, a, bw)
+  subroutine Solvers_Mod_Cholesky_Factorization_Dense(F, A, bw)
 !------------------------------------------------------------------------------!
 !   Computes Cholesky decomposition on square (full) matrices.                 !
 !                                                                              !
@@ -8,8 +8,8 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type) :: f
-  type(Dense_Type) :: a
+  type(Dense_Type) :: F
+  type(Dense_Type) :: A
   integer          :: bw  ! band width
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, k, m, n
@@ -18,21 +18,21 @@
 
   print *, '# Factorizing square (full) matrix with Cholesky method'
 
-  n = a % n  ! some checks would be possible
+  n = A % n  ! some checks would be possible
 
   do k = 1, n
-    sum = a % val(k,k)
+    sum = A % val(k,k)
     do m = max(1,k-bw), k-1
-      sum = sum - f % val(k,m)**2  ! straightforward for sparse matrix
+      sum = sum - F % val(k,m)**2  ! straightforward for sparse matrix
     end do
-    f % val(k,k) = sqrt(sum)
+    F % val(k,k) = sqrt(sum)
     do i = k+1, min(k+bw,n)
-      sum = a % val(i,k)
+      sum = A % val(i,k)
       do m = max(1,k-bw), k-1
-        sum = sum - f % val(m,i)*f % val(m,k)  ! straighforward for sparse
+        sum = sum - F % val(m,i)*F % val(m,k)  ! straighforward for sparse
       end do
-      f % val(k,i) = sum / f % val(k,k)
-      f % val(i,k) = sum / f % val(k,k)  ! make it full
+      F % val(k,i) = sum / F % val(k,k)
+      F % val(i,k) = sum / F % val(k,k)  ! make it full
     end do
   end do
 

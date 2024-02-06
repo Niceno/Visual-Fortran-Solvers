@@ -1,8 +1,8 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cholesky(grid)
+  subroutine Solvers_Mod_Lu(grid)
 !------------------------------------------------------------------------------!
 !   In a nutshell:                                                             !
-!   1 - calls Cholesky Factorization                                           !
+!   1 - calls Lu Factorization                                                 !
 !   2 - calls Forward_Substitution                                             !
 !   3 - calls Backward Substitution                                            !
 !------------------------------------------------------------------------------!
@@ -12,15 +12,16 @@
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
   integer                   :: bw
-  type(Dense_Type), pointer :: A, LL
+  type(Dense_Type), pointer :: A, L, U
 !==============================================================================!
 
   print *, '#=========================================================='
-  print *, '# Solving the sytem with Cholesky decomposition'
+  print *, '# Solving the sytem with LU decomposition'
   print *, '#----------------------------------------------------------'
 
-  A  => a_square
-  LL => p_square
+  A => a_square
+  L => p_square
+  U => q_square
 
   !------------------!
   !   Praparations   !
@@ -29,8 +30,10 @@
 
   ! Create two full matrices from the sparse one
   call Sparse_Mod_Expand(A, a_sparse, bw)
-  call Sparse_Mod_Expand(LL, a_sparse, bw)
-  LL % val(:,:) = 0
+  call Sparse_Mod_Expand(L, a_sparse, bw)
+  call Sparse_Mod_Expand(U, a_sparse, bw)
+  L % val(:,:) = 0
+  U % val(:,:) = 0
 
   ! Just print original matrix
   call In_Out_Mod_Print_Dense("A:", A)
@@ -39,19 +42,20 @@
   !   Actual computation   !
   !------------------------!
 
-  ! Perform Cholesky factorization on the matrix to fin the lower one
+  ! Perform LU factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Cholesky_Factorization_Dense(LL, A, bw)
+  call Solvers_Mod_Lu_Factorization_Dense(L, U, A, bw)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Dense("LL after Cholesky factorization", LL)
+  call In_Out_Mod_Print_Dense("L after LU factorization", L)
+  call In_Out_Mod_Print_Dense("U after LU factorization", U)
 
-  ! Compute y by forward substitution
+  ! Compute y by forward substitution: Ly=b
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Forward_Substitution_Dense(y, LL, b)
+  call Solvers_Mod_Forward_Substitution_Dense(y, L, b)
   !@ call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
 
-  ! Compute x by backward substitution
-  call Solvers_Mod_Backward_Substitution_Dense(x, LL, y)
+  ! Compute x by backward substitution Ub=x
+  call Solvers_Mod_Backward_Substitution_Dense(x, U, y)
   !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
   call Cpu_Time(time_se)
 

@@ -1,6 +1,8 @@
 !==============================================================================!
   subroutine Solvers_Mod_Cg_Ldlt_Prec(grid, n_iter, res, f_in)
 !------------------------------------------------------------------------------!
+!>  Performs LDL' preconditioned CG solution of a linear system.
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Grid_Type) :: grid
@@ -8,15 +10,19 @@
   real            :: res
   integer         :: f_in
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: n  ! number of unknowns
-  integer :: i, iter
-  real    :: alpha, beta, rho_old, rho, pap
-  real    :: time_ps, time_pe, time_ss, time_se
+  integer                    :: n  ! number of unknowns
+  integer                    :: i, iter
+  real                       :: alpha, beta, rho_old, rho, pap
+  real                       :: time_ps, time_pe, time_ss, time_se
+  type(Sparse_Type), pointer :: A, LDL
 !==============================================================================!
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with preconditioned CG method'
   print *, '#----------------------------------------------------------'
+
+  A   => a_sparse
+  LDL => p_sparse
 
   !------------------!
   !                  !
@@ -25,25 +31,25 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  call Sparse_Mod_Create_Preconditioning(p_sparse, a_sparse, f_in)
-  call In_Out_Mod_Print_Sparse("Sparse p_sparse:", p_sparse)
+  call Sparse_Mod_Create_Preconditioning(LDL, A, f_in)
+  call In_Out_Mod_Print_Sparse("Sparse LDL:", LDL)
 
   !------------------------!
   !                        !
   !   Actual computation   !
   !                        !
   !------------------------!
-  n = a_sparse % n
+  n = A % n
 
   ! Perform LDL^T factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Ldlt_Factorization_Sparse(p_sparse, a_sparse)
+  call Solvers_Mod_Ldlt_Factorization_Sparse(LDL, A)
   call Cpu_Time(time_pe)
 
   !----------------!
   !   r = b - Ax   !
   !----------------!
-  call Lin_Alg_Mod_Sparse_X_Vector(ax, a_sparse, x)
+  call Lin_Alg_Mod_Sparse_X_Vector(ax, A, x)
   do i = 1, n
     r(i) = b(i) - ax(i)
   end do
@@ -51,7 +57,7 @@
   !---------------------!
   !   solve M * z = r   !
   !---------------------!
-  call Solvers_Mod_Ldlt_Solution_Sparse(z, p_sparse, r)
+  call Solvers_Mod_Ldlt_Solution_Sparse(z, LDL, r)
 
   !------------------!
   !   rho = r' * z   !
@@ -74,14 +80,14 @@
   do iter = 1, n_iter
 
     !------------!
-    !   p = Ap   !
+    !   q = Ap   !
     !------------!
-    call Lin_Alg_Mod_Sparse_X_Vector(ap, a_sparse, p)
+    call Lin_Alg_Mod_Sparse_X_Vector(q, A, p)
 
     !-----------------------!
     !   alpha = rho / pAp   !
     !-----------------------!
-    call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, ap)
+    call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, q)
     alpha = rho / pap
 
     !---------------------!
@@ -92,13 +98,13 @@
       x(i) = x(i) + alpha * p(i)
     end do
     do i = 1, n
-      r(i) = r(i) - alpha * ap(i)
+      r(i) = r(i) - alpha * q(i)
     end do
 
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
-    call Solvers_Mod_Ldlt_Solution_Sparse(z, p_sparse, r)
+    call Solvers_Mod_Ldlt_Solution_Sparse(z, LDL, r)
 
     !------------------!
     !   rho = r' * z   !

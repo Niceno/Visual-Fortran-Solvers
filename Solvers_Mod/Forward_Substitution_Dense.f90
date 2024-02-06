@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Forward_Substitution_Dense(x, f, b)
+  subroutine Solvers_Mod_Forward_Substitution_Dense(x, F, b)
 !------------------------------------------------------------------------------!
 !   Performs forward substitution on a square (full) matrix.                   !
 !   It will address only elements in lower trinangular part though.            !
@@ -9,22 +9,22 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:) :: x
-  type(Dense_Type)   :: f
-  real, dimension(:) :: b
+  real, dimension(:) :: x  !! resulting vector
+  type(Dense_Type)   :: F  !! factorized matrix, should be L in the caller
+  real, dimension(:) :: b  !! right hand side vector
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, n
   real    :: sum
 !==============================================================================!
 
-  n = f % n  ! some checks would be possible
+  n = F % n  ! some checks would be possible
 
   do i = 1, n
     sum = b(i)
     do j = 1, i-1
-      sum = sum - f % val(i,j)*x(j)  ! straightforward for sparse matrix
+      sum = sum - F % val(i,j)*x(j)  ! straightforward for sparse matrix
     end do
-    x(i) = sum / f % val(i,i)
+    x(i) = sum / F % val(i,i)
   end do
 
   end subroutine

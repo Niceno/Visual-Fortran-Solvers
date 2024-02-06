@@ -70,26 +70,27 @@
   print *, '#  1 - Gaussian elimination'
   print *, '#  2 - Cholesky solver'
   print *, '#  3 - LDL^T solver'
+  print *, '#  4 - LU solver'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '#  4 - Incomplete Cholesky solver'
-  print *, '#  5 - Incomplete LDL^T solver'
-  print *, '#  6 - Bare-bones LDL^T solver from T-Flows'
+  print *, '#  5 - Incomplete Cholesky solver'
+  print *, '#  6 - Incomplete LDL^T solver'
+  print *, '#  7 - Bare-bones LDL^T solver from T-Flows'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '#  7 - CG solver without preconditioning'
-  print *, '#  8 - CG solver with diagonal preconditioning'
-  print *, '#  9 - CG solver with T-Flows preconditioning'
-  print *, '# 10 - CG solver with LDL^T preconditioning'
+  print *, '#  8 - CG solver without preconditioning'
+  print *, '#  9 - CG solver with diagonal preconditioning'
+  print *, '# 10 - CG solver with T-Flows preconditioning'
+  print *, '# 11 - CG solver with LDL^T preconditioning'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '# 11 - Compressed matrices'
-  print *, '# 12 - Preconditioning matrix'
+  print *, '# 12 - Compressed matrices'
+  print *, '# 13 - Preconditioning matrix'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  write(*,'(a46,3i4)') '# 13 - Change grid resolution, currently at: ',  &
+  write(*,'(a46,3i4)') '# 14 - Change grid resolution, currently at: ',  &
                        grid % nx, grid % ny, grid % nz
-  write(*,'(a46,1i4)') '# 14 - Change fill-in level, currently at:   ',  &
+  write(*,'(a46,1i4)') '# 15 - Change fill-in level, currently at:   ',  &
                        f_in
-  write(*,'(a46,1i4)') '# 15 - Change num iterations, currently at:  ',  &
+  write(*,'(a46,1i4)') '# 16 - Change num iterations, currently at:  ',  &
                        n_iter
-  write(*,'(a46,1es13.4)') '# 16 - Change target residual, currently at: ',  &
+  write(*,'(a46,1es13.4)') '# 17 - Change target residual, currently at: ',  &
                        res
   print *, '#----------------------------------------------------------'
 
@@ -104,32 +105,33 @@
   if(choice ==  1) call Solvers_Mod_Gauss   (grid)
   if(choice ==  2) call Solvers_Mod_Cholesky(grid)
   if(choice ==  3) call Solvers_Mod_Ldlt    (grid)
+  if(choice ==  4) call Solvers_Mod_Lu      (grid)
 
-  if(choice ==  4) call Solvers_Mod_Incomplete_Cholesky        (grid, f_in)
-  if(choice ==  5) call Solvers_Mod_Incomplete_Ldlt            (grid, f_in)
-  if(choice ==  6) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid)
+  if(choice ==  5) call Solvers_Mod_Incomplete_Cholesky        (grid, f_in)
+  if(choice ==  6) call Solvers_Mod_Incomplete_Ldlt            (grid, f_in)
+  if(choice ==  7) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid)
 
-  if(choice ==  7) call Solvers_Mod_Cg            (grid, n_iter, res)
-  if(choice ==  8) call Solvers_Mod_Cg_Diag_Prec  (grid, n_iter, res)
-  if(choice ==  9) call Solvers_Mod_Cg_Tflows_Prec(grid, n_iter, res)
-  if(choice == 10) call Solvers_Mod_Cg_Ldlt_Prec  (grid, n_iter, res, f_in)
+  if(choice ==  8) call Solvers_Mod_Cg            (grid, n_iter, res)
+  if(choice ==  9) call Solvers_Mod_Cg_Diag_Prec  (grid, n_iter, res)
+  if(choice == 10) call Solvers_Mod_Cg_Tflows_Prec(grid, n_iter, res)
+  if(choice == 11) call Solvers_Mod_Cg_Ldlt_Prec  (grid, n_iter, res, f_in)
 
-  if(choice == 11) call Demo_Mod_Compress_Decompress
-  if(choice == 12) call Demo_Mod_Fill_In(f_in, grid)
+  if(choice == 12) call Demo_Mod_Compress_Decompress
+  if(choice == 13) call Demo_Mod_Fill_In(f_in, grid)
 
-  if(choice == 13) then
+  if(choice == 14) then
     print *, '# Enter the desired resolution: '
     read *, grid % nx, grid % ny, grid % nz
   end if
-  if(choice == 14) then
+  if(choice == 15) then
     print *, '# Enter the desired fill-in level: '
     read *, f_in
   end if
-  if(choice == 15) then
+  if(choice == 16) then
     print *, '# Enter the desired number of iterations: '
     read *, n_iter
   end if
-  if(choice == 16) then
+  if(choice == 17) then
     print *, '# Enter the desired target residual: '
     read *, res
   end if
