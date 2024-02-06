@@ -1,20 +1,22 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Check_Solution_Square(a)
+  subroutine Lin_Alg_Mod_Dense_T(b, a)
 !------------------------------------------------------------------------------!
-!   Check the solution                                                         !
+!   Transposes a square (full) matrix.                                         !
 !------------------------------------------------------------------------------!
   implicit none
-  type(Square_Type) :: a
+!---------------------------------[Arguments]----------------------------------!
+  type(Dense_Type) :: b
+  type(Dense_Type) :: a
 !-----------------------------------[Locals]-----------------------------------!
-  real :: error
+  integer :: n, row, col
 !==============================================================================!
 
-  call Lin_Alg_Mod_Square_X_Vector(y, a, x)
+  n = a % n  ! some checks would be possible
 
-  r = b_o - y
-
-  call Lin_Alg_Mod_Vector_Dot_Vector(error, r, r)
-
-  print '(a,1es10.4)', " # Error:                       ", sqrt(error)
+  do row = 1, n
+    do col = 1, n
+      b % val(col, row) = a % val(row, col)
+    end do
+  end do
 
   end subroutine

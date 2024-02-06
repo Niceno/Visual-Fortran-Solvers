@@ -15,29 +15,29 @@ Demo_Mod/*.f90
 $(DIR_OBJECT)/Foul_Mod.o:\
 Foul_Mod/*.f90 
 
-#-- ./Square_Mod.f90
-$(DIR_OBJECT)/Square_Mod.o:\
-Square_Mod/*.f90 \
+#-- ./Dense_Mod.f90
+$(DIR_OBJECT)/Dense_Mod.o:\
+Dense_Mod/*.f90 \
 $(DIR_OBJECT)/Grid_Mod.o 
 
-#-- ./Square_Mod/Allocate.f90
-#-- ./Square_Mod/Deallocate.f90
+#-- ./Dense_Mod/Allocate.f90
+#-- ./Dense_Mod/Deallocate.f90
 #-- ./Lin_Alg_Mod.f90
 $(DIR_OBJECT)/Lin_Alg_Mod.o:\
-$(DIR_OBJECT)/Square_Mod.o \
-Square_Mod/*.f90 \
+$(DIR_OBJECT)/Dense_Mod.o \
+Dense_Mod/*.f90 \
 $(DIR_OBJECT)/Sparse_Mod.o \
 Sparse_Mod/*.f90 \
 Lin_Alg_Mod/*.f90 
 
-#-- ./In_Out_Mod/Print_Square.f90
+#-- ./In_Out_Mod/Print_Dense.f90
 #-- ./In_Out_Mod/Load_Linear_System.f90
 #-- ./In_Out_Mod/Print_Vector.f90
 #-- ./In_Out_Mod/Print_Sparse.f90
 #-- ./In_Out_Mod.f90
 $(DIR_OBJECT)/In_Out_Mod.o:\
-$(DIR_OBJECT)/Square_Mod.o \
-Square_Mod/*.f90 \
+$(DIR_OBJECT)/Dense_Mod.o \
+Dense_Mod/*.f90 \
 $(DIR_OBJECT)/Sparse_Mod.o \
 Sparse_Mod/*.f90 \
 In_Out_Mod/*.f90 \
@@ -58,8 +58,8 @@ Foul_Mod/*.f90
 #-- ./Solvers_Mod/Forward_Substitution_Sparse.f90
 #-- ./Solvers_Mod/Check_Solution_Sparse.f90
 #-- ./Solvers_Mod/Ldlt.f90
-#-- ./Solvers_Mod/Backward_Substitution_Square.f90
-#-- ./Solvers_Mod/Check_Solution_Square.f90
+#-- ./Solvers_Mod/Backward_Substitution_Dense.f90
+#-- ./Solvers_Mod/Check_Solution_Dense.f90
 #-- ./Solvers_Mod/Cholesky_Factorization_Sparse.f90
 #-- ./Solvers_Mod/Cg_Ldlt_Prec.f90
 #-- ./Solvers_Mod/Incomplete_Ldlt_From_Tflows.f90
@@ -67,15 +67,15 @@ Foul_Mod/*.f90
 #-- ./Solvers_Mod/Prepare_System.f90
 #-- ./Solvers_Mod/Cg_Tflows_Prec.f90
 #-- ./Solvers_Mod/Cg.f90
-#-- ./Solvers_Mod/Ldlt_Solution_Square.f90
+#-- ./Solvers_Mod/Ldlt_Solution_Dense.f90
 #-- ./Solvers_Mod/Incomplete_Ldlt.f90
 #-- ./Solvers_Mod/Ldlt_Solution_From_Tflows.f90
-#-- ./Solvers_Mod/Ldlt_Factorization_Square.f90
+#-- ./Solvers_Mod/Ldlt_Factorization_Dense.f90
 #-- ./Solvers_Mod/Cg_Diag_Prec.f90
-#-- ./Solvers_Mod/Forward_Substitution_Square.f90
+#-- ./Solvers_Mod/Forward_Substitution_Dense.f90
 #-- ./Solvers_Mod/Deallocate.f90
 #-- ./Solvers_Mod/Incomplete_Cholesky.f90
-#-- ./Solvers_Mod/Cholesky_Factorization_Square.f90
+#-- ./Solvers_Mod/Cholesky_Factorization_Dense.f90
 #-- ./Solvers_Mod/Gauss.f90
 #-- ./Solvers_Mod/Gauss_Elimination.f90
 #-- ./Solvers_Mod/Ldlt_Factorization_From_Tflows.f90
@@ -85,14 +85,14 @@ $(DIR_OBJECT)/Sort_Mod.o:\
 Sort_Mod/*.f90 
 
 #-- ./Lin_Alg_Mod/Vector_Dot_Vector.f90
-#-- ./Lin_Alg_Mod/Square_X_Square.f90
-#-- ./Lin_Alg_Mod/Square_X_Vector.f90
-#-- ./Lin_Alg_Mod/Square_T.f90
+#-- ./Lin_Alg_Mod/Dense_X_Dense.f90
+#-- ./Lin_Alg_Mod/Dense_X_Vector.f90
+#-- ./Lin_Alg_Mod/Dense_T.f90
 #-- ./Lin_Alg_Mod/Sparse_X_Vector.f90
 #-- ./Sparse_Mod.f90
 $(DIR_OBJECT)/Sparse_Mod.o:\
-$(DIR_OBJECT)/Square_Mod.o \
-Square_Mod/*.f90 \
+$(DIR_OBJECT)/Dense_Mod.o \
+Dense_Mod/*.f90 \
 Sparse_Mod/*.f90 \
 $(DIR_OBJECT)/Sort_Mod.o \
 Sort_Mod/*.f90 \

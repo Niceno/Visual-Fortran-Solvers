@@ -24,7 +24,7 @@
   p_square % val(:,:) = 0
 
   ! Just print original matrix
-  call In_Out_Mod_Print_Square("a_square:", a_square)
+  call In_Out_Mod_Print_Dense("a_square:", a_square)
 
   !------------------------!
   !   Actual computation   !
@@ -32,18 +32,18 @@
 
   ! Perform Cholesky factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Cholesky_Factorization_Square(p_square, a_square, bw)
+  call Solvers_Mod_Cholesky_Factorization_Dense(p_square, a_square, bw)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Square(  &
+  call In_Out_Mod_Print_Dense(  &
        "p_square after Cholesky factorization", p_square)
 
   ! Compute y by forward substitution
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Forward_Substitution_Square(y, p_square, b)
+  call Solvers_Mod_Forward_Substitution_Dense(y, p_square, b)
   !@ call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
 
   ! Compute x by backward substitution
-  call Solvers_Mod_Backward_Substitution_Square(x, p_square, y)
+  call Solvers_Mod_Backward_Substitution_Dense(x, p_square, y)
   !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
   call Cpu_Time(time_se)
 
@@ -55,7 +55,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Square(a_square)
+  call Solvers_Mod_Check_Solution_Dense(a_square)
 
   !-------------------------!
   !   Clean-up the memory   !

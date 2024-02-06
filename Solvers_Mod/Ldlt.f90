@@ -24,7 +24,7 @@
   p_square % val(:,:) = 0
 
   ! Just print original matrix
-  call In_Out_Mod_Print_Square("a_square:", a_square)
+  call In_Out_Mod_Print_Dense("a_square:", a_square)
 
   !------------------------!
   !   Actual computation   !
@@ -32,14 +32,14 @@
 
   ! Perform LDLT factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Ldlt_Factorization_Square(p_square, a_square, bw)
+  call Solvers_Mod_Ldlt_Factorization_Dense(p_square, a_square, bw)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Square(   &
+  call In_Out_Mod_Print_Dense(   &
        "p_square after Cholesky factorization", p_square)
 
   ! Compute x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Ldlt_Solution_Square(x, p_square, b)
+  call Solvers_Mod_Ldlt_Solution_Dense(x, p_square, b)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
@@ -51,7 +51,7 @@
   !------------------------!
   !   Check the solition   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Square(a_square)
+  call Solvers_Mod_Check_Solution_Dense(a_square)
 
   !-------------------------!
   !   Clean-up the memory   !

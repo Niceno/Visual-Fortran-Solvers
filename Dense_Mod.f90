@@ -1,20 +1,20 @@
 !==============================================================================!
-  module Square_Mod
+  module Dense_Mod
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Grid_Mod
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
-!   Square (full) matrix type                                                  !
+!   Dense (full) matrix type                                                   !
 !==============================================================================!
 
-  !-----------------!
-  !                 !
-  !   Square Type   !
-  !                 !
-  !-----------------!
-  type Square_Type
+  !----------------!
+  !                !
+  !   Dense Type   !
+  !                !
+  !----------------!
+  type Dense_Type
     integer              :: n = 0     ! matrix dimension
     integer              :: nonzeros  ! number of nonzero entries
     real,    allocatable :: val(:,:)  ! value
@@ -22,7 +22,7 @@
 
   contains
 
-  include 'Square_Mod/Allocate.f90'
-  include 'Square_Mod/Deallocate.f90'
+  include 'Dense_Mod/Allocate.f90'
+  include 'Dense_Mod/Deallocate.f90'
 
   end module

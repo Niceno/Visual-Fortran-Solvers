@@ -110,7 +110,7 @@ $(info  $(OPT_COMP))
 SRC_MOD = Foul_Mod.f90		\
           Sort_Mod.f90		\
           Grid_Mod.f90		\
-          Square_Mod.f90	\
+          Dense_Mod.f90		\
           Sparse_Mod.f90	\
           In_Out_Mod.f90	\
           Lin_Alg_Mod.f90	\

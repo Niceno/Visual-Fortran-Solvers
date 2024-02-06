@@ -3,7 +3,7 @@
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Foul_Mod
-  use Square_Mod
+  use Dense_Mod
   use Sparse_Mod
 !------------------------------------------------------------------------------!
   implicit none
@@ -53,7 +53,7 @@
 
   include 'In_Out_Mod/Load_Linear_System.f90'
   include 'In_Out_Mod/Print_Sparse.f90'
-  include 'In_Out_Mod/Print_Square.f90'
+  include 'In_Out_Mod/Print_Dense.f90'
   include 'In_Out_Mod/Print_Vector.f90'
 
   end module

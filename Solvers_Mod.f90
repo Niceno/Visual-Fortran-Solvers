@@ -14,7 +14,7 @@
   type(Sparse_Type) :: a_sparse, p_sparse
 
   ! Working square (full) matrices
-  type(Square_Type) :: a_square, p_square
+  type(Dense_Type) :: a_square, p_square
 
   ! Working arrays for direct solvers
   real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
@@ -30,16 +30,16 @@
 
   ! Solver components
   include 'Solvers_Mod/Backward_Substitution_Sparse.f90'
-  include 'Solvers_Mod/Backward_Substitution_Square.f90'
+  include 'Solvers_Mod/Backward_Substitution_Dense.f90'
   include 'Solvers_Mod/Cholesky_Factorization_Sparse.f90'
-  include 'Solvers_Mod/Cholesky_Factorization_Square.f90'
+  include 'Solvers_Mod/Cholesky_Factorization_Dense.f90'
   include 'Solvers_Mod/Forward_Substitution_Sparse.f90'
-  include 'Solvers_Mod/Forward_Substitution_Square.f90'
+  include 'Solvers_Mod/Forward_Substitution_Dense.f90'
   include 'Solvers_Mod/Gauss_Elimination.f90'
   include 'Solvers_Mod/Ldlt_Factorization_Sparse.f90'
-  include 'Solvers_Mod/Ldlt_Factorization_Square.f90'
+  include 'Solvers_Mod/Ldlt_Factorization_Dense.f90'
   include 'Solvers_Mod/Ldlt_Solution_Sparse.f90'
-  include 'Solvers_Mod/Ldlt_Solution_Square.f90'
+  include 'Solvers_Mod/Ldlt_Solution_Dense.f90'
   include 'Solvers_Mod/Ldlt_Factorization_From_Tflows.f90'
   include 'Solvers_Mod/Ldlt_Solution_From_Tflows.f90'
 
@@ -61,7 +61,7 @@
 
   ! Other functionality
   include 'Solvers_Mod/Check_Solution_Sparse.f90'
-  include 'Solvers_Mod/Check_Solution_Square.f90'
+  include 'Solvers_Mod/Check_Solution_Dense.f90'
   include 'Solvers_Mod/Prepare_System.f90'
 
   end module

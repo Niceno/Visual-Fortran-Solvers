@@ -1,12 +1,12 @@
 !==============================================================================!
-  subroutine Square_Mod_Allocate(a, n)
+  subroutine Dense_Mod_Allocate(a, n)
 !------------------------------------------------------------------------------!
-!   Deallocates memory occupied by Square_Type                                 !
+!   Deallocates memory occupied by Dense_Type                                  !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Square_Type) :: a
-  integer           :: n
+  type(Dense_Type) :: a
+  integer          :: n
 !------------------------------------------------------------------------------!
 
   a % n = n

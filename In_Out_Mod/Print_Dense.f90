@@ -1,12 +1,12 @@
 !==============================================================================!
-  subroutine In_Out_Mod_Print_Square(message, full)
+  subroutine In_Out_Mod_Print_Dense(message, full)
 !------------------------------------------------------------------------------!
 !   Prints full matrix out.                                                    !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  character(len=*)  :: message
-  type(Square_Type) :: full
+  character(len=*) :: message
+  type(Dense_Type) :: full
 !-----------------------------------[Locals]-----------------------------------!
   integer      :: row, col  ! row used to be "i", col used to be "j"
   character(2) :: item

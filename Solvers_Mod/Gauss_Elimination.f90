@@ -5,9 +5,9 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Square_Type)  :: g
+  type(Dense_Type)   :: g
   real, dimension(:) :: b
-  type(Square_Type)  :: a
+  type(Dense_Type)   :: a
   integer            :: bw  ! band width
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, n

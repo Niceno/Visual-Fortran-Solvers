@@ -1,23 +1,25 @@
 !==============================================================================!
-  subroutine Lin_Alg_Mod_Square_X_Vector(y, a, x)
+  subroutine Lin_Alg_Mod_Dense_X_Dense(c, a, b)
 !------------------------------------------------------------------------------!
-!   Computes matrix vector product where matrix is full.                       !
+!   Multiplies two square (full) matrices.                                     !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:) :: y
-  type(Square_Type)  :: a
-  real, dimension(:) :: x
+  type(Dense_Type) :: c
+  type(Dense_Type) :: a
+  type(Dense_Type) :: b
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, n
+  integer :: i, j, k, n
 !==============================================================================!
 
   n = a % n  ! some checks would be possible
 
   do i = 1, n
-    y(i) = 0.0
     do j = 1, n
-      y(i) = y(i) + a % val(i,j) * x(j)
+      c % val(i,j) = 0
+      do k = 1, n
+        c % val(i,j) = c % val(i,j) + a % val(i,k) * b % val(k,j)
+      end do
     end do
   end do
 

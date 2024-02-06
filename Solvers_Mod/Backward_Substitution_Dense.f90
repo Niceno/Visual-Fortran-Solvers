@@ -1,15 +1,17 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Ldlt_Solution_Square(x, f, b)
+  subroutine Solvers_Mod_Backward_Substitution_Dense(x, f, b)
 !------------------------------------------------------------------------------!
-!   Solves system based on LDL^T decomposition.                                !
+!   Performs backward substitution on a square (full) matrix.                  !
+!   It will address only elements in upper trinangular part.                   !
 !                                                                              !
 !   Called by:                                                                 !
-!   - Solvers_Mod_Ldlt                                                         !
+!   - Solvers_Mod_Cholesky                                                     !
+!   - Solvers_Mod_Gauss                                                        !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, dimension(:) :: x
-  type(Square_Type)  :: f
+  type(Dense_Type)   :: f
   real, dimension(:) :: b
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, n
@@ -18,27 +20,12 @@
 
   n = f % n  ! some checks would be possible
 
-  ! Forward substitutions
-  do i = 1, n
-    sum = b(i)
-    do j=1,i-1
-      sum = sum - f % val(i,j)*x(j)  ! straightforward for compressed row format
-    end do
-    x(i) = sum
-  end do
-
-  ! Treat the diagonal term
-  do i = 1, n
-    x(i) = x(i) / f % val(i,i)
-  end do
-
-  ! Backward substitution
   do i = n, 1, -1
-    sum = x(i)
+    sum = b(i)
     do j = i+1, n
-      sum = sum - f % val(i,j)*x(j)  ! straighforward for compressed row format
+      sum = sum - f % val(i,j)*x(j)  ! straighforward for sparse matrix
     end do
-    x(i) = sum
+    x(i) = sum / f % val(i,i)
   end do
 
   end subroutine

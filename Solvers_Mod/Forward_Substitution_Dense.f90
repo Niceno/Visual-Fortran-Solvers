@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Forward_Substitution_Square(x, f, b)
+  subroutine Solvers_Mod_Forward_Substitution_Dense(x, f, b)
 !------------------------------------------------------------------------------!
 !   Performs forward substitution on a square (full) matrix.                   !
 !   It will address only elements in lower trinangular part though.            !
@@ -10,7 +10,7 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, dimension(:) :: x
-  type(Square_Type)  :: f
+  type(Dense_Type)   :: f
   real, dimension(:) :: b
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, n

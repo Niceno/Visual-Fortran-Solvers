@@ -24,7 +24,7 @@
   p_square % val(:,:) = 0
 
   ! Just print original matrix
-  call In_Out_Mod_Print_Square("a_square:", a_square)
+  call In_Out_Mod_Print_Dense("a_square:", a_square)
 
   !------------------------!
   !   Actual computation   !
@@ -34,12 +34,12 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Gauss_Elimination(p_square, b, a_square, bw)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Square("p_square after elimination:", p_square)
+  call In_Out_Mod_Print_Dense("p_square after elimination:", p_square)
   !@ call In_Out_Mod_Print_Vector("vector b after elimination:", b)
 
   ! Perform backward substitution
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Backward_Substitution_Square(x, p_square, b)
+  call Solvers_Mod_Backward_Substitution_Dense(x, p_square, b)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
 
@@ -51,7 +51,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Square(a_square)
+  call Solvers_Mod_Check_Solution_Dense(a_square)
 
   !-------------------------!
   !   Clean-up the memory   !

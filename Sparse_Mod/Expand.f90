@@ -3,7 +3,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Square_Type) :: a
+  type(Dense_Type)  :: a
   type(Sparse_Type) :: c
   integer           :: bw  ! band width
 !-----------------------------------[Locals]-----------------------------------!
@@ -16,7 +16,7 @@
   !---------------------!
   !   Allocate memory   !
   !---------------------!
-  call Square_Mod_Allocate(a, n)
+  call Dense_Mod_Allocate(a, n)
 
   !------------------------------!
   !   Form the expanded matrix   !

@@ -19,7 +19,7 @@
 
   ! Compressed matrix
   type(Sparse_Type) :: c
-  type(Square_Type) :: e
+  type(Dense_Type)  :: e
 !------------------------------------------------------------------------------!
 
   ! Compress matrix "f" and store it in "c"
@@ -30,6 +30,6 @@
   ! Expand matrix "ac2" and store it in "e"
   call Sparse_Mod_Expand(e, c, bw)
 
-  call In_Out_Mod_Print_Square("Epanded matrix c:", e)
+  call In_Out_Mod_Print_Dense("Epanded matrix c:", e)
 
   end subroutine
