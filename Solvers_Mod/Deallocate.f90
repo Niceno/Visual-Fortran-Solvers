@@ -14,11 +14,11 @@
   deallocate(z)
   deallocate(q)
 
-  if(a_square % n > 0) call Dense_Mod_Deallocate(a_square)
-  if(p_square % n > 0) call Dense_Mod_Deallocate(p_square)
-  if(q_square % n > 0) call Dense_Mod_Deallocate(q_square)
-  if(a_sparse % n > 0) call Sparse_Mod_Deallocate(a_sparse)
-  if(p_sparse % n > 0) call Sparse_Mod_Deallocate(p_sparse)
-  if(q_sparse % n > 0) call Sparse_Mod_Deallocate(q_sparse)
+  if(A_Square % n > 0) call A_Square % Dense_Deallocate()
+  if(P_Square % n > 0) call P_Square % Dense_Deallocate()
+  if(Q_Square % n > 0) call Q_Square % Dense_Deallocate()
+  if(A_Sparse % n > 0) call A_Sparse % Sparse_Deallocate()
+  if(P_Sparse % n > 0) call P_Sparse % Sparse_Deallocate()
+  if(Q_Sparse % n > 0) call Q_Sparse % Sparse_Deallocate()
 
   end subroutine

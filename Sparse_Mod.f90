@@ -48,6 +48,12 @@
     integer, allocatable :: row(:)    ! column positions
     integer, allocatable :: dia(:)    ! diagonal positions 
     integer, allocatable :: mir(:)    ! position of the mirror entry
+
+    contains
+      procedure :: Sparse_Create
+      procedure :: Sparse_Create_Preconditioning
+      procedure :: Sparse_Deallocate
+
   end type
 
   contains

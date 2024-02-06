@@ -1,14 +1,14 @@
 !==============================================================================!
-  subroutine Dense_Mod_Deallocate(a)
+  subroutine Dense_Deallocate(A)
 !------------------------------------------------------------------------------!
 !   Deallocates memory occupied by Dense_Type                                  !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type) :: a
+  class(Dense_Type) :: A  !! parent class
 !------------------------------------------------------------------------------!
 
-  a % n = 0
-  deallocate(a % val)    ! matrix entries
+  A % n = 0            ! (re)set dimension to zero
+  deallocate(A % val)  ! free matrix entries
 
   end subroutine

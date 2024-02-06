@@ -1,19 +1,19 @@
 !==============================================================================!
-  subroutine Sparse_Mod_Deallocate(a)
+  subroutine Sparse_Deallocate(A)
 !------------------------------------------------------------------------------!
-!   Deallocates memory occupied by type Sparse (matrix)                        !
+!>  Deallocates memory occupied by type Sparse (matrix).
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Sparse_Type) :: a
+  class(Sparse_Type) :: A  !! parent class
 !------------------------------------------------------------------------------!
 
-  a % n        = 0
-  a % nonzeros = 0
-  deallocate(a % val)    ! value
-  deallocate(a % col)    ! beginning of each row
-  deallocate(a % row)    ! column positions
-  deallocate(a % dia)    ! diagonal positions
-  deallocate(a % mir)    ! position of the mirror entry
+  A % n        = 0
+  A % nonzeros = 0
+  deallocate(A % val)    ! value
+  deallocate(A % col)    ! beginning of each row
+  deallocate(A % row)    ! column positions
+  deallocate(A % dia)    ! diagonal positions
+  deallocate(A % mir)    ! position of the mirror entry
 
   end subroutine

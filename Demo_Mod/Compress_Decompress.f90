@@ -20,7 +20,7 @@
   !------------------------------------------------!
 
   ! Allocate the memory
-  call Dense_Mod_Allocate(Orig, N)
+  call Orig % Dense_Allocate(N)
   PRINT *, 'Orig % n = ', Orig % n
 
   ! Set the values

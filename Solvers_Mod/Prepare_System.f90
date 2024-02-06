@@ -7,11 +7,11 @@
 !==============================================================================!
 
   ! Create sparse system matrix
-  call Sparse_Mod_Create(a_sparse, grid)
-  call In_Out_Mod_Print_Sparse("Sparse a_sparse:", a_sparse)
+  call A_Sparse % Sparse_Create(grid)
+  call In_Out_Mod_Print_Sparse("Sparse A_Sparse:", A_Sparse)
 
   ! Finish memory allocation
-  call Solvers_Mod_Allocate_Vectors(a_sparse % n)
+  call Solvers_Mod_Allocate_Vectors(A_Sparse % n)
 
   ! Fill the right hand side and store its original value
   b  (:) = 0.1

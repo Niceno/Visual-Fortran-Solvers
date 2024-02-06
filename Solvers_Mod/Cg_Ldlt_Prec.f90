@@ -31,7 +31,7 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  call Sparse_Mod_Create_Preconditioning(LDL, A, f_in)
+  call LDL % Sparse_Create_Preconditioning(A, f_in)
   call In_Out_Mod_Print_Sparse("Sparse LDL:", LDL)
 
   !------------------------!

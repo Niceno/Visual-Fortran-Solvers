@@ -28,7 +28,7 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  call Sparse_Mod_Create_Preconditioning(D, A, 0)
+  call D % Sparse_Create_Preconditioning(A, 0)
   call In_Out_Mod_Print_Sparse("Sparse D:", D)
 
   !------------------------!

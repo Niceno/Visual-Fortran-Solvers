@@ -6,16 +6,16 @@
   integer         :: fill_in
   type(Grid_Type) :: grid
 !-----------------------------------[Locals]-----------------------------------!
-  type(Sparse_Type) :: a  ! original matrix
-  type(Sparse_Type) :: c  ! preconditioning matrix
+  type(Sparse_Type) :: A  ! original matrix
+  type(Sparse_Type) :: C  ! preconditioning matrix
 !==============================================================================!
 
-  call Sparse_Mod_Create(a, grid)
+  call A % Sparse_Create(grid)
 
-  call In_Out_Mod_Print_Sparse("Compressed a:", a)
+  call In_Out_Mod_Print_Sparse("Compressed A:", A)
 
-  call Sparse_Mod_Create_Preconditioning(c, a, fill_in)
+  call C % Sparse_Create_Preconditioning(A, fill_in)
 
-  call In_Out_Mod_Print_Sparse("Compressed a:", c)
+  call In_Out_Mod_Print_Sparse("Compressed a:", C)
 
   end subroutine

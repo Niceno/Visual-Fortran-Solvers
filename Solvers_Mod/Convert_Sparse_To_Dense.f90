@@ -16,7 +16,7 @@
   !---------------------!
   !   Allocate memory   !
   !---------------------!
-  call Dense_Mod_Allocate(Dens, n)
+  call Dens % Dense_Allocate(n)
 
   !------------------------------!
   !   Form the expanded matrix   !
