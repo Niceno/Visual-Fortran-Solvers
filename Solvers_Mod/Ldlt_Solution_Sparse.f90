@@ -12,7 +12,7 @@
   type(Sparse_Type)  :: f
   real, dimension(:) :: b
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, i_j, n
+  integer :: i, j, ij, n
   real    :: sum
 !==============================================================================!
 
@@ -21,9 +21,9 @@
   ! Forward substitution
   do i = 1, n
     sum = b(i)
-    do i_j = f % row(i), f % dia(i) - 1
-      j = f % col(i_j)
-      sum = sum - f % val(i_j) * x(j)
+    do ij = f % row(i), f % dia(i) - 1
+      j = f % col(ij)
+      sum = sum - f % val(ij) * x(j)
     end do
     x(i) = sum
   end do
@@ -35,9 +35,9 @@
 
   do i=n,1,-1
     sum = x(i)
-    do i_j = f % dia(i) + 1, f % row(i + 1) - 1
-      j = f % col(i_j)
-      sum = sum - f % val(i_j) * x(j)
+    do ij = f % dia(i) + 1, f % row(i + 1) - 1
+      j = f % col(ij)
+      sum = sum - f % val(ij) * x(j)
     end do
     x(i) = sum
   end do

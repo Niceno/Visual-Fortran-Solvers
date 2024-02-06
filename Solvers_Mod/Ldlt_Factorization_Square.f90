@@ -13,7 +13,7 @@
   integer           :: bw  ! band width
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, k, m, n
-  real    :: sum1, sum2
+  real    :: sum
 !==============================================================================!
 
   print *, '# Factorizing square (full) matrix with LDL^T method'
@@ -21,18 +21,18 @@
   n = f % n  ! some checks would be possible
 
   do k = 1, n
-    sum1 = a % val(k,k)
+    sum = a % val(k,k)
     do m = max(1,k-bw), k-1
-      sum1 = sum1 - f % val(k,m) * f % val(k,m) * f % val(m,m)
+      sum = sum - f % val(k,m) * f % val(k,m) * f % val(m,m)
     end do
-    f % val(k,k) = sum1
+    f % val(k,k) = sum
     do i = k+1, min(k+bw,n)
-      sum2 = a % val(i,k)
+      sum = a % val(i,k)
       do m = max(1,k-bw), k-1
-        sum2 = sum2 - f % val(m,i) * f % val(m,k) * f % val(m,m)
+        sum = sum - f % val(m,i) * f % val(m,k) * f % val(m,m)
       end do
-      f % val(k,i) = sum2 / f % val(k,k)
-      f % val(i,k) = sum2 / f % val(k,k)  ! make it full
+      f % val(k,i) = sum / f % val(k,k)
+      f % val(i,k) = sum / f % val(k,k)  ! make it full
     end do
   end do
 

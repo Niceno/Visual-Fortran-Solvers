@@ -27,8 +27,7 @@ $(info #=======================================================================)
 $(info # Compiling $(PROGRAM_NAME) with compiler $(FORTRAN))
 $(info #-----------------------------------------------------------------------)
 $(info # Usage:                                                                )
-$(info #   make <FORTRAN=gnu/intel/portland/nvidia> <DEBUG=yes/no> \           )
-$(info #        <GPU=yes/no>                                                   )
+$(info #   make <FORTRAN=gnu/intel/portland/nvidia> <DEBUG=no/yes>             )
 $(info #                                                                       )
 $(info # Examples:                                                             )
 $(info #   make                 - compile with gnu compiler                    )
@@ -77,9 +76,6 @@ ifeq ($(FORTRAN), portland)
   else
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3
   endif
-  ifeq ($(GPU),yes)
-    OPT_COMP += -acc -Minfo=accel -gpu=cuda11.0
-  endif
   OPT_LINK = $(OPT_COMP)
 endif
 
@@ -91,9 +87,6 @@ ifeq ($(FORTRAN), nvidia)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g
   else
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3
-  endif
-  ifeq ($(GPU),yes)
-    OPT_COMP += -acc -Minfo=accel
   endif
   OPT_LINK = $(OPT_COMP)
 endif

@@ -1,9 +1,0 @@
-
-echo "Compiling"
-nvfortran -o Sum_On_Device -acc -Minfo,all Sum_On_Device.f90
-nvfortran -o Sum_On_Host -acc -Minfo,all Sum_On_Host.f90
-
-echo "Running"
-nsys profile --trace=openacc ./Sum_On_Device
-nsys profile --trace=openacc ./Sum_On_Host
-

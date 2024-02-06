@@ -1,17 +1,39 @@
-#-- ./Lin_Alg_Mod/Sparse_X_Vector.f90
-#-- ./Lin_Alg_Mod/Square_X_Square.f90
-#-- ./Lin_Alg_Mod/Square_T.f90
-#-- ./Lin_Alg_Mod/Vector_Dot_Vector.f90
-#-- ./Lin_Alg_Mod/Square_X_Vector.f90
-#-- ./Sparse_Mod.f90
-$(DIR_OBJECT)/Sparse_Mod.o:\
-$(DIR_OBJECT)/Square_Mod.o \
+#-- ./Foul_Mod/Integer_To_String.f90
+#-- ./Foul_Mod/Split_String.f90
+#-- ./Foul_Mod/Lower_Case.f90
+#-- ./Foul_Mod/Get_Escape_Sequence.f90
+#-- ./Foul_Mod/Write.f90
+#-- ./Main.f90
+$(DIR_OBJECT)/Main.o:\
+$(DIR_OBJECT)/Demo_Mod.o \
+Demo_Mod/*.f90 
+
+#-- ./Demo_Mod/Compress_Decompress.f90
+#-- ./Demo_Mod/Main.f90
+#-- ./Demo_Mod/Fill_In.f90
+#-- ./Foul_Mod.f90
+$(DIR_OBJECT)/Foul_Mod.o:\
+Foul_Mod/*.f90 
+
+#-- ./Square_Mod.f90
+$(DIR_OBJECT)/Square_Mod.o:\
 Square_Mod/*.f90 \
-Sparse_Mod/*.f90 \
-$(DIR_OBJECT)/Sort_Mod.o \
-Sort_Mod/*.f90 \
 $(DIR_OBJECT)/Grid_Mod.o 
 
+#-- ./Square_Mod/Allocate.f90
+#-- ./Square_Mod/Deallocate.f90
+#-- ./Lin_Alg_Mod.f90
+$(DIR_OBJECT)/Lin_Alg_Mod.o:\
+$(DIR_OBJECT)/Square_Mod.o \
+Square_Mod/*.f90 \
+$(DIR_OBJECT)/Sparse_Mod.o \
+Sparse_Mod/*.f90 \
+Lin_Alg_Mod/*.f90 
+
+#-- ./In_Out_Mod/Print_Square.f90
+#-- ./In_Out_Mod/Load_Linear_System.f90
+#-- ./In_Out_Mod/Print_Vector.f90
+#-- ./In_Out_Mod/Print_Sparse.f90
 #-- ./In_Out_Mod.f90
 $(DIR_OBJECT)/In_Out_Mod.o:\
 $(DIR_OBJECT)/Square_Mod.o \
@@ -22,18 +44,60 @@ In_Out_Mod/*.f90 \
 $(DIR_OBJECT)/Foul_Mod.o \
 Foul_Mod/*.f90 
 
-#-- ./Square_Mod.f90
-$(DIR_OBJECT)/Square_Mod.o:\
-Square_Mod/*.f90 \
-$(DIR_OBJECT)/Grid_Mod.o 
-
-#-- ./Sparse_Mod/Create_Preconditioning.f90
 #-- ./Sparse_Mod/Create.f90
+#-- ./Sparse_Mod/Expand.f90
 #-- ./Sparse_Mod/Compress.f90
 #-- ./Sparse_Mod/Deallocate.f90
-#-- ./Sparse_Mod/Expand.f90
-#-- ./Square_Mod/Deallocate.f90
-#-- ./Square_Mod/Allocate.f90
+#-- ./Sparse_Mod/Create_Preconditioning.f90
+#-- ./Separate_Tests/Sum_On_Device.f90
+#-- ./Separate_Tests/Sum_On_Host.f90
+#-- ./Grid_Mod.f90
+#-- ./Solvers_Mod/Ldlt_Factorization_Sparse.f90
+#-- ./Solvers_Mod/Cholesky.f90
+#-- ./Solvers_Mod/Backward_Substitution_Sparse.f90
+#-- ./Solvers_Mod/Forward_Substitution_Sparse.f90
+#-- ./Solvers_Mod/Check_Solution_Sparse.f90
+#-- ./Solvers_Mod/Ldlt.f90
+#-- ./Solvers_Mod/Backward_Substitution_Square.f90
+#-- ./Solvers_Mod/Check_Solution_Square.f90
+#-- ./Solvers_Mod/Cholesky_Factorization_Sparse.f90
+#-- ./Solvers_Mod/Cg_Ldlt_Prec.f90
+#-- ./Solvers_Mod/Incomplete_Ldlt_From_Tflows.f90
+#-- ./Solvers_Mod/Allocate_Vectors.f90
+#-- ./Solvers_Mod/Prepare_System.f90
+#-- ./Solvers_Mod/Cg_Tflows_Prec.f90
+#-- ./Solvers_Mod/Cg.f90
+#-- ./Solvers_Mod/Ldlt_Solution_Square.f90
+#-- ./Solvers_Mod/Incomplete_Ldlt.f90
+#-- ./Solvers_Mod/Ldlt_Solution_From_Tflows.f90
+#-- ./Solvers_Mod/Ldlt_Factorization_Square.f90
+#-- ./Solvers_Mod/Cg_Diag_Prec.f90
+#-- ./Solvers_Mod/Forward_Substitution_Square.f90
+#-- ./Solvers_Mod/Deallocate.f90
+#-- ./Solvers_Mod/Incomplete_Cholesky.f90
+#-- ./Solvers_Mod/Cholesky_Factorization_Square.f90
+#-- ./Solvers_Mod/Gauss.f90
+#-- ./Solvers_Mod/Gauss_Elimination.f90
+#-- ./Solvers_Mod/Ldlt_Factorization_From_Tflows.f90
+#-- ./Solvers_Mod/Ldlt_Solution_Sparse.f90
+#-- ./Sort_Mod.f90
+$(DIR_OBJECT)/Sort_Mod.o:\
+Sort_Mod/*.f90 
+
+#-- ./Lin_Alg_Mod/Vector_Dot_Vector.f90
+#-- ./Lin_Alg_Mod/Square_X_Square.f90
+#-- ./Lin_Alg_Mod/Square_X_Vector.f90
+#-- ./Lin_Alg_Mod/Square_T.f90
+#-- ./Lin_Alg_Mod/Sparse_X_Vector.f90
+#-- ./Sparse_Mod.f90
+$(DIR_OBJECT)/Sparse_Mod.o:\
+$(DIR_OBJECT)/Square_Mod.o \
+Square_Mod/*.f90 \
+Sparse_Mod/*.f90 \
+$(DIR_OBJECT)/Sort_Mod.o \
+Sort_Mod/*.f90 \
+$(DIR_OBJECT)/Grid_Mod.o 
+
 #-- ./Demo_Mod.f90
 $(DIR_OBJECT)/Demo_Mod.o:\
 $(DIR_OBJECT)/Sparse_Mod.o \
@@ -48,64 +112,6 @@ In_Out_Mod/*.f90 \
 $(DIR_OBJECT)/Grid_Mod.o \
 Demo_Mod/*.f90 
 
-#-- ./Foul_Mod.f90
-$(DIR_OBJECT)/Foul_Mod.o:\
-Foul_Mod/*.f90 
-
-#-- ./In_Out_Mod/Print_Vector.f90
-#-- ./In_Out_Mod/Print_Square.f90
-#-- ./In_Out_Mod/Load_Linear_System.f90
-#-- ./In_Out_Mod/Print_Sparse.f90
-#-- ./Swap_Int.f90
-#-- ./Demo_Mod/Compress_Decompress.f90
-#-- ./Demo_Mod/Fill_In.f90
-#-- ./Demo_Mod/Main.f90
-#-- ./Solvers_Mod/Ldlt_Solution_Square.f90
-#-- ./Solvers_Mod/Check_Solution_Square.f90
-#-- ./Solvers_Mod/Ldlt_Factorization_From_Tflows.f90
-#-- ./Solvers_Mod/Prepare_System.f90
-#-- ./Solvers_Mod/Incomplete_Cholesky.f90
-#-- ./Solvers_Mod/Deallocate.f90
-#-- ./Solvers_Mod/Backward_Substitution_Sparse.f90
-#-- ./Solvers_Mod/Ldlt_Solution_Sparse.f90
-#-- ./Solvers_Mod/Cholesky_Factorization_Square.f90
-#-- ./Solvers_Mod/Cholesky_Factorization_Sparse.f90
-#-- ./Solvers_Mod/Incomplete_Ldlt.f90
-#-- ./Solvers_Mod/Ldlt_Factorization_Sparse.f90
-#-- ./Solvers_Mod/Forward_Substitution_Square.f90
-#-- ./Solvers_Mod/Backward_Substitution_Square.f90
-#-- ./Solvers_Mod/Check_Solution_Sparse.f90
-#-- ./Solvers_Mod/Allocate_Vectors.f90
-#-- ./Solvers_Mod/Preconditioned_Cg.f90
-#-- ./Solvers_Mod/Ldlt_Factorization_Square.f90
-#-- ./Solvers_Mod/Incomplete_Ldlt_From_Tflows.f90
-#-- ./Solvers_Mod/Gauss.f90
-#-- ./Solvers_Mod/Forward_Substitution_Sparse.f90
-#-- ./Solvers_Mod/Cholesky.f90
-#-- ./Solvers_Mod/Cg.f90
-#-- ./Solvers_Mod/Ldlt.f90
-#-- ./Solvers_Mod/Ldlt_Solution_From_Tflows.f90
-#-- ./Solvers_Mod/Gauss_Elimination.f90
-#-- ./Separate_Tests/Sum_On_Host.f90
-#-- ./Separate_Tests/Sum_On_Device.f90
-#-- ./Grid_Mod.f90
-#-- ./Main.f90
-$(DIR_OBJECT)/Main.o:\
-$(DIR_OBJECT)/Demo_Mod.o \
-Demo_Mod/*.f90 
-
-#-- ./Foul_Mod/Split_String.f90
-#-- ./Foul_Mod/Lower_Case.f90
-#-- ./Foul_Mod/Integer_To_String.f90
-#-- ./Foul_Mod/Get_Escape_Sequence.f90
-#-- ./Foul_Mod/Write.f90
-#-- ./Sort_Mod/Int_Carry_Int.f90
-#-- ./Sort_Mod/Int.f90
-#-- ./Sort_Mod/2_Int.f90
-#-- ./Sort_Mod.f90
-$(DIR_OBJECT)/Sort_Mod.o:\
-Sort_Mod/*.f90 
-
 #-- ./Solvers_Mod.f90
 $(DIR_OBJECT)/Solvers_Mod.o:\
 Solvers_Mod/readme \
@@ -115,11 +121,7 @@ Lin_Alg_Mod/*.f90 \
 $(DIR_OBJECT)/In_Out_Mod.o \
 In_Out_Mod/*.f90 
 
-#-- ./Lin_Alg_Mod.f90
-$(DIR_OBJECT)/Lin_Alg_Mod.o:\
-$(DIR_OBJECT)/Square_Mod.o \
-Square_Mod/*.f90 \
-$(DIR_OBJECT)/Sparse_Mod.o \
-Sparse_Mod/*.f90 \
-Lin_Alg_Mod/*.f90 
-
+#-- ./Swap_Int.f90
+#-- ./Sort_Mod/Int.f90
+#-- ./Sort_Mod/2_Int.f90
+#-- ./Sort_Mod/Int_Carry_Int.f90

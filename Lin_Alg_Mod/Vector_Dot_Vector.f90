@@ -14,12 +14,8 @@
 
   n = size(x, 1)  ! some checks would be possible
 
-  !$acc parallel present(dot)
   dot = 0
-  !$acc end parallel
 
-  !$acc  parallel loop reduction(+:dot)  &
-  !$acc& present(x, y, dot)
   do i = 1, n
     dot = dot + x(i) * y(i)
   end do

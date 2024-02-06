@@ -3,3 +3,47 @@ Solvers_Mod_Backward_Substitution, which is called by: Demo_Mod_Cholesky_Solver
 and Demo_Mod_Gauss_Solver.
 
 (This suggests that they might not be needed after all, I don't know.)
+
+ChatGPT wrote this for LU decomposition:
+
+subroutine lu_decomposition(a, n, l, u)
+    implicit none
+    integer, intent(in) :: n
+    real, dimension(n,n), intent(in) :: a
+    real, dimension(n,n), intent(out) :: l, u
+    integer :: i, j, k
+    real :: sum
+
+    ! Initialize L and U matrices
+    l = 0.0
+    u = 0.0
+
+    ! Perform LU Decomposition
+    do k = 1, n
+        ! Upper Triangular
+        do j = k, n
+            sum = 0.0
+            do i = 1, k - 1
+                sum = sum + l(k,i) * u(i,j)
+            end do
+            u(k,j) = a(k,j) - sum
+        end do
+
+        ! Lower Triangular
+        do i = k + 1, n
+            sum = 0.0
+            do j = 1, k - 1
+                sum = sum + l(i,j) * u(j,k)
+            end do
+            l(i,k) = (a(i,k) - sum) / u(k,k)
+        end do
+    end do
+
+    ! Set the diagonal of L to 1
+    do i = 1, n
+        l(i,i) = 1.0
+    end do
+
+end subroutine lu_decomposition
+
+

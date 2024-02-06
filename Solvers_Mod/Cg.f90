@@ -24,14 +24,6 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  ! Copy matrix (a_sparse), vectors (ax - b) and scalars (alpha - pap) to GPU
-  !$acc enter data copyin(a_sparse)
-  !$acc enter data copyin(a_sparse % row(:))
-  !$acc enter data copyin(a_sparse % col(:))
-  !$acc enter data copyin(a_sparse % val(:))
-  !$acc enter data copyin(ax(:), ap(:), x(:), p(:), r(:), b(:))
-  !$acc enter data copyin(alpha, beta, rho, rho_old, pap)
-
   call Cpu_Time(time_ps)
   call Cpu_Time(time_pe)
 
@@ -46,8 +38,6 @@
   !   r = b - Ax   !
   !----------------!
   call Lin_Alg_Mod_Sparse_X_Vector(ax, a_sparse, x)
-  !$acc  parallel loop      &
-  !$acc& present(r, b, ax)
   do i = 1, n
     r(i) = b(i) - ax(i)
   end do
@@ -60,8 +50,6 @@
   !-----------!
   !   p = r   !
   !-----------!
-  !$acc  parallel loop  &
-  !$acc& present(p, r)
   do i = 1, n
     p(i) = r(i)
   end do
@@ -84,22 +72,16 @@
     !-----------------------!
     call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, ap)
 
-    !$acc kernels present(alpha, rho, pap)
     alpha = rho / pap
-    !$acc end kernels
 
     !---------------------!
     !   x = x + alfa p    !
     !   r = r - alfa Ap   !
     !---------------------!
-    !$acc  parallel loop  &
-    !$acc& present(x, alpha, p)
     do i = 1, n
       x(i) = x(i) + alpha * p(i)
     end do
 
-    !$acc  parallel loop   &
-    !$acc& present(r, alpha, ap)
     do i = 1, n
       r(i) = r(i) - alpha * ap(i)
     end do
@@ -107,25 +89,18 @@
     !------------------!
     !   rho = r' * r   !
     !------------------!
-    !$acc parallel present(rho_old, rho)
     rho_old = rho
-    !$acc end parallel
 
     call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, r)
 
-    !$acc update self(rho)
     print '(a,i3,a,1es10.4)', ' #', iter, '; rho = ', sqrt(rho)
     if(sqrt(rho) < res) goto 1
 
     !---------------------------------!
     !   p = r + (rho / rho_old) * p   !
     !---------------------------------!
-    !$acc parallel present(beta, rho, rho_old)
     beta = rho / max(rho_old, 1.0e-12)
-    !$acc end parallel
 
-    !$acc  parallel loop  &
-    !$acc& present(p, r, beta)
     do i = 1, n
       p(i) = r(i) + beta * p(i)
     end do
@@ -145,14 +120,6 @@
   !   Check the solution   !
   !------------------------!
   print '(a,1es10.4)', " # Error:                       ", sqrt(rho)
-
-  ! Clean the data from the device
-  !$acc exit data delete(alpha, beta, rho, rho_old, pap)
-  !$acc exit data delete(ax, ap, x, p, r, b)
-  !$acc exit data delete(a_sparse % val(:))
-  !$acc exit data delete(a_sparse % col(:))
-  !$acc exit data delete(a_sparse % row(:))
-  !$acc exit data delete(a_sparse)
 
   !-------------------------!
   !   Clean-up the memory   !
