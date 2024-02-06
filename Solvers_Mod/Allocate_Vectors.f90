@@ -14,9 +14,8 @@
   allocate (y  (n))
   allocate (r  (n))
 
-  allocate (p  (n))
-  allocate (z  (n))
-  allocate (ax (n))
-  allocate (q  (n))
+  allocate (p(n))
+  allocate (z(n))
+  allocate (q(n))
 
   end subroutine

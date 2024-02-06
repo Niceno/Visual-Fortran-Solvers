@@ -12,7 +12,6 @@
 
   deallocate(p)
   deallocate(z)
-  deallocate(ax)
   deallocate(q)
 
   if(a_square % n > 0) call Dense_Mod_Deallocate(a_square)

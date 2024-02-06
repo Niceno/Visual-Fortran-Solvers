@@ -42,9 +42,9 @@
   !----------------!
   !   r = b - Ax   !
   !----------------!
-  call Lin_Alg_Mod_Sparse_X_Vector(ax, A, x)
+  call Lin_Alg_Mod_Sparse_X_Vector(q, A, x)
   do i = 1, n
-    r(i) = b(i) - ax(i)
+    r(i) = b(i) - q(i)
   end do
 
   !------------------!

@@ -20,7 +20,7 @@
   real, allocatable :: b(:), b_o(:), x(:), y(:), r(:)
 
   ! Additional arrays for iterative solvers
-  real, allocatable :: p(:), ax(:), q(:), z(:)
+  real, allocatable :: p(:), q(:), z(:)
 
   contains
 

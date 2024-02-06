@@ -7,15 +7,19 @@
   integer         :: n_iter
   real            :: res
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: n  ! number of unknowns
-  integer :: i, iter
-  real    :: alpha, beta, rho_old, rho, pap
-  real    :: time_ps, time_pe, time_ss, time_se
+  integer                    :: n  ! number of unknowns
+  integer                    :: i, iter
+  real                       :: alpha, beta, rho_old, rho, pap
+  real                       :: time_ps, time_pe, time_ss, time_se
+  type(Sparse_Type), pointer :: A, D
 !==============================================================================!
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with T-Flows preconditioned CG method'
   print *, '#----------------------------------------------------------'
+
+  A => a_sparse
+  D => p_sparse  ! in theory, this should be LDL, but only D is stored
 
   !------------------!
   !                  !
@@ -24,33 +28,33 @@
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
 
-  call Sparse_Mod_Create_Preconditioning(p_sparse, a_sparse, 0)
-  call In_Out_Mod_Print_Sparse("Sparse p_sparse:", p_sparse)
+  call Sparse_Mod_Create_Preconditioning(D, A, 0)
+  call In_Out_Mod_Print_Sparse("Sparse D:", D)
 
   !------------------------!
   !                        !
   !   Actual computation   !
   !                        !
   !------------------------!
-  n = a_sparse % n
+  n = A % n
 
   ! Perform LDL^T factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Ldlt_Factorization_From_Tflows(p_sparse, a_sparse)
+  call Solvers_Mod_Ldlt_Factorization_From_Tflows(D, A)
   call Cpu_Time(time_pe)
 
   !----------------!
   !   r = b - Ax   !
   !----------------!
-  call Lin_Alg_Mod_Sparse_X_Vector(ax, a_sparse, x)
+  call Lin_Alg_Mod_Sparse_X_Vector(q, A, x)
   do i = 1, n
-    r(i) = b(i) - ax(i)
+    r(i) = b(i) - q(i)
   end do
 
   !---------------------!
   !   solve M * z = r   !
   !---------------------!
-  call Solvers_Mod_Ldlt_Solution_From_Tflows(n, -1, a_sparse, p_sparse, z, r)
+  call Solvers_Mod_Ldlt_Solution_From_Tflows(n, -1, A, D, z, r)
 
   !------------------!
   !   rho = r' * z   !
@@ -75,7 +79,7 @@
     !------------!
     !   q = Ap   !
     !------------!
-    call Lin_Alg_Mod_Sparse_X_Vector(q, a_sparse, p)
+    call Lin_Alg_Mod_Sparse_X_Vector(q, A, p)
 
     !-----------------------!
     !   alpha = rho / pAp   !
@@ -99,7 +103,7 @@
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
-    call Solvers_Mod_Ldlt_Solution_From_Tflows(n, -1, a_sparse, p_sparse, z, r)
+    call Solvers_Mod_Ldlt_Solution_From_Tflows(n, -1, A, D, z, r)
 
     !------------------!
     !   rho = r' * z   !
