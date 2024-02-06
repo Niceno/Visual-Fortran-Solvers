@@ -1,12 +1,12 @@
 !==============================================================================!
-  subroutine Sparse_Mod_Compress(c, a)
+  subroutine Solvers_Mod_Convert_Dense_To_Sparse(Spar, Dens)
 !------------------------------------------------------------------------------!
-!   Compresses matrix to the compressed row format.                            !
+!>  Converts a dense matrix to a sparse one.
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Sparse_Type)    :: c
-  real, dimension(:,:) :: a
+  type(Sparse_Type), intent(out) :: Spar  !! resulting sparse matrix
+  type(Dense_Type),  intent(in)  :: Dens  !! original dense matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col  ! row used to be "i", col used to be "j"
   integer :: row_a, col_a, pos_a, row_b, col_b, pos_b
@@ -14,54 +14,54 @@
   integer :: non_zeros
 !==============================================================================!
 
-  n = size(a, 1)
+  n = Dens % n
 
   !------------------------------------!
   !   Stored dimension of the matrix   !
   !------------------------------------!
-  c % n = n
+  Spar % n = Dens % n
 
   !----------------------------------------!
   !   Count non-zero terms in the matrix   !
   !----------------------------------------!
   non_zeros = 0
-  do row = 1, size(a, 1)
-    do col = 1, size(a, 2)
-      if( a(row,col) /= 0.0 ) then
+  do row = 1, Dens % n
+    do col = 1, Dens % n
+      if( Dens % val(row,col) /= 0.0 ) then
         non_zeros = non_zeros + 1
       end if
     end do
   end do
-  c % nonzeros = non_zeros
+  Spar % nonzeros = non_zeros
 
   !---------------------!
   !   Allocate memory   !
   !---------------------!
-  allocate (c % row(n+1));       c % row = 0
-  allocate (c % dia(n));         c % dia = 0
-  allocate (c % col(non_zeros)); c % col = 0
-  allocate (c % val(non_zeros)); c % val = 0
-  allocate (c % mir(non_zeros)); c % mir = 0
+  allocate (Spar % row(n+1));       Spar % row = 0
+  allocate (Spar % dia(n));         Spar % dia = 0
+  allocate (Spar % col(non_zeros)); Spar % col = 0
+  allocate (Spar % val(non_zeros)); Spar % val = 0
+  allocate (Spar % mir(non_zeros)); Spar % mir = 0
 
   !--------------------------------------------!
   !   Form the compressed row storage matrix   !
   !--------------------------------------------!
   pos = 1
-  do row = 1, size(a, 1)
+  do row = 1, Dens % n
 
     ! Store the start of the current row
-    c % row(row) = pos
+    Spar % row(row) = pos
 
-    do col = 1, size(a, 2)
+    do col = 1, Dens % n
 
       ! Take only non-zero terms
-      if( a(row,col) /= 0.0 ) then
-        c % col(pos) = col
-        c % val(pos) = a(row, col)
+      if( Dens % val(row,col) /= 0.0 ) then
+        Spar % col(pos) = col
+        Spar % val(pos) = Dens % val(row, col)
 
         ! Store "dia" term along the way
         if(col == row) then
-          c % dia(row) = pos
+          Spar % dia(row) = pos
         end if
 
         ! Advance for one position in the compressed matrix
@@ -71,7 +71,7 @@
   end do
 
   ! Store last position as the upper boundary of the array
-  c % row(n+1) = pos
+  Spar % row(n+1) = pos
 
   !-----------------------------------------------------------------!
   !   Find it's mirror (it is non_zeros * noz_zeros operation :-(   !
@@ -79,17 +79,17 @@
 
   ! Outer loop
   do row_a = 1, n
-    do pos_a = c % row(row_a), c % row(row_a + 1) - 1
-      col_a = c % col(pos_a)  ! at this point you have row_a and col_a
+    do pos_a = Spar % row(row_a), Spar % row(row_a + 1) - 1
+      col_a = Spar % col(pos_a)  ! at this point you have row_a and col_a
 
       ! Inner loop (it might probably go from 1 to row_a-1
       do row_b = 1, n
-        do pos_b = c % row(row_b), c % row(row_b + 1) - 1
-          col_b = c % col(pos_b)  ! at this point you have row_b and col_b
+        do pos_b = Spar % row(row_b), Spar % row(row_b + 1) - 1
+          col_b = Spar % col(pos_b)  ! at this point you have row_b and col_b
 
           if( (col_b == row_a) .and. (row_b == col_a) ) then
-            c % mir(pos_a) = pos_b
-            c % mir(pos_b) = pos_a
+            Spar % mir(pos_a) = pos_b
+            Spar % mir(pos_b) = pos_a
             goto 1  ! done with the inner loop, get out
           end if
         end do

@@ -11,7 +11,8 @@
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
   integer                   :: bw
-  type(Dense_Type), pointer :: A, U
+  type(Dense_Type), pointer :: A, U  ! original matrix (A) and matrix after
+                                     ! (forward) elimination (U)
 !==============================================================================!
 
   print *, '#=========================================================='
@@ -27,8 +28,8 @@
   call Solvers_Mod_Prepare_System(grid)
 
   ! Create two full matrices from a sparse
-  call Sparse_Mod_Expand(A, a_sparse, bw)
-  call Sparse_Mod_Expand(U, a_sparse, bw)
+  call Solvers_Mod_Convert_Sparse_to_Dense(A, a_sparse, bw)
+  call Solvers_Mod_Convert_Sparse_to_Dense(U, a_sparse, bw)
   U % val(:,:) = 0
 
   ! Just print original matrix

@@ -1,22 +1,22 @@
 !==============================================================================!
-  subroutine Sparse_Mod_Expand(a, c, bw)
+  subroutine Solvers_Mod_Convert_Sparse_To_Dense(Dens, Spar, bw)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type)  :: a
-  type(Sparse_Type) :: c
-  integer           :: bw  ! band width
+  type(Dense_Type),  intent(out) :: Dens  !! resulting dense matrix
+  type(Sparse_Type), intent(in)  :: Spar  !! original sparse matrix
+  integer,           intent(out) :: bw    !! resulting band width
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col  ! row used to be "i", col used to be "j"
   integer :: n, pos
 !==============================================================================!
 
-  n = c % n
+  n = Spar % n
 
   !---------------------!
   !   Allocate memory   !
   !---------------------!
-  call Dense_Mod_Allocate(a, n)
+  call Dense_Mod_Allocate(Dens, n)
 
   !------------------------------!
   !   Form the expanded matrix   !
@@ -24,10 +24,10 @@
   bw = 0
 
   pos = 1
-  do row = 1, n                                  ! browse through rows
-    do pos = c % row(row), c % row(row + 1) - 1  ! brows through columns
-      col = c % col(pos)                         ! take the real column number
-      a % val(row, col) = c % val(pos)
+  do row = 1, n                                        ! browse through rows
+    do pos = Spar % row(row), Spar % row(row + 1) - 1  ! brows through columns
+      col = Spar % col(pos)                            ! take the column number
+      Dens % val(row, col) = Spar % val(pos)
 
       bw = max(bw, abs(col-row))
     end do

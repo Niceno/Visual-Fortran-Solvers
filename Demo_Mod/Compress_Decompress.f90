@@ -7,29 +7,41 @@
 !==============================================================================!
 
   ! Full matrix
-  integer, parameter    :: n = 7
-  real, dimension(n, n) :: f
-  data (f(1,col), col=1,n) / 44., -4., -3.,  0., -1.,  0.,  0. /
-  data (f(2,col), col=1,n) / -4., 44., -4., -3.,  0., -1.,  0. /
-  data (f(3,col), col=1,n) / -3., -4., 44., -4., -3.,  0., -1. /
-  data (f(4,col), col=1,n) /  0., -3., -4., 44., -4., -3.,  0. /
-  data (f(5,col), col=1,n) / -1.,  0., -3., -4., 44., -4., -3. /
-  data (f(6,col), col=1,n) /  0., -1.,  0., -3., -4., 44., -4. /
-  data (f(7,col), col=1,n) /  0.,  0., -1.,  0., -3., -4., 44. /
+  integer, parameter :: N = 7
 
   ! Compressed matrix
-  type(Sparse_Type) :: c
-  type(Dense_Type)  :: e
+  type(Dense_Type)  :: Orig  ! the original matrix
+  type(Sparse_Type) :: Spar  ! the sparse matrix
+  type(Dense_Type)  :: Dens  ! the dense matrix
 !------------------------------------------------------------------------------!
 
-  ! Compress matrix "f" and store it in "c"
-  call Sparse_Mod_Compress(c, f)
+  !------------------------------------------------!
+  !   Create the original compressed matrix Orig   !
+  !------------------------------------------------!
 
-  call In_Out_Mod_Print_Sparse("c:", c)
+  ! Allocate the memory
+  call Dense_Mod_Allocate(Orig, N)
+  PRINT *, 'Orig % n = ', Orig % n
 
-  ! Expand matrix "ac2" and store it in "e"
-  call Sparse_Mod_Expand(e, c, bw)
+  ! Set the values
+  Orig % val(1,1:N) = (/ 44., -4., -3.,  0., -1.,  0.,  0. /)
+  Orig % val(2,1:N) = (/ -4., 44., -4., -3.,  0., -1.,  0. /)
+  Orig % val(3,1:N) = (/ -3., -4., 44., -4., -3.,  0., -1. /)
+  Orig % val(4,1:N) = (/  0., -3., -4., 44., -4., -3.,  0. /)
+  Orig % val(5,1:N) = (/ -1.,  0., -3., -4., 44., -4., -3. /)
+  Orig % val(6,1:N) = (/  0., -1.,  0., -3., -4., 44., -4. /)
+  Orig % val(7,1:N) = (/  0.,  0., -1.,  0., -3., -4., 44. /)
 
-  call In_Out_Mod_Print_Dense("Epanded matrix c:", e)
+  !-----------------------------------------------!
+  !   Compress matrix Orig and store it in Spar   !
+  !-----------------------------------------------!
+  call Solvers_Mod_Convert_Dense_To_Sparse(Spar, Orig)
+  call In_Out_Mod_Print_Sparse("Sparse matrix:", Spar)
+
+  !---------------------------------------------!
+  !   Expand matrix Spar and store it in Dens   !
+  !---------------------------------------------!
+  call Solvers_Mod_Convert_Sparse_To_Dense(Dens, Spar, bw)
+  call In_Out_Mod_Print_Dense("Dense matrix:", Dens)
 
   end subroutine

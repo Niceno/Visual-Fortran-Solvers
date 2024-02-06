@@ -28,6 +28,10 @@
   include 'Solvers_Mod/Allocate_Vectors.f90'
   include 'Solvers_Mod/Deallocate.f90'
 
+  ! Matrix conversion
+  include "Solvers_Mod/Convert_Dense_To_Sparse.f90"
+  include "Solvers_Mod/Convert_Sparse_To_Dense.f90"
+
   ! Solver components
   include 'Solvers_Mod/Backward_Substitution_Dense.f90'
   include 'Solvers_Mod/Backward_Substitution_Sparse.f90'

@@ -28,8 +28,8 @@
   call Solvers_Mod_Prepare_System(grid)
 
   ! Create two full matrices from the sparse one
-  call Sparse_Mod_Expand(A, a_sparse, bw)
-  call Sparse_Mod_Expand(LL, a_sparse, bw)
+  call Solvers_Mod_Convert_Sparse_to_Dense(A,  a_sparse, bw)
+  call Solvers_Mod_Convert_Sparse_to_Dense(LL, a_sparse, bw)
   LL % val(:,:) = 0
 
   ! Just print original matrix

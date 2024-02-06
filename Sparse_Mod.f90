@@ -52,10 +52,8 @@
 
   contains
 
-  include 'Sparse_Mod/Compress.f90'
   include 'Sparse_Mod/Create.f90'
   include 'Sparse_Mod/Create_Preconditioning.f90'
   include 'Sparse_Mod/Deallocate.f90'
-  include 'Sparse_Mod/Expand.f90'
 
   end module
