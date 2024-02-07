@@ -9,6 +9,8 @@
   integer, intent(in)  :: n  !! matrix dimension
 !------------------------------------------------------------------------------!
 
+  Assert(n .gt. 0)
+
   A % n = n               ! store matrix dimension
   allocate(A % val(n,n))  ! allocate matrix entries
   A % val(:,:) = 0.0      ! initial values

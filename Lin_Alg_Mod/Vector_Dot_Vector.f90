@@ -12,10 +12,11 @@
   integer :: i, n
 !==============================================================================!
 
+  Assert(size(x) .eq. size(y))
+
   n = size(x, 1)  ! some checks would be possible
 
   dot = 0
-
   do i = 1, n
     dot = dot + x(i) * y(i)
   end do

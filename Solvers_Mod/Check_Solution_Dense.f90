@@ -12,6 +12,9 @@
   real :: error
 !==============================================================================!
 
+  Assert(A % n .eq. size(x))
+  Assert(A % n .eq. size(b))
+
   call Lin_Alg_Mod_Dense_X_Vector(y, A, x)
 
   r = b - y

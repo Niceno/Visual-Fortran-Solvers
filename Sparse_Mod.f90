@@ -1,3 +1,5 @@
+#include "Assert.h90"
+
 !==============================================================================!
   module Sparse_Mod
 !------------------------------------------------------------------------------!
@@ -57,8 +59,8 @@
 
   contains
 
-  include 'Sparse_Mod/Create.f90'
-  include 'Sparse_Mod/Create_Preconditioning.f90'
-  include 'Sparse_Mod/Deallocate.f90'
+#   include "Sparse_Mod/Create.f90"
+#   include "Sparse_Mod/Create_Preconditioning.f90"
+#   include "Sparse_Mod/Deallocate.f90"
 
   end module

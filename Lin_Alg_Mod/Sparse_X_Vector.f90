@@ -13,6 +13,9 @@
   real    :: sum
 !==============================================================================!
 
+  Assert(A % n .eq. size(x))
+  Assert(A % n .eq. size(y))
+
   do i = 1, A % n
     sum = 0.0
     do ij = A % row(i), A % row(i+1) - 1

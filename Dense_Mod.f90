@@ -1,3 +1,5 @@
+#include "Assert.h90"
+
 !==============================================================================!
   module Dense_Mod
 !------------------------------------------------------------------------------!
@@ -28,7 +30,7 @@
 
   contains
 
-  include 'Dense_Mod/Allocate.f90'
-  include 'Dense_Mod/Deallocate.f90'
+#   include "Dense_Mod/Allocate.f90"
+#   include "Dense_Mod/Deallocate.f90"
 
   end module

@@ -8,6 +8,8 @@
   integer, intent(in) :: n
 !==============================================================================!
 
+  Assert(n .gt. 0)
+
   ! These are used in direct solvers ...
   allocate (r(n))
   allocate (y(n))
