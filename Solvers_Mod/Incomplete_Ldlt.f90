@@ -17,7 +17,7 @@
   !   Praparations   !
   !------------------!
   call Solvers_Mod_Prepare_System(grid)
-  call P_Sparse % Sparse_Create_Preconditioning(a_sparse, 0)
+  call P_Sparse % Sparse_Create_Preconditioning(a_sparse, fill_in)
 
   !------------------------!
   !   Actual computation   !
