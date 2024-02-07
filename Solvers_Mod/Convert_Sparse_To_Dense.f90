@@ -1,38 +1,35 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Convert_Sparse_To_Dense(Dens, Spar, bw)
+  subroutine Solvers_Mod_Convert_Sparse_To_Dense(Dens, Spar)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Dense_Type),  intent(out) :: Dens  !! resulting dense matrix
   type(Sparse_Type), intent(in)  :: Spar  !! original sparse matrix
-  integer,           intent(out) :: bw    !! resulting band width
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col  ! row used to be "i", col used to be "j"
-  integer :: n, pos
+  integer :: pos
 !==============================================================================!
-
-  n = Spar % n
 
   !---------------------!
   !   Allocate memory   !
   !---------------------!
-  call Dens % Dense_Allocate(n)
+  call Dens % Dense_Allocate(Spar % n)
 
   !------------------------------!
   !   Form the expanded matrix   !
   !------------------------------!
-  bw = 0
+  Dens % bw = 0
 
   pos = 1
-  do row = 1, n                                        ! browse through rows
+  do row = 1, Spar % n                                 ! browse through rows
     do pos = Spar % row(row), Spar % row(row + 1) - 1  ! brows through columns
       col = Spar % col(pos)                            ! take the column number
       Dens % val(row, col) = Spar % val(pos)
 
-      bw = max(bw, abs(col-row))
+      Dens % bw = max(Dens % bw, abs(col - row))
     end do
   end do
 
-  print *, '# Matrix band width = ', bw
+  print *, '# Matrix band width = ', Dens % bw
 
   end subroutine

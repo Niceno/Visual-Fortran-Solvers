@@ -10,7 +10,6 @@
   type(Grid_Type) :: grid
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
-  integer                   :: bw
   type(Dense_Type), pointer :: A, U  ! original matrix (A) and matrix after
                                      ! (forward) elimination (U)
 !==============================================================================!
@@ -28,8 +27,8 @@
   call Solvers_Mod_Prepare_System(grid)
 
   ! Create two full matrices from a sparse
-  call Solvers_Mod_Convert_Sparse_to_Dense(A, a_sparse, bw)
-  call Solvers_Mod_Convert_Sparse_to_Dense(U, a_sparse, bw)
+  call Solvers_Mod_Convert_Sparse_to_Dense(A, a_sparse)
+  call Solvers_Mod_Convert_Sparse_to_Dense(U, a_sparse)
   U % val(:,:) = 0
 
   ! Just print original matrix
@@ -41,7 +40,7 @@
 
   ! Perform Gauss elimination on matrix and r.h.s. vector
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Gauss_Elimination(U, b, A, bw)
+  call Solvers_Mod_Gauss_Elimination(U, b, A)
   call Cpu_Time(time_pe)
   call In_Out_Mod_Print_Dense("U after elimination:", U)
   !@ call In_Out_Mod_Print_Vector("vector b after elimination:", b)

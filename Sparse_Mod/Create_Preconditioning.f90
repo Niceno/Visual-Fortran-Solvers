@@ -9,7 +9,7 @@
 !-----------------------------------[Locals]-----------------------------------!
   integer              :: non_zeros, non_zeros_tent, entry, f
   integer              :: row, col, pos, row_a, row_b, col_a, col_b
-  integer              :: siz, pos_a, pos_b
+  integer              :: pos_a, pos_b
   integer, allocatable :: rows_new(:), cols_new(:)
 !==============================================================================!
 

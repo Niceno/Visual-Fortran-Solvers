@@ -17,6 +17,7 @@
   type Dense_Type
     integer              :: n = 0     ! matrix dimension
     integer              :: nonzeros  ! number of nonzero entries
+    integer              :: bw        ! band width
     real,    allocatable :: val(:,:)  ! value
 
     contains

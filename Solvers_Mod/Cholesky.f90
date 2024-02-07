@@ -11,7 +11,6 @@
   type(Grid_Type) :: grid
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
-  integer                   :: bw
   type(Dense_Type), pointer :: A, LL
 !==============================================================================!
 
@@ -28,8 +27,8 @@
   call Solvers_Mod_Prepare_System(grid)
 
   ! Create two full matrices from the sparse one
-  call Solvers_Mod_Convert_Sparse_to_Dense(A,  a_sparse, bw)
-  call Solvers_Mod_Convert_Sparse_to_Dense(LL, a_sparse, bw)
+  call Solvers_Mod_Convert_Sparse_to_Dense(A,  a_sparse)
+  call Solvers_Mod_Convert_Sparse_to_Dense(LL, a_sparse)
   LL % val(:,:) = 0
 
   ! Just print original matrix
@@ -41,7 +40,7 @@
 
   ! Perform Cholesky factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Cholesky_Factorization_Dense(LL, A, bw)
+  call Solvers_Mod_Cholesky_Factorization_Dense(LL, A)
   call Cpu_Time(time_pe)
   call In_Out_Mod_Print_Dense("LL after Cholesky factorization", LL)
 

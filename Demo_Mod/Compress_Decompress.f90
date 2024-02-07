@@ -2,8 +2,6 @@
   subroutine Demo_Mod_Compress_Decompress
 !------------------------------------------------------------------------------!
   implicit none
-!-----------------------------------[Locals]-----------------------------------!
-  integer :: col, bw
 !==============================================================================!
 
   ! Full matrix
@@ -41,7 +39,7 @@
   !---------------------------------------------!
   !   Expand matrix Spar and store it in Dens   !
   !---------------------------------------------!
-  call Solvers_Mod_Convert_Sparse_To_Dense(Dens, Spar, bw)
+  call Solvers_Mod_Convert_Sparse_To_Dense(Dens, Spar)
   call In_Out_Mod_Print_Dense("Dense matrix:", Dens)
 
   end subroutine
