@@ -28,7 +28,7 @@
   !                  !
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, A, x, b)
-  call Solvers_Mod_Prepare_System(grid, b)
+  call Solvers_Mod_Prepare_System(grid)
 
   !------------------------!
   !                        !

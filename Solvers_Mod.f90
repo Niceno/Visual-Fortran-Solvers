@@ -18,7 +18,7 @@
   type(Dense_Type), target :: P_Square, Q_Square
 
   ! Working arrays for direct solvers
-  real, allocatable :: b_o(:), y(:), r(:)
+  real, allocatable :: y(:), r(:)
 
   ! Additional arrays for iterative solvers
   real, allocatable :: p(:), q(:), z(:)

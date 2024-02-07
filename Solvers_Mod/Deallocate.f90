@@ -4,10 +4,11 @@
   implicit none
 !==============================================================================!
 
-  deallocate(b_o)
+  ! These are used in direct solvers ...
   deallocate(y)
   deallocate(r)
 
+  ! ... and these are needed, additionally, for iterative ones
   deallocate(p)
   deallocate(q)
   deallocate(z)

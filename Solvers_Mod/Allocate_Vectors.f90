@@ -8,10 +8,11 @@
   integer, intent(in) :: n
 !==============================================================================!
 
-  allocate (b_o(n))  ! needed only for Gauss elimination
-  allocate (r  (n))
-  allocate (y  (n))
+  ! These are used in direct solvers ...
+  allocate (r(n))
+  allocate (y(n))
 
+  ! ... and these are needed, additionally, for iterative ones
   allocate (p(n))
   allocate (q(n))
   allocate (z(n))

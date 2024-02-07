@@ -1,19 +1,20 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Check_Solution_Dense(A, x)
+  subroutine Solvers_Mod_Check_Solution_Dense(A, x, b)
 !------------------------------------------------------------------------------!
-!   Check the solution                                                         !
+!>  Check the solution.
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
-  type(Dense_Type) :: A
-  real             :: x(:)
+  type(Dense_Type) :: A     !! original system matrix
+  real             :: x(:)  !! final solution
+  real             :: b(:)  !! right hand side, should be the original one
 !-----------------------------------[Locals]-----------------------------------!
   real :: error
 !==============================================================================!
 
   call Lin_Alg_Mod_Dense_X_Vector(y, A, x)
 
-  r = b_o - y
+  r = b - y
 
   call Lin_Alg_Mod_Vector_Dot_Vector(error, r, r)
 

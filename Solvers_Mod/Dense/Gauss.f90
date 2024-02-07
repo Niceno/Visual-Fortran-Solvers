@@ -13,6 +13,7 @@
   real, allocatable :: b(:)
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
+  real, allocatable         :: b_init(:)
   type(Sparse_Type)         :: H  ! helping sparse matrix for discretization
   type(Dense_Type), pointer :: U  ! original matrix (A) and matrix after
                                   ! (forward) elimination (U)
@@ -29,7 +30,11 @@
   !   Praparations   !
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, H, x, b)
-  call Solvers_Mod_Prepare_System(grid, b)
+  call Solvers_Mod_Prepare_System(grid)
+
+  ! For Gaussian elimination, we should store initial source term
+  allocate(b_init(H % n))
+  b_init = b
 
   ! Create two full matrices from a sparse
   call Solvers_Mod_Convert_Sparse_to_Dense(A, H)
@@ -64,7 +69,7 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Dense(A, x)
+  call Solvers_Mod_Check_Solution_Dense(A, x, b_init)
 
   !-------------------------!
   !   Clean-up the memory   !
