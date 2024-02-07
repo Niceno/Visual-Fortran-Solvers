@@ -1,27 +1,25 @@
 !==============================================================================!
-  subroutine Lin_Alg_Mod_Sparse_X_Vector(y, a, x)
+  subroutine Lin_Alg_Mod_Sparse_X_Vector(y, A, x)
 !------------------------------------------------------------------------------!
-!   Computes matrix vector product with matrix in sparse row format.           !
+!>  Computes matrix vector product with matrix in compressed row format.
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, dimension(:) :: y
-  type(Sparse_Type)  :: a
+  type(Sparse_Type)  :: A
   real, dimension(:) :: x
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, ij, n
-  real    :: y_i_sum
+  integer :: i, j, ij
+  real    :: sum
 !==============================================================================!
 
-  n = a % n  ! some checks would be possible
-
-  do i = 1, n
-    y_i_sum = 0.0
-    do ij = a % row(i), a % row(i+1) - 1
-      j = a % col(ij)
-      y_i_sum = y_i_sum + a % val(ij) * x(j)
+  do i = 1, A % n
+    sum = 0.0
+    do ij = A % row(i), A % row(i+1) - 1
+      j = A % col(ij)
+      sum = sum + A % val(ij) * x(j)
     end do
-    y(i) = y_i_sum
+    y(i) = sum
   end do
 
   end subroutine

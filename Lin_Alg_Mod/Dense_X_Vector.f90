@@ -1,23 +1,21 @@
 !==============================================================================!
-  subroutine Lin_Alg_Mod_Dense_X_Vector(y, a, x)
+  subroutine Lin_Alg_Mod_Dense_X_Vector(y, A, x)
 !------------------------------------------------------------------------------!
-!   Computes matrix vector product where matrix is full.                       !
+!>  Computes matrix vector product where matrix is dense (full).
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, dimension(:) :: y
-  type(Dense_Type)   :: a
+  type(Dense_Type)   :: A
   real, dimension(:) :: x
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, n
+  integer :: i, j
 !==============================================================================!
 
-  n = a % n  ! some checks would be possible
-
-  do i = 1, n
+  do i = 1, A % n
     y(i) = 0.0
-    do j = 1, n
-      y(i) = y(i) + a % val(i,j) * x(j)
+    do j = 1, A % n
+      y(i) = y(i) + A % val(i,j) * x(j)
     end do
   end do
 

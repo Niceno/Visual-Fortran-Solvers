@@ -1,21 +1,19 @@
 !==============================================================================!
-  subroutine Lin_Alg_Mod_Dense_T(b, a)
+  subroutine Lin_Alg_Mod_Dense_T(B, A)
 !------------------------------------------------------------------------------!
-!   Transposes a square (full) matrix.                                         !
+!>  Transposes A dense (full) matrix.
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type) :: b
-  type(Dense_Type) :: a
+  type(Dense_Type) :: B  !! resulting matrix
+  type(Dense_Type) :: A  !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: n, row, col
+  integer :: i, j
 !==============================================================================!
 
-  n = a % n  ! some checks would be possible
-
-  do row = 1, n
-    do col = 1, n
-      b % val(col, row) = a % val(row, col)
+  do i = 1, A % n
+    do j = 1, A % n
+      B % val(j, i) = A % val(i, j)
     end do
   end do
 
