@@ -29,14 +29,14 @@
     do m = max(1,k-bw), k-1
       sum = sum - F % val(k,m) * F % val(k,m) * F % val(m,m)
     end do
-    F % val(k,k) = sum
+    F % val(k,k) = sum                   ! diagonal entry, D from LDL
     do i = k+1, min(k+bw,n)
       sum = A % val(i,k)
       do m = max(1,k-bw), k-1
         sum = sum - F % val(m,i) * F % val(m,k) * F % val(m,m)
       end do
-      F % val(k,i) = sum / F % val(k,k)
-      F % val(i,k) = sum / F % val(k,k)  ! make it full
+      F % val(k,i) = sum / F % val(k,k)  ! upper triangle, the L' here
+      F % val(i,k) = sum / F % val(k,k)  ! lower triangle, the L part
     end do
   end do
 

@@ -29,9 +29,9 @@
     sum = A % val(A % dia(k))
     do k_m = F % row(k), F % dia(k) - 1
       m = F % col(k_m)
-      sum = sum - (F % val(k_m)**2.0) * F % val( F % dia(m) )
+      sum = sum - F % val(k_m) * F % val(k_m) * F % val( F % dia(m) )
     end do
-    F % val( F % dia(k) ) = sum
+    F % val( F % dia(k) ) = sum       ! diagonal entry, D from LDL
 
     !------------------------!
     !   Non-diagonal entry   !
