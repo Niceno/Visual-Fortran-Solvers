@@ -1,9 +1,8 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Forward_Substitution_Sparse(x, F, b)
+  subroutine Solvers_Mod_Sparse_Backward_Substitution(x, F, b)
 !------------------------------------------------------------------------------!
-!>  Performs forward substitution using a sparse matrix.
+!>  Performs backward substitution using a sparse matrix.
 !------------------------------------------------------------------------------!
-!                                                                              !
 !   Called by:                                                                 !
 !   - Solvers_Mod_Incomplete_Cholesky                                          !
 !------------------------------------------------------------------------------!
@@ -19,9 +18,9 @@
 
   n = F % n      ! some checks would be possible
 
-  do i = 1, n
+  do i = n, 1, -1
     sum = b(i)
-    do i_j = F % row(i), F % dia(i) - 1
+    do i_j = F % dia(i) + 1, F % row(i + 1) - 1
       j = F % col(i_j)
       sum = sum - F % val(i_j) * x(j)
     end do

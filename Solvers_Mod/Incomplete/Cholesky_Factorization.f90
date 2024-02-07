@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cholesky_Factorization_Sparse(F, A)
+  subroutine Solvers_Mod_Sparse_Cholesky_Factorization(F, A)
 !------------------------------------------------------------------------------!
 !   Computes Cholesky decomposition on sparse matrices.                        !
 !                                                                              !

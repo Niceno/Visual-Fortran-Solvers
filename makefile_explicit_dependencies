@@ -18,9 +18,20 @@ Demo_Mod/*.f90
 #-- ./Demo_Mod/Compress_Decompress.f90
 #-- ./Demo_Mod/Main.f90
 #-- ./Demo_Mod/Fill_In.f90
+#-- ./Discretize_Mod/On_Sparse_Matrix.f90
 #-- ./Foul_Mod.f90
 $(DIR_OBJECT)/Foul_Mod.o:\
 Foul_Mod/*.f90 
+
+#-- ./Discretize_Mod.f90
+$(DIR_OBJECT)/Discretize_Mod.o:\
+$(DIR_OBJECT)/Sparse_Mod.o \
+Sparse_Mod/*.f90 \
+$(DIR_OBJECT)/In_Out_Mod.o \
+In_Out_Mod/*.f90 \
+Discretize_Mod/*.f90 \
+$(DIR_OBJECT)/Dense_Mod.o \
+Dense_Mod/*.f90 
 
 #-- ./Lin_Alg_Mod.f90
 $(DIR_OBJECT)/Lin_Alg_Mod.o:\
@@ -48,74 +59,80 @@ Dense_Mod/*.f90
 #-- ./Sparse_Mod/Deallocate.f90
 #-- ./Sparse_Mod/Create_Preconditioning.f90
 #-- ./Grid_Mod.f90
-#-- ./Solvers_Mod/Ldlt_Factorization_Sparse.f90
-#-- ./Solvers_Mod/Cholesky.f90
-#-- ./Solvers_Mod/Backward_Substitution_Sparse.f90
 #-- ./Solvers_Mod/Check_Solution_Dense.f90
-#-- ./Solvers_Mod/Forward_Substitution_Sparse.f90
 #-- ./Solvers_Mod/Check_Solution_Sparse.f90
-#-- ./Solvers_Mod/Ldlt.f90
-#-- ./Solvers_Mod/Forward_Substitution_Dense.f90
-#-- ./Solvers_Mod/Convert_Sparse_To_Dense.f90
-#-- ./Solvers_Mod/Cholesky_Factorization_Sparse.f90
-#-- ./Solvers_Mod/Cg_Ldlt_Prec.f90
-#-- ./Solvers_Mod/Incomplete_Ldlt_From_Tflows.f90
+#-- ./Solvers_Mod/Convert/Sparse_To_Dense.f90
+#-- ./Solvers_Mod/Convert/Dense_To_Sparse.f90
 #-- ./Solvers_Mod/Allocate_Vectors.f90
-#-- ./Solvers_Mod/Ldlt_Factorization_Dense.f90
-#-- ./Solvers_Mod/Cholesky_Factorization_Dense.f90
 #-- ./Solvers_Mod/Prepare_System.f90
-#-- ./Solvers_Mod/Cg_Tflows_Prec.f90
-#-- ./Solvers_Mod/Cg.f90
-#-- ./Solvers_Mod/Incomplete_Ldlt.f90
-#-- ./Solvers_Mod/Ldlt_Solution_From_Tflows.f90
-#-- ./Solvers_Mod/Ldlt_Solution_Dense.f90
-#-- ./Solvers_Mod/Convert_Dense_To_Sparse.f90
-#-- ./Solvers_Mod/Cg_Diag_Prec.f90
+#-- ./Solvers_Mod/Incomplete/Cholesky.f90
+#-- ./Solvers_Mod/Incomplete/Backward_Substitution.f90
+#-- ./Solvers_Mod/Incomplete/Forward_Substitution.f90
+#-- ./Solvers_Mod/Incomplete/Ldlt.f90
+#-- ./Solvers_Mod/Incomplete/Ldlt_From_Tflows.f90
+#-- ./Solvers_Mod/Incomplete/Cholesky_Factorization.f90
+#-- ./Solvers_Mod/Sparse/Tflows_Ldlt_Solution.f90
+#-- ./Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90
+#-- ./Solvers_Mod/Sparse/Cg_Ldlt_Prec.f90
+#-- ./Solvers_Mod/Sparse/Cg_No_Prec.f90
+#-- ./Solvers_Mod/Sparse/Cg_Tflows_Prec.f90
+#-- ./Solvers_Mod/Sparse/Cg_Diag_Prec.f90
+#-- ./Solvers_Mod/Sparse/Ldlt_Solution.f90
+#-- ./Solvers_Mod/Sparse/Ldlt_Factorization.f90
+#-- ./Solvers_Mod/Dense/Cholesky.f90
+#-- ./Solvers_Mod/Dense/Backward_Substitution.f90
+#-- ./Solvers_Mod/Dense/Forward_Substitution.f90
+#-- ./Solvers_Mod/Dense/Ldlt.f90
+#-- ./Solvers_Mod/Dense/Lu_Factorization.f90
+#-- ./Solvers_Mod/Dense/Lu.f90
+#-- ./Solvers_Mod/Dense/Ldlt_Solution.f90
+#-- ./Solvers_Mod/Dense/Cholesky_Factorization.f90
+#-- ./Solvers_Mod/Dense/Gauss.f90
+#-- ./Solvers_Mod/Dense/Gauss_Elimination.f90
+#-- ./Solvers_Mod/Dense/Ldlt_Factorization.f90
 #-- ./Solvers_Mod/Deallocate.f90
-#-- ./Solvers_Mod/Incomplete_Cholesky.f90
-#-- ./Solvers_Mod/Lu.f90
-#-- ./Solvers_Mod/Gauss.f90
-#-- ./Solvers_Mod/Backward_Substitution_Dense.f90
-#-- ./Solvers_Mod/Gauss_Elimination.f90
-#-- ./Solvers_Mod/Ldlt_Factorization_From_Tflows.f90
-#-- ./Solvers_Mod/Lu_Factorization_Dense.f90
-#-- ./Solvers_Mod/Ldlt_Solution_Sparse.f90
 #-- ./Sort_Mod.f90
 $(DIR_OBJECT)/Sort_Mod.o:\
 Sort_Mod/*.f90 
 
-#-- ./.git/objects/ce/4b03c7b1b1e80b73780f90adf8057872865602
 #-- ./Lin_Alg_Mod/Vector_Dot_Vector.f90
 #-- ./Lin_Alg_Mod/Dense_X_Dense.f90
 #-- ./Lin_Alg_Mod/Dense_X_Vector.f90
 #-- ./Lin_Alg_Mod/Dense_T.f90
 #-- ./Lin_Alg_Mod/Sparse_X_Vector.f90
+#-- ./Assert_Mod/Handle_Assert.f90
 #-- ./Sparse_Mod.f90
 $(DIR_OBJECT)/Sparse_Mod.o:\
 Sparse_Mod/*.f90 \
 $(DIR_OBJECT)/Sort_Mod.o \
 Sort_Mod/*.f90 \
-$(DIR_OBJECT)/Grid_Mod.o \
-$(DIR_OBJECT)/Dense_Mod.o \
-Dense_Mod/*.f90 
+$(DIR_OBJECT)/Grid_Mod.o 
 
 #-- ./Demo_Mod.f90
 $(DIR_OBJECT)/Demo_Mod.o:\
 Solvers_Mod/readme \
 $(DIR_OBJECT)/Solvers_Mod.o \
+Solvers_Mod/*/*.f90 \
 Solvers_Mod/*.f90 \
 Demo_Mod/*.f90 
 
 #-- ./Solvers_Mod.f90
 $(DIR_OBJECT)/Solvers_Mod.o:\
 Solvers_Mod/readme \
+Solvers_Mod/*/*.f90 \
 Solvers_Mod/*.f90 \
 $(DIR_OBJECT)/Lin_Alg_Mod.o \
 Lin_Alg_Mod/*.f90 \
 $(DIR_OBJECT)/In_Out_Mod.o \
-In_Out_Mod/*.f90 
+In_Out_Mod/*.f90 \
+$(DIR_OBJECT)/Discretize_Mod.o \
+Discretize_Mod/*.f90 
 
 #-- ./Swap_Int.f90
 #-- ./Sort_Mod/Int.f90
 #-- ./Sort_Mod/2_Int.f90
 #-- ./Sort_Mod/Int_Carry_Int.f90
+#-- ./Assert_Mod.f90
+$(DIR_OBJECT)/Assert_Mod.o:\
+Assert_Mod/*.f90 
+

@@ -1,23 +1,16 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Prepare_System(grid)
+  subroutine Solvers_Mod_Prepare_System(grid, b)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Grid_Type) :: grid
+  real            :: b(:)
 !==============================================================================!
 
-  ! Create sparse system matrix
-  call A_Sparse % Sparse_Create(grid)
-  call In_Out_Mod_Print_Sparse("Sparse A_Sparse:", A_Sparse)
-
   ! Finish memory allocation
-  call Solvers_Mod_Allocate_Vectors(A_Sparse % n)
+  call Solvers_Mod_Allocate_Vectors(grid % nx * grid % ny * grid % nz)
 
-  ! Fill the right hand side and store its original value
-  b  (:) = 0.1
-  b_o(:) = b(:)  ! original value
-
-  ! Set initial guess to zero, since it can influence iteratie solvers
-  x(:) = 0.0
+  ! Store the original value of the right hand side for checking
+  b_o(:) = b(:)
 
   end subroutine

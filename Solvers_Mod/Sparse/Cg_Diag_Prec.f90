@@ -1,35 +1,34 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cg_Tflows_Prec(grid, n_iter, res)
+  subroutine Solvers_Mod_Cg_Diag_Prec(grid, A, x, b, n_iter, res)
+!------------------------------------------------------------------------------!
+!>  Performs diagonally preconditioned CG solution of a linear system
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type) :: grid
-  integer         :: n_iter
-  real            :: res
+  type(Grid_Type)   :: grid    !! computational grid
+  type(Sparse_Type) :: A        !! original sparse system matrix
+  real, allocatable :: x(:)
+  real, allocatable :: b(:)
+  integer           :: n_iter  !! number of iterations
+  real              :: res     !! target residual
 !-----------------------------------[Locals]-----------------------------------!
   integer                    :: n  ! number of unknowns
   integer                    :: i, iter
   real                       :: alpha, beta, rho_old, rho, pap
   real                       :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type), pointer :: A, D
 !==============================================================================!
 
-  print *, '#=========================================================='
-  print *, '# Solving the sytem with T-Flows preconditioned CG method'
-  print *, '#----------------------------------------------------------'
-
-  A => a_sparse
-  D => p_sparse  ! in theory, this should be LDL, but only D is stored
+  print *, '#============================================================'
+  print *, '# Solving the sytem with diagonally preconditioned CG method'
+  print *, '#------------------------------------------------------------'
 
   !------------------!
   !                  !
   !   Praparations   !
   !                  !
   !------------------!
-  call Solvers_Mod_Prepare_System(grid)
-
-  call D % Sparse_Create_Preconditioning(A, 0)
-  call In_Out_Mod_Print_Sparse("Sparse D:", D)
+  call Discretize % On_Sparse_Matrix(grid, A, x, b)
+  call Solvers_Mod_Prepare_System(grid, b)
 
   !------------------------!
   !                        !
@@ -38,9 +37,9 @@
   !------------------------!
   n = A % n
 
-  ! Perform LDL^T factorization on the matrix to find the lower one
+  ! Perform noting here ...
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Ldlt_Factorization_From_Tflows(D, A)
+  ! ... just hang around a bit
   call Cpu_Time(time_pe)
 
   !----------------!
@@ -54,7 +53,9 @@
   !---------------------!
   !   solve M * z = r   !
   !---------------------!
-  call Solvers_Mod_Ldlt_Solution_From_Tflows(n, -1, A, D, z, r)
+  do i = 1, n
+    z(i) = r(i) * A % val(A % dia(i))
+  end do
 
   !------------------!
   !   rho = r' * z   !
@@ -103,7 +104,9 @@
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
-    call Solvers_Mod_Ldlt_Solution_From_Tflows(n, -1, A, D, z, r)
+    do i = 1, n
+      z(i) = r(i) * A % val(A % dia(i))
+    end do
 
     !------------------!
     !   rho = r' * z   !
@@ -144,5 +147,8 @@
   !   Clean-up the memory   !
   !-------------------------!
   call Solvers_Mod_Deallocate()
+  call A % Sparse_Deallocate()
+  deallocate(x)
+  deallocate(b)
 
   end subroutine

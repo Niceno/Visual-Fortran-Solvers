@@ -1,30 +1,44 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Backward_Substitution_Sparse(x, F, b)
+  subroutine Solvers_Mod_Dense_Ldlt_Solution(x, F, b)
 !------------------------------------------------------------------------------!
-!>  Performs backward substitution using a sparse matrix.
+!>  Solves system based on LDL' decomposition.
 !------------------------------------------------------------------------------!
 !   Called by:                                                                 !
-!   - Solvers_Mod_Incomplete_Cholesky                                          !
+!   - Solvers_Mod_Ldlt                                                         !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:) :: x  !! resulting vector
-  type(Sparse_Type)  :: F  !! factorized matrix, should be U in the caller
+  real, dimension(:) :: x  !! solution vector
+  type(Dense_Type)   :: F  !! factorized matrix
   real, dimension(:) :: b  !! right hand side vector
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, i_j, n
+  integer :: i, j, n
   real    :: sum
 !==============================================================================!
 
-  n = F % n      ! some checks would be possible
+  n = F % n  ! some checks would be possible
 
-  do i = n, 1, -1
+  ! Forward substitutions
+  do i = 1, n
     sum = b(i)
-    do i_j = F % dia(i) + 1, F % row(i + 1) - 1
-      j = F % col(i_j)
-      sum = sum - F % val(i_j) * x(j)
+    do j=1,i-1
+      sum = sum - F % val(i,j)*x(j)  ! straightforward for compressed row format
     end do
-    x(i) = sum / F % val( F % dia(i) )
+    x(i) = sum
+  end do
+
+  ! Treat the diagonal term
+  do i = 1, n
+    x(i) = x(i) / F % val(i,i)
+  end do
+
+  ! Backward substitution
+  do i = n, 1, -1
+    sum = x(i)
+    do j = i+1, n
+      sum = sum - F % val(i,j)*x(j)  ! straighforward for compressed row format
+    end do
+    x(i) = sum
   end do
 
   end subroutine

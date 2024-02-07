@@ -1,38 +1,31 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cholesky(grid)
-!------------------------------------------------------------------------------!
-!   In a nutshell:                                                             !
-!   1 - calls Cholesky Factorization                                           !
-!   2 - calls Forward_Substitution                                             !
-!   3 - calls Backward Substitution                                            !
+  subroutine Solvers_Mod_Incomplete_Cholesky(grid, A, x, b, fill_in)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type) :: grid
+  type(Grid_Type)   :: grid     !! computational grid
+  type(Sparse_Type) :: A        !! original sparse system matrix
+  real, allocatable :: x(:)
+  real, allocatable :: b(:)
+  integer           :: fill_in  !! fill-in factor
 !-----------------------------------[Locals]-----------------------------------!
-  real                      :: time_ps, time_pe, time_ss, time_se
-  type(Dense_Type), pointer :: A, LL
+  real                       :: time_ps, time_pe, time_ss, time_se
+  type(Sparse_Type), pointer :: LL  ! used for LL' (Cholesky) factorization
 !==============================================================================!
 
-  print *, '#=========================================================='
-  print *, '# Solving the sytem with Cholesky decomposition'
-  print *, '#----------------------------------------------------------'
+  ! Take aliases
+  LL => p_sparse
 
-  A  => a_square
-  LL => p_square
+  print *, '#=========================================================='
+  print *, '# Solving the sytem with incomplete Cholesky factorization'
+  print *, '#----------------------------------------------------------'
 
   !------------------!
   !   Praparations   !
   !------------------!
-  call Solvers_Mod_Prepare_System(grid)
-
-  ! Create two full matrices from the sparse one
-  call Solvers_Mod_Convert_Sparse_to_Dense(A,  a_sparse)
-  call Solvers_Mod_Convert_Sparse_to_Dense(LL, a_sparse)
-  LL % val(:,:) = 0
-
-  ! Just print original matrix
-  call In_Out_Mod_Print_Dense("A:", A)
+  call Discretize % On_Sparse_Matrix(grid, A, x, b)
+  call Solvers_Mod_Prepare_System(grid, b)
+  call LL % Sparse_Create_Preconditioning(A, fill_in)
 
   !------------------------!
   !   Actual computation   !
@@ -40,19 +33,18 @@
 
   ! Perform Cholesky factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Cholesky_Factorization_Dense(LL, A)
+  call Solvers_Mod_Sparse_Cholesky_Factorization(LL, A)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Dense("LL after Cholesky factorization", LL)
+  call In_Out_Mod_Print_Sparse("LL after factorization:", LL)
 
   ! Compute y by forward substitution
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Forward_Substitution_Dense(y, LL, b)
-  !@ call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
+  call Solvers_Mod_Sparse_Forward_Substitution(y, LL, b)
 
   ! Compute x by backward substitution
-  call Solvers_Mod_Backward_Substitution_Dense(x, LL, y)
-  !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
+  call Solvers_Mod_Sparse_Backward_Substitution(x, LL, y)
   call Cpu_Time(time_se)
+  !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
   print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss
@@ -62,11 +54,14 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Dense(A)
+  call Solvers_Mod_Check_Solution_Sparse(A, x)
 
   !-------------------------!
   !   Clean-up the memory   !
   !-------------------------!
   call Solvers_Mod_Deallocate()
+  call A % Sparse_Deallocate()
+  deallocate(x)
+  deallocate(b)
 
   end subroutine

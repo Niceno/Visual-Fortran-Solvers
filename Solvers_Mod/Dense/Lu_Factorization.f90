@@ -1,13 +1,16 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Lu_Factorization_Dense(F, G, A)
+  subroutine Solvers_Mod_Dense_Lu_Factorization(F, G, A)
 !------------------------------------------------------------------------------!
 !   Performs LU decomposition of the give matrix "A" and stores L and U in     !
 !   "F" and "G".  This subroutine was derived from Gaussian_Elimination.       !
+!                                                                              !
+!  Called by:                                                                  !
+!  - Solvers_Mod_Lu                                                            !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type) :: F   ! matrix L
-  type(Dense_Type) :: G   ! matrix U
+  type(Dense_Type) :: F   !! matrix L
+  type(Dense_Type) :: G   !! matrix U
   type(Dense_Type) :: A
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k

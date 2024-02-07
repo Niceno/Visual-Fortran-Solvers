@@ -19,7 +19,6 @@
 
   ! Allocate the memory
   call Orig % Dense_Allocate(N)
-  PRINT *, 'Orig % n = ', Orig % n
 
   ! Set the values
   Orig % val(1,1:N) = (/ 44., -4., -3.,  0., -1.,  0.,  0. /)

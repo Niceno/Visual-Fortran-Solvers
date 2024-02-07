@@ -1,8 +1,8 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Ldlt_Factorization_Dense(F, A)
+  subroutine Solvers_Mod_Dense_Ldlt_Factorization(F, A)
 !------------------------------------------------------------------------------!
-!   Computes LDL^T decomposition on square (full) matrices.                    !
-!                                                                              !
+!>  Computes LDL^T decomposition on square (full) matrices.
+!------------------------------------------------------------------------------!
 !   Called by:                                                                 !
 !   - Solvers_Mod_Ldlt_Solver                                                  !
 !------------------------------------------------------------------------------!

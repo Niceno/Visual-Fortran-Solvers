@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Gauss(grid)
+  subroutine Solvers_Mod_Gauss(grid, A, x, b)
 !------------------------------------------------------------------------------!
 !   In a nutshell:                                                             !
 !   1 - calls Gaussian Elimination                                             !
@@ -7,28 +7,33 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type) :: grid
+  type(Grid_Type)   :: grid  !! computational grid
+  type(Dense_Type)  :: A     !! original dense system matrix
+  real, allocatable :: x(:)
+  real, allocatable :: b(:)
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
-  type(Dense_Type), pointer :: A, U  ! original matrix (A) and matrix after
-                                     ! (forward) elimination (U)
+  type(Sparse_Type)         :: H  ! helping sparse matrix for discretization
+  type(Dense_Type), pointer :: U  ! original matrix (A) and matrix after
+                                  ! (forward) elimination (U)
 !==============================================================================!
+
+  ! Take aliases
+  U => q_square
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with Gaussian elimination'
   print *, '#----------------------------------------------------------'
 
-  A => a_square
-  U => q_square
-
   !------------------!
   !   Praparations   !
   !------------------!
-  call Solvers_Mod_Prepare_System(grid)
+  call Discretize % On_Sparse_Matrix(grid, H, x, b)
+  call Solvers_Mod_Prepare_System(grid, b)
 
   ! Create two full matrices from a sparse
-  call Solvers_Mod_Convert_Sparse_to_Dense(A, a_sparse)
-  call Solvers_Mod_Convert_Sparse_to_Dense(U, a_sparse)
+  call Solvers_Mod_Convert_Sparse_to_Dense(A, H)
+  call Solvers_Mod_Convert_Sparse_to_Dense(U, H)
   U % val(:,:) = 0
 
   ! Just print original matrix
@@ -47,7 +52,7 @@
 
   ! Perform backward substitution Ub=x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Backward_Substitution_Dense(x, U, b)
+  call Solvers_Mod_Dense_Backward_Substitution(x, U, b)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
 
@@ -59,11 +64,14 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Dense(A)
+  call Solvers_Mod_Check_Solution_Dense(A, x)
 
   !-------------------------!
   !   Clean-up the memory   !
   !-------------------------!
   call Solvers_Mod_Deallocate()
+  call A % Dense_Deallocate()
+  deallocate(x)
+  deallocate(b)
 
   end subroutine

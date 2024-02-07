@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Backward_Substitution_Dense(x, F, b)
+  subroutine Solvers_Mod_Dense_Backward_Substitution(x, F, b)
 !------------------------------------------------------------------------------!
 !>  Performs backward substitution on a square (full) matrix.                  !
 !>  It will address only elements in upper trinangular part.                   !

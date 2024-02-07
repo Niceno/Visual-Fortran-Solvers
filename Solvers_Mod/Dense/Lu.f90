@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Lu(grid)
+  subroutine Solvers_Mod_Lu(grid, A, x, b)
 !------------------------------------------------------------------------------!
 !   In a nutshell:                                                             !
 !   1 - calls Lu Factorization                                                 !
@@ -8,29 +8,34 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type) :: grid
+  type(Grid_Type)  :: grid   !! computational grid
+  type(Dense_Type) :: A      !! original dense system matrix
+  real, allocatable :: x(:)
+  real, allocatable :: b(:)
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
-  type(Dense_Type), pointer :: A, L, U
+  type(Sparse_Type)         :: H     ! helping sparse matrix for discretization
+  type(Dense_Type), pointer :: L, U  ! will store LU factorization
 !==============================================================================!
 
-  print *, '#=========================================================='
-  print *, '# Solving the sytem with LU decomposition'
-  print *, '#----------------------------------------------------------'
-
-  A => a_square
+  ! Take aliases
   L => p_square
   U => q_square
+
+  print *, '#=========================================================='
+  print *, '# Solving the sytem with LU factorization'
+  print *, '#----------------------------------------------------------'
 
   !------------------!
   !   Praparations   !
   !------------------!
-  call Solvers_Mod_Prepare_System(grid)
+  call Discretize % On_Sparse_Matrix(grid, H, x, b)
+  call Solvers_Mod_Prepare_System(grid, b)
 
   ! Create two full matrices from the sparse one
-  call Solvers_Mod_Convert_Sparse_to_Dense(A, a_sparse)
-  call Solvers_Mod_Convert_Sparse_to_Dense(L, a_sparse)
-  call Solvers_Mod_Convert_Sparse_to_Dense(U, a_sparse)
+  call Solvers_Mod_Convert_Sparse_to_Dense(A, H)
+  call Solvers_Mod_Convert_Sparse_to_Dense(L, H)
+  call Solvers_Mod_Convert_Sparse_to_Dense(U, H)
   L % val(:,:) = 0
   U % val(:,:) = 0
 
@@ -43,18 +48,18 @@
 
   ! Perform LU factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Lu_Factorization_Dense(L, U, A)
+  call Solvers_Mod_Dense_Lu_Factorization(L, U, A)
   call Cpu_Time(time_pe)
   call In_Out_Mod_Print_Dense("L after LU factorization", L)
   call In_Out_Mod_Print_Dense("U after LU factorization", U)
 
   ! Compute y by forward substitution: Ly=b
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Forward_Substitution_Dense(y, L, b)
+  call Solvers_Mod_Dense_Forward_Substitution(y, L, b)
   !@ call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
 
   ! Compute x by backward substitution Ub=x
-  call Solvers_Mod_Backward_Substitution_Dense(x, U, y)
+  call Solvers_Mod_Dense_Backward_Substitution(x, U, y)
   !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
   call Cpu_Time(time_se)
 
@@ -66,11 +71,14 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  call Solvers_Mod_Check_Solution_Dense(A)
+  call Solvers_Mod_Check_Solution_Dense(A, x)
 
   !-------------------------!
   !   Clean-up the memory   !
   !-------------------------!
   call Solvers_Mod_Deallocate()
+  call A % Dense_Deallocate()
+  deallocate(x)
+  deallocate(b)
 
   end subroutine

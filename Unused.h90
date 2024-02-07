@@ -1,0 +1,9 @@
+!==============================================================================!
+!   Definition of the macro which avoids too many workings while compiling.    !
+!------------------------------------------------------------------------------!
+
+# if T_FLOWS_DEBUG == 1
+#   define Unused(p)  associate(p => p); end associate
+# else
+#   define Unused(p)
+# endif

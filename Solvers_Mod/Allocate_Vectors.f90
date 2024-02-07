@@ -8,14 +8,12 @@
   integer, intent(in) :: n
 !==============================================================================!
 
-  allocate (b  (n))
   allocate (b_o(n))  ! needed only for Gauss elimination
-  allocate (x  (n))
-  allocate (y  (n))
   allocate (r  (n))
+  allocate (y  (n))
 
   allocate (p(n))
-  allocate (z(n))
   allocate (q(n))
+  allocate (z(n))
 
   end subroutine

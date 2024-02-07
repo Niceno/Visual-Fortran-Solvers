@@ -47,9 +47,10 @@ ifeq ($(FORTRAN), gnu)
   FC = gfortran
   ifeq ($(DEBUG),yes)
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O0 -g  \
-                                -Wunused-parameter -Warray-temporaries -Wall
+                                -Wunused-parameter -Warray-temporaries -Wall \
+                                -cpp
   else
-    OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O3
+    OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O3 -cpp
   endif 
   OPT_LINK = $(OPT_COMP)
 endif 
@@ -60,9 +61,9 @@ ifeq ($(FORTRAN), intel)
   FC = ifort
   ifeq ($(DEBUG),yes)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g -warn all -check all \
-               -debug all -fpe-all=0 -traceback
+               -debug all -fpe-all=0 -traceback -cpp
   else
-    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3
+    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3 -cpp
   endif
   OPT_LINK = $(OPT_COMP)
 endif 
@@ -84,9 +85,9 @@ ifeq ($(FORTRAN), nvidia)
   $(info  # Using Nvidia Fortran compiler with options:)
   FC = nvfortran
   ifeq ($(DEBUG),yes)
-    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g
+    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g -cpp
   else
-    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3
+    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3 -cpp
   endif
   OPT_LINK = $(OPT_COMP)
 endif
@@ -114,6 +115,7 @@ SRC_MOD = Foul_Mod.f90		\
           Sparse_Mod.f90	\
           In_Out_Mod.f90	\
           Lin_Alg_Mod.f90	\
+          Discretize_Mod.f90	\
           Solvers_Mod.f90	\
           Demo_Mod.f90
 

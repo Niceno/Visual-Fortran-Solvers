@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Ldlt_Factorization_Sparse(F, A)
+  subroutine Solvers_Mod_Sparse_Ldlt_Factorization(F, A)
 !------------------------------------------------------------------------------!
 !   Computes LDLT decomposition on sparse matrices.                            !
 !                                                                              !

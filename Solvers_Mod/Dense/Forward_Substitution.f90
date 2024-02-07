@@ -1,11 +1,12 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Forward_Substitution_Dense(x, F, b)
+  subroutine Solvers_Mod_Dense_Forward_Substitution(x, F, b)
 !------------------------------------------------------------------------------!
-!   Performs forward substitution on a square (full) matrix.                   !
+!>  Performs forward substitution on a square (full) matrix.
 !   It will address only elements in lower trinangular part though.            !
-!                                                                              !
+!------------------------------------------------------------------------------!
 !   Called by:                                                                 !
 !   - Solvers_Mod_Cholesky                                                     !
+!   - Solvers_Mod_Lu                                                           !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!

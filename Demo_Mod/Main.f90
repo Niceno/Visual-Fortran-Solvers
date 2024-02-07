@@ -3,12 +3,16 @@
 !------------------------------------------------------------------------------!
   implicit none
 !-----------------------------------[Locals]-----------------------------------!
-  type(Grid_Type) :: grid
-  character(80)   :: dummy
-  character(32)   :: arg = ''              ! command line argument
-  integer         :: choice, f_in, n_iter, file_unit, test
-  real            :: res
-  logical         :: file_exists
+  type(Grid_Type)   :: grid
+  type(Dense_Type)  :: Ad
+  type(Sparse_Type) :: As
+  real, allocatable :: x(:)
+  real, allocatable :: b(:)
+  character(80)     :: dummy
+  character(32)     :: arg = ''              ! command line argument
+  integer           :: choice, f_in, n_iter, file_unit, test
+  real              :: res
+  logical           :: file_exists
 !==============================================================================!
 
   !-------------------------------------!
@@ -69,17 +73,17 @@
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   print *, '#  1 - Gaussian elimination'
   print *, '#  2 - Cholesky solver'
-  print *, '#  3 - LDL^T solver'
+  print *, '#  3 - LDL'' solver'
   print *, '#  4 - LU solver'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   print *, '#  5 - Incomplete Cholesky solver'
-  print *, '#  6 - Incomplete LDL^T solver'
-  print *, '#  7 - Bare-bones LDL^T solver from T-Flows'
+  print *, '#  6 - Incomplete LDL'' solver'
+  print *, '#  7 - Bare-bones LDL'' solver from T-Flows'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   print *, '#  8 - CG solver without preconditioning'
   print *, '#  9 - CG solver with diagonal preconditioning'
   print *, '# 10 - CG solver with T-Flows preconditioning'
-  print *, '# 11 - CG solver with LDL^T preconditioning'
+  print *, '# 11 - CG solver with LDL'' preconditioning'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   print *, '# 12 - Compressed matrices'
   print *, '# 13 - Preconditioning matrix'
@@ -102,19 +106,19 @@
 
   if(choice ==  0) return
 
-  if(choice ==  1) call Solvers_Mod_Gauss   (grid)
-  if(choice ==  2) call Solvers_Mod_Cholesky(grid)
-  if(choice ==  3) call Solvers_Mod_Ldlt    (grid)
-  if(choice ==  4) call Solvers_Mod_Lu      (grid)
+  if(choice ==  1) call Solvers_Mod_Gauss   (grid, Ad, x, b)
+  if(choice ==  2) call Solvers_Mod_Cholesky(grid, Ad, x, b)
+  if(choice ==  3) call Solvers_Mod_Ldlt    (grid, Ad, x, b)
+  if(choice ==  4) call Solvers_Mod_Lu      (grid, Ad, x, b)
 
-  if(choice ==  5) call Solvers_Mod_Incomplete_Cholesky        (grid, f_in)
-  if(choice ==  6) call Solvers_Mod_Incomplete_Ldlt            (grid, f_in)
-  if(choice ==  7) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid)
+  if(choice ==  5) call Solvers_Mod_Incomplete_Cholesky        (grid, As, x, b, f_in)
+  if(choice ==  6) call Solvers_Mod_Incomplete_Ldlt            (grid, As, x, b, f_in)
+  if(choice ==  7) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
 
-  if(choice ==  8) call Solvers_Mod_Cg            (grid, n_iter, res)
-  if(choice ==  9) call Solvers_Mod_Cg_Diag_Prec  (grid, n_iter, res)
-  if(choice == 10) call Solvers_Mod_Cg_Tflows_Prec(grid, n_iter, res)
-  if(choice == 11) call Solvers_Mod_Cg_Ldlt_Prec  (grid, n_iter, res, f_in)
+  if(choice ==  8) call Solvers_Mod_Cg_No_Prec    (grid, As, x, b, n_iter, res)
+  if(choice ==  9) call Solvers_Mod_Cg_Diag_Prec  (grid, As, x, b, n_iter, res)
+  if(choice == 10) call Solvers_Mod_Cg_Tflows_Prec(grid, As, x, b, n_iter, res)
+  if(choice == 11) call Solvers_Mod_Cg_Ldlt_Prec  (grid, As, x, b, n_iter, res, f_in)
 
   if(choice == 12) call Demo_Mod_Compress_Decompress
   if(choice == 13) call Demo_Mod_Fill_In(f_in, grid)

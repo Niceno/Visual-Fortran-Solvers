@@ -1,33 +1,41 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cg_Diag_Prec(grid, n_iter, res)
+  subroutine Solvers_Mod_Cg_Ldlt_Prec(grid, A, x, b, n_iter, res, f_in)
 !------------------------------------------------------------------------------!
-!>  Performs diagonally preconditioned CG solution of a linear system
+!>  Performs LDL' preconditioned CG solution of a linear system.
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type) :: grid    !! computational grid
-  integer         :: n_iter  !! number of iterations
-  real            :: res     !! target residual
+  type(Grid_Type)   :: grid     !! computational grid
+  type(Sparse_Type) :: A        !! original sparse system matrix
+  real, allocatable :: x(:)
+  real, allocatable :: b(:)
+  integer           :: n_iter   !! maximum number of iterations
+  real              :: res      !! target residual
+  integer           :: f_in     !! fill-in factor
 !-----------------------------------[Locals]-----------------------------------!
   integer                    :: n  ! number of unknowns
   integer                    :: i, iter
   real                       :: alpha, beta, rho_old, rho, pap
   real                       :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type), pointer :: A
+  type(Sparse_Type), pointer :: LDL  ! used for LDL' factorization
 !==============================================================================!
 
-  print *, '#=========================================================='
-  print *, '# Solving the sytem with diagonally CG method'
-  print *, '#----------------------------------------------------------'
+  ! Take aliases
+  LDL => p_sparse
 
-  A => a_sparse
+  print *, '#============================================================'
+  print *, '# Solving the sytem with LDL'' preconditioned CG method'
+  print *, '#------------------------------------------------------------'
 
   !------------------!
   !                  !
   !   Praparations   !
   !                  !
   !------------------!
-  call Solvers_Mod_Prepare_System(grid)
+  call Discretize % On_Sparse_Matrix(grid, A, x, b)
+  call Solvers_Mod_Prepare_System(grid, b)
+  call LDL % Sparse_Create_Preconditioning(A, f_in)
+  call In_Out_Mod_Print_Sparse("Sparse LDL:", LDL)
 
   !------------------------!
   !                        !
@@ -36,7 +44,9 @@
   !------------------------!
   n = A % n
 
+  ! Perform LDL' factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
+  call Solvers_Mod_Sparse_Ldlt_Factorization(LDL, A)
   call Cpu_Time(time_pe)
 
   !----------------!
@@ -50,9 +60,7 @@
   !---------------------!
   !   solve M * z = r   !
   !---------------------!
-  do i = 1, n
-    z(i) = r(i) * A % val(A % dia(i))
-  end do
+  call Solvers_Mod_Sparse_Ldlt_Solution(z, LDL, r)
 
   !------------------!
   !   rho = r' * z   !
@@ -83,7 +91,6 @@
     !   alpha = rho / pAp   !
     !-----------------------!
     call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, q)
-
     alpha = rho / pap
 
     !---------------------!
@@ -93,7 +100,6 @@
     do i = 1, n
       x(i) = x(i) + alpha * p(i)
     end do
-
     do i = 1, n
       r(i) = r(i) - alpha * q(i)
     end do
@@ -101,15 +107,12 @@
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
-    do i = 1, n
-      z(i) = r(i) * A % val(A % dia(i))
-    end do
+    call Solvers_Mod_Sparse_Ldlt_Solution(z, LDL, r)
 
     !------------------!
     !   rho = r' * z   !
     !------------------!
     rho_old = rho
-
     call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, z)
 
     print '(a,i3,a,1es10.4)', ' #', iter, '; rho = ', sqrt(rho)
@@ -144,5 +147,8 @@
   !   Clean-up the memory   !
   !-------------------------!
   call Solvers_Mod_Deallocate()
+  call A % Sparse_Deallocate()
+  deallocate(x)
+  deallocate(b)
 
   end subroutine

@@ -1,8 +1,8 @@
 grid_lx    1.0
 grid_ly    1.0
 grid_lz    1.0
-grid_nx  40 
-grid_ny  30 
+grid_nx  20 
+grid_ny  20 
 grid_nz  20 
 
 f_in     1

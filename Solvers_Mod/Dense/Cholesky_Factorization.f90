@@ -1,8 +1,8 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cholesky_Factorization_Dense(F, A)
+  subroutine Solvers_Mod_Dense_Cholesky_Factorization(F, A)
 !------------------------------------------------------------------------------!
-!   Computes Cholesky decomposition on square (full) matrices.                 !
-!                                                                              !
+!>  Computes Cholesky decomposition on square (full) matrices.
+!------------------------------------------------------------------------------!
 !   Called by:                                                                 !
 !   - Solvers_Mod_Cholesky                                                     !
 !------------------------------------------------------------------------------!

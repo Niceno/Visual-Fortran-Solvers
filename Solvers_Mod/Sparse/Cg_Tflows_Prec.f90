@@ -1,36 +1,40 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cg(grid, n_iter, res)
-!------------------------------------------------------------------------------!
-!>  Performs CG solution of a linear system without preconditining.
+  subroutine Solvers_Mod_Cg_Tflows_Prec(grid, A, x, b, n_iter, res)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type) :: grid
-  integer         :: n_iter
-  real            :: res
+  type(Grid_Type)   :: grid    !! computational grid
+  type(Sparse_Type) :: A       !! original sparse system matrix
+  real, allocatable :: x(:)
+  real, allocatable :: b(:)
+  integer           :: n_iter  !! maximum number of iterations
+  real              :: res     !! target residual
 !-----------------------------------[Locals]-----------------------------------!
   integer                    :: n  ! number of unknowns
   integer                    :: i, iter
   real                       :: alpha, beta, rho_old, rho, pap
   real                       :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type), pointer :: A
+  type(Sparse_Type), pointer :: D  ! used for LDL' factorization, but this
+                                   ! one stores only the diagonal
 !==============================================================================!
 
-  print *, '#=========================================================='
-  print *, '# Solving the sytem with CG method'
-  print *, '#----------------------------------------------------------'
+  ! Take aliases
+  D => p_sparse
 
-  A => a_sparse
+  print *, '#============================================================'
+  print *, '# Solving the sytem with T-Flows preconditioned CG method'
+  print *, '#------------------------------------------------------------'
 
   !------------------!
   !                  !
   !   Praparations   !
   !                  !
   !------------------!
-  call Solvers_Mod_Prepare_System(grid)
+  call Discretize % On_Sparse_Matrix(grid, A, x, b)
+  call Solvers_Mod_Prepare_System(grid, b)
 
-  call Cpu_Time(time_ps)
-  call Cpu_Time(time_pe)
+  call D % Sparse_Create_Preconditioning(A, 0)
+  call In_Out_Mod_Print_Sparse("Sparse D:", D)
 
   !------------------------!
   !                        !
@@ -38,6 +42,11 @@
   !                        !
   !------------------------!
   n = A % n
+
+  ! Perform LDL' factorization on the matrix to find the lower one
+  call Cpu_Time(time_ps)
+  call Solvers_Mod_Tflows_Ldlt_Factorization(D, A)
+  call Cpu_Time(time_pe)
 
   !----------------!
   !   r = b - Ax   !
@@ -47,16 +56,21 @@
     r(i) = b(i) - q(i)
   end do
 
+  !---------------------!
+  !   solve M * z = r   !
+  !---------------------!
+  call Solvers_Mod_Tflows_Ldlt_Solution(n, -1, A, D, z, r)
+
   !------------------!
-  !   rho = r' * r   !
+  !   rho = r' * z   !
   !------------------!
-  call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, r)
+  call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, z)
 
   !-----------!
-  !   p = r   !
+  !   p = z   !
   !-----------!
   do i = 1, n
-    p(i) = r(i)
+    p(i) = z(i)
   end do
 
   !-------------------------------!
@@ -91,12 +105,17 @@
       r(i) = r(i) - alpha * q(i)
     end do
 
+    !---------------------!
+    !   solve M * z = r   !
+    !---------------------!
+    call Solvers_Mod_Tflows_Ldlt_Solution(n, -1, A, D, z, r)
+
     !------------------!
-    !   rho = r' * r   !
+    !   rho = r' * z   !
     !------------------!
     rho_old = rho
 
-    call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, r)
+    call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, z)
 
     print '(a,i3,a,1es10.4)', ' #', iter, '; rho = ', sqrt(rho)
     if(sqrt(rho) < res) goto 1
@@ -107,7 +126,7 @@
     beta = rho / max(rho_old, 1.0e-12)
 
     do i = 1, n
-      p(i) = r(i) + beta * p(i)
+      p(i) = z(i) + beta * p(i)
     end do
   end do
 
@@ -130,5 +149,8 @@
   !   Clean-up the memory   !
   !-------------------------!
   call Solvers_Mod_Deallocate()
+  call A % Sparse_Deallocate()
+  deallocate(x)
+  deallocate(b)
 
   end subroutine
