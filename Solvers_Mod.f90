@@ -53,7 +53,6 @@
     ! Incomplete solver components
 #   include "Solvers_Mod/Incomplete/Backward_Substitution.f90"
 #   include "Solvers_Mod/Incomplete/Forward_Substitution.f90"
-#   include "Solvers_Mod/Incomplete/Cholesky_Factorization.f90"
 
     ! Incomplete solvers
 #   include "Solvers_Mod/Incomplete/Cholesky.f90"
@@ -61,6 +60,7 @@
 #   include "Solvers_Mod/Incomplete/Ldlt_From_Tflows.f90"
 
     ! Sparse solver components
+#   include "Solvers_Mod/Sparse/Cholesky_Factorization.f90"
 #   include "Solvers_Mod/Sparse/Ldlt_Factorization.f90"
 #   include "Solvers_Mod/Sparse/Ldlt_Solution.f90"
 #   include "Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90"

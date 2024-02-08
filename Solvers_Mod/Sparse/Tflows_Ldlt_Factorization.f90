@@ -1,7 +1,7 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Tflows_Ldlt_Factorization(F, A)
+  subroutine Solvers_Mod_Tflows_Ldlt_Factorization(D, A)
 !------------------------------------------------------------------------------!
-!   Forms preconditioning matrix "F" from provided matrix "A".                 !
+!   Forms preconditioning matrix "D" from provided matrix "A".                 !
 !                                                                              !
 !   Called by:                                                                 !
 !   - Solvers_Mod_Incomplete_Ldlt_From_Tflows                                  !
@@ -13,8 +13,8 @@
 !      most likely to save memory.  If you take a look at the L' and L parts   !
 !      in the orginal LDL' factorization (from Ldlt_Factorization_Dense.f90):  !
 !                                                                              !
-!      F % val(k,i) = sum / F % val(k,k)  ! upper triangle, the L' here        !
-!      F % val(i,k) = sum / F % val(k,k)  ! lower triangle, the L part         !
+!      D % val(k,i) = sum / D % val(k,k)  ! upper triangle, the L' here        !
+!      D % val(i,k) = sum / D % val(k,k)  ! lower triangle, the L part         !
 !                                                                              !
 !      they are all just scaled with diagonal entry, so there is no need to    !
 !      even store them.                                                        !
@@ -26,7 +26,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Sparse_Type) :: F  !! factorized matrix, only diagonal is used
+  type(Sparse_Type) :: D  !! factorized matrix, only diagonal is used
   type(Sparse_Type) :: A  !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
   real     :: sum
@@ -39,11 +39,11 @@
     sum = A % val(A % dia(i))         ! take diaginal entry
     do ij = A % row(i), A % dia(i)-1  ! only lower traingular
       j = A % col(ij)                 ! fetch the column
-      sum = sum - F % val(F % dia(j)) * A % val(ij) * A % val(ij)
+      sum = sum - D % val(D % dia(j)) * A % val(ij) * A % val(ij)
     end do
 
     ! This is the reciprocal of the diagonal from LDL' decomposition
-    F % val(F % dia(i)) = 1.0 / sum
+    D % val(D % dia(i)) = 1.0 / sum
   end do
 
   end subroutine

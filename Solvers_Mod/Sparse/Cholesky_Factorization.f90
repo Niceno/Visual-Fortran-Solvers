@@ -1,18 +1,18 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Sparse_Cholesky_Factorization(F, A)
+  subroutine Solvers_Mod_Sparse_Cholesky_Factorization(LL, A)
 !------------------------------------------------------------------------------!
-!   Computes Cholesky decomposition on sparse matrices.                        !
-!                                                                              !
+!>  Computes Cholesky decomposition on sparse matrices.
+!------------------------------------------------------------------------------!
 !   Called by:                                                                 !
 !   - Solvers_Mod_Incomplete_Cholesky                                          !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Sparse_Type) :: F  !! factorized matrix
-  type(Sparse_Type) :: A  !! original matrix
+  type(Sparse_Type) :: LL  !! factorized matrices (two in one)
+  type(Sparse_Type) :: A   !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, m, n, k_m, k_i, m_j, k_i_a
-  real    :: sum
+  integer           :: i, j, k, m, n, k_m, k_i, m_j, k_i_a
+  real              :: sum
   real, allocatable :: work(:)
 !==============================================================================!
 
@@ -27,16 +27,16 @@
     !   Diagonal entry   !
     !--------------------!
     sum = A % val(A % dia(k))
-    do k_m = F % row(k), F % dia(k) - 1
-      sum = sum - F % val(k_m)**2.0
+    do k_m = LL % row(k), LL % dia(k) - 1
+      sum = sum - LL % val(k_m)**2.0
     end do
-    F % val( F % dia(k) ) = sqrt(sum)
+    LL % val( LL % dia(k) ) = sqrt(sum)
 
     !------------------------!
     !   Non-diagonal entry   !
     !------------------------!
-    do k_i = F % dia(k) + 1, F % row(k+1) - 1
-      i = F % col(k_i)
+    do k_i = LL % dia(k) + 1, LL % row(k+1) - 1
+      i = LL % col(k_i)
 
       sum = 0.0
       do k_i_a = A % row(k), A % row(k+1) - 1
@@ -45,13 +45,13 @@
         end if
       end do
 
-      do k_m = F % row(k), F % dia(k) - 1
-        m = F % col(k_m)
+      do k_m = LL % row(k), LL % dia(k) - 1
+        m = LL % col(k_m)
 
         ! De-compress the row
-        do m_j = F % row(m), F % row(m+1) - 1
-          j = F % col(m_j)
-          work(j) = F % val(m_j)
+        do m_j = LL % row(m), LL % row(m+1) - 1
+          j = LL % col(m_j)
+          work(j) = LL % val(m_j)
         end do
 
         sum = sum - work(i)*work(k)
@@ -60,8 +60,8 @@
         work = 0.0
       end do
 
-      F % val(k_i) = sum / F % val(F % dia(k))
-      F % val(F % mir(k_i)) = F % val(k_i)
+      LL % val(k_i) = sum / LL % val(LL % dia(k))
+      LL % val(LL % mir(k_i)) = LL % val(k_i)
     end do
   end do
 

@@ -5,9 +5,9 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type)   :: G   ! upper triangular which remains
+  type(Dense_Type)   :: G  !! factorize upper triangular matrix
   real, dimension(:) :: b
-  type(Dense_Type)   :: A
+  type(Dense_Type)   :: A  !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k
   real    :: mult

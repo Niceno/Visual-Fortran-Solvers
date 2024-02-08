@@ -1,15 +1,15 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Sparse_Ldlt_Factorization(F, A)
+  subroutine Solvers_Mod_Sparse_Ldlt_Factorization(LDL, A)
 !------------------------------------------------------------------------------!
-!   Computes LDLT decomposition on sparse matrices.                            !
-!                                                                              !
+!   Computes LDL' factorization of a sparse matrix.                            !
+!------------------------------------------------------------------------------!
 !   Called by:                                                                 !
 !   - Solvers_Mod_Incomplete_Ldlt                                              !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Sparse_Type) :: F  !! factorized matrix
-  type(Sparse_Type) :: A  !! original matrix
+  type(Sparse_Type) :: LDL  !! factorized matrices (three in one)
+  type(Sparse_Type) :: A    !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, m, n, k_m, k_i, m_j, k_i_a
   real    :: sum
@@ -27,17 +27,17 @@
     !   Diagonal entry   !
     !--------------------!
     sum = A % val(A % dia(k))
-    do k_m = F % row(k), F % dia(k) - 1
-      m = F % col(k_m)
-      sum = sum - F % val(k_m) * F % val(k_m) * F % val( F % dia(m) )
+    do k_m = LDL % row(k), LDL % dia(k) - 1
+      m = LDL % col(k_m)
+      sum = sum - LDL % val(k_m) * LDL % val(k_m) * LDL % val( LDL % dia(m) )
     end do
-    F % val( F % dia(k) ) = sum       ! diagonal entry, D from LDL
+    LDL % val( LDL % dia(k) ) = sum       ! diagonal entry, D from LDL
 
     !------------------------!
     !   Non-diagonal entry   !
     !------------------------!
-    do k_i = F % dia(k) + 1, F % row(k+1) - 1
-      i = F % col(k_i)
+    do k_i = LDL % dia(k) + 1, LDL % row(k+1) - 1
+      i = LDL % col(k_i)
 
       sum = 0.0
       do k_i_a = A % row(k), A % row(k+1) - 1
@@ -46,23 +46,23 @@
         end if
       end do
 
-      do k_m = F % row(k), F % dia(k) - 1
-        m = F % col(k_m)
+      do k_m = LDL % row(k), LDL % dia(k) - 1
+        m = LDL % col(k_m)
 
         ! De-compress the row
-        do m_j = F % row(m), F % row(m+1) - 1
-          j = F % col(m_j)
-          work(j) = F % val(m_j)
+        do m_j = LDL % row(m), LDL % row(m+1) - 1
+          j = LDL % col(m_j)
+          work(j) = LDL % val(m_j)
         end do
 
-        sum = sum - work(i)*work(k) * F % val( F % dia(m) )
+        sum = sum - work(i)*work(k) * LDL % val( LDL % dia(m) )
 
         ! Set the row back to zero
         work = 0.0
       end do
 
-      F % val(k_i) = sum / F % val(F % dia(k))
-      F % val(F % mir(k_i)) = F % val(k_i)
+      LDL % val(k_i) = sum / LDL % val(LDL % dia(k))
+      LDL % val(LDL % mir(k_i)) = LDL % val(k_i)
     end do
   end do
 
