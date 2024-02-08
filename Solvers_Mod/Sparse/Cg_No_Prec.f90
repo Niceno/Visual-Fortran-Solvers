@@ -127,7 +127,8 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  print '(a,1es10.4)', " # Error:                       ", sqrt(rho)
+  print '(a,1es10.4)', " # Sqrt(rho):                   ", sqrt(rho)
+  call Solvers_Mod_Check_Solution_Sparse(A, x, b)
 
   !-------------------------!
   !   Clean-up the memory   !

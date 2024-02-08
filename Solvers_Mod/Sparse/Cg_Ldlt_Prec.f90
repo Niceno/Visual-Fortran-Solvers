@@ -91,6 +91,7 @@
     !   alpha = rho / pAp   !
     !-----------------------!
     call Lin_Alg_Mod_Vector_Dot_Vector(pap, p, q)
+
     alpha = rho / pap
 
     !---------------------!
@@ -100,6 +101,7 @@
     do i = 1, n
       x(i) = x(i) + alpha * p(i)
     end do
+
     do i = 1, n
       r(i) = r(i) - alpha * q(i)
     end do
@@ -141,7 +143,8 @@
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  print '(a,1es10.4)', " # Error:                       ", sqrt(rho)
+  print '(a,1es10.4)', " # Sqrt(rho):                   ", sqrt(rho)
+  call Solvers_Mod_Check_Solution_Sparse(A, x, b)
 
   !-------------------------!
   !   Clean-up the memory   !
