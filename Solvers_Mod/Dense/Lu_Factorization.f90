@@ -24,21 +24,21 @@
   do i = 1, A % n
 
     ! Upper triangular
-    do k = i, A % n
+    do k = i, min(A % n, i + A % bw)
       sum = 0.0
-      do j = 1, i-1
+      do j = max(1, i - A % bw), min(i-1, i + A % bw)
         sum = sum + L % val(i,j) * U % val(j,k)
       end do
       U % val(i,k) = A % val(i,k) - sum
     end do
 
     ! Lower triangular
-    do k = i, A % n
+    do k = max(i, i - A % bw), min(A % n, i + A % bw)
       if(i == k) then
         L % val(i,i) = 1.0  ! Diagonal as 1
       else
         sum = 0.0
-        do j = 1, i-1
+        do j = max(1, i - A % bw), min(i-1, i + A % bw)
           sum = sum + L % val(k,j) * U % val(j,i)
         end do
         L % val(k,i) = (A % val(k,i) - sum) / U % val(i,i)
