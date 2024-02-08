@@ -1,5 +1,5 @@
 !==============================================================================!
-  function Integer_To_String(integer_value, string_length)
+  function Integer_To_String(Foul, integer_value, string_length)
 !------------------------------------------------------------------------------!
 !   Converts the supplied integer to a character string
 !------------------------------------------------------------------------------!
@@ -14,6 +14,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
+  class(Foul_Type)    :: Foul
   integer, intent(in) :: integer_value, string_length
 !-----------------------------------[Locals]-----------------------------------!
   character(max(1 + floor(log10(real(abs(integer_value))))    &
@@ -34,7 +35,8 @@
   string_buffer = adjustl(string_buffer)
 
   if (len_trim(string_buffer) < len(Integer_To_String)) then
-    Integer_To_String = repeat(' ', len(Integer_To_String) - len_trim(string_buffer)) //   &
+    Integer_To_String = repeat(' ',  len(Integer_To_String)       &
+                                   - len_trim(string_buffer)) //  &
                         trim(string_buffer)
   else
     Integer_To_String = trim(string_buffer)

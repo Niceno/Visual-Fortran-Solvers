@@ -9,7 +9,8 @@
   real             :: x(:)  !! final solution
   real             :: b(:)  !! right hand side, should be the original one
 !-----------------------------------[Locals]-----------------------------------!
-  real :: error
+  real          :: error
+  character(10) :: output
 !==============================================================================!
 
   Assert(A % n .eq. size(x))
@@ -21,6 +22,9 @@
 
   call Lin_Alg_Mod_Vector_Dot_Vector(error, r, r)
 
-  print '(A,1es10.4)', " # Error:                       ", sqrt(error)
-
+  write(output, '(1es10.4)') sqrt(error)
+  call Foul % Formatted_Write(' # Error:                       ',  &
+                              'white',                             &
+                              output,                              &
+                              'bright yellow');
   end subroutine

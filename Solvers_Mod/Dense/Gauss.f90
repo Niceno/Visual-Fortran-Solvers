@@ -30,7 +30,7 @@
   !   Praparations   !
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, H, x, b)
-  call Solvers_Mod_Prepare_System(grid)
+  call Solvers_Mod_Allocate_Vectors(H % n)
 
   ! For Gaussian elimination, we should store initial source term
   allocate(b_init(H % n))

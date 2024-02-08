@@ -29,7 +29,7 @@
   !   Praparations   !
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, H, x, b)
-  call Solvers_Mod_Prepare_System(grid)
+  call Solvers_Mod_Allocate_Vectors(H % n)
 
   ! Create two full matrices from a sparse
   call Solvers_Mod_Convert_Sparse_to_Dense(A,  H)

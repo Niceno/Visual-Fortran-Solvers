@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Foul_Mod_Write(                                                  &
+  subroutine Formatted_Write(Foul,                                            &
                    text_1,  style_1,  text_2,  style_2,  text_3,  style_3,    &
                    text_4,  style_4,  text_5,  style_5,  text_6,  style_6,    &
                    text_7,  style_7,  text_8,  style_8,  text_9,  style_9,    &
@@ -17,7 +17,7 @@
 !   text_1:  First string to output
 !   style_1: String describing which styles to set when
 !            outputting text_1 (separated by space);
-!            see Get_Escape_Sequence for supported styles
+!            see Foul % Get_Escape_Sequence for supported styles
 !   [...] (up to 24 text strings supported)
 !
 !   Output:
@@ -25,6 +25,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
+  class(Foul_Type) :: Foul
   character(*), intent(in), optional ::                                       &
                    text_1,  style_1,  text_2,  style_2,  text_3,  style_3,    &
                    text_4,  style_4,  text_5,  style_5,  text_6,  style_6,    &
@@ -49,7 +50,7 @@
 
   if (present(text_1) .and. present(style_1)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_1, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_1, escape_sequence)
 
       ! Append escape sequence to output as single character strings
       do i = 1, len_trim(escape_sequence)
@@ -60,7 +61,7 @@
 
       ! Install formatting for escape sequence
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     ! Append actual text string to output
@@ -71,7 +72,7 @@
 
   if (present(text_2) .and. present(style_2)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_2, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_2, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -80,7 +81,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -90,7 +91,7 @@
 
   if (present(text_3) .and. present(style_3)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_3, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_3, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -99,7 +100,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -109,7 +110,7 @@
 
   if (present(text_4) .and. present(style_4)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_4, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_4, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -118,7 +119,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -128,7 +129,7 @@
 
   if (present(text_5) .and. present(style_5)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_5, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_5, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -137,7 +138,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -147,7 +148,7 @@
 
   if (present(text_6) .and. present(style_6)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_6, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_6, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -156,7 +157,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -166,7 +167,7 @@
 
   if (present(text_7) .and. present(style_7)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_7, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_7, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -175,7 +176,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -185,7 +186,7 @@
 
   if (present(text_8) .and. present(style_8)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_8, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_8, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -194,7 +195,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -204,7 +205,7 @@
 
   if (present(text_9) .and. present(style_9)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_9, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_9, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -213,7 +214,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -223,7 +224,7 @@
 
   if (present(text_10) .and. present(style_10)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_10, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_10, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -232,7 +233,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -242,7 +243,7 @@
 
   if (present(text_11) .and. present(style_11)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_11, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_11, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -251,7 +252,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -261,7 +262,7 @@
 
   if (present(text_12) .and. present(style_12)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_12, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_12, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -270,7 +271,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -280,7 +281,7 @@
 
   if (present(text_13) .and. present(style_13)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_13, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_13, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -289,7 +290,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -299,7 +300,7 @@
 
   if (present(text_14) .and. present(style_14)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_14, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_14, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -308,7 +309,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -318,7 +319,7 @@
 
   if (present(text_15) .and. present(style_15)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_15, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_15, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -327,7 +328,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -337,7 +338,7 @@
 
   if (present(text_16) .and. present(style_16)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_16, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_16, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -346,7 +347,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -356,7 +357,7 @@
 
   if (present(text_17) .and. present(style_17)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_17, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_17, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -365,7 +366,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -375,7 +376,7 @@
 
   if (present(text_18) .and. present(style_18)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_18, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_18, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -384,7 +385,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -394,7 +395,7 @@
 
   if (present(text_19) .and. present(style_19)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_19, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_19, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -403,7 +404,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -413,7 +414,7 @@
 
   if (present(text_20) .and. present(style_20)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_20, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_20, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -422,7 +423,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -432,7 +433,7 @@
 
   if (present(text_21) .and. present(style_21)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_21, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_21, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -441,7 +442,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -451,7 +452,7 @@
 
   if (present(text_22) .and. present(style_22)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_22, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_22, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -460,7 +461,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -470,7 +471,7 @@
 
   if (present(text_23) .and. present(style_23)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_23, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_23, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -479,7 +480,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -489,7 +490,7 @@
 
   if (present(text_24) .and. present(style_24)) then
     if (use_escape_codes) then
-      call Get_Escape_Sequence(style_24, escape_sequence)
+      call Foul % Get_Escape_Sequence(style_24, escape_sequence)
 
       do i = 1, len_trim(escape_sequence)
         output_string_count = output_string_count + 1
@@ -498,7 +499,7 @@
       end do
 
       format_string = trim(format_string) //   &
-                      Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
+               Foul % Integer_To_String(len_trim(escape_sequence), 0) // 'A1,A,'
     end if
 
     output_string_count = output_string_count + 1
@@ -524,7 +525,7 @@
 
   else
     ! Build format string for output
-    format_string = '(' // Integer_To_String(output_string_count, 0) // 'A)'
+    format_string = '('//Foul % Integer_To_String(output_string_count, 0)//'A)'
   end if
 
   ! Write actual output

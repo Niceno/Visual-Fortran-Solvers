@@ -45,13 +45,32 @@
   ! indicates the standard output unit, usually the console
   integer :: output_unit = 6
 
+  !---------------!
+  !               !
+  !   Foul type   !
+  !               !
+  !---------------!
+  type Foul_Type
+
+    contains
+      procedure          :: Formatted_Write
+      procedure, private :: Get_Escape_Sequence
+      procedure          :: Integer_To_String
+      procedure, private :: Lower_Case
+      procedure, private :: Split_String
+
+  end type
+
+  ! Singleton object
+  type(Foul_Type) :: Foul
+
   contains
 
-  include 'Foul_Mod/Get_Escape_Sequence.f90'
-  include 'Foul_Mod/Integer_To_String.f90'
-  include 'Foul_Mod/Lower_Case.f90'
-  include 'Foul_Mod/Split_String.f90'
-  include 'Foul_Mod/Write.f90'
+    include 'Foul_Mod/Formatted_Write.f90'
+    include 'Foul_Mod/Get_Escape_Sequence.f90'
+    include 'Foul_Mod/Integer_To_String.f90'
+    include 'Foul_Mod/Lower_Case.f90'
+    include 'Foul_Mod/Split_String.f90'
 
   end module Foul_Mod
 

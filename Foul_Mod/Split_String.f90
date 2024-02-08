@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Split_String(string, delimiter, substrings, substring_count)
+  subroutine Split_String(Foul, string, delimiter, substrings, substring_count)
 !------------------------------------------------------------------------------!
 !   Helper function
 !   Splits the supplied string along a delimiter
@@ -14,6 +14,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
+  class(Foul_Type)          :: Foul
   character(*), intent(in)  :: string
   character,    intent(in)  :: delimiter
   character(*), intent(out) :: substrings(*)

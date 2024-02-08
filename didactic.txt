@@ -1,0 +1,43 @@
+You're right that a didactic approach to teaching these algorithms should start
+with the most fundamental concepts and then build on them. Here's a suggested
+sequence for teaching and learning these algorithms:
+
+1. Gaussian Elimination
+
+Start with Gaussian elimination as it is the most intuitive and straightforward
+method for solving systems of linear equations. It's a direct method that
+students can perform by hand on small systems, which helps build an
+understanding of linear transformations and the mechanics of row reduction.
+
+2. LU Decomposition
+
+Once comfortable with Gaussian elimination, move on to LU decomposition.
+This method is closely related, as it effectively performs Gaussian elimination
+but stores the multipliers in the lower triangular matrix L. Emphasize how this
+decomposition enables solving multiple systems with the same coefficient matrix
+more efficiently than repeating Gaussian elimination.
+
+3. Cholesky Decomposition
+
+Cholesky decomposition is a special case of LU decomposition that applies to
+symmetric positive-definite matrices. Introduce Cholesky after LU because it
+reinforces and builds on the understanding of LU, but with the added efficiency
+and stability that comes from exploiting symmetry.
+
+4. LDL' Decomposition
+
+LDL' decomposition is a variant of Cholesky that doesn't require square roots
+and decomposes the matrix into a lower triangular matrix L, a diagonal matrix
+D, and the transpose of L. It's a natural progression from Cholesky and is
+often used when dealing with symmetric (or Hermitian in the complex case)
+matrices that are not positive-definite.
+
+5. Iterative Methods and Preconditioning
+
+After covering these direct methods, it would be a good time to introduce
+iterative methods for solving linear systems, such as the Conjugate Gradient
+method, which is particularly important for large and sparse systems.
+Discussing preconditioning strategies, including using the L and D matrices
+from previous decompositions as preconditioners, can illustrate the connection
+between direct and iterative methods.
+

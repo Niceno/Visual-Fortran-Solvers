@@ -75,6 +75,5 @@
     ! Other functionality
 #   include "Solvers_Mod/Check_Solution_Dense.f90"
 #   include "Solvers_Mod/Check_Solution_Sparse.f90"
-#   include "Solvers_Mod/Prepare_System.f90"
 
   end module

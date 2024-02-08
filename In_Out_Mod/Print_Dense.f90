@@ -27,15 +27,20 @@
       write(item(1:2), '(a2)') '  '
 
       if(      abs(full % val(row, col)) > SCALE(1) * max_val) then
-        call Foul_Mod_Write(item, 'red background_red', forward='no')
+        call Foul % Formatted_Write(item, 'red background_red',          &
+                                    forward='no')
       else if( abs(full % val(row, col)) > SCALE(2) * max_val) then
-        call Foul_Mod_Write(item, 'yellow background_yellow', forward='no')
+        call Foul % Formatted_Write(item, 'yellow background_yellow',    &
+                                    forward='no')
       else if( abs(full % val(row, col)) > SCALE(3) * max_val) then
-        call Foul_Mod_Write(item, 'green background_green', forward='no')
+        call Foul % Formatted_Write(item, 'green background_green',      &
+                                    forward='no')
       else if( abs(full % val(row, col)) > SCALE(4) * max_val) then
-        call Foul_Mod_Write(item, 'blue background_blue', forward='no')
+        call Foul % Formatted_Write(item, 'blue background_blue',        &
+                                    forward='no')
       else
-        call Foul_Mod_Write(item, 'magenta background_magenta', forward='no')
+        call Foul % Formatted_Write(item, 'magenta background_magenta',  &
+                                    forward='no')
       end if
 
     end do

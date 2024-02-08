@@ -18,7 +18,7 @@
 
   do row = 1, size(vector)
     write(item(1:6), '(f6.1)') vector(row)
-    call Foul_Mod_Write(item, 'green', forward='yes')
+    call Foul % Formatted_Write(item, 'green', forward='yes')
   end do
 
   end subroutine

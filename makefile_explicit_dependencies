@@ -4,7 +4,7 @@
 #-- ./Foul_Mod/Split_String.f90
 #-- ./Foul_Mod/Lower_Case.f90
 #-- ./Foul_Mod/Get_Escape_Sequence.f90
-#-- ./Foul_Mod/Write.f90
+#-- ./Foul_Mod/Formatted_Write.f90
 #-- ./Dense_Mod.f90
 $(DIR_OBJECT)/Dense_Mod.o:\
 $(DIR_OBJECT)/Grid_Mod.o \
@@ -41,6 +41,7 @@ Lin_Alg_Mod/*.f90 \
 $(DIR_OBJECT)/Dense_Mod.o \
 Dense_Mod/*.f90 
 
+#-- ./In_Out_Mod/Legend.f90
 #-- ./In_Out_Mod/Print_Dense.f90
 #-- ./In_Out_Mod/Load_Linear_System.f90
 #-- ./In_Out_Mod/Print_Vector.f90
@@ -64,7 +65,6 @@ Dense_Mod/*.f90
 #-- ./Solvers_Mod/Convert/Sparse_To_Dense.f90
 #-- ./Solvers_Mod/Convert/Dense_To_Sparse.f90
 #-- ./Solvers_Mod/Allocate_Vectors.f90
-#-- ./Solvers_Mod/Prepare_System.f90
 #-- ./Solvers_Mod/Incomplete/Cholesky.f90
 #-- ./Solvers_Mod/Incomplete/Backward_Substitution.f90
 #-- ./Solvers_Mod/Incomplete/Forward_Substitution.f90

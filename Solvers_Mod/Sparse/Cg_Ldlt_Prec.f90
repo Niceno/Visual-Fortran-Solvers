@@ -33,7 +33,7 @@
   !                  !
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, A, x, b)
-  call Solvers_Mod_Prepare_System(grid)
+  call Solvers_Mod_Allocate_Vectors(A % n)
   call LDL % Sparse_Create_Preconditioning(A, f_in)
   call In_Out_Mod_Print_Sparse("Sparse LDL:", LDL)
 

@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Lower_Case(string)
+  subroutine Lower_Case(Foul, string)
 !------------------------------------------------------------------------------!
 !   Helper function
 !   Converts the supplied string to lower case
@@ -12,6 +12,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
+  class(Foul_Type)            :: Foul
   character(*), intent(inout) :: string
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, character_code

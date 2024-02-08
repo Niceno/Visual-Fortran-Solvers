@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Get_Escape_Sequence(style_string, escape_sequence)
+  subroutine Get_Escape_Sequence(Foul, style_string, escape_sequence)
 !------------------------------------------------------------------------------!
 !   Helper function
 !   Generates an ANSI escape sequence from the supplied style string
@@ -13,6 +13,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
+  class(Foul_Type)           :: Foul
   character(*),  intent(in)  :: style_string
   character(16), intent(out) :: escape_sequence
 !-----------------------------------[Locals]-----------------------------------!
@@ -24,10 +25,12 @@
   ! Start sequence with command to clear any previous attributes
   escape_sequence = char(27) // '[0'
 
-  call Split_String(trim(style_string), ' ', style_substrings, style_substring_count)
+  call Foul % Split_String(trim(style_string), ' ',  &
+                           style_substrings,         &
+                           style_substring_count)
 
   do i = 1, style_substring_count
-    call Lower_Case(style_substrings(i))
+    call Foul % Lower_Case(style_substrings(i))
 
     select case (trim(style_substrings(i)))
       case ('bright')
