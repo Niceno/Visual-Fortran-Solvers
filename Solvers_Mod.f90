@@ -44,12 +44,6 @@
 #   include "Solvers_Mod/Dense/Ldlt_Solution.f90"
 #   include "Solvers_Mod/Dense/Lu_Factorization.f90"
 
-    ! Sparse solver components
-#   include "Solvers_Mod/Sparse/Ldlt_Factorization.f90"
-#   include "Solvers_Mod/Sparse/Ldlt_Solution.f90"
-#   include "Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90"
-#   include "Solvers_Mod/Sparse/Tflows_Ldlt_Solution.f90"
-
     ! Direct solvers
 #   include "Solvers_Mod/Dense/Cholesky.f90"
 #   include "Solvers_Mod/Dense/Gauss.f90"
@@ -66,7 +60,14 @@
 #   include "Solvers_Mod/Incomplete/Ldlt.f90"
 #   include "Solvers_Mod/Incomplete/Ldlt_From_Tflows.f90"
 
+    ! Sparse solver components
+#   include "Solvers_Mod/Sparse/Ldlt_Factorization.f90"
+#   include "Solvers_Mod/Sparse/Ldlt_Solution.f90"
+#   include "Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90"
+#   include "Solvers_Mod/Sparse/Tflows_Ldlt_Solution.f90"
+
     ! Iterative solvers
+#   include "Solvers_Mod/Sparse/Cg_Cholesky_Prec.f90"
 #   include "Solvers_Mod/Sparse/Cg_Diag_Prec.f90"
 #   include "Solvers_Mod/Sparse/Cg_Ldlt_Prec.f90"
 #   include "Solvers_Mod/Sparse/Cg_No_Prec.f90"

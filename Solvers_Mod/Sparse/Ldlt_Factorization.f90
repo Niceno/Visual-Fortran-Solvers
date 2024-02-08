@@ -8,15 +8,15 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Sparse_Type) :: F
-  type(Sparse_Type) :: A
+  type(Sparse_Type) :: F  !! factorized matrix
+  type(Sparse_Type) :: A  !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, m, n, k_m, k_i, m_j, k_i_a
   real    :: sum
   real, allocatable :: work(:)
 !==============================================================================!
 
-  print *, '# Factorizing sparse matrix with LDL^T method'
+  print *, '# Factorizing sparse matrix with LDL'' method'
 
   n = A % n  ! some checks would be possible
   allocate( work(n) ); work = 0.0
@@ -36,7 +36,7 @@
     !------------------------!
     !   Non-diagonal entry   !
     !------------------------!
-    do k_i = F % dia(k) + 1, F % row(k+1) -1
+    do k_i = F % dia(k) + 1, F % row(k+1) - 1
       i = F % col(k_i)
 
       sum = 0.0
@@ -57,7 +57,7 @@
 
         sum = sum - work(i)*work(k) * F % val( F % dia(m) )
 
-        ! set the row back to zero
+        ! Set the row back to zero
         work = 0.0
       end do
 

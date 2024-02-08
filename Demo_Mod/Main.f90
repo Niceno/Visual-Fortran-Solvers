@@ -84,17 +84,18 @@
   print *, '#  9 - CG solver with diagonal preconditioning'
   print *, '# 10 - CG solver with T-Flows preconditioning'
   print *, '# 11 - CG solver with LDL'' preconditioning'
+  print *, '# 12 - CG solver with Cholesky preconditioning'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '# 12 - Compressed matrices'
-  print *, '# 13 - Preconditioning matrix'
+  print *, '# 13 - Compressed matrices'
+  print *, '# 14 - Preconditioning matrix'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  write(*,'(a46,3i4)') '# 14 - Change grid resolution, currently at: ',  &
+  write(*,'(a46,3i4)') '# 15 - Change grid resolution, currently at: ',  &
                        grid % nx, grid % ny, grid % nz
-  write(*,'(a46,1i4)') '# 15 - Change fill-in level, currently at:   ',  &
+  write(*,'(a46,1i4)') '# 16 - Change fill-in level, currently at:   ',  &
                        f_in
-  write(*,'(a46,1i4)') '# 16 - Change num iterations, currently at:  ',  &
+  write(*,'(a46,1i4)') '# 17 - Change num iterations, currently at:  ',  &
                        n_iter
-  write(*,'(a46,1es13.4)') '# 17 - Change target residual, currently at: ',  &
+  write(*,'(a46,1es13.4)') '# 18 - Change target residual, currently at: ',  &
                        res
   print *, '#----------------------------------------------------------'
 
@@ -115,27 +116,28 @@
   if(choice ==  6) call Solvers_Mod_Incomplete_Ldlt            (grid, As, x, b, f_in)
   if(choice ==  7) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
 
-  if(choice ==  8) call Solvers_Mod_Cg_No_Prec    (grid, As, x, b, n_iter, res)
-  if(choice ==  9) call Solvers_Mod_Cg_Diag_Prec  (grid, As, x, b, n_iter, res)
-  if(choice == 10) call Solvers_Mod_Cg_Tflows_Prec(grid, As, x, b, n_iter, res)
-  if(choice == 11) call Solvers_Mod_Cg_Ldlt_Prec  (grid, As, x, b, n_iter, res, f_in)
+  if(choice ==  8) call Solvers_Mod_Cg_No_Prec      (grid, As, x, b, n_iter, res)
+  if(choice ==  9) call Solvers_Mod_Cg_Diag_Prec    (grid, As, x, b, n_iter, res)
+  if(choice == 10) call Solvers_Mod_Cg_Tflows_Prec  (grid, As, x, b, n_iter, res)
+  if(choice == 11) call Solvers_Mod_Cg_Ldlt_Prec    (grid, As, x, b, n_iter, res, f_in)
+  if(choice == 12) call Solvers_Mod_Cg_Cholesky_Prec(grid, As, x, b, n_iter, res, f_in)
 
-  if(choice == 12) call Demo_Mod_Compress_Decompress
-  if(choice == 13) call Demo_Mod_Fill_In(f_in, grid)
+  if(choice == 13) call Demo_Mod_Compress_Decompress
+  if(choice == 14) call Demo_Mod_Fill_In(f_in, grid)
 
-  if(choice == 14) then
+  if(choice == 15) then
     print *, '# Enter the desired resolution: '
     read *, grid % nx, grid % ny, grid % nz
   end if
-  if(choice == 15) then
+  if(choice == 16) then
     print *, '# Enter the desired fill-in level: '
     read *, f_in
   end if
-  if(choice == 16) then
+  if(choice == 17) then
     print *, '# Enter the desired number of iterations: '
     read *, n_iter
   end if
-  if(choice == 17) then
+  if(choice == 18) then
     print *, '# Enter the desired target residual: '
     read *, res
   end if
