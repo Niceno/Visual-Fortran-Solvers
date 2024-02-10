@@ -40,8 +40,8 @@
   U % val(:,:) = 0
 
   ! Just plot and print original matrix
-  call IO % Plot_Dense ("a.fig", A)
-  call IO % Print_Dense("A:",    A)
+  call IO % Plot_Dense ("a",  A)
+  call IO % Print_Dense("A:", A)
 
   !------------------------!
   !   Actual computation   !
@@ -52,10 +52,10 @@
   call Solvers_Mod_Dense_Lu_Factorization(L, U, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("l_after_lu_factorization.fig", L)
-  call IO % Plot_Dense ("u_after_lu_factorization.fig", U)
-  call IO % Print_Dense("L after LU factorization",     L)
-  call IO % Print_Dense("U after LU factorization",     U)
+  call IO % Plot_Dense ("l_after_lu_factorization",  L)
+  call IO % Plot_Dense ("u_after_lu_factorization",  U)
+  call IO % Print_Dense("L after LU factorization:", L)
+  call IO % Print_Dense("U after LU factorization:", U)
 
   ! Compute y by forward substitution: Ly=b
   call Cpu_Time(time_ss)

@@ -24,17 +24,16 @@
                               'green');
 
   out_file_name = ''
-  out_file_name = inp_file_name
-  write(out_file_name(n-2:n), '(a3)') 'fig'
+  out_file_name = inp_file_name(1:n-4)
 
   call Foul % Formatted_Write(' # Plotting the code snippet to: ',  &
                               'white',                              &
-                              trim(out_file_name),                  &
+                              trim(out_file_name)//'.fig',          &
                               'bright red');
 
   ! Open input and output files
-  open(8, file=inp_file_name, action='read')
-  open(9, file=out_file_name, action='write')
+  open(8, file=     inp_file_name,          action='read')
+  open(9, file=trim(out_file_name)//'.fig', action='write')
 
   ! Start the Xfig file by plotting the header
    call IO % Plot_Header(9)

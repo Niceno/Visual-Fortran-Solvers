@@ -36,8 +36,8 @@
   LDL % val(:,:) = 0
 
   ! Just plot and print original matrix
-  call IO % Plot_Dense ("a.fig", A)
-  call IO % Print_Dense("A:",    A)
+  call IO % Plot_Dense ("a",  A)
+  call IO % Print_Dense("A:", A)
 
   !------------------------!
   !   Actual computation   !
@@ -48,8 +48,8 @@
   call Solvers_Mod_Dense_Ldlt_Factorization(LDL, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("ldl_after_factorization.fig", LDL)
-  call IO % Print_Dense("LDL after factorization",     LDL)
+  call IO % Plot_Dense ("ldl_after_factorization",  LDL)
+  call IO % Print_Dense("LDL after factorization:", LDL)
 
   ! Compute x
   call Cpu_Time(time_ss)

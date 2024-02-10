@@ -12,12 +12,12 @@
 
   call A % Sparse_Create(grid)
 
-  call IO % Plot_Sparse ("compressed_a.fig", A)
-  call IO % Print_Sparse("Compressed A:",    A)
+  call IO % Plot_Sparse ("compressed_a",  A)
+  call IO % Print_Sparse("Compressed A:", A)
 
   call C % Sparse_Create_Preconditioning(A, fill_in)
 
-  call IO % Plot_Sparse ("preconditioned_c.fig", C)
-  call IO % Print_Sparse("Preconditioned C:",    C)
+  call IO % Plot_Sparse ("preconditioned_c",  C)
+  call IO % Print_Sparse("Preconditioned C:", C)
 
   end subroutine

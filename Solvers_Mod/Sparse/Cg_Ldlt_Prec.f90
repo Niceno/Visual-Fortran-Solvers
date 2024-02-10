@@ -36,8 +36,8 @@
   call Solvers_Mod_Allocate_Vectors(A % n)
   call LDL % Sparse_Create_Preconditioning(A, f_in)
 
-  call IO % Plot_Sparse ("sparse_ldl.fig", LDL)
-  call IO % Print_Sparse("Sparse LDL:",    LDL)
+  call IO % Plot_Sparse ("sparse_ldl",  LDL)
+  call IO % Print_Sparse("Sparse LDL:", LDL)
 
   !------------------------!
   !                        !

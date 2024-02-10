@@ -36,8 +36,8 @@
   call Solvers_Mod_Tflows_Ldlt_Factorization(D, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Sparse ("d_after_factorization.fig", D)
-  call IO % Print_Sparse("D after factorization:",    D)
+  call IO % Plot_Sparse ("d_after_factorization",  D)
+  call IO % Print_Sparse("D after factorization:", D)
 
   ! Compute x
   call Cpu_Time(time_ss)

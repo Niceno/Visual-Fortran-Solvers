@@ -18,9 +18,9 @@
 
   call Foul % Formatted_Write(' # Plotting the matrix:          ',  &
                               'white',                              &
-                               name_out,                            &
+                               name_out//'.fig',                    &
                               'bright red');
-  open(9, file=name_out)
+  open(9, file=name_out//'.fig')
 
   ! Write the header out
   call IO % Plot_Header(9)

@@ -31,14 +31,15 @@
   !-----------------------------------------------!
   call Solvers_Mod_Convert_Dense_To_Sparse(Spar, Orig)
 
-  call IO % Plot_Sparse ("sparse_matrix.fig", Spar)
-  call IO % Print_Sparse("Sparse matrix:",    Spar)
+  call IO % Plot_Sparse ("sparse_matrix",  Spar)
+  call IO % Print_Sparse("Sparse matrix:", Spar)
 
   !---------------------------------------------!
   !   Expand matrix Spar and store it in Dens   !
   !---------------------------------------------!
   call Solvers_Mod_Convert_Sparse_To_Dense(Dens, Spar)
-  call IO % Plot_Dense ("dense_matrix.fig", Dens)
-  call IO % Print_Dense("Dense matrix:",    Dens)
+
+  call IO % Plot_Dense ("dense_matrix",  Dens)
+  call IO % Print_Dense("Dense matrix:", Dens)
 
   end subroutine

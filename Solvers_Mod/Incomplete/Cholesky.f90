@@ -36,8 +36,8 @@
   call Solvers_Mod_Sparse_Cholesky_Factorization(LL, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Sparse ("ll_after_factorization.fig", LL)
-  call IO % Print_Sparse("LL after factorization:",    LL)
+  call IO % Plot_Sparse ("ll_after_factorization",  LL)
+  call IO % Print_Sparse("LL after factorization:", LL)
 
   ! Compute y by forward substitution
   call Cpu_Time(time_ss)

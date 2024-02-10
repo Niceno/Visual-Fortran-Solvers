@@ -42,8 +42,8 @@
   U % val(:,:) = 0
 
   ! Just plot and print original matrix
-  call IO % Plot_Dense ("a.fig", A)
-  call IO % Print_Dense("A:",    A)
+  call IO % Plot_Dense ("a",  A)
+  call IO % Print_Dense("A:", A)
 
   !------------------------!
   !   Actual computation   !
@@ -54,8 +54,8 @@
   call Solvers_Mod_Gauss_Elimination(U, b, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("u_after_elimination.fig", U)
-  call IO % Print_Dense("U after elimination:",    U)
+  call IO % Plot_Dense ("u_after_elimination",  U)
+  call IO % Print_Dense("U after elimination:", U)
   !@ call In_Out_Mod_Print_Vector("vector b after elimination:", b)
 
   ! Perform backward substitution Ub=x

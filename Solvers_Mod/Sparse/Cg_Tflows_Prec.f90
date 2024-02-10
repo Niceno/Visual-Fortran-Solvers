@@ -34,8 +34,8 @@
   call Solvers_Mod_Allocate_Vectors(A % n)
   call D % Sparse_Create_Preconditioning(A, 0)
 
-  call IO % Plot_Sparse ("sparse_d.fig", D)
-  call IO % Print_Sparse("Sparse D:",    D)
+  call IO % Plot_Sparse ("sparse_d",  D)
+  call IO % Print_Sparse("Sparse D:", D)
 
   !------------------------!
   !                        !
