@@ -36,9 +36,6 @@
   call Solvers_Mod_Allocate_Vectors(A % n)
   call LL % Sparse_Create_Preconditioning(A, f_in)
 
-  call IO % Plot_Sparse ("sparse_ll",  LL)
-  call IO % Print_Sparse("Sparse LL:", LL)
-
   !------------------------!
   !                        !
   !   Actual computation   !
@@ -50,6 +47,9 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Sparse_Cholesky_Factorization(LL, A)
   call Cpu_Time(time_pe)
+
+  call IO % Plot_Sparse ("sparse_ll",  LL)
+  call IO % Print_Sparse("Sparse LL:", LL)
 
   !----------------!
   !   r = b - Ax   !

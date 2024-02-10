@@ -34,9 +34,6 @@
   call Solvers_Mod_Allocate_Vectors(A % n)
   call D % Sparse_Create_Preconditioning(A, 0)
 
-  call IO % Plot_Sparse ("sparse_d",  D)
-  call IO % Print_Sparse("Sparse D:", D)
-
   !------------------------!
   !                        !
   !   Actual computation   !
@@ -48,6 +45,9 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Tflows_Ldlt_Factorization(D, A)
   call Cpu_Time(time_pe)
+
+  call IO % Plot_Sparse ("sparse_d",  D)
+  call IO % Print_Sparse("Sparse D:", D)
 
   !----------------!
   !   r = b - Ax   !

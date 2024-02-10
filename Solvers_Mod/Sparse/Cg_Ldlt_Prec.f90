@@ -36,9 +36,6 @@
   call Solvers_Mod_Allocate_Vectors(A % n)
   call LDL % Sparse_Create_Preconditioning(A, f_in)
 
-  call IO % Plot_Sparse ("sparse_ldl",  LDL)
-  call IO % Print_Sparse("Sparse LDL:", LDL)
-
   !------------------------!
   !                        !
   !   Actual computation   !
@@ -50,6 +47,9 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Sparse_Ldlt_Factorization(LDL, A)
   call Cpu_Time(time_pe)
+
+  call IO % Plot_Sparse ("sparse_ldl",  LDL)
+  call IO % Print_Sparse("Sparse LDL:", LDL)
 
   !----------------!
   !   r = b - Ax   !
