@@ -34,25 +34,10 @@
   max_abs = max(abs(min_val), abs(max_val))
 
   do row = 1, A % n
-    do col = 1, A % n
-      found = .false.
-
-      ! Look for position row, col in the compressed
-      ! A and print if you have found it
-      do pos = A % row(row), A % row(row + 1) - 1
-
-        if( A % col(pos) == col ) then
-          call IO % Plot_Circle(9, row, col, A % val(pos), min_val, max_val)
-          found = .true.
-        end if
-      end do
-
-      ! If you haven't found it, do something else
-      if( .not. found ) then
-        ! Well, don't do much
-      end if
+    do pos = A % row(row), A % row(row + 1) - 1
+      col = A % col(pos)
+      call IO % Plot_Circle(9, row, col, A % val(pos), min_val, max_val)
     end do
-
   end do
 
   end subroutine
