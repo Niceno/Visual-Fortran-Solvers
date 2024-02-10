@@ -25,7 +25,7 @@
   write(fu,'(a)') "0 51 #DDDDFF"
   write(fu,'(a)') "0 52 #BBBBFF"
   write(fu,'(a)') "0 53 #9999FF"
-  write(fu,'(a)') "0 55 #7777FF"
+  write(fu,'(a)') "0 54 #7777FF"
   write(fu,'(a)') "0 55 #5555FF"
   write(fu,'(a)') "0 56 #3333FF"
   write(fu,'(a)') "0 57 #1111FF"  ! minimum negative value
