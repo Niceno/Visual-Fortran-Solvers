@@ -5,7 +5,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  class(In_Out_Type)  :: IO
+  class(In_Out_Type)  :: IO        !! parent class
   integer, intent(in) :: fu        !! file unit
   integer, intent(in) :: row, col  !! row and columnt
   real,    intent(in) :: val       !! value to plot
