@@ -33,8 +33,9 @@
     contains
       procedure :: Plot_Circle
       procedure :: Plot_Dense
-      procedure :: Plot_Sparse
       procedure :: Plot_Header
+      procedure :: Plot_Snippet
+      procedure :: Plot_Sparse
       procedure :: Print_Legend
       procedure :: Print_Dense
       procedure :: Print_Sparse
@@ -50,8 +51,9 @@
 #   include "In_Out_Mod/Load_Linear_System.f90"
 #   include "In_Out_Mod/Plot_Circle.f90"
 #   include "In_Out_Mod/Plot_Dense.f90"
-#   include "In_Out_Mod/Plot_Sparse.f90"
 #   include "In_Out_Mod/Plot_Header.f90"
+#   include "In_Out_Mod/Plot_Snippet.f90"
+#   include "In_Out_Mod/Plot_Sparse.f90"
 #   include "In_Out_Mod/Print_Dense.f90"
 #   include "In_Out_Mod/Print_Sparse.f90"
 #   include "In_Out_Mod/Print_Vector.f90"
