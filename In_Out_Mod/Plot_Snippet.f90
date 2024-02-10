@@ -12,7 +12,7 @@
 !-----------------------------------[Locals]-----------------------------------!
   character (80) :: line
   character(512) :: out_file_name
-  integer        :: i, n, iostat, lc
+  integer        :: i, n, iostat, lc, pos, wc
 !==============================================================================!
 
   ! Store the length of the input file name
@@ -41,6 +41,7 @@
 
   ! Process the source file
   lc = 0  ! reset the line counter
+  wc = 0  ! reset the wrote counter
 
   ! Read the whole file
   do
@@ -51,11 +52,16 @@
 
     ! If in desired range, plot them
     if(lc .ge. lf .and. lc .le. ll) then
-     write(9, '(a)',  advance='no') '4 0 0 50 -1 12 22 0.0000 4 450 450 '
-      write(9, '(i9)', advance='no') XFIG_CM / 2
-      write(9, '(i9)', advance='no') (lc - lf + 1) * XFIG_CM
-      write(9, '(a)',  advance='no') trim(line)
-      write(9, '(a)')                '\001'
+
+      pos = index(line, 'write')
+      if(pos .eq. 0) then  ! skip lines which write something
+        wc = wc + 1
+        write(9, '(a)',  advance='no') '4 0 0 50 -1 12 22 0.0000 4 450 450 '
+        write(9, '(i9)', advance='no') XFIG_CM / 2
+        write(9, '(i9)', advance='no') wc * XFIG_CM
+        write(9, '(a)',  advance='no') trim(line)
+        write(9, '(a)')                '\001'
+      end if
     end if
   end do
 
