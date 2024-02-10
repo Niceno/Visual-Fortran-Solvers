@@ -25,13 +25,15 @@
     do i = k + 1, min(k + A % bw, A % n)
       mult = U % val(i,k) / U % val(k,k)
       U % val(i,k) = 0.0
+      call IO % Plot_Dense("gauss_elim", U, ijk=(/i,j,k/))
       do j = k + 1, min(k + A % bw, A % n)
         U % val(i,j) = U % val(i,j) - mult * U % val(k,j)
+        call IO % Plot_Dense("gauss_elim", U, ijk=(/i,j,k/))
       end do
       b(i) = b(i) - mult*b(k)
     end do
   end do
 
-  call IO % Plot_Snippet(__FILE__, 24, 33)
+  call IO % Plot_Snippet(__FILE__, 24, 35)
 
   end subroutine
