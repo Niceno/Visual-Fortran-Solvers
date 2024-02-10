@@ -97,6 +97,16 @@
                        n_iter
   write(*,'(a46,1es13.4)') '# 18 - Change target residual, currently at: ',  &
                        res
+  if(IO % scale_by_color) then
+    print *, '# 19 - Do not scale by color'
+  else
+    print *, '# 19 - Scale by color'
+  end if
+  if(IO % scale_by_size) then
+    print *, '# 20 - Do not scale by size'
+  else
+    print *, '# 20 - Scale by size'
+  end if
   print *, '#----------------------------------------------------------'
 
   if(test .eq. -1) then
@@ -141,6 +151,8 @@
     print *, '# Enter the desired target residual: '
     read *, res
   end if
+  if(choice == 19) IO % scale_by_color = .not. IO % scale_by_color
+  if(choice == 20) IO % scale_by_size  = .not. IO % scale_by_size
 
   if(test .eq. -1) goto 1
 

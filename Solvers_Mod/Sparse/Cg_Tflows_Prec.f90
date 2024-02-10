@@ -32,9 +32,10 @@
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
-
   call D % Sparse_Create_Preconditioning(A, 0)
-  call In_Out_Mod_Print_Sparse("Sparse D:", D)
+
+  call IO % Plot_Sparse ("sparse_d.fig", D)
+  call IO % Print_Sparse("Sparse D:",    D)
 
   !------------------------!
   !                        !

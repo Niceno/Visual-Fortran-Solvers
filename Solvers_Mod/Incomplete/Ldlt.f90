@@ -35,7 +35,9 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Sparse_Ldlt_Factorization(LDL, A)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Sparse("LDL' after factorization:", LDL)
+
+  call IO % Plot_Sparse ("ldl_after_factorization.fig", LDL)
+  call IO % Print_Sparse("LDL' after factorization:",   LDL)
 
   ! Compute x
   call Cpu_Time(time_ss)

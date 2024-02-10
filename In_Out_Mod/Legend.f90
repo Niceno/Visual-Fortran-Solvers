@@ -1,10 +1,11 @@
 !==============================================================================!
-  subroutine In_Out_Mod_Legend(row, max_val)
+  subroutine Print_Legend(IO, row, max_val)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  integer :: row
-  real    :: max_val
+  class(In_Out_Type)  :: IO
+  integer, intent(in) :: row
+  real,    intent(in) :: max_val
 !==============================================================================!
 
   if(row .eq. 1) then

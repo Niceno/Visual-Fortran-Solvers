@@ -1,12 +1,13 @@
 !==============================================================================!
-  subroutine In_Out_Mod_Load_Linear_System(name_in, n, a, b)
+  subroutine Load_Linear_System(IO, name_in, n, a, b)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  character(len=*)  :: name_in
-  integer           :: n
-  real, allocatable :: a(:,:)
-  real, allocatable :: b(:)
+  class(In_Out_Type) :: IO
+  character(len=*)   :: name_in
+  integer            :: n
+  real, allocatable  :: a(:,:)
+  real, allocatable  :: b(:)
 !-----------------------------------[Locals]-----------------------------------!
   integer :: row, col
 !==============================================================================!

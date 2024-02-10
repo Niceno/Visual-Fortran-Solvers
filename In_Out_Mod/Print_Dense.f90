@@ -1,41 +1,42 @@
 !==============================================================================!
-  subroutine In_Out_Mod_Print_Dense(message, full)
+  subroutine Print_Dense(IO, message, A)
 !------------------------------------------------------------------------------!
-!   Prints full matrix out.                                                    !
+!>  Prints a dense matrix out.
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  character(len=*) :: message
-  type(Dense_Type) :: full
+  class(In_Out_Type)           :: IO       !! parent class
+  character(len=*), intent(in) :: message  !! message to print along
+  type(Dense_Type), intent(in) :: A        !! matrix to print
 !-----------------------------------[Locals]-----------------------------------!
   integer      :: row, col  ! row used to be "i", col used to be "j"
   character(2) :: item
   real         :: max_val
 !==============================================================================!
 
-  if(full % n > 64) return
+  if(A % n > 64) return
 
   print *, message
 
   ! Find maximum entry in the system matrix
   max_val = 0
-  max_val = maxval(full % val(:,:))
+  max_val = maxval(A % val(:,:))
 
   ! Print the matrix
-  do row = 1, full % n
-    do col = 1, full % n
+  do row = 1, A % n
+    do col = 1, A % n
       write(item(1:2), '(a2)') '  '
 
-      if(      abs(full % val(row, col)) > SCALE(1) * max_val) then
+      if(      abs(A % val(row, col)) > SCALE(1) * max_val) then
         call Foul % Formatted_Write(item, 'red background_red',          &
                                     forward='no')
-      else if( abs(full % val(row, col)) > SCALE(2) * max_val) then
+      else if( abs(A % val(row, col)) > SCALE(2) * max_val) then
         call Foul % Formatted_Write(item, 'yellow background_yellow',    &
                                     forward='no')
-      else if( abs(full % val(row, col)) > SCALE(3) * max_val) then
+      else if( abs(A % val(row, col)) > SCALE(3) * max_val) then
         call Foul % Formatted_Write(item, 'green background_green',      &
                                     forward='no')
-      else if( abs(full % val(row, col)) > SCALE(4) * max_val) then
+      else if( abs(A % val(row, col)) > SCALE(4) * max_val) then
         call Foul % Formatted_Write(item, 'blue background_blue',        &
                                     forward='no')
       else
@@ -46,7 +47,7 @@
     end do
 
     ! Print legend too
-    call In_Out_Mod_Legend(row, max_val)
+    call IO % Print_Legend(row, max_val)
 
   end do
 

@@ -14,7 +14,9 @@
 
   ! Create sparse system matrix
   call A % Sparse_Create(grid)
-  call In_Out_Mod_Print_Sparse("Sparse A:", A)
+
+  call IO % Plot_Sparse ("sparse_a.fig", A)
+  call IO % Print_Sparse("Sparse A:",    A)
 
   allocate(x(A % n))
   allocate(b(A % n))

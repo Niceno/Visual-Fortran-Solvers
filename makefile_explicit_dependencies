@@ -42,10 +42,14 @@ $(DIR_OBJECT)/Dense_Mod.o \
 Dense_Mod/*.f90 
 
 #-- ./In_Out_Mod/Legend.f90
+#-- ./In_Out_Mod/Plot_Circle.f90
 #-- ./In_Out_Mod/Print_Dense.f90
+#-- ./In_Out_Mod/Plot_Sparse.f90
+#-- ./In_Out_Mod/Plot_Dense.f90
 #-- ./In_Out_Mod/Load_Linear_System.f90
 #-- ./In_Out_Mod/Print_Vector.f90
 #-- ./In_Out_Mod/Print_Sparse.f90
+#-- ./In_Out_Mod/Plot_Header.f90
 #-- ./In_Out_Mod.f90
 $(DIR_OBJECT)/In_Out_Mod.o:\
 $(DIR_OBJECT)/Sparse_Mod.o \

@@ -36,8 +36,9 @@
   call Solvers_Mod_Convert_Sparse_to_Dense(LL, H)
   LL % val(:,:) = 0
 
-  ! Just print original matrix
-  call In_Out_Mod_Print_Dense("A:", A)
+  ! Just plot and print original matrix
+  call IO % Plot_Dense ("a.fig", A)
+  call IO % Print_Dense("A:",    A)
 
   !------------------------!
   !   Actual computation   !
@@ -47,7 +48,9 @@
   call Cpu_Time(time_ps)
   call Solvers_Mod_Dense_Cholesky_Factorization(LL, A)
   call Cpu_Time(time_pe)
-  call In_Out_Mod_Print_Dense("LL after Cholesky factorization", LL)
+
+  call IO % Plot_Dense ("ll_after_cholesky_factorization.fig", LL)
+  call IO % Print_Dense("LL after Cholesky factorization",     LL)
 
   ! Compute y by forward substitution
   call Cpu_Time(time_ss)
