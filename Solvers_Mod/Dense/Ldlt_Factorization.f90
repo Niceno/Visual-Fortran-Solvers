@@ -37,4 +37,6 @@
     end do
   end do
 
+  call IO % Plot_Snippet(__FILE__, 24, 38)
+
   end subroutine

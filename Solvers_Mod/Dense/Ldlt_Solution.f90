@@ -41,4 +41,6 @@
     x(i) = sum
   end do
 
+  call IO % Plot_Snippet(__FILE__, 21, 42)
+
   end subroutine
