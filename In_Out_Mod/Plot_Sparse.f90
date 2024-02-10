@@ -16,11 +16,17 @@
 
   if(A % n > 216) return  ! bigger than this, you can't see
 
-  print '(a,a)', " # Plotting the matrix: ", name_out
+  call Foul % Formatted_Write(' # Plotting the matrix:          ',  &
+                              'white',                              &
+                               name_out,                            &
+                              'bright red');
   open(9, file=name_out)
 
   ! Write the header out
   call IO % Plot_Header(9)
+
+  ! Followed by the compound
+  write(9, '(3i2, 2i9)') 6, 0, 0, A % n * XFIG_CM, A % n * XFIG_CM
 
   ! Find maximum entry in the system matrix
   max_val = maxval(A % val)
