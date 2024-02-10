@@ -20,7 +20,7 @@
   rad = 135
   if(IO % scale_by_size) then
     maxa = max(abs(minv), abs(maxv))
-    rad = 20 + 180 * ( sqrt(abs(val)) /  sqrt(maxa))  ! quadratic scaling
+    rad = 15 + 150 * ( sqrt(abs(val)) /  sqrt(maxa))  ! quadratic scaling
 !   rad = 50 + 100 * (      abs(val)  /       maxa)   ! linear scaling
 !   rad = 50 + 100 * ( sqrt(abs(val)) /  sqrt(maxa))  ! quadratic scaling
 !   rad = 10 + 140 * (      abs(val)  /       maxa)   ! linear scaling
@@ -38,6 +38,7 @@
 !   if(IO % scale_by_color) color = 50 + 8 * (      val  /       minv)
   end if
 
+  ! Perform actual plotting of a circle
   if(abs(val) > 1.0e-15) then
     plot_x = XFIG_CM/2 + col * XFIG_CM
     plot_y = XFIG_CM/2 + row * XFIG_CM
