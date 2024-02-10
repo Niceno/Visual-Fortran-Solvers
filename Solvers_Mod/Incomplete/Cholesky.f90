@@ -31,7 +31,7 @@
   !   Actual computation   !
   !------------------------!
 
-  ! Perform Cholesky factorization on the matrix to fin the lower one
+  ! Perform Cholesky factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
   call Solvers_Mod_Sparse_Cholesky_Factorization(LL, A)
   call Cpu_Time(time_pe)
