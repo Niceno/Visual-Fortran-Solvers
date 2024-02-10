@@ -17,31 +17,31 @@
   type(Dense_Type) :: U   !! factorized U matrix
   type(Dense_Type) :: A   !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k
+  integer :: k, j, i
   real    :: sum
 !==============================================================================!
 
-  do i = 1, A % n
+  do k = 1, A % n
 
     ! Upper triangular
-    do k = i, min(A % n, i + A % bw)
+    do i = k, min(A % n, k + A % bw)
       sum = 0.0
-      do j = max(1, i - A % bw), min(i-1, i + A % bw)
-        sum = sum + L % val(i,j) * U % val(j,k)
+      do j = max(1, k - A % bw), min(k-1, k + A % bw)
+        sum = sum + L % val(k,j) * U % val(j,i)
       end do
-      U % val(i,k) = A % val(i,k) - sum
+      U % val(k,i) = A % val(k,i) - sum
     end do
 
     ! Lower triangular
-    do k = max(i, i - A % bw), min(A % n, i + A % bw)
-      if(i == k) then
-        L % val(i,i) = 1.0  ! Diagonal as 1
+    do i = max(k, k - A % bw), min(A % n, k + A % bw)
+      if(k == i) then
+        L % val(k,k) = 1.0  ! Diagonal as 1
       else
         sum = 0.0
-        do j = max(1, i - A % bw), min(i-1, i + A % bw)
-          sum = sum + L % val(k,j) * U % val(j,i)
+        do j = max(1, k - A % bw), min(k-1, k + A % bw)
+          sum = sum + L % val(i,j) * U % val(j,k)
         end do
-        L % val(k,i) = (A % val(k,i) - sum) / U % val(i,i)
+        L % val(i,k) = (A % val(i,k) - sum) / U % val(k,k)
       end if
     end do
 
