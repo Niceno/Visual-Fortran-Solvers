@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Plot_Dense(IO, name_out, A, ijk, targ, src1, src2)
+  subroutine Plot_Dense(IO, name_out, A, ijk, targ, src1, src2, src3)
 !------------------------------------------------------------------------------!
 !>  Plots the dense matrix A out in the Xfig file format.
 !------------------------------------------------------------------------------!
@@ -12,6 +12,7 @@
   integer,          optional   :: targ(2)
   integer,          optional   :: src1(2)
   integer,          optional   :: src2(2)
+  integer,          optional   :: src3(2)
 !-----------------------------------[Locals]-----------------------------------!
   integer        :: row, col
   integer        :: plot_x, plot_y
@@ -29,12 +30,14 @@
   !------------------!
   !   Set the name   !
   !------------------!
-  if(.not. present(ijk)) then
-    full_name = name_out//'.fig'
-  else
+  if(present(ijk)  .or.  &
+     present(targ) .or.  &
+     present(src1) .or. present(src2) .or. present(src3)) then
     cnt = cnt + 1
     write(frame(2:6), '(i5.5)') cnt
     full_name = name_out//frame//'.fig'
+  else
+    full_name = name_out//'.fig'
   end if
   open(9, file=trim(full_name))
 
@@ -92,6 +95,11 @@
       end if
       if(present(src2)) then
         if(row .eq. src2(1) .and. col .eq. src2(2)) then
+          call IO % Plot_Box(9, row, col, XFIG_LTBLUE, 55)
+        end if
+      end if
+      if(present(src3)) then
+        if(row .eq. src3(1) .and. col .eq. src3(2)) then
           call IO % Plot_Box(9, row, col, XFIG_LTBLUE, 55)
         end if
       end if
