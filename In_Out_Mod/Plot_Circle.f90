@@ -47,10 +47,10 @@
     write(9,'(a)',     advance='no') ' 0'            !  3 line style
     write(9,'(a)',     advance='no') ' 1'            !  4 line thickness
     if(val > 0.0) then
-      write(9,'(i2)',  advance='no') XFIG_RED        !  5 line color
+      write(9,'(i3)',  advance='no') XFIG_RED        !  5 line color
       write(9,'(i3)',  advance='no') color           !  6 fill color
     else
-      write(9,'(i2)',  advance='no') XFIG_BLUE       !  5 line color
+      write(9,'(i3)',  advance='no') XFIG_BLUE       !  5 line color
       write(9,'(i3)',  advance='no') color           !  6 fill color
     end if
     write(9,'(a)',     advance='no') ' 50'           !  7 layer
@@ -60,11 +60,7 @@
     write(9,'(a)',     advance='no') ' 1'            ! 11
     write(9,'(a)',     advance='no') ' 0.000'        ! 12
     write(9,'(i9,i9)', advance='no') plot_x, plot_y  ! 13-14 coordinates
-    if(val > 0.0) then
-      write(9,'(i4,i4)', advance='no') rad, rad      ! 15-16 radii
-    else
-      write(9,'(i4,i4)', advance='no') rad, rad      ! 15-16 radii
-    end if
+    write(9,'(i4,i4)', advance='no') rad, rad        ! 15-16 radii
     write(9,'(i9,i9)', advance='no') plot_x, plot_y  ! 17-18
     write(9,'(i9,i9)', advance='no') plot_x, plot_y  ! 19-20
     write(9,*)
