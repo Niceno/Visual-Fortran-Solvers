@@ -25,10 +25,10 @@
     do i = k + 1, min(k + A % bw, A % n)
       mult = U % val(i,k) / U % val(k,k)
       U % val(i,k) = 0.0
-      call IO % Plot_Dense("gauss_elim", U, ijk=(/i,j,k/))
+      call IO % Plot_Dense("factorization", U, ijk=(/i,j,k/), targ=(/i,k/), src1=(/k,k/))
       do j = k + 1, min(k + A % bw, A % n)
         U % val(i,j) = U % val(i,j) - mult * U % val(k,j)
-        call IO % Plot_Dense("gauss_elim", U, ijk=(/i,j,k/))
+        call IO % Plot_Dense("factorization", U, ijk=(/i,j,k/), targ=(/i,j/), src1=(/k,j/))
       end do
       b(i) = b(i) - mult*b(k)
     end do
