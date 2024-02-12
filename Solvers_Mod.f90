@@ -14,10 +14,10 @@
 !==============================================================================!
 
   ! Working space matrices for incomplete solvers
-  type(Sparse_Type), target :: P_Sparse, Q_Sparse
+  type(Sparse_Type), target :: P_Sparse
 
   ! Working square (full) matrices
-  type(Dense_Type), target :: P_Square, Q_Square
+  type(Dense_Type), target :: P_Dense
 
   ! Working arrays for direct solvers
   real, allocatable :: y(:), r(:)

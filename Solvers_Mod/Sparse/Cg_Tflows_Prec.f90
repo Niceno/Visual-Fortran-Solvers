@@ -19,7 +19,7 @@
 !==============================================================================!
 
   ! Take aliases
-  D => p_sparse
+  D => P_Sparse
 
   print *, '#============================================================'
   print *, '# Solving the sytem with T-Flows preconditioned CG method'

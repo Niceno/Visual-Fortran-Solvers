@@ -18,7 +18,7 @@
 !==============================================================================!
 
   ! Take aliases
-  LDL => p_square
+  LDL => P_Dense
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with LDL'' factorization'

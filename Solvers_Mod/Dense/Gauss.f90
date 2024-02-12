@@ -20,7 +20,7 @@
 !==============================================================================!
 
   ! Take aliases
-  U => q_square
+  U => P_Dense
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with Gaussian elimination'

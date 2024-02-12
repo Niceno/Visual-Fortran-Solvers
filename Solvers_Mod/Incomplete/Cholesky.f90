@@ -14,7 +14,7 @@
 !==============================================================================!
 
   ! Take aliases
-  LL => p_sparse
+  LL => P_Sparse
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with incomplete Cholesky factorization'

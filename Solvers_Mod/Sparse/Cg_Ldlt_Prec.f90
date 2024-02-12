@@ -21,7 +21,7 @@
 !==============================================================================!
 
   ! Take aliases
-  LDL => p_sparse
+  LDL => P_Sparse
 
   print *, '#============================================================'
   print *, '# Solving the sytem with LDL'' preconditioned CG method'

@@ -19,7 +19,7 @@
 !==============================================================================!
 
   ! Take aliases
-  LL => q_square
+  LL => P_Dense
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with Cholesky factorization'
