@@ -1,3 +1,5 @@
+#include "Assert.h90"
+
 !==============================================================================!
   module In_Out_Mod
 !------------------------------------------------------------------------------!
@@ -13,39 +15,39 @@
 
   real,   parameter               :: TINY  = 1.0e-30
   real,   parameter, dimension(4) :: SCALE = (/0.5, 0.01, 0.001, TINY/)
-  integer, parameter              :: XFIG_BLACK    =   0
-  integer, parameter              :: XFIG_BLUE     =   1
-  integer, parameter              :: XFIG_GREEN    =   2
-  integer, parameter              :: XFIG_CYAN     =   3
-  integer, parameter              :: XFIG_RED      =   4
-  integer, parameter              :: XFIG_MAGENTA  =   5
-  integer, parameter              :: XFIG_YELLOW   =   6
-  integer, parameter              :: XFIG_WHITE    =   7
-  integer, parameter              :: XFIG_BLUE4    =   8  ! darkest
-  integer, parameter              :: XFIG_BLUE3    =   9  ! medium
-  integer, parameter              :: XFIG_BLUE2    =  10  ! ligt, but darker than blue
-  integer, parameter              :: XFIG_LTBLUE   =  11
-  integer, parameter              :: XFIG_GREEN4   =  12  ! darkest
-  integer, parameter              :: XFIG_GREEN3   =  13  ! medium
-  integer, parameter              :: XFIG_GREEN2   =  14  ! lightest
-  integer, parameter              :: XFIG_CYAN4    =  15  ! darkest
-  integer, parameter              :: XFIG_CYAN3    =  16  ! medium
-  integer, parameter              :: XFIG_CYAN2    =  17  ! lightest
-  integer, parameter              :: XFIG_RED4     =  18  ! darkest
-  integer, parameter              :: XFIG_RED3     =  19  ! medium
-  integer, parameter              :: XFIG_RED2     =  20  ! lightest
-  integer, parameter              :: XFIG_MAGENTA4 =  21
-  integer, parameter              :: XFIG_MAGENTA3 =  22
-  integer, parameter              :: XFIG_MAGENTA2 =  23
-  integer, parameter              :: XFIG_BROWN4   =  24
-  integer, parameter              :: XFIG_BROWN3   =  25
-  integer, parameter              :: XFIG_BROWN2   =  26
-  integer, parameter              :: XFIG_PINK4    =  27
-  integer, parameter              :: XFIG_PINK3    =  28
-  integer, parameter              :: XFIG_PINK2    =  29
-  integer, parameter              :: XFIG_PINK     =  30
-  integer, parameter              :: XFIG_GOLD     =  31
-  integer, parameter              :: XFIG_CM       = 450
+  integer, parameter              :: BLACK    =   0
+  integer, parameter              :: BLUE     =   1
+  integer, parameter              :: GREEN    =   2
+  integer, parameter              :: CYAN     =   3
+  integer, parameter              :: RED      =   4
+  integer, parameter              :: MAGENTA  =   5
+  integer, parameter              :: YELLOW   =   6
+  integer, parameter              :: WHITE    =   7
+  integer, parameter              :: BLUE4    =   8  ! darkest
+  integer, parameter              :: BLUE3    =   9  ! medium
+  integer, parameter              :: BLUE2    =  10  ! light
+  integer, parameter              :: LTBLUE   =  11
+  integer, parameter              :: GREEN4   =  12  ! darkest
+  integer, parameter              :: GREEN3   =  13  ! medium
+  integer, parameter              :: GREEN2   =  14  ! lightest
+  integer, parameter              :: CYAN4    =  15  ! darkest
+  integer, parameter              :: CYAN3    =  16  ! medium
+  integer, parameter              :: CYAN2    =  17  ! lightest
+  integer, parameter              :: RED4     =  18  ! darkest
+  integer, parameter              :: RED3     =  19  ! medium
+  integer, parameter              :: RED2     =  20  ! lightest
+  integer, parameter              :: MAGENTA4 =  21
+  integer, parameter              :: MAGENTA3 =  22
+  integer, parameter              :: MAGENTA2 =  23
+  integer, parameter              :: BROWN4   =  24
+  integer, parameter              :: BROWN3   =  25
+  integer, parameter              :: BROWN2   =  26
+  integer, parameter              :: PINK4    =  27
+  integer, parameter              :: PINK3    =  28
+  integer, parameter              :: PINK2    =  29
+  integer, parameter              :: PINK     =  30
+  integer, parameter              :: GOLD     =  31
+  integer, parameter              :: CM       = 450
 
   !-----------------!
   !                 !
@@ -65,6 +67,7 @@
       procedure :: Plot_Ring
       procedure :: Plot_Snippet
       procedure :: Plot_Sparse
+      procedure :: Plot_Square
       procedure :: Print_Legend
       procedure :: Print_Dense
       procedure :: Print_Sparse
@@ -85,6 +88,7 @@
 #   include "In_Out_Mod/Plot_Ring.f90"
 #   include "In_Out_Mod/Plot_Snippet.f90"
 #   include "In_Out_Mod/Plot_Sparse.f90"
+#   include "In_Out_Mod/Plot_Square.f90"
 #   include "In_Out_Mod/Print_Dense.f90"
 #   include "In_Out_Mod/Print_Sparse.f90"
 #   include "In_Out_Mod/Print_Vector.f90"

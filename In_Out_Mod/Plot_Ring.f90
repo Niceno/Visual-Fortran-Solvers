@@ -18,8 +18,8 @@
 
   ! Perform actual plotting of a ring
 
-  plot_x = XFIG_CM/2 + col * XFIG_CM
-  plot_y = XFIG_CM/2 + row * XFIG_CM
+  plot_x = CM/2 + col * CM
+  plot_y = CM/2 + row * CM
   write(9,'(a)',     advance='no') ' 1'            !  1 ellipse
   write(9,'(a)',     advance='no') ' 3'            !  2 define with radii
   write(9,'(a)',     advance='no') ' 0'            !  3 line style

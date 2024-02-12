@@ -14,9 +14,9 @@
   integer :: plot_x, plot_y, d
 !==============================================================================!
 
-  plot_x = (col) * XFIG_CM
-  plot_y = (row) * XFIG_CM
-  d      = XFIG_CM            ! delta
+  plot_x = (col) * CM
+  plot_y = (row) * CM
+  d      = CM          ! delta
 
   write(9,'(a)',     advance='no') ' 2'                !  1 polyline
   write(9,'(a)',     advance='no') ' 2'                !  2 defined as a box
@@ -30,7 +30,7 @@
   write(9,'(a)',     advance='no') ' 0.000'            ! 10
   write(9,'(a)',     advance='no') ' 1'                ! 11 join style
   write(9,'(a)',     advance='no') ' 0'                ! 12 cap style
-  write(9,'(a)',     advance='no') '-1'                ! 13 radius
+  write(9,'(a)',     advance='no') ' -1'               ! 13 radius
   write(9,'(a)',     advance='no') ' 0'                ! 14 forward arrow
   write(9,'(a)',     advance='no') ' 0'                ! 15 backwar arrow
   write(9,'(a)')                   ' 5'                ! 16 number of points

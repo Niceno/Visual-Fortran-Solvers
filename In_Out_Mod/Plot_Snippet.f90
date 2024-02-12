@@ -56,8 +56,8 @@
       if(pos .eq. 0) then  ! skip lines which write something
         wc = wc + 1
         write(9, '(a)',  advance='no') '4 0 0 50 -1 12 22 0.0000 4 450 450 '
-        write(9, '(i9)', advance='no') XFIG_CM / 2
-        write(9, '(i9)', advance='no') wc * XFIG_CM
+        write(9, '(i9)', advance='no') CM / 2
+        write(9, '(i9)', advance='no') wc * CM - CM / 4
         write(9, '(a)',  advance='no') trim(line)
         write(9, '(a)')                '\001'
       end if

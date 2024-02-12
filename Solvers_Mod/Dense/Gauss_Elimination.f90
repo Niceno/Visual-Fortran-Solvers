@@ -9,31 +9,35 @@
   real, dimension(:) :: b
   type(Dense_Type)   :: A  !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k
+  integer :: i, j, k, bw, n
   real    :: mult
 !==============================================================================!
 
+  ! Take some aliases
+  n  = A % n
+  bw = A % bw
+
   ! Copy the matrix first
-  do i = 1, A % n
-    do j = 1, A % n
+  do i = 1, n
+    do j = 1, n
       U % val(i,j) = A % val(i,j)
     end do
   end do
 
   ! Make elimination for resulting matrix
-  do k = 1, A % n - 1
-    do i = k + 1, min(k + A % bw, A % n)
+  do k = 1, n - 1
+    do i = k + 1, min(k + bw, n)
       mult = U % val(i,k) / U % val(k,k)
       U % val(i,k) = 0.0
-      call IO % Plot_Dense("factorization", U, targ=(/i,k/), src1=(/k,k/))
-      do j = k + 1, min(k + A % bw, A % n)
+      call IO % Plot_Dense("factorization", U, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN2/))
+      do j = k + 1, min(k + bw, n)
         U % val(i,j) = U % val(i,j) - mult * U % val(k,j)
-        call IO % Plot_Dense("factorization", U, targ=(/i,j/), src1=(/k,j/))
+        call IO % Plot_Dense("factorization", U, B=A, targ=(/i,j,PINK2/), src1=(/k,j,CYAN2/))
       end do
-      b(i) = b(i) - mult*b(k)
+      b(i) = b(i) - mult * b(k)
     end do
   end do
 
-  call IO % Plot_Snippet(__FILE__, 24, 35)
+  call IO % Plot_Snippet(__FILE__, 28, 39)
 
   end subroutine

@@ -26,7 +26,7 @@
   call IO % Plot_Header(9)
 
   ! Followed by the compound
-  write(9, '(3i2, 2i9)') 6, 0, 0, A % n * XFIG_CM, A % n * XFIG_CM
+  write(9, '(3i2, 2i9)') 6, 0, 0, A % n * CM, A % n * CM
 
   ! Find maximum entry in the system matrix
   max_val = maxval(A % val)
@@ -36,7 +36,7 @@
   do row = 1, A % n
     do pos = A % row(row), A % row(row + 1) - 1
       col = A % col(pos)
-      call IO % Plot_Circle(9, row, col, A % val(pos), min_val, max_val)
+      call IO % Plot_Circle(9, row, col, A % val(pos), min_val, max_val, 50)
     end do
   end do
 
