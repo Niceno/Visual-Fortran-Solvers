@@ -16,7 +16,7 @@
   type(Dense_Type) :: LU  !! factorized LU matrices
   type(Dense_Type) :: A   !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, bw, n
+  integer :: i, j, k, n, bw
   real    :: sum
 !==============================================================================!
 
