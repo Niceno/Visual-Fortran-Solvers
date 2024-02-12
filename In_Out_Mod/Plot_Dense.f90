@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Plot_Dense(IO, name_out, A, ijk, targ, src1, src2, src3)
+  subroutine Plot_Dense(IO, name_out, A, targ, src1, src2, src3)
 !------------------------------------------------------------------------------!
 !>  Plots the dense matrix A out in the Xfig file format.
 !------------------------------------------------------------------------------!
@@ -8,7 +8,6 @@
   class(In_Out_Type)           :: IO        !! parent class
   character(len=*), intent(in) :: name_out  !! output file name
   type(Dense_Type), intent(in) :: A         !! matrix to plit
-  integer,          optional   :: ijk(3)
   integer,          optional   :: targ(2)
   integer,          optional   :: src1(2)
   integer,          optional   :: src2(2)
@@ -30,8 +29,7 @@
   !------------------!
   !   Set the name   !
   !------------------!
-  if(present(ijk)  .or.  &
-     present(targ) .or.  &
+  if(present(targ) .or.  &
      present(src1) .or. present(src2) .or. present(src3)) then
     cnt = cnt + 1
     write(frame(2:6), '(i5.5)') cnt
