@@ -14,15 +14,18 @@
   type(Dense_Type)   :: L  !! factorized matrix, should be L in the caller
   real, dimension(:) :: b  !! right hand side vector
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, n
+  integer :: i, j, n, bw
   real    :: sum
 !==============================================================================!
 
-  n = L % n  ! some checks would be possible
+  ! Take some aliases
+  n  = L % n
+  bw = L % bw
 
+  ! Here, i > j, therfore it is a lower matrix
   do i = 1, n
     sum = b(i)
-    do j = 1, i-1
+    do j = max(1, i - bw), i-1
       sum = sum - L % val(i,j)*x(j)  ! straightforward for sparse matrix
     end do
     x(i) = sum / L % val(i,i)

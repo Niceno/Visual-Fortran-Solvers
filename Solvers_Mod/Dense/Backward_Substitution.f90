@@ -17,16 +17,19 @@
   type(Dense_Type)   :: U  !! factorized matrix, should be U in the caller
   real, dimension(:) :: b  !! right hand side vector
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, n
+  integer :: i, j, n, bw
   real    :: sum
 !==============================================================================!
 
-  n = U % n  ! some checks would be possible
+  ! Take some aliases
+  n  = U % n
+  bw = U % bw
 
+  ! Here, j > i, therfore it is an upper matrix
   do i = n, 1, -1
     sum = b(i)
-    do j = i+1, n
-      sum = sum - U % val(i,j)*x(j)  ! straighforward for sparse matrix
+    do j = i+1, min(i + bw, n)
+      sum = sum - U % val(i,j) * x(j)  ! straighforward for sparse matrix
     end do
     x(i) = sum / U % val(i,i)
   end do
