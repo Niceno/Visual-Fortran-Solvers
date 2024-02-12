@@ -11,21 +11,26 @@
   type(Dense_Type) :: LL  !! factorized matrix
   type(Dense_Type) :: A
 !-----------------------------------[Locals]-----------------------------------!
-  integer          :: i, k, m
+  integer          :: i, k, m, n, bw
   real             :: sum
 !==============================================================================!
 
   print *, '# Factorizing square (full) matrix with Cholesky method'
 
-  do k = 1, A % n
+  ! Take some aliases
+  n  = A % n
+  bw = A % bw
+
+  ! Perform the factorization
+  do k = 1, n
     sum = A % val(k,k)
-    do m = max(1, k - A % bw), k - 1
+    do m = max(1, k - bw), k - 1
       sum = sum - LL % val(k,m)**2  ! straightforward for sparse matrix
     end do
     LL % val(k,k) = sqrt(sum)
-    do i = k + 1, min(k + A % bw, A % n)
+    do i = k + 1, min(k + bw, n)
       sum = A % val(i,k)
-      do m = max(1, k - A % bw), k - 1
+      do m = max(1, k - bw, i - bw), k - 1
         sum = sum - LL % val(m,i)*LL % val(m,k)  ! straighforward for sparse
       end do
       LL % val(k,i) = sum / LL % val(k,k)
@@ -33,6 +38,6 @@
     end do
   end do
 
-  call IO % Plot_Snippet(__FILE__, 20, 34)
+  call IO % Plot_Snippet(__FILE__, 25, 39)
 
   end subroutine
