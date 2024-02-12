@@ -12,17 +12,18 @@
   type(Dense_Type)   :: F  !! factorized matrix
   real, dimension(:) :: b  !! right hand side vector
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, n
+  integer :: i, j, n, bw
   real    :: sum
 !==============================================================================!
 
-  n = F % n  ! some checks would be possible
+  n  = F % n  ! some checks would be possible
+  bw = F % bw
 
   ! Forward substitutions
   do i = 1, n
     sum = b(i)
-    do j=1,i-1
-      sum = sum - F % val(i,j)*x(j)  ! straightforward for compressed row format
+    do j = max(1, i - bw), i-1
+      sum = sum - F % val(i,j) * x(j)  ! straightforward for compressed row format
     end do
     x(i) = sum
   end do
@@ -35,8 +36,8 @@
   ! Backward substitution
   do i = n, 1, -1
     sum = x(i)
-    do j = i+1, n
-      sum = sum - F % val(i,j)*x(j)  ! straighforward for compressed row format
+    do j = i+1, min(i + bw, n)
+      sum = sum - F % val(i,j) * x(j)  ! straighforward for compressed row format
     end do
     x(i) = sum
   end do
