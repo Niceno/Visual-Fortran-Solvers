@@ -29,10 +29,10 @@
     do i = k + 1, min(k + bw, n)
       mult = U % val(i,k) / U % val(k,k)
       U % val(i,k) = 0.0
-      call IO % Plot_Dense("factorization", U, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN2/))
+      call IO % Plot_Dense("factorization", U, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
       do j = k + 1, min(k + bw, n)
         U % val(i,j) = U % val(i,j) - mult * U % val(k,j)
-        call IO % Plot_Dense("factorization", U, B=A, targ=(/i,j,PINK2/), src1=(/k,j,CYAN2/))
+        call IO % Plot_Dense("factorization", U, B=A, targ=(/i,j,PINK2/), src1=(/k,j,CYAN/))
       end do
       b(i) = b(i) - mult * b(k)
     end do

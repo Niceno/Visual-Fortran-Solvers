@@ -37,7 +37,7 @@
       sum = 0.0
       do j = max(1, k - bw, i - bw), min(k-1, k + bw)
         sum = sum + L % val(k,j) * U % val(j,i)
-!@      call IO % Plot_Dense("factorization", U, B=A, src1=(/k,j,GREEN2/), src2=(/j,i,CYAN2/))
+!@      call IO % Plot_Dense("factorization", U, B=A, src1=(/k,j,GREEN/), src2=(/j,i,CYAN/))
       end do
       U % val(k,i) = A % val(k,i) - sum
 !@    call IO % Plot_Dense("factorization", U, B=A, targ=(/k,i,PINK2/))
@@ -52,10 +52,10 @@
         sum = 0.0
         do j = max(1, k - bw, i - bw), min(k-1, k + bw)
           sum = sum + L % val(i,j) * U % val(j,k)
-          call IO % Plot_Dense("factorization", L, B=A, src1=(/i,j,GREEN2/), src2=(/j,k,CYAN2/))
+          call IO % Plot_Dense("factorization", L, B=A, src1=(/i,j,GREEN/), src2=(/j,k,CYAN/))
         end do
         L % val(i,k) = (A % val(i,k) - sum) / U % val(k,k)
-        call IO % Plot_Dense("factorization", L, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN2/))
+        call IO % Plot_Dense("factorization", L, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
       end if
     end do
 
