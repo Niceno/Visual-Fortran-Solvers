@@ -26,20 +26,27 @@
 
   ! Perform the factorization
   do k = 1, n
-    sum = A % val(k,k)
+
+    sum = 0.0
     do s = max(1, k - bw), k - 1
-      sum = sum - L % val(k,s)**2
+      sum = sum + L % val(k,s)**2
+      call IO % Plot_Dense("factorization", L, B=A, src1=(/k,s,GREEN/))
     end do
-    L % val(k,k) = sqrt(sum)
+    L % val(k,k) = sqrt(A % val(k,k) - sum)
+    call IO % Plot_Dense("factorization", L, B=A, targ=(/k,k,PINK2/))
+
     do i = k + 1, min(k + bw, n)
-      sum = A % val(i,k)
+      sum = 0.0
       do s = max(1, k - bw, i - bw), k - 1
-        sum = sum - L % val(i,s)*L % val(k,s)
+        sum = sum + L % val(i,s)*L % val(k,s)
+        call IO % Plot_Dense("factorization", L, B=A, src1=(/i,s,GREEN2/), src2=(/k,s,GREEN/))
       end do
-      L % val(i,k) = sum / L % val(k,k)
+      L % val(i,k) = (A % val(i,k) - sum) / L % val(k,k)
+      call IO % Plot_Dense("factorization", L, B=A, targ=(/i,k,PINK2/))
     end do
+
   end do
 
-  call IO % Plot_Snippet(__FILE__, 28, 41)
+  call IO % Plot_Snippet(__FILE__, 28, 48)
 
   end subroutine
