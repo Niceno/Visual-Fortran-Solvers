@@ -21,6 +21,10 @@
 
   print *, '# Factorizing square (full) matrix with LDL'' method'
 
+  ! Initialize the values
+  LDL % val(:,:) = 0.0
+
+  ! Perform the factorization
   do k = 1, A % n
     sum = A % val(k,k)
     do m = max(1, k - A % bw), k - 1
@@ -37,6 +41,6 @@
     end do
   end do
 
-  call IO % Plot_Snippet(__FILE__, 24, 38)
+  call IO % Plot_Snippet(__FILE__, 28, 42)
 
   end subroutine

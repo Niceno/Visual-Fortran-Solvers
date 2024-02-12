@@ -57,8 +57,8 @@
   call Solvers_Mod_Dense_Forward_Substitution(y, LL, b)
   !@ call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
 
-  ! Compute x by backward substitution
-  call Solvers_Mod_Dense_Backward_Substitution(x, LL, y)
+  ! Compute x by backward substitution (use transposed L for U)
+  call Solvers_Mod_Dense_Backward_Substitution(x, LL, y, t=.true.)
   !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
   call Cpu_Time(time_se)
 

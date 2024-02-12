@@ -25,7 +25,11 @@
   n  = A % n
   bw = A % bw
 
-  ! Perform factorization
+  ! Initialize the values
+  L % val(:,:) = 0.0
+  U % val(:,:) = 0.0
+
+  ! Perform the factorization
   do k = 1, n
 
     ! Upper triangular
@@ -57,6 +61,6 @@
 
   end do
 
-  call IO % Plot_Snippet(__FILE__, 29, 58)
+  call IO % Plot_Snippet(__FILE__, 33, 62)
 
   end subroutine
