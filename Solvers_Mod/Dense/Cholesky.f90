@@ -42,7 +42,7 @@
   print *, '#----------------------------------------------------------'
 
   !------------------!
-  !   Praparations   !
+  !   Preparations   !
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, H, x, b)
   call Solvers_Mod_Allocate_Vectors(H % n)

@@ -21,7 +21,7 @@
   print *, '#----------------------------------------------------------'
 
   !------------------!
-  !   Praparations   !
+  !   Preparations   !
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
@@ -46,7 +46,6 @@
   ! Compute x by backward substitution
   call Solvers_Mod_Sparse_Backward_Substitution(x, LL, y)
   call Cpu_Time(time_se)
-  !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
   print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss
