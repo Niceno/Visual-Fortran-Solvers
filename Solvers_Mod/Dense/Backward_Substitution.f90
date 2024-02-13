@@ -27,6 +27,7 @@
   n  = U % n
   bw = U % bw
 
+  transposed = .false.           ! for some reason, this must be repeated
   if(present(t)) transposed = t
 
   ! Here, j > i, therfore it is an upper matrix
@@ -38,7 +39,7 @@
       end do
       x(i) = sum / U % val(i,i)
     end do
-    call IO % Plot_Snippet(__FILE__, 34, 40)
+    call IO % Plot_Snippet(__FILE__, 35, 41)
 
   ! Matrix is transposed, useful for Cholesky factorization which uses only L
   else
@@ -49,7 +50,7 @@
       end do
       x(i) = sum / U % val(i,i)
     end do
-    call IO % Plot_Snippet(__FILE__, 45, 51)
+    call IO % Plot_Snippet(__FILE__, 46, 52)
 
   end if
 

@@ -24,6 +24,7 @@
   n  = L % n
   bw = L % bw
 
+  diagonal_one = .false.             ! for some reason, this must be repeated
   if(present(d1)) diagonal_one = d1
 
   ! Here, i > j, therfore it is a lower matrix
@@ -35,6 +36,7 @@
       end do
       x(i) = sum / L % val(i,i)
     end do
+    call IO % Plot_Snippet(__FILE__, 32, 38)
 
   ! Diagonal is equal to 1, good for LU decomposition
   else
@@ -45,9 +47,8 @@
       end do
       x(i) = sum
     end do
+    call IO % Plot_Snippet(__FILE__, 43, 49)
 
   end if
-
-  call IO % Plot_Snippet(__FILE__, 23, 29)
 
   end subroutine
