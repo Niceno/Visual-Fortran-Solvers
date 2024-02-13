@@ -5,10 +5,27 @@
 !   1 - calls Ldlt Factorization                                               !
 !   2 - calls Ldlt Solution                                                    !
 !------------------------------------------------------------------------------!
+!   LDL' decomposition in full, looks like this:                               !
+!                                                                              !
+!   LDL =                                                                      !
+!    |  1                  | | D11                 | |  1  L12 L13 L14 L15 |   !
+!    | L21  1              | |     D22             | |      1  L23 L24 L25 |   !
+!    | L31 L32  1          | |         D33         | |          1  L34 L35 |   !
+!    | L41 L42 L43  1      | |             D44     | |              1  L45 |   !
+!    | L51 L52 L53 L54  1  | |                 D55 | |                  1  |   !
+!                                                                              !
+!   But given that L's diagonal is equal to one, it doesn't have to be stored. !
+!                                                                              !
+!               | D11                 |                                        !
+!      stored   | L21 D22             |                                        !
+!   LDL       = | L31 L32 D33         |                                        !
+!               | L41 L42 L43 D44     |                                        !
+!               | L51 L52 L53 L54 D55 |                                        !
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)  :: grid   !! computational grid
-  type(Dense_Type) :: A      !! original dense system matrix
+  type(Grid_Type)   :: grid  !! computational grid
+  type(Dense_Type)  :: A     !! original dense system matrix
   real, allocatable :: x(:)
   real, allocatable :: b(:)
 !-----------------------------------[Locals]-----------------------------------!
@@ -55,7 +72,6 @@
   call Cpu_Time(time_ss)
   call Solvers_Mod_Dense_Ldlt_Solution(x, LDL, b)
   call Cpu_Time(time_se)
-  !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
   print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss

@@ -7,7 +7,23 @@
 !   This code was obtained by translating the Java code provided here:
 !   https://www.geeksforgeeks.org/doolittle-algorithm-lu-decomposition/
 !   using the ChatGPT.                                                         !
+!------------------------------------------------------------------------------!
+!   LU decomposition in full, looks like this:                                 !
 !                                                                              !
+!        |  1                  | | U11 U12 U13 U14 U15 |                       !
+!        | L21  1              | |     U22 U23 U24 U25 |                       !
+!   LU = | L31 L32  1          | |         U33 U34 U35 |                       !
+!        | L41 L42 L43  1      | |             U44 U45 |                       !
+!        | L51 L52 L53 L54  1  | |                 U55 |                       !
+!                                                                              !
+!   But given that L's diagonal is equal to one, it doesn't have to be stored: !
+!                                                                              !
+!              | U11 U12 U13 U14 U15 |                                         !
+!     stored   | L21 U22 U23 U24 U25 |                                         !
+!   LU       = | L31 L32 U33 U34 U35 |                                         !
+!              | L41 L42 L43 U44 U45 |                                         !
+!              | L51 L52 L53 L54 U55 |                                         !
+!------------------------------------------------------------------------------!
 !   Called by:                                                                 !
 !   - Solvers_Mod_Lu                                                           !
 !------------------------------------------------------------------------------!
@@ -27,7 +43,9 @@
   ! Initialize the values
   LU % val(:,:) = 0.0
 
-  ! Perform the factorization
+  !-------------------------------!
+  !   Perform the factorization   !
+  !-------------------------------!
   do k = 1, n
 
     ! Upper triangular
@@ -44,8 +62,7 @@
     ! Lower triangular
     do i = max(k, k - bw), min(n, k + bw)
       if(k == i) then
-        ! L % val(k,k) = 1.0  ! Diagonal as 1
-        ! call IO % Plot_Dense("factorization", L, B=A, targ=(/k,k,PINK2/))
+        ! L % val(k,k) = 1.0  ! skip this, do not store ones
       else
         sum = 0.0
         do j = max(1, k - bw, i - bw), min(k-1, k + bw)
@@ -59,6 +76,6 @@
 
   end do
 
-  call IO % Plot_Snippet(__FILE__, 33, 62)
+  call IO % Plot_Snippet(__FILE__, 49, 77)
 
   end subroutine

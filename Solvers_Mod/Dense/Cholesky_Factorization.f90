@@ -1,7 +1,23 @@
 !==============================================================================!
   subroutine Solvers_Mod_Dense_Cholesky_Factorization(L, A)
 !------------------------------------------------------------------------------!
-!>  Computes Cholesky decomposition on square (full) matrices.
+!>  Computes Cholesky factorization on square (full) matrices.
+!------------------------------------------------------------------------------!
+!   Cholesky factorization in full, looks like this:                           !
+!                                                                              !
+!         | L11                 | | L11 L12 L13 L14 L15 |                      !
+!         | L21 L22             | |     L22 L23 L24 L25 |                      !
+!   LL' = | L31 L32 L33         | |         L33 L34 L35 |                      !
+!         | L41 L42 L43 L44     | |             L44 L45 |                      !
+!         | L51 L52 L53 L54 L55 | |                 L55 |                      !
+!                                                                              !
+!   But given that LL's is symmetric, only one L is stored:                    !
+!                                                                              !
+!              | L11                 |                                         !
+!     stored   | L21 L22             |                                         !
+!   LL'      = | L31 L32 L33         |                                         !
+!              | L41 L42 L43 L44     |                                         !
+!              | L51 L52 L53 L54 U55 |                                         !
 !------------------------------------------------------------------------------!
 !   Called by:                                                                 !
 !   - Solvers_Mod_Cholesky                                                     !
@@ -24,9 +40,12 @@
   ! Initialize the values
   L % val(:,:) = 0.0
 
-  ! Perform the factorization
+  !-------------------------------!
+  !   Perform the factorization   !
+  !-------------------------------!
   do k = 1, n
 
+    ! Work out (and store) diagonal term
     sum = 0.0
     do s = max(1, k - bw), k - 1
       sum = sum + L % val(k,s)**2
@@ -35,6 +54,7 @@
     L % val(k,k) = sqrt(A % val(k,k) - sum)
     call IO % Plot_Dense("factorization", L, B=A, targ=(/k,k,PINK2/))
 
+    ! Work out (and store) the L
     do i = k + 1, min(k + bw, n)
       sum = 0.0
       do s = max(1, k - bw, i - bw), k - 1
@@ -47,6 +67,6 @@
 
   end do
 
-  call IO % Plot_Snippet(__FILE__, 28, 48)
+  call IO % Plot_Snippet(__FILE__, 46, 68)
 
   end subroutine

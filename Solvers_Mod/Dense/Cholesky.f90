@@ -6,10 +6,26 @@
 !   2 - calls Forward_Substitution                                             !
 !   3 - calls Backward Substitution                                            !
 !------------------------------------------------------------------------------!
+!   Cholesky factorization in full, looks like this:                           !
+!                                                                              !
+!         | L11                 | | L11 L12 L13 L14 L15 |                      !
+!         | L21 L22             | |     L22 L23 L24 L25 |                      !
+!   LL' = | L31 L32 L33         | |         L33 L34 L35 |                      !
+!         | L41 L42 L43 L44     | |             L44 L45 |                      !
+!         | L51 L52 L53 L54 L55 | |                 L55 |                      !
+!                                                                              !
+!   But given that LL's is symmetric, only one L is stored:                    !
+!                                                                              !
+!              | L11                 |                                         !
+!     stored   | L21 L22             |                                         !
+!   LL'      = | L31 L32 L33         |                                         !
+!              | L41 L42 L43 L44     |                                         !
+!              | L51 L52 L53 L54 U55 |                                         !
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)  :: grid   !! computational grid
-  type(Dense_Type) :: A      !! original dense system matrix
+  type(Grid_Type)   :: grid  !! computational grid
+  type(Dense_Type)  :: A     !! original dense system matrix
   real, allocatable :: x(:)
   real, allocatable :: b(:)
 !-----------------------------------[Locals]-----------------------------------!
@@ -52,14 +68,12 @@
   call IO % Plot_Dense ("ll_after_cholesky_factorization",  LL)
   call IO % Print_Dense("LL after Cholesky factorization:", LL)
 
-  ! Compute y by forward substitution
+  ! Compute y by forward substitution (solve: Ly=b)
   call Cpu_Time(time_ss)
   call Solvers_Mod_Dense_Forward_Substitution(y, LL, b)
-  !@ call In_Out_Mod_Print_Vector("Vector y after forward substitution:", y)
 
-  ! Compute x by backward substitution (use transposed L for U)
+  ! Compute x by backward substitution (solve: Ux=y; use transposed L for U)
   call Solvers_Mod_Dense_Backward_Substitution(x, LL, y, t=.true.)
-  !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
   call Cpu_Time(time_se)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps

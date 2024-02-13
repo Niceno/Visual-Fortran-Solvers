@@ -1,14 +1,27 @@
 !==============================================================================!
   subroutine Solvers_Mod_Dense_Ldlt_Factorization(LDL, A)
 !------------------------------------------------------------------------------!
-!>  Computes LDL' decomposition on square (full) matrices.
+!>  Computes LDL' factorization on square (full) matrices.
+!------------------------------------------------------------------------------!
+!   LDL' decomposition in full, looks like this:                               !
+!                                                                              !
+!   LDL =                                                                      !
+!    |  1                  | | D11                 | |  1  L12 L13 L14 L15 |   !
+!    | L21  1              | |     D22             | |      1  L23 L24 L25 |   !
+!    | L31 L32  1          | |         D33         | |          1  L34 L35 |   !
+!    | L41 L42 L43  1      | |             D44     | |              1  L45 |   !
+!    | L51 L52 L53 L54  1  | |                 D55 | |                  1  |   !
+!                                                                              !
+!   But given that L's diagonal is equal to one, it doesn't have to be stored. !
+!                                                                              !
+!               | D11                 |                                        !
+!      stored   | L21 D22             |                                        !
+!   LDL       = | L31 L32 D33         |                                        !
+!               | L41 L42 L43 D44     |                                        !
+!               | L51 L52 L53 L54 D55 |                                        !
 !------------------------------------------------------------------------------!
 !   Called by:                                                                 !
 !   - Solvers_Mod_Ldlt_Solver                                                  !
-!------------------------------------------------------------------------------!
-!   The resulting matrix contains L and L' which are stored without their  !
-!   diagonals, since they are assumed to be 1, but the diagonal term of LDL      !
-!   holds the D matrix which results from LDL' factorization.                  !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -28,7 +41,9 @@
   ! Initialize the values
   LDL % val(:,:) = 0.0
 
-  ! Perform the factorization
+  !-------------------------------!
+  !   Perform the factorization   !
+  !-------------------------------!
   do k = 1, n
 
     ! Work out the diagonal D
@@ -37,10 +52,10 @@
       sum = sum + LDL % val(k,s)**2 * LDL % val(s,s)
       call IO % Plot_Dense("factorization", LDL, B=A, src1=(/k,s,GREEN/), src2=(/s,s,GREEN2/))
     end do
-    LDL % val(k,k) = A % val(k,k) - sum      ! diagonal entry, D from LDL
+    LDL % val(k,k) = A % val(k,k) - sum
     call IO % Plot_Dense("factorization", LDL, B=A, targ=(/k,k,PINK2/))
 
-    ! Work out the diagonal L
+    ! Work out (and store) the L
     do i = k + 1, min(k + bw, n)
       sum = 0.0
       do s = max(1, k - bw, i - bw), k - 1
@@ -52,6 +67,6 @@
     end do
   end do
 
-  call IO % Plot_Snippet(__FILE__, 28, 42)
+  call IO % Plot_Snippet(__FILE__, 47, 68)
 
   end subroutine
