@@ -7,7 +7,7 @@
 !---------------------------------[Arguments]----------------------------------!
   class(In_Out_Type)                     :: IO        !! parent class
   character(len=*), intent(in)           :: name_out  !! output file name
-  type(Dense_Type), intent(in)           :: A         !! matrix to plit
+  type(Dense_Type), intent(in)           :: A         !! matrix to plot
   type(Dense_Type), intent(in), optional :: B         !! background matrix
   integer,          intent(in), optional :: targ(3)   !! row, col, color
   integer,          intent(in), optional :: src1(3)
@@ -15,7 +15,6 @@
   integer,          intent(in), optional :: src3(3)
 !-----------------------------------[Locals]-----------------------------------!
   integer        :: row, col
-  integer        :: plot_x, plot_y
   integer, save  :: cnt = 0
   real           :: max_val, min_val
   character(6)   :: frame = '_00000'
