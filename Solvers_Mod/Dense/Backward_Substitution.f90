@@ -16,7 +16,7 @@
   real, dimension(:) :: x  !! resulting vector
   type(Dense_Type)   :: U  !! factorized matrix, should be U in the caller
   real, dimension(:) :: b  !! right hand side vector
-  logical,  optional :: t
+  logical,  optional :: t  !! use transposed matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, n, bw
   real    :: sum

@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Dense_Ldlt_Solution(x, L, b)
+  subroutine Solvers_Mod_Dense_Ldlt_Solution(x, LD, b)
 !------------------------------------------------------------------------------!
 !>  Solves system based on LDL' decomposition.
 !------------------------------------------------------------------------------!
@@ -8,40 +8,40 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:) :: x  !! solution vector
-  type(Dense_Type)   :: L  !! factorized matrix
-  real, dimension(:) :: b  !! right hand side vector
+  real, dimension(:) :: x   !! solution vector
+  type(Dense_Type)   :: LD  !! factorized matrix
+  real, dimension(:) :: b   !! right hand side vector
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, n, bw
   real    :: sum
 !==============================================================================!
 
-  n  = L % n  ! some checks would be possible
-  bw = L % bw
+  n  = LD % n  ! some checks would be possible
+  bw = LD % bw
 
   ! Forward substitution (j < i =--> L)
   do i = 1, n
     sum = b(i)
     do j = max(1, i - bw), i-1
-      sum = sum - L % val(i,j) * x(j)  ! straightforward for compressed row format
+      sum = sum - LD % val(i,j) * x(j)
     end do
     x(i) = sum
   end do
 
   ! Treat the diagonal term
   do i = 1, n
-    x(i) = x(i) / L % val(i,i)
+    x(i) = x(i) / LD % val(i,i)
   end do
 
   ! Backward substitution (j > i =--> U; use L but transposed (see j,i))
   do i = n, 1, -1
     sum = x(i)
     do j = i+1, min(i + bw, n)
-      sum = sum - L % val(j,i) * x(j)  ! straighforward for compressed row format
+      sum = sum - LD % val(j,i) * x(j)
     end do
     x(i) = sum
   end do
 
-  call IO % Plot_Snippet(__FILE__, 21, 42)
+  call IO % Plot_Snippet(__FILE__, 23, 43)
 
   end subroutine
