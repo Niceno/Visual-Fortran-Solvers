@@ -12,7 +12,9 @@
 !-----------------------------------[Locals]-----------------------------------!
   character (80) :: line
   character(512) :: out_file_name
-  integer        :: i, n, iostat, lc, pos, wc
+  integer        :: n, iostat, lc, pos, wc
+!------------------------[Avoid unused parent warning]-------------------------!
+  Unused(IO)
 !==============================================================================!
 
   ! Store the length of the input file name
