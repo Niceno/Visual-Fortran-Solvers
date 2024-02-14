@@ -108,7 +108,8 @@ $(info  $(OPT_COMP))
 #-------------
 
 # Modules in shared directories
-SRC_MOD = Foul_Mod.f90		\
+SRC_MOD = Assert_Mod.f90	\
+          Foul_Mod.f90		\
           Sort_Mod.f90		\
           Grid_Mod.f90		\
           Dense_Mod.f90		\
