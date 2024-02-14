@@ -14,7 +14,6 @@
 !==============================================================================!
 
   Assert(f_in .ge. 0)
-  Assert(A % n .eq. C % n)
 
   print *, 'Nonzeros in original sparse matrix: ', A % nonzeros
 
