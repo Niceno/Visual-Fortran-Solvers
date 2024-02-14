@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Sparse_Ldlt_Solution(x, LDL, b)
+  subroutine Solvers_Mod_Sparse_Ldlt_Solution(x, LD, b)
 !------------------------------------------------------------------------------!
 !>  Performs forward substitution using a sparse matrix.
 !------------------------------------------------------------------------------!
@@ -8,38 +8,41 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  real, dimension(:) :: x  !! solution vector
-  type(Sparse_Type)  :: LDL  !! factorized matrix
-  real, dimension(:) :: b  !! right hand side vector
+  real, dimension(:) :: x   !! solution vector
+  type(Sparse_Type)  :: LD  !! factorized matrix
+  real, dimension(:) :: b   !! right hand side vector
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, ij, n
   real    :: sum
 !==============================================================================!
 
-  n = LDL % n      ! some checks would be possible
+  n = LD % n      ! some checks would be possible
 
-  ! Forward substitution
+  ! Forward substitution (j < i =--> L)
   do i = 1, n
     sum = b(i)
-    do ij = LDL % row(i), LDL % dia(i) - 1
-      j = LDL % col(ij)
-      sum = sum - LDL % val(ij) * x(j)
+    do ij = LD % row(i), LD % dia(i) - 1
+      j = LD % col(ij)
+      sum = sum - LD % val(ij) * x(j)
     end do
     x(i) = sum
   end do
 
   ! Treat the diagonal term
   do i = 1, n
-    x(i) = x(i) / LDL % val( LDL % dia(i) )
+    x(i) = x(i) / LD % val( LD % dia(i) )
   end do
 
-  do i=n,1,-1
+  ! Backward substitution (j > i =--> U; use L but transposed (see j,i))
+  do i = n, 1, -1
     sum = x(i)
-    do ij = LDL % dia(i) + 1, LDL % row(i + 1) - 1
-      j = LDL % col(ij)
-      sum = sum - LDL % val(ij) * x(j)
+    do ij = LD % dia(i) + 1, LD % row(i + 1) - 1
+      j = LD % col(ij)
+      sum = sum - LD % val(LD % mir(ij)) * x(j)
     end do
     x(i) = sum
   end do
+
+  call IO % Plot_Snippet(__FILE__, 22, 44)
 
   end subroutine

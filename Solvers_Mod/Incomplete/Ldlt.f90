@@ -1,20 +1,37 @@
 !==============================================================================!
   subroutine Solvers_Mod_Incomplete_Ldlt(grid, A, x, b, fill_in)
 !------------------------------------------------------------------------------!
+!   LDL' decomposition in full, looks like this:                               !
+!                                                                              !
+!   LDL =                                                                      !
+!    |  1                  | | D11                 | |  1  L12 L13         |   !
+!    | L21  1              | |     D22             | |      1  L23 L24     |   !
+!    | L31 L32  1          | |         D33         | |          1  L34 L35 |   !
+!    |     L42 L43  1      | |             D44     | |              1  L45 |   !
+!    |         L53 L54  1  | |                 D55 | |                  1  |   !
+!                                                                              !
+!   But given that L's diagonal is equal to one, it doesn't have to be stored. !
+!                                                                              !
+!               | D11                 |                                        !
+!      stored   | L21 D22             |                                        !
+!   LDL       = | L31 L32 D33         |                                        !
+!               |     L42 L43 D44     |                                        !
+!               |         L53 L54 D55 |                                        !
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Grid_Type)   :: grid     !! computational grid
   type(Sparse_Type) :: A        !! original sparse system matrix
-  real, allocatable :: x(:)
-  real, allocatable :: b(:)
+  real, allocatable :: x(:)     !! unknown
+  real, allocatable :: b(:)     !! right hand side vector
   integer           :: fill_in  !! fill-in factor
 !-----------------------------------[Locals]-----------------------------------!
   real                       :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type), pointer :: LDL  ! used for LDL' factorization
+  type(Sparse_Type), pointer :: LD  ! used for LDL' factorization
 !==============================================================================!
 
   ! Take aliases
-  LDL => P_Sparse
+  LD => P_Sparse
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with incomplete LDL'' factorization'
@@ -25,7 +42,7 @@
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
-  call LDL % Sparse_Create_Preconditioning(A, fill_in)
+  call LD % Sparse_Create_Preconditioning(A, fill_in)
 
   !------------------------!
   !   Actual computation   !
@@ -33,15 +50,15 @@
 
   ! Perform LDL' factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Sparse_Ldlt_Factorization(LDL, A)
+  call Solvers_Mod_Sparse_Ldlt_Factorization(LD, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Sparse ("ldl_after_factorization",   LDL)
-  call IO % Print_Sparse("LDL' after factorization:", LDL)
+  call IO % Plot_Sparse ("ldl_after_factorization",   LD)
+  call IO % Print_Sparse("LDL' after factorization:", LD)
 
   ! Compute x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Sparse_Ldlt_Solution(x, LDL, b)
+  call Solvers_Mod_Sparse_Ldlt_Solution(x, LD, b)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
