@@ -47,7 +47,7 @@ ifeq ($(FORTRAN), gnu)
   FC = gfortran
   ifeq ($(DEBUG),yes)
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O0 -g  \
-                                -Wunused-parameter -Warray-temporaries -Wall \
+                                -Wunused-parameter                           \
                                 -cpp
   else
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O3 -cpp

@@ -49,20 +49,20 @@
     sum = 0.0
     do s = max(1, k - bw), k - 1
       sum = sum + L % val(k,s)**2
-      call IO % Plot_Dense("factorization", L, B=A, src1=(/k,s,GREEN/))
+      if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, src1=(/k,s,GREEN/))
     end do
     L % val(k,k) = sqrt(A % val(k,k) - sum)
-    call IO % Plot_Dense("factorization", L, B=A, targ=(/k,k,PINK2/))
+    if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, targ=(/k,k,PINK2/))
 
     ! Work out (and store) the L
     do i = k + 1, min(k + bw, n)
       sum = 0.0
       do s = max(1, k - bw, i - bw), k - 1
         sum = sum + L % val(i,s)*L % val(k,s)
-        call IO % Plot_Dense("factorization", L, B=A, src1=(/i,s,GREEN2/), src2=(/k,s,GREEN/))
+        if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, src1=(/i,s,GREEN2/), src2=(/k,s,GREEN/))
       end do
       L % val(i,k) = (A % val(i,k) - sum) / L % val(k,k)
-      call IO % Plot_Dense("factorization", L, B=A, targ=(/i,k,PINK2/))
+      if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, targ=(/i,k,PINK2/))
     end do
 
   end do

@@ -41,7 +41,6 @@
 #   include "Solvers_Mod/Dense/Forward_Substitution.f90"
 #   include "Solvers_Mod/Dense/Gauss_Elimination.f90"
 #   include "Solvers_Mod/Dense/Ldlt_Factorization.f90"
-#   include "Solvers_Mod/Dense/Ldlt_Solution.f90"
 #   include "Solvers_Mod/Dense/Lu_Factorization.f90"
 
     ! Direct solvers
@@ -62,7 +61,6 @@
     ! Sparse solver components
 #   include "Solvers_Mod/Sparse/Cholesky_Factorization.f90"
 #   include "Solvers_Mod/Sparse/Ldlt_Factorization.f90"
-#   include "Solvers_Mod/Sparse/Ldlt_Solution.f90"
 #   include "Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90"
 #   include "Solvers_Mod/Sparse/Tflows_Ldlt_Solution.f90"
 

@@ -44,13 +44,16 @@ Dense_Mod/*.f90
 #-- ./In_Out_Mod/Legend.f90
 #-- ./In_Out_Mod/Plot_Circle.f90
 #-- ./In_Out_Mod/Print_Dense.f90
+#-- ./In_Out_Mod/Plot_Box.f90
 #-- ./In_Out_Mod/Plot_Snippet.f90
 #-- ./In_Out_Mod/Plot_Sparse.f90
 #-- ./In_Out_Mod/Plot_Dense.f90
 #-- ./In_Out_Mod/Load_Linear_System.f90
+#-- ./In_Out_Mod/Plot_Square.f90
 #-- ./In_Out_Mod/Print_Vector.f90
 #-- ./In_Out_Mod/Print_Sparse.f90
 #-- ./In_Out_Mod/Plot_Header.f90
+#-- ./In_Out_Mod/Plot_Ring.f90
 #-- ./In_Out_Mod.f90
 $(DIR_OBJECT)/In_Out_Mod.o:\
 $(DIR_OBJECT)/Sparse_Mod.o \
@@ -82,7 +85,6 @@ Dense_Mod/*.f90
 #-- ./Solvers_Mod/Sparse/Cg_No_Prec.f90
 #-- ./Solvers_Mod/Sparse/Cg_Tflows_Prec.f90
 #-- ./Solvers_Mod/Sparse/Cg_Diag_Prec.f90
-#-- ./Solvers_Mod/Sparse/Ldlt_Solution.f90
 #-- ./Solvers_Mod/Sparse/Cholesky_Factorization.f90
 #-- ./Solvers_Mod/Sparse/Ldlt_Factorization.f90
 #-- ./Solvers_Mod/Dense/Cholesky.f90
@@ -91,7 +93,6 @@ Dense_Mod/*.f90
 #-- ./Solvers_Mod/Dense/Ldlt.f90
 #-- ./Solvers_Mod/Dense/Lu_Factorization.f90
 #-- ./Solvers_Mod/Dense/Lu.f90
-#-- ./Solvers_Mod/Dense/Ldlt_Solution.f90
 #-- ./Solvers_Mod/Dense/Cholesky_Factorization.f90
 #-- ./Solvers_Mod/Dense/Gauss.f90
 #-- ./Solvers_Mod/Dense/Gauss_Elimination.f90
@@ -101,6 +102,8 @@ Dense_Mod/*.f90
 $(DIR_OBJECT)/Sort_Mod.o:\
 Sort_Mod/*.f90 
 
+#-- ./.git/objects/9a/d6e6a6363dda995bb1c32435a62d22f5acf905
+#-- ./.git/objects/b5/ceaf90f8dcb32ebf5ebb2cbfce00d8e93d16f8
 #-- ./.git/objects/7a/f5177ef59c4699d37f908d545d1f8c9fc2920d
 #-- ./Lin_Alg_Mod/Vector_Dot_Vector.f90
 #-- ./Lin_Alg_Mod/Dense_X_Dense.f90

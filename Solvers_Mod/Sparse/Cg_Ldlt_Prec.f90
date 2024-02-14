@@ -17,11 +17,11 @@
   integer                    :: i, iter
   real                       :: alpha, beta, rho_old, rho, pap
   real                       :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type), pointer :: LDL  ! used for LDL' factorization
+  type(Sparse_Type), pointer :: LD  ! used for LDL' factorization
 !==============================================================================!
 
   ! Take aliases
-  LDL => P_Sparse
+  LD => P_Sparse
 
   print *, '#============================================================'
   print *, '# Solving the sytem with LDL'' preconditioned CG method'
@@ -34,7 +34,7 @@
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
-  call LDL % Sparse_Create_Preconditioning(A, f_in)
+  call LD % Sparse_Create_Preconditioning(A, f_in)
 
   !------------------------!
   !                        !
@@ -45,11 +45,11 @@
 
   ! Perform LDL' factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Sparse_Ldlt_Factorization(LDL, A)
+  call Solvers_Mod_Sparse_Ldlt_Factorization(LD, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Sparse ("sparse_ldl",  LDL)
-  call IO % Print_Sparse("Sparse LDL:", LDL)
+  call IO % Plot_Sparse ("sparse_ldl",  LD)
+  call IO % Print_Sparse("Sparse LDL:", LD)
 
   !----------------!
   !   r = b - Ax   !
@@ -62,7 +62,9 @@
   !---------------------!
   !   solve M * z = r   !
   !---------------------!
-  call Solvers_Mod_Sparse_Ldlt_Solution(z, LDL, r)
+  call Solvers_Mod_Sparse_Forward_Substitution (z, LD, r, d_one=.true.)
+  call Solvers_Mod_Sparse_Forward_Substitution (z, LD, z, d_only=.true.)
+  call Solvers_Mod_Sparse_Backward_Substitution(z, LD, z, t=.true., d_one=.true.)
 
   !------------------!
   !   rho = r' * z   !
@@ -111,7 +113,9 @@
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
-    call Solvers_Mod_Sparse_Ldlt_Solution(z, LDL, r)
+    call Solvers_Mod_Sparse_Forward_Substitution (z, LD, r, d_one=.true.)
+    call Solvers_Mod_Sparse_Forward_Substitution (z, LD, z, d_only=.true.)
+    call Solvers_Mod_Sparse_Backward_Substitution(z, LD, z, t=.true., d_one=.true.)
 
     !------------------!
     !   rho = r' * z   !

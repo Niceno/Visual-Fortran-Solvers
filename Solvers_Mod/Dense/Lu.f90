@@ -70,7 +70,7 @@
 
   ! Compute y by forward substitution (solve: Ly=b; diagonal equal to 1)
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Dense_Forward_Substitution(y, LU, b, d1=.true.)
+  call Solvers_Mod_Dense_Forward_Substitution(y, LU, b, d_one=.true.)
 
   ! Compute x by backward substitution (solve: Ux=y)
   call Solvers_Mod_Dense_Backward_Substitution(x, LU, y)

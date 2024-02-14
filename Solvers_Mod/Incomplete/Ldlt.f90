@@ -58,7 +58,9 @@
 
   ! Compute x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Sparse_Ldlt_Solution(x, LD, b)
+  call Solvers_Mod_Sparse_Forward_Substitution (x, LD, b, d_one=.true.)
+  call Solvers_Mod_Sparse_Forward_Substitution (x, LD, x, d_only=.true.)
+  call Solvers_Mod_Sparse_Backward_Substitution(x, LD, x, t=.true., d_one=.true.)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
