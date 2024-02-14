@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Sparse_Forward_Substitution(x, F, b)
+  subroutine Solvers_Mod_Sparse_Forward_Substitution(x, L, b)
 !------------------------------------------------------------------------------!
 !>  Performs forward substitution using a sparse matrix.
 !------------------------------------------------------------------------------!
@@ -10,22 +10,23 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   real, dimension(:) :: x  !! resulting vector
-  type(Sparse_Type)  :: F  !! factorized matrix, should be U in the caller
+  type(Sparse_Type)  :: L  !! factorized matrix, should be U in the caller
   real, dimension(:) :: b  !! right hand side vector
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, i_j, n
+  integer :: i, j, ij, n
   real    :: sum
 !==============================================================================!
 
-  n = F % n      ! some checks would be possible
+  n = L % n      ! some checks would be possible
 
   do i = 1, n
     sum = b(i)
-    do i_j = F % row(i), F % dia(i) - 1
-      j = F % col(i_j)
-      sum = sum - F % val(i_j) * x(j)
+    do ij = L % row(i), L % dia(i) - 1  ! up to diagonal
+      j = L % col(ij)                   ! j < i; hence L
+      Assert(j < i)
+      sum = sum - L % val(ij) * x(j)
     end do
-    x(i) = sum / F % val( F % dia(i) )
+    x(i) = sum / L % val( L % dia(i) )
   end do
 
   end subroutine

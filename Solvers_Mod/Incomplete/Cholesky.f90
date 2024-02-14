@@ -43,8 +43,8 @@
   call Cpu_Time(time_ss)
   call Solvers_Mod_Sparse_Forward_Substitution(y, LL, b)
 
-  ! Compute x by backward substitution
-  call Solvers_Mod_Sparse_Backward_Substitution(x, LL, y)
+  ! Compute x by backward substitution (use L matrix but transposed)
+  call Solvers_Mod_Sparse_Backward_Substitution(x, LL, y, t=.true.)
   call Cpu_Time(time_se)
   !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
