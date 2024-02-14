@@ -46,24 +46,28 @@
   !-------------------------------!
   do k = 1, n  ! <-A
 
-    ! Work out the diagonal D
+    ! Work out (and store) the diagonal D
     sum = 0.0
     do s = max(1, k - bw), k - 1
+      Assert(k > s)  ! =--> (k,s) in L
       sum = sum + LD % val(k,s)**2 * LD % val(s,s)
-      call IO % Plot_Dense("factorization", LD, B=A, src1=(/k,s,GREEN/), src2=(/s,s,GREEN2/))
+      call IO % Plot_Dense("dens_ldlt", LD, B=A, src1=(/k,s,GREEN/), src2=(/s,s,GREEN2/))
     end do
     LD % val(k,k) = A % val(k,k) - sum
-    call IO % Plot_Dense("factorization", LD, B=A, targ=(/k,k,PINK2/))
+    call IO % Plot_Dense("dens_ldlt", LD, B=A, targ=(/k,k,PINK2/))
 
     ! Work out (and store) the L
     do i = k + 1, min(k + bw, n)
+      Assert(i > k)  ! =--> (i,k) in L
       sum = 0.0
       do s = max(1, k - bw, i - bw), k - 1
+        Assert(k > s)  ! =--> (k,s) in L
+        Assert(i > s)  ! =--> (i,s) in L
         sum = sum + LD % val(i,s) * LD % val(k,s) * LD % val(s,s)
-        call IO % Plot_Dense("factorization", LD, B=A, src1=(/i,s,GREEN/), src2=(/k,s,GREEN2/), src3=(/s,s,GREEN4/))
+        call IO % Plot_Dense("dens_ldlt", LD, B=A, src1=(/i,s,GREEN/), src2=(/k,s,GREEN2/), src3=(/s,s,GREEN4/))
       end do
       LD % val(i,k) = (A % val(i,k) - sum) / LD % val(k,k)
-      call IO % Plot_Dense("factorization", LD, B=A, targ=(/i,k,PINK2/))
+      call IO % Plot_Dense("dens_ldlt", LD, B=A, targ=(/i,k,PINK2/))
     end do
   end do       ! A->
 

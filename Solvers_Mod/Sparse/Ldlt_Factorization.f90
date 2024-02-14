@@ -31,7 +31,7 @@
   integer           :: i, k, n, s, ki, ik, is, ks
   real              :: sum
   real              :: a_val_ik    ! stores value of matrix A at i,k
-  real, allocatable :: l_val_k(:)  ! stores expanded row k from matrix L
+  real, allocatable :: l_val_i(:)  ! stores expanded row i from matrix L
 !==============================================================================!
 
   print *, '# Factorizing sparse matrix with LDL'' method'
@@ -39,7 +39,7 @@
   n = A % n  ! some checks would be possible
 
   ! Allocate local memory
-  allocate( l_val_k(n) ); l_val_k = 0.0
+  allocate( l_val_i(n) ); l_val_i = 0.0
 
   !-------------------------------!
   !   Perform the factorization   !
@@ -50,20 +50,23 @@
     sum = 0.0
     do ks = LD % row(k), LD % dia(k) - 1
       s = LD % col(ks)
+      Assert(k > s)  ! =--> (k,s) in L
       sum = sum + LD % val(ks)**2 * LD % val(LD % dia(s))
+      call IO % Plot_Sparse("spar_ldlt", LD, B=A, src1=(/k,s,GREEN/))
     end do
     LD % val(LD % dia(k)) = A % val(A % dia(k)) - sum  ! D from L
-
-    ! Expand row k, up to the diagonal (this will store entries L(k,s)
-    do ks = LD % row(k), LD % dia(k) - 1
-      s = LD % col(ks)
-      l_val_k(s) = LD % val(ks)
-    end do
+    call IO % Plot_Sparse("spar_ldlt", LD, B=A, targ=(/k,k,PINK2/))
 
     ! Work out (and store) the L
     do ki = LD % dia(k) + 1, LD % row(k+1) - 1
-      i = LD % col(ki)  ! i > k
-      Assert(i > k)
+      i = LD % col(ki)
+      Assert(i > k)  ! =--> (i,k) in L
+
+      ! Expand row i, up to the diagonal (this will store entries L(i,s)
+      do is = LD % row(i), LD % dia(i) - 1
+        s = LD % col(is)
+        l_val_i(s) = LD % val(is)
+      end do
 
       ! Now when you know i, you should find A(i,k)
       a_val_ik = 0.0
@@ -76,18 +79,22 @@
 
       ! Now sum rows in i and k: L(i,s) * L(k,s) * L(s,s)
       sum = 0.0
-      do is = LD % row(i), LD % dia(i) - 1
-        s = LD % col(is)
-        sum = sum + l_val_k(s) * LD % val(is) * LD % val(LD % dia(s))
+      do ks = LD % row(k), LD % dia(k) - 1
+        s = LD % col(ks)
+        Assert(k > s)  ! =--> (k,s) in L
+        Assert(i > s)  ! =--> (i,s) in L
+        sum = sum + l_val_i(s) * LD % val(ks) * LD % val(LD % dia(s))
+        call IO % Plot_Sparse("spar_ldlt", LD, B=A, src1=(/i,s,GREEN2/), src2=(/k,s,GREEN/), src3=(/s,s,GREEN3/))
       end do
 
       ! Store the lower part only.  At this point you have ki (k,i) for L
       ! but ik (i,k) is defined for A, which might have a different
       ! sparsity pattern.  Hence, it is easier to use mirror of ki for L
       LD % val(LD % mir(ki)) = (a_val_ik - sum) / LD % val(LD % dia(k))
-    end do
+      call IO % Plot_Sparse("spar_ldlt", LD, B=A, targ=(/i,k,PINK2/))
 
-    l_val_k(:) = 0.0
+      l_val_i(:) = 0.0
+    end do
 
   end do
 

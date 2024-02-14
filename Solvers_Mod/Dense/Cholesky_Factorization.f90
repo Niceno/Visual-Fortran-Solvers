@@ -25,7 +25,7 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Dense_Type) :: L  !! factorized matrix
-  type(Dense_Type) :: A
+  type(Dense_Type) :: A  !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, k, s, n, bw
   real    :: sum
@@ -48,21 +48,25 @@
     ! Work out (and store) diagonal term
     sum = 0.0
     do s = max(1, k - bw), k - 1
+      Assert(k > s)  ! =--> (k,s) in L
       sum = sum + L % val(k,s)**2
-      if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, src1=(/k,s,GREEN/))
+      call IO % Plot_Dense("dens_chol", L, B=A, src1=(/k,s,GREEN/))
     end do
     L % val(k,k) = sqrt(A % val(k,k) - sum)
-    if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, targ=(/k,k,PINK2/))
+    call IO % Plot_Dense("dens_chol", L, B=A, targ=(/k,k,PINK2/))
 
     ! Work out (and store) the L
     do i = k + 1, min(k + bw, n)
+      Assert(i > k)  ! =--> (i,k) in L
       sum = 0.0
       do s = max(1, k - bw, i - bw), k - 1
+        Assert(k > s)  ! =--> (k,s) in L
+        Assert(i > s)  ! =--> (i,s) in L
         sum = sum + L % val(i,s)*L % val(k,s)
-        if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, src1=(/i,s,GREEN2/), src2=(/k,s,GREEN/))
+        call IO % Plot_Dense("dens_chol", L, B=A, src1=(/i,s,GREEN2/), src2=(/k,s,GREEN/))
       end do
-      L % val(i,k) = (A % val(i,k) - sum) / L % val(k,k)
-      if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, targ=(/i,k,PINK2/))
+      L % val(i,k) = (A % val(i,k) - sum) / L % val(k,k)  ! i > k =--> L
+      call IO % Plot_Dense("dens_chol", L, B=A, targ=(/i,k,PINK2/))
     end do
 
   end do  ! A->

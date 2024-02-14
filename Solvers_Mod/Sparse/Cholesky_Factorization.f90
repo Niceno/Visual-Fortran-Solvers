@@ -24,13 +24,13 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Sparse_Type) :: L  !! factorized matrices (two in one)
-  type(Sparse_Type) :: A   !! original matrix
+  type(Sparse_Type) :: L  !! factorized matrices (only L is stored)
+  type(Sparse_Type) :: A  !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer           :: i, k, n, s, ki, ik, is, ks
   real              :: sum
   real              :: a_val_ik    ! stores value of matrix A at i,k
-  real, allocatable :: l_val_k(:)  ! stores expanded row k from matrix L
+  real, allocatable :: l_val_i(:)  ! stores expanded row i from matrix L
 !==============================================================================!
 
   print *, '# Factorizing sparse matrix with Cholesky method'
@@ -38,33 +38,34 @@
   n = A % n  ! some checks would be possible
 
   ! Allocate local memory
-  allocate( l_val_k(n) ); l_val_k = 0.0
+  allocate( l_val_i(n) ); l_val_i = 0.0
 
   !-------------------------------!
   !   Perform the factorization   !
   !-------------------------------!
-  do k = 1, n
+  do k = 1, n  ! <-A
 
     ! Work out (and store) diagonal term
     sum = 0.0
     do ks = L % row(k), L % dia(k) - 1
       s = L % col(ks)
+      Assert(k > s)  ! =--> (k,s) in L
       sum = sum + L % val(ks)**2
-      if(k.eq.n/2) call IO % Plot_Sparse("sparse", L, B=A, src1=(/k,s,GREEN/))
+      call IO % Plot_Sparse("spar_chol", L, B=A, src1=(/k,s,GREEN/))
     end do
     L % val(L % dia(k)) = sqrt(A % val(A % dia(k)) - sum)
-    if(k.eq.n/2) call IO % Plot_Sparse("sparse", L, B=A, targ=(/k,k,PINK2/))
-
-    ! Expand row k, up to the diagonal (this will store entries L(k,s)
-    do ks = L % row(k), L % dia(k) - 1
-      s = L % col(ks)
-      l_val_k(s) = L % val(ks)
-    end do
+    call IO % Plot_Sparse("spar_chol", L, B=A, targ=(/k,k,PINK2/))
 
     ! Work out (and store) the L
     do ki = L % dia(k) + 1, L % row(k+1) - 1
-      i = L % col(ki)  ! i > k
-      Assert(i > k)
+      i = L % col(ki)
+      Assert(i > k)  ! =--> (i,k) in L
+
+      ! Expand row i, up to the diagonal (this will store entries L(i,s)
+      do is = L % row(i), L % dia(i) - 1
+        s = L % col(is)
+        l_val_i(s) = L % val(is)
+      end do
 
       ! Now when you know i, you should find A(i,k)
       a_val_ik = 0.0
@@ -77,19 +78,25 @@
 
       ! Now sum rows in i and k: L(i,s) * L(k,s)
       sum = 0.0
-      do is = L % row(i), L % dia(i) - 1
-        s = L % col(is)
-        sum = sum + l_val_k(s) * L % val(is)
+      do ks = L % row(k), L % dia(k) - 1
+        s = L % col(ks)
+        Assert(k > s)  ! =--> (k,s) in L
+        Assert(i > s)  ! =--> (i,s) in L
+        sum = sum + L % val(ks) * l_val_i(s)
+        call IO % Plot_Sparse("spar_chol", L, B=A, src1=(/i,s,GREEN2/), src2=(/k,s,GREEN/))
       end do
 
       ! Store the lower part only.  At this point you have ki (k,i) for L
       ! but ik (i,k) is defined for A, which might have a different
       ! sparsity pattern.  Hence, it is easier to use mirror of ki for L
       L % val(L % mir(ki)) = (a_val_ik - sum) / L % val(L % dia(k))
+      call IO % Plot_Sparse("spar_chol", L, B=A, targ=(/i,k,PINK2/))
+
+      l_val_i(:) = 0.0
     end do
 
-    l_val_k(:) = 0.0
+  end do       ! A->
 
-  end do
+  call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   end subroutine
