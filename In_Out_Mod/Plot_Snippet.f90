@@ -96,9 +96,10 @@
     !------------------------------------------!
     if(processing .or. last_line) then
 
-      pos = index(read_line, 'IO')  ! check if the line makes calls to this
+      pos = index(read_line, 'IO')  &   ! check if the line calls this (IO)
+          + index(read_line, 'Assert')  ! or if it is an assertion line
 
-      not_comment = .true.             ! check it the whole line is a comment
+      not_comment = .true.              ! check it the whole line is a comment
       proc_line = adjustl(trim(read_line))
       if(proc_line(1:1) .eq. '!') not_comment = .false.
 
