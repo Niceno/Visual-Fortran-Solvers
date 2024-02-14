@@ -39,7 +39,7 @@
 
     ! Here, i > j, therfore it is a lower matrix
     if(.not. diagonal_one) then
-      do i = 1, n
+      do i = 1, n  ! <-A
         sum = b(i)
         do ij = L % row(i), L % dia(i) - 1  ! up to diagonal
           j = L % col(ij)                   ! j < i; hence L
@@ -47,12 +47,12 @@
           sum = sum - L % val(ij) * x(j)
         end do
         x(i) = sum / L % val( L % dia(i) )
-      end do
-      call IO % Plot_Snippet(__FILE__, 40, 48)
+      end do       ! A->
+      call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
     ! Diagonal is equal to 1, good for LU and LDL' methods
     else
-      do i = 1, n
+      do i = 1, n  ! <-B
         sum = b(i)
         do ij = L % row(i), L % dia(i) - 1  ! up to diagonal
           j = L % col(ij)                   ! j < i; hence L
@@ -60,8 +60,8 @@
           sum = sum - L % val(ij) * x(j)
         end do
         x(i) = sum
-      end do
-      call IO % Plot_Snippet(__FILE__, 53, 61)
+      end do       ! B->
+      call IO % Plot_Snippet(__FILE__, '<-B', 'B->')
 
     end if
 
@@ -70,9 +70,10 @@
   !    as used in ssecond step of LDL' solution     !
   !-------------------------------------------------!
   else
-    do i = 1, n
+    do i = 1, n  ! <-C
       x(i) = b(i) / L % val(L % dia(i))
-    end do
+    end do       ! C->
+    call IO % Plot_Snippet(__FILE__, '<-C', 'C->')
 
   end if
 

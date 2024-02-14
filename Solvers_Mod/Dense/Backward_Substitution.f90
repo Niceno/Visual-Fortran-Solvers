@@ -40,14 +40,14 @@
   !   Here, j > i, therfore it is an U matrix, all regular, use as is   !
   !---------------------------------------------------------------------!
   if(.not. transposed) then
-    do i = n, 1, -1
+    do i = n, 1, -1  ! <-A
       sum = b(i)
       do j = i+1, min(i + bw, n)
         sum = sum - U % val(i,j) * x(j)
       end do
       x(i) = sum / U % val(i,i)
-    end do
-    call IO % Plot_Snippet(__FILE__, 42, 48)
+    end do           ! A->
+    call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   !------------------------------------------------------------------------!
   !   Matrix is transposed, useful for factorizations which store only L   !
@@ -56,25 +56,25 @@
 
     ! Diagonal is not equal to 1
     if(.not. diagonal_one) then
-      do i = n, 1, -1
+      do i = n, 1, -1  ! <-B
         sum = b(i)
         do j = i+1, min(i + bw, n)
           sum = sum - U % val(j,i) * x(j)
         end do
         x(i) = sum / U % val(i,i)
-      end do
-      call IO % Plot_Snippet(__FILE__, 59, 65)
+      end do           ! B->
+      call IO % Plot_Snippet(__FILE__, '<-B', 'B->')
 
     ! Diagonal is equal to 1, good for LU and LDL' methods
     else
-      do i = n, 1, -1
+      do i = n, 1, -1  ! <-C
         sum = b(i)
         do j = i+1, min(i + bw, n)
           sum = sum - U % val(j,i) * x(j)
         end do
         x(i) = sum
-      end do
-      call IO % Plot_Snippet(__FILE__, 69, 75)
+      end do           ! C->
+      call IO % Plot_Snippet(__FILE__, '<-C', 'C->')
 
     end if
 

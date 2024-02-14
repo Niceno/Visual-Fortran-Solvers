@@ -46,7 +46,7 @@
   !-------------------------------!
   !   Perform the factorization   !
   !-------------------------------!
-  do k = 1, n
+  do k = 1, n  ! <-A
 
     ! Upper triangular
     do i = k, min(n, k + bw)
@@ -74,8 +74,8 @@
       end if
     end do
 
-  end do
+  end do       ! A->
 
-  call IO % Plot_Snippet(__FILE__, 49, 77)
+  call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   end subroutine

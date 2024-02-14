@@ -40,25 +40,25 @@
 
     ! Here, i > j, therfore it is a lower matrix
     if(.not. diagonal_one) then
-      do i = 1, n
+      do i = 1, n  ! <-A
         sum = b(i)
         do j = max(1, i - bw), i-1
           sum = sum - L % val(i,j)*x(j)
         end do
         x(i) = sum / L % val(i,i)
-      end do
-      call IO % Plot_Snippet(__FILE__, 43, 49)
+      end do       ! A->
+      call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
     ! Diagonal is equal to 1, good for LU and LDL' methods
     else
-      do i = 1, n
+      do i = 1, n  ! <-B
         sum = b(i)
         do j = max(1, i - bw), i-1
           sum = sum - L % val(i,j)*x(j)
         end do
         x(i) = sum
-      end do
-      call IO % Plot_Snippet(__FILE__, 54, 60)
+      end do       ! B->
+      call IO % Plot_Snippet(__FILE__, '<-B', 'B->')
 
     end if
 
@@ -67,9 +67,10 @@
   !    as used in ssecond step of LDL' solution     !
   !-------------------------------------------------!
   else
-    do i = 1, n
+    do i = 1, n  ! <-C
       x(i) = b(i) / L % val(i,i)
-    end do
+    end do       ! C->
+    call IO % Plot_Snippet(__FILE__, '<-C', 'C->')
 
   end if
 

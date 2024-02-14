@@ -35,41 +35,42 @@
   !   Here, j > i, therfore it is an U matrix, all regular, use as is   !
   !---------------------------------------------------------------------!
   if(.not. transposed) then
-    do i = n, 1, -1
+    do i = n, 1, -1  ! <-A
       sum = b(i)
       do ij = U % dia(i) + 1, U % row(i + 1) - 1
         j = U % col(ij)
         sum = sum - U % val(ij) * x(j)
       end do
       x(i) = sum / U % val( U % dia(i) )
-    end do
+    end do           ! A->
+    call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   ! Matrix is transposed, useful for Cholesky factorization which uses only L
   else
 
     ! Diagonal is not equal to 1
     if(.not. diagonal_one) then
-      do i = n, 1, -1
+      do i = n, 1, -1  ! <-B
         sum = b(i)
         do ij = U % dia(i) + 1, U % row(i + 1) - 1
           j = U % col(ij)
           sum = sum - U % val(U % mir(ij)) * x(j)
         end do
         x(i) = sum / U % val( U % dia(i) )
-      end do
-      call IO % Plot_Snippet(__FILE__, 52, 59)
+      end do           !-> B
+      call IO % Plot_Snippet(__FILE__, '<-B', 'B->')
 
     ! Diagonal is equal to 1, good for LU and LDL' methods
     else
-      do i = n, 1, -1
+      do i = n, 1, -1  ! <-C
         sum = b(i)
         do ij = U % dia(i) + 1, U % row(i + 1) - 1
           j = U % col(ij)
           sum = sum - U % val(U % mir(ij)) * x(j)
         end do
         x(i) = sum
-      end do
-      call IO % Plot_Snippet(__FILE__, 64, 71)
+      end do           ! C->
+      call IO % Plot_Snippet(__FILE__, '<-C', 'C->')
 
     end if
 

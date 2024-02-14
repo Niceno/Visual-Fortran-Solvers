@@ -43,7 +43,7 @@
   !-------------------------------!
   !   Perform the factorization   !
   !-------------------------------!
-  do k = 1, n
+  do k = 1, n  ! <-A
 
     ! Work out (and store) diagonal term
     sum = 0.0
@@ -65,8 +65,8 @@
       if(k.eq.n/2) call IO % Plot_Dense("chol_dens", L, B=A, targ=(/i,k,PINK2/))
     end do
 
-  end do
+  end do  ! A->
 
-  call IO % Plot_Snippet(__FILE__, 46, 68)
+  call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   end subroutine

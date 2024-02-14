@@ -18,14 +18,14 @@
   bw = A % bw
 
   ! Copy the matrix first
-  do i = 1, n
+  do i = 1, n  ! <-A
     do j = 1, n
       U % val(i,j) = A % val(i,j)
     end do
-  end do
+  end do       ! A->
 
   ! Make elimination for resulting matrix
-  do k = 1, n - 1
+  do k = 1, n - 1  ! <-A
     do i = k + 1, min(k + bw, n)
       mult = U % val(i,k) / U % val(k,k)
       U % val(i,k) = 0.0
@@ -36,8 +36,8 @@
       end do
       b(i) = b(i) - mult * b(k)
     end do
-  end do
+  end do           ! A->
 
-  call IO % Plot_Snippet(__FILE__, 28, 39)
+  call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   end subroutine
