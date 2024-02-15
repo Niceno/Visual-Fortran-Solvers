@@ -7,9 +7,9 @@
 !---------------------------------[Arguments]----------------------------------!
   class(In_Out_Type)  :: IO        !! parent class
   integer, intent(in) :: fu        !! file unit
-  integer, intent(in) :: row, col  !! row and columnt
+  integer, intent(in) :: row, col  !! row and column
   integer, intent(in) :: color     !! color
-  integer, intent(in) :: depth     !! color
+  integer, intent(in) :: depth     !! depth
 !-----------------------------------[Locals]-----------------------------------!
   integer :: plot_x, plot_y, d
 !------------------------[Avoid unused parent warning]-------------------------!
