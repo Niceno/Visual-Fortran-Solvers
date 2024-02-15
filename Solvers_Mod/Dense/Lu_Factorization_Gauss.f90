@@ -25,7 +25,7 @@
   type(Dense_Type)   :: LU  !! factorized matrix
   type(Dense_Type)   :: A   !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, bw, n
+  integer :: i, j, k, n, bw
   real    :: mult
 !==============================================================================!
 
@@ -33,14 +33,18 @@
   n  = A % n
   bw = A % bw
 
-  ! Copy the matrix first
+  !----------------------------------------------------------------------!
+  !   Initialize the values by copying the original matrix to LU first   !
+  !----------------------------------------------------------------------!
   do i = 1, n  ! <-A
     do j = 1, n
       LU % val(i,j) = A % val(i,j)
     end do
   end do       ! A->
 
-  ! Make elimination for resulting matrix
+  !-------------------------------------------------------!
+  !   Perform the factorization on the resulting matrix   !
+  !-------------------------------------------------------!
   do k = 1, n - 1  ! <-A
     do i = k + 1, min(k + bw, n)
       Assert(i > k)  ! =--> (i,k) in L

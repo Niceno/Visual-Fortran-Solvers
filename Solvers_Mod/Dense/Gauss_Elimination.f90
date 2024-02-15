@@ -17,14 +17,18 @@
   n  = A % n
   bw = A % bw
 
-  ! Copy the matrix first
+  !---------------------------------------------------------------------!
+  !   Initialize the values by copying the original matrix to U first   !
+  !---------------------------------------------------------------------!
   do i = 1, n  ! <-A
     do j = 1, n
       U % val(i,j) = A % val(i,j)
     end do
   end do       ! A->
 
-  ! Make elimination for resulting matrix
+  !--------------------------------------------------------------------------!
+  !   Perform the factorization (elimination here) on the resulting matrix   !
+  !--------------------------------------------------------------------------!
   do k = 1, n - 1  ! <-A
     do i = k + 1, min(k + bw, n)
       mult = U % val(i,k) / U % val(k,k)
