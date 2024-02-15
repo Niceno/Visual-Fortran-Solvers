@@ -62,8 +62,11 @@
 
     contains
       procedure :: Plot_Box
+      procedure :: Plot_Bracket_Left
+      procedure :: Plot_Bracket_Right
       procedure :: Plot_Circle
       procedure :: Plot_Dense
+      procedure :: Plot_Dense_System
       procedure :: Plot_Header
       procedure :: Plot_Ring
       procedure :: Plot_Snippet
@@ -83,8 +86,11 @@
 #   include "In_Out_Mod/Legend.f90"
 #   include "In_Out_Mod/Load_Linear_System.f90"
 #   include "In_Out_Mod/Plot_Box.f90"
+#   include "In_Out_Mod/Plot_Bracket_Left.f90"
+#   include "In_Out_Mod/Plot_Bracket_Right.f90"
 #   include "In_Out_Mod/Plot_Circle.f90"
 #   include "In_Out_Mod/Plot_Dense.f90"
+#   include "In_Out_Mod/Plot_Dense_System.f90"
 #   include "In_Out_Mod/Plot_Header.f90"
 #   include "In_Out_Mod/Plot_Ring.f90"
 #   include "In_Out_Mod/Plot_Snippet.f90"

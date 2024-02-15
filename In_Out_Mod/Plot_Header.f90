@@ -33,6 +33,8 @@
   write(fu,'(a)') "0 47 #C0C0C0"  ! 192 maximum positive value
   write(fu,'(a)') "0 48 #B8B8B8"  ! 184 just if we go over the top
 
+  write(fu,'(a)') "0 49 #808080"  ! used for matrix brackets (medium gray)
+
   write(fu,'(a)') "0 50 #FFFFFF"  ! starting from close to zero
   write(fu,'(a)') "0 51 #FFDDDD"
   write(fu,'(a)') "0 52 #FFBBBB"

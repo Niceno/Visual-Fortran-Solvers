@@ -42,10 +42,13 @@
   if(.not. transposed) then
     do i = n, 1, -1  ! <-A
       sum = b(i)
+      call IO % Plot_Dense_System("dens_back", U, x, b, srcb=(/i,GREEN2/))
       do j = i+1, min(i + bw, n)
         sum = sum - U % val(i,j) * x(j)
+        call IO % Plot_Dense_System("dens_back", U, x, b, srca=(/i,j,GREEN/), srcx=(/j,CYAN/))
       end do
       x(i) = sum / U % val(i,i)
+      call IO % Plot_Dense_System("dens_back", U, x, b, tarx=(/i,PINK2/), srca=(/i,i,GREEN/))
     end do           ! A->
     call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 

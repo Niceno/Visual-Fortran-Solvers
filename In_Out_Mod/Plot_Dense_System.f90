@@ -1,22 +1,25 @@
 !==============================================================================!
-  subroutine Plot_Sparse(IO, name_out, A, B, targ, src1, src2, src3)
+  subroutine Plot_Dense_System(IO, name_out, A, x, b, tarx, srca, srcx, srcb)
 !------------------------------------------------------------------------------!
-!>  Plots the sparse matrix A out in the Xfig file format.
+!>  Plots the dense system of the form Ax=b in the Xfig file format.
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  class(In_Out_Type)                      :: IO        !! parent class
-  character(len=*),  intent(in)           :: name_out  !! output file name
-  type(Sparse_Type), intent(in)           :: A         !! matrix to plot
-  type(Sparse_Type), intent(in), optional :: B         !! background matrix
-  integer,           intent(in), optional :: targ(3)   !! row, col, color
-  integer,           intent(in), optional :: src1(3)
-  integer,           intent(in), optional :: src2(3)
-  integer,           intent(in), optional :: src3(3)
+  class(In_Out_Type)                     :: IO        !! parent class
+  character(len=*), intent(in)           :: name_out  !! output file name
+  type(Dense_Type), intent(in)           :: A         !! matrix to plot
+  real,             intent(in)           :: x(:)      !! solution vector
+  real,             intent(in)           :: b(:)      !! righ-hand side vector
+  integer,          intent(in), optional :: tarx(2)   !! row, color
+  integer,          intent(in), optional :: srca(3)   !! source from A
+  integer,          intent(in), optional :: srcx(2)   !! source from x
+  integer,          intent(in), optional :: srcb(2)   !! source form b
 !-----------------------------------[Locals]-----------------------------------!
-  integer        :: row, col, pos, n
+  integer        :: row, col, n
   integer, save  :: cnt = 0
-  real           :: max_v, min_v
+  real           :: max_a, min_a
+  real           :: max_x, min_x
+  real           :: max_b, min_b
   character(6)   :: frame = '_00000'
   character(512) :: full_name = ''
 !==============================================================================!
@@ -36,8 +39,8 @@
   !   Set the name   !
   !                  !
   !------------------!
-  if(present(targ) .or.  &
-     present(src1) .or. present(src2) .or. present(src3)) then
+  if(present(tarx) .or.  &
+     present(srca) .or. present(srcx) .or. present(srcb)) then
     cnt = cnt + 1
     write(frame(2:6), '(i5.5)') cnt
     full_name = name_out//frame//'.fig'
@@ -72,62 +75,71 @@
   !----------------------------!
 
   ! This is just to deserve a "bounding box", to avoid jittering amimations
-  call IO % Plot_Box(9,     1,     1, WHITE, 999)
-  call IO % Plot_Box(9, n, n, WHITE, 999)
+  call IO % Plot_Box(9, 1, 1,   WHITE, 999)
+  call IO % Plot_Box(9, n, n+5, WHITE, 999)
 
-  !----------------------------------------------!
-  !   Plot the background matrix, if specified   !
-  !----------------------------------------------!
-  if(present(B)) then
-
-    min_v = minval(B % val(:))
-    max_v = maxval(B % val(:))
-
-    do row = 1, B % n
-      do pos = B % row(row), B % row(row + 1) - 1
-        col = B % col(pos)
-        call IO % Plot_Square(9, row, col, B % val(pos), min_v, max_v, 60)
-      end do
-    end do
-  end if
-
-  max_v = maxval(A % val(:))
-  min_v = minval(A % val(:))
+  min_a = minval(A % val(:,:))
+  max_a = maxval(A % val(:,:))
+  min_x = minval(x(:))
+  max_x = maxval(x(:))
+  min_b = minval(b(:))
+  max_b = maxval(b(:))
 
   !-------------------------------------------!
   !   Browse through matrix and plot it :-)   !
   !-------------------------------------------!
   do row = 1, n
-    do pos = A % row(row), A % row(row + 1) - 1
-      col = A % col(pos)
+    do col = 1, n
 
       ! This is normal, scaled circle for a matrix value
-      call IO % Plot_Circle(9, row, col, A % val(pos), min_v, max_v, 50)
-
-      ! If target is present
-      if(present(targ)) then
-        if(row .eq. targ(1) .and. col .eq. targ(2)) then
-          call IO % Plot_Box(9, row, col, targ(3), 55)
-        end if
-      end if
+      call IO % Plot_Circle(9, row, col, A % val(row, col), min_a, max_a, 50)
 
       ! If source
-      if(present(src1)) then
-        if(row .eq. src1(1) .and. col .eq. src1(2)) then
-          call IO % Plot_Box(9, row, col, src1(3), 51)
+      if(present(srca)) then
+        if(row .eq. srca(1) .and. col .eq. srca(2)) then
+          call IO % Plot_Box(9, row, col, srca(3), 51)
         end if
       end if
-      if(present(src2)) then
-        if(row .eq. src2(1) .and. col .eq. src2(2)) then
-          call IO % Plot_Box(9, row, col, src2(3), 52)
-        end if
-      end if
-      if(present(src3)) then
-        if(row .eq. src3(1) .and. col .eq. src3(2)) then
-          call IO % Plot_Box(9, row, col, src3(3), 53)
-        end if
-      end if
+
     end do
+  end do
+
+  !-------------------------------!
+  !   Plot the unknown vector x   !
+  !-------------------------------!
+  do row = 1, n
+
+    ! This is normal, scaled circle for a matrix value
+    call IO % Plot_Circle(9, row, n+3, x(row), min_x, max_x, 50)
+
+    ! If target for x is present
+    if(present(tarx)) then
+      if(row .eq. tarx(1)) then
+        call IO % Plot_Box(9, row, n+3, tarx(2), 55)
+      end if
+    end if
+
+    if(present(srcx)) then
+      if(row .eq. srcx(1)) then
+        call IO % Plot_Box(9, row, n+3, srcx(2), 52)
+      end if
+    end if
+
+  end do
+
+  !--------------------------------!
+  !   Plot the right hand side b   !
+  !--------------------------------!
+  do row = 1, n
+    ! This is normal, scaled circle for a matrix value
+    call IO % Plot_Circle(9, row, n+5, b(row), min_b, max_b, 50)
+
+    if(present(srcb)) then
+      if(row .eq. srcb(1)) then
+        call IO % Plot_Box(9, row, n+5, srcb(2), 52)
+      end if
+    end if
+
   end do
 
   close(9)
