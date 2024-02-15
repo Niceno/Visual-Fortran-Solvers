@@ -65,47 +65,61 @@
   test = -1
   if(arg .ne. '') read(arg,*) test
 
-  ! Open the main menu
+  !------------------------!
+  !   Open the main menu   !
+  !------------------------!
 1 print *, '#=========================================================='
-  print *, '# Select a case to demonstrate'
+  call Foul % Formatted_Write(' # ', 'default',  &
+                       'Select a Case to Demonstrate', 'bright yellow');
   print *, '#----------------------------------------------------------'
   print *, '#  0 - Exit'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '#  1 - Gaussian elimination'
-  print *, '#  2 - Cholesky solver'
-  print *, '#  3 - LDL'' solver'
-  print *, '#  4 - LU solver'
+  call Foul % Formatted_Write(' # ', 'default',  &
+                           'Section 1 - Direct Solvers', 'bright cyan');
+  print *, '# 11 - Gaussian elimination'
+  print *, '# 12 - Cholesky solver'
+  print *, '# 13 - LDL'' solver'
+  print *, '# 14 - LU solver based on Gaussian algorithm'
+  print *, '# 15 - LU solver based on Doolittle''s algorithm'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '#  5 - Incomplete Cholesky solver'
-  print *, '#  6 - Incomplete LDL'' solver'
-  print *, '#  7 - Bare-bones LDL'' solver from T-Flows'
+  call Foul % Formatted_Write(' # ', 'default',  &
+                       'Section 2 - Incomplete Solvers', 'bright cyan');
+  print *, '# 21 - Incomplete Cholesky solver'
+  print *, '# 22 - Incomplete LDL'' solver'
+  print *, '# 23 - Bare-bones LDL'' solver from T-Flows'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '#  8 - CG solver without preconditioning'
-  print *, '#  9 - CG solver with diagonal preconditioning'
-  print *, '# 10 - CG solver with T-Flows preconditioning'
-  print *, '# 11 - CG solver with LDL'' preconditioning'
-  print *, '# 12 - CG solver with Cholesky preconditioning'
+  call Foul % Formatted_Write(' # ', 'default',  &
+                        'Section 3 - Iterative Solvers', 'bright cyan');
+  print *, '# 31 - CG solver without preconditioning'
+  print *, '# 32 - CG solver with diagonal preconditioning'
+  print *, '# 33 - CG solver with T-Flows preconditioning'
+  print *, '# 34 - CG solver with LDL'' preconditioning'
+  print *, '# 35 - CG solver with Cholesky preconditioning'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  print *, '# 13 - Compressed matrices'
-  print *, '# 14 - Preconditioning matrix'
+  call Foul % Formatted_Write(' # ', 'default',  &
+                         'Section 4 - Additional Tests', 'bright cyan');
+  print *, '# 43 - Compressed matrices'
+  print *, '# 44 - Preconditioning matrix'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-  write(*,'(a46,3i4)') '# 15 - Change grid resolution, currently at: ',  &
+  call Foul % Formatted_Write(' # ', 'default',  &
+                         'Section 5 - Various Settings', 'bright cyan');
+  write(*,'(a46,3i4)') '# 51 - Change grid resolution, currently at: ',  &
                        grid % nx, grid % ny, grid % nz
-  write(*,'(a46,1i4)') '# 16 - Change fill-in level, currently at:   ',  &
+  write(*,'(a46,1i4)') '# 52 - Change fill-in level, currently at:   ',  &
                        f_in
-  write(*,'(a46,1i4)') '# 17 - Change num iterations, currently at:  ',  &
+  write(*,'(a46,1i4)') '# 53 - Change num iterations, currently at:  ',  &
                        n_iter
-  write(*,'(a46,1es13.4)') '# 18 - Change target residual, currently at: ',  &
+  write(*,'(a46,1es13.4)') '# 54 - Change target residual, currently at: ',  &
                        res
   if(IO % scale_by_color) then
-    print *, '# 19 - Do not scale by color'
+    print *, '# 55 - Do not scale by color'
   else
-    print *, '# 19 - Scale by color'
+    print *, '# 55 - Scale by color'
   end if
   if(IO % scale_by_size) then
-    print *, '# 20 - Do not scale by size'
+    print *, '# 56 - Do not scale by size'
   else
-    print *, '# 20 - Scale by size'
+    print *, '# 56 - Scale by size'
   end if
   print *, '#----------------------------------------------------------'
 
@@ -115,44 +129,112 @@
     choice = test
   end if
 
-  if(choice ==  0) return
+  !---------------------------------------------!
+  !   Perform some action based on user input   !
+  !   (This is the only place where I use the   !
+  !    indentation of 4.  It is black swan!)    !
+  !---------------------------------------------!
+  select case(choice)
+    case(0)
+      return
 
-  if(choice ==  1) call Solvers_Mod_Gauss   (grid, Ad, x, b)
-  if(choice ==  2) call Solvers_Mod_Cholesky(grid, Ad, x, b)
-  if(choice ==  3) call Solvers_Mod_Ldlt    (grid, Ad, x, b)
-  if(choice ==  4) call Solvers_Mod_Lu      (grid, Ad, x, b)
+    case(11)
+        call Solvers_Mod_Gauss(grid, Ad, x, b)
+    case(12)
+        call Solvers_Mod_Cholesky(grid, Ad, x, b)
+    case(13)
+        call Solvers_Mod_Ldlt(grid, Ad, x, b)
+    case(14)
+        call Solvers_Mod_Lu(grid, Ad, x, b, GAUSS)
+    case(15)
+        call Solvers_Mod_Lu(grid, Ad, x, b, DOOLITTLE)
 
-  if(choice ==  5) call Solvers_Mod_Incomplete_Cholesky        (grid, As, x, b, f_in)
-  if(choice ==  6) call Solvers_Mod_Incomplete_Ldlt            (grid, As, x, b, f_in)
-  if(choice ==  7) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
+    case(21)
+        call Solvers_Mod_Incomplete_Cholesky(grid, As, x, b, f_in)
+    case(22)
+        call Solvers_Mod_Incomplete_Ldlt(grid, As, x, b, f_in)
+    case(23)
+        call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
 
-  if(choice ==  8) call Solvers_Mod_Cg_No_Prec      (grid, As, x, b, n_iter, res)
-  if(choice ==  9) call Solvers_Mod_Cg_Diag_Prec    (grid, As, x, b, n_iter, res)
-  if(choice == 10) call Solvers_Mod_Cg_Tflows_Prec  (grid, As, x, b, n_iter, res)
-  if(choice == 11) call Solvers_Mod_Cg_Ldlt_Prec    (grid, As, x, b, n_iter, res, f_in)
-  if(choice == 12) call Solvers_Mod_Cg_Cholesky_Prec(grid, As, x, b, n_iter, res, f_in)
+    case(31)
+        call Solvers_Mod_Cg_No_Prec(grid, As, x, b, n_iter, res)
+    case(32)
+        call Solvers_Mod_Cg_Diag_Prec(grid, As, x, b, n_iter, res)
+    case(33)
+        call Solvers_Mod_Cg_Tflows_Prec(grid, As, x, b, n_iter, res)
+    case(34)
+        call Solvers_Mod_Cg_Ldlt_Prec(grid, As, x, b, n_iter, res, f_in)
+    case(35)
+        call Solvers_Mod_Cg_Cholesky_Prec(grid, As, x, b, n_iter, res, f_in)
 
-  if(choice == 13) call Demo_Mod_Compress_Decompress
-  if(choice == 14) call Demo_Mod_Fill_In(f_in, grid)
+    case(41)
+        call Demo_Mod_Compress_Decompress
+    case(42)
+        call Demo_Mod_Fill_In(f_in, grid)
 
-  if(choice == 15) then
-    print *, '# Enter the desired resolution: '
-    read *, grid % nx, grid % ny, grid % nz
-  end if
-  if(choice == 16) then
-    print *, '# Enter the desired fill-in level: '
-    read *, f_in
-  end if
-  if(choice == 17) then
-    print *, '# Enter the desired number of iterations: '
-    read *, n_iter
-  end if
-  if(choice == 18) then
-    print *, '# Enter the desired target residual: '
-    read *, res
-  end if
-  if(choice == 19) IO % scale_by_color = .not. IO % scale_by_color
-  if(choice == 20) IO % scale_by_size  = .not. IO % scale_by_size
+    case(51)
+        print *, "# Enter the desired resolution: "
+        read *, grid % nx, grid % ny, grid % nz
+    case(52)
+        print *, "# Enter the desired fill-in level: "
+        read *, f_in
+    case(53)
+        print *, "# Enter the desired number of iterations: "
+        read *, n_iter
+    case(54)
+        print *, "# Enter the desired target residual: "
+        read *, res
+    case(55)
+        IO % scale_by_color = .not. IO % scale_by_color
+    case(56)
+        IO % scale_by_size = .not. IO % scale_by_size
+
+    case default
+        print *, "Invalid choice"
+
+  end select
+
+
+
+!@  if(choice ==  0) return
+!@
+!@  if(choice == 11) call Solvers_Mod_Gauss   (grid, Ad, x, b)
+!@  if(choice == 12) call Solvers_Mod_Cholesky(grid, Ad, x, b)
+!@  if(choice == 13) call Solvers_Mod_Ldlt    (grid, Ad, x, b)
+!@  if(choice == 14) call Solvers_Mod_Lu      (grid, Ad, x, b, GAUSS)
+!@  if(choice == 15) call Solvers_Mod_Lu      (grid, Ad, x, b, DOOLITTLE)
+!@
+!@  if(choice == 21) call Solvers_Mod_Incomplete_Cholesky        (grid, As, x, b, f_in)
+!@  if(choice == 22) call Solvers_Mod_Incomplete_Ldlt            (grid, As, x, b, f_in)
+!@  if(choice == 23) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
+!@
+!@  if(choice == 31) call Solvers_Mod_Cg_No_Prec      (grid, As, x, b, n_iter, res)
+!@  if(choice == 32) call Solvers_Mod_Cg_Diag_Prec    (grid, As, x, b, n_iter, res)
+!@  if(choice == 33) call Solvers_Mod_Cg_Tflows_Prec  (grid, As, x, b, n_iter, res)
+!@  if(choice == 34) call Solvers_Mod_Cg_Ldlt_Prec    (grid, As, x, b, n_iter, res, f_in)
+!@  if(choice == 35) call Solvers_Mod_Cg_Cholesky_Prec(grid, As, x, b, n_iter, res, f_in)
+!@
+!@  if(choice == 41) call Demo_Mod_Compress_Decompress
+!@  if(choice == 41) call Demo_Mod_Fill_In(f_in, grid)
+!@
+!@  if(choice == 51) then
+!@    print *, '# Enter the desired resolution: '
+!@    read *, grid % nx, grid % ny, grid % nz
+!@  end if
+!@  if(choice == 52) then
+!@    print *, '# Enter the desired fill-in level: '
+!@    read *, f_in
+!@  end if
+!@  if(choice == 53) then
+!@    print *, '# Enter the desired number of iterations: '
+!@    read *, n_iter
+!@  end if
+!@  if(choice == 54) then
+!@    print *, '# Enter the desired target residual: '
+!@    read *, res
+!@  end if
+!@  if(choice == 55) IO % scale_by_color = .not. IO % scale_by_color
+!@  if(choice == 56) IO % scale_by_size  = .not. IO % scale_by_size
 
   if(test .eq. -1) goto 1
 

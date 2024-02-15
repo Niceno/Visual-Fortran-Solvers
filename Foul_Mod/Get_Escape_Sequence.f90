@@ -33,6 +33,8 @@
     call Foul % Lower_Case(style_substrings(i))
 
     select case (trim(style_substrings(i)))
+      case ('default')
+          escape_sequence = trim(escape_sequence) // ';0'
       case ('bright')
           escape_sequence = trim(escape_sequence) // ';1'
       case ('faint')

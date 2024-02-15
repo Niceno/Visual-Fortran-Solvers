@@ -13,6 +13,9 @@
 !   A suite of linear solvers                                                  !
 !==============================================================================!
 
+  integer, parameter :: GAUSS     = 90001
+  integer, parameter :: DOOLITTLE = 90002
+
   ! Working space matrices for incomplete solvers
   type(Sparse_Type), target :: P_Sparse
 
@@ -41,7 +44,8 @@
 #   include "Solvers_Mod/Dense/Forward_Substitution.f90"
 #   include "Solvers_Mod/Dense/Gauss_Elimination.f90"
 #   include "Solvers_Mod/Dense/Ldlt_Factorization.f90"
-#   include "Solvers_Mod/Dense/Lu_Factorization.f90"
+#   include "Solvers_Mod/Dense/Lu_Factorization_Doolittle.f90"
+#   include "Solvers_Mod/Dense/Lu_Factorization_Gauss.f90"
 
     ! Direct solvers
 #   include "Solvers_Mod/Dense/Cholesky.f90"

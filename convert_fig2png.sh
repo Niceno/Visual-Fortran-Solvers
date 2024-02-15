@@ -27,3 +27,10 @@ echo "This command worked once:"
 # Use the prefix in the ffmpeg command as well
 echo "ffmpeg -framerate 5 -i ${prefix}_%05d.png -c:v libx264 -preset slow ${prefix}.avi"
 
+# If vlc doesn't work, this might help the issue:
+# Find and change setting
+#   -> Tools
+#     -> Preferences
+#       -> Input/Codecs
+#         -> Hardware-accelerated decoding from the default "Automatic" to
+#            either "VA-API decoder" or "VA-API decoder via DRM" or "Disabled"
