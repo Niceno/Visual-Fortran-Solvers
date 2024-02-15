@@ -30,12 +30,12 @@
   real, allocatable :: b(:)
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type)         :: H    ! helping sparse matrix for discretization
-  type(Dense_Type), pointer :: LDL  ! used for LDL' factorization
+  type(Sparse_Type)         :: H   ! helping sparse matrix for discretization
+  type(Dense_Type), pointer :: LD  ! used for LDL' factorization
 !==============================================================================!
 
   ! Take aliases
-  LDL => P_Dense
+  LD => P_Dense
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with LDL'' factorization'
@@ -48,9 +48,9 @@
   call Solvers_Mod_Allocate_Vectors(H % n)
 
   ! Create two full matrices from a sparse
-  call Solvers_Mod_Convert_Sparse_to_Dense(A,   H)
-  call Solvers_Mod_Convert_Sparse_to_Dense(LDL, H)
-  LDL % val(:,:) = 0
+  call Solvers_Mod_Convert_Sparse_to_Dense(A,  H)
+  call Solvers_Mod_Convert_Sparse_to_Dense(LD, H)
+  LD % val(:,:) = 0
 
   ! Just plot and print original matrix
   call IO % Plot_Dense ("a",  A)
@@ -60,17 +60,19 @@
   !   Actual computation   !
   !------------------------!
 
-  ! Perform LDLT factorization on the matrix to fin the lower one
+  ! Perform LDL' factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Dense_Ldlt_Factorization(LDL, A)
+  call Solvers_Mod_Dense_Ldlt_Factorization(LD, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("ldl_after_factorization",  LDL)
-  call IO % Print_Dense("LDL after factorization:", LDL)
+  call IO % Plot_Dense ("ld_after_factorization",  LD)
+  call IO % Print_Dense("LD after factorization:", LD)
 
   ! Compute x
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Dense_Ldlt_Solution(x, LDL, b)
+  call Solvers_Mod_Dense_Forward_Substitution (x, LD, b, d_one=.true.)
+  call Solvers_Mod_Dense_Forward_Substitution (x, LD, x, d_only=.true.)
+  call Solvers_Mod_Dense_Backward_Substitution(x, LD, x, t=.true., d_one=.true.)
   call Cpu_Time(time_se)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps

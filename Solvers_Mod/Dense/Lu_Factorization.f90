@@ -29,16 +29,20 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type) :: LU  !! factorized LU matrices
-  type(Dense_Type) :: A   !! original matrix
+  type(Dense_Type), target :: LU  !! factorized LU matrices
+  type(Dense_Type)         :: A   !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: i, j, k, n, bw
-  real    :: sum
+  type(Dense_Type), pointer :: L  ! pointer to "L"
+  type(Dense_Type), pointer :: U  ! pointer to "U"
+  integer                   :: i, j, k, n, bw
+  real                      :: sum
 !==============================================================================!
 
   ! Take some aliases
   n  = A % n
   bw = A % bw
+  L => LU
+  U => LU
 
   ! Initialize the values
   LU % val(:,:) = 0.0
@@ -46,36 +50,38 @@
   !-------------------------------!
   !   Perform the factorization   !
   !-------------------------------!
-  do k = 1, n
+  do k = 1, n  ! <-A
 
     ! Upper triangular
     do i = k, min(n, k + bw)
+      Assert(k <= i)
       sum = 0.0
-      do j = max(1, k - bw, i - bw), min(k-1, k + bw)
-        sum = sum + LU % val(k,j) * LU % val(j,i)
-        call IO % Plot_Dense("factorization", LU, B=A, src1=(/k,j,GREEN/), src2=(/j,i,CYAN/))
+      do j = max(1, k - bw, i - bw), k-1
+        Assert(k > j)  ! =--> (k,j) in L
+        Assert(j < i)  ! =--> (j,i) in U
+        sum = sum + L % val(k,j) * U % val(j,i)
+        call IO % Plot_Dense("dens_lu", LU, B=A, src1=(/k,j,GREEN/), src2=(/j,i,CYAN/))
       end do
       LU % val(k,i) = A % val(k,i) - sum
-      call IO % Plot_Dense("factorization", LU, B=A, targ=(/k,i,PINK2/))
+      call IO % Plot_Dense("dens_lu", LU, B=A, targ=(/k,i,PINK2/))
     end do
 
     ! Lower triangular
-    do i = max(k, k - bw), min(n, k + bw)
-      if(k == i) then
-        ! L % val(k,k) = 1.0  ! skip this, do not store ones
-      else
-        sum = 0.0
-        do j = max(1, k - bw, i - bw), min(k-1, k + bw)
-          sum = sum + LU % val(i,j) * LU % val(j,k)
-          call IO % Plot_Dense("factorization", LU, B=A, src1=(/i,j,GREEN/), src2=(/j,k,CYAN/))
-        end do
-        LU % val(i,k) = (A % val(i,k) - sum) / LU % val(k,k)
-        call IO % Plot_Dense("factorization", LU, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
-      end if
+    do i = k + 1, min(n, k + bw)  ! do not start from i=k, 'cos diaginal is 1
+      Assert(i >= k)
+      sum = 0.0
+      do j = max(1, k - bw, i - bw), k-1
+        Assert(j < k)  ! =--> (j,k) in U
+        Assert(i > j)  ! =--> (i,j) in L
+        sum = sum + L % val(i,j) * U % val(j,k)
+!@#$    call IO % Plot_Dense("dens_lu", LU, B=A, src1=(/i,j,GREEN/), src2=(/j,k,CYAN/))
+      end do
+      LU % val(i,k) = (A % val(i,k) - sum) / LU % val(k,k)
+!@#$  call IO % Plot_Dense("dens_lu", LU, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
     end do
 
-  end do
+  end do       ! A->
 
-  call IO % Plot_Snippet(__FILE__, 49, 77)
+  call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   end subroutine

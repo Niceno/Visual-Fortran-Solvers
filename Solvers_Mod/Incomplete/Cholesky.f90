@@ -10,11 +10,11 @@
   integer           :: fill_in  !! fill-in factor
 !-----------------------------------[Locals]-----------------------------------!
   real                       :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type), pointer :: LL  ! used for LL' (Cholesky) factorization
+  type(Sparse_Type), pointer :: L  ! used for LL' (Cholesky) factorization
 !==============================================================================!
 
   ! Take aliases
-  LL => P_Sparse
+  L => P_Sparse
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with incomplete Cholesky factorization'
@@ -25,7 +25,11 @@
   !------------------!
   call Discretize % On_Sparse_Matrix(grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
-  call LL % Sparse_Create_Preconditioning(A, fill_in)
+  call L % Sparse_Create_Preconditioning(A, fill_in)
+
+  ! Just plot and print original matrix
+  call IO % Plot_Sparse ("a",  A)
+  call IO % Print_Sparse("A:", A)
 
   !------------------------!
   !   Actual computation   !
@@ -33,18 +37,18 @@
 
   ! Perform Cholesky factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Sparse_Cholesky_Factorization(LL, A)
+  call Solvers_Mod_Sparse_Cholesky_Factorization(L, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Sparse ("ll_after_factorization",  LL)
-  call IO % Print_Sparse("LL after factorization:", LL)
+  call IO % Plot_Sparse ("ll_after_factorization",  L)
+  call IO % Print_Sparse("LL after factorization:", L)
 
   ! Compute y by forward substitution
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Sparse_Forward_Substitution(y, LL, b)
+  call Solvers_Mod_Sparse_Forward_Substitution(y, L, b)
 
-  ! Compute x by backward substitution
-  call Solvers_Mod_Sparse_Backward_Substitution(x, LL, y)
+  ! Compute x by backward substitution (use L matrix but transposed)
+  call Solvers_Mod_Sparse_Backward_Substitution(x, L, y, t=.true.)
   call Cpu_Time(time_se)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps

@@ -44,28 +44,29 @@
   if(abs(val) > 1.0e-15) then
     plot_x = CM/2 + col * CM
     plot_y = CM/2 + row * CM
-    write(9,'(a)',     advance='no') ' 1'            !  1 ellipse
-    write(9,'(a)',     advance='no') ' 3'            !  2 define with radii
-    write(9,'(a)',     advance='no') ' 0'            !  3 line style
-    write(9,'(a)',     advance='no') ' 1'            !  4 line thickness
+    write(fu,'(a,es12.5)')  '# ', val
+    write(fu,'(a)',     advance='no') ' 1'            !  1 ellipse
+    write(fu,'(a)',     advance='no') ' 3'            !  2 define with radii
+    write(fu,'(a)',     advance='no') ' 0'            !  3 line style
+    write(fu,'(a)',     advance='no') ' 1'            !  4 line thickness
     if(val > 0.0) then
-      write(9,'(i3)',  advance='no') RED             !  5 line color
-      write(9,'(i3)',  advance='no') color           !  6 fill color
+      write(fu,'(i3)',  advance='no') RED             !  5 line color
+      write(fu,'(i3)',  advance='no') color           !  6 fill color
     else
-      write(9,'(i3)',  advance='no') BLUE            !  5 line color
-      write(9,'(i3)',  advance='no') color           !  6 fill color
+      write(fu,'(i3)',  advance='no') BLUE            !  5 line color
+      write(fu,'(i3)',  advance='no') color           !  6 fill color
     end if
-    write(9,'(i4)',    advance='no') depth           !  7 layer
-    write(9,'(a)',     advance='no') ' -1'           !  8 pen style, unused
-    write(9,'(a)',     advance='no') ' 20'           !  9 fill intensity
-    write(9,'(a)',     advance='no') ' 0.000'        ! 10
-    write(9,'(a)',     advance='no') ' 1'            ! 11
-    write(9,'(a)',     advance='no') ' 0.000'        ! 12
-    write(9,'(i9,i9)', advance='no') plot_x, plot_y  ! 13-14 coordinates
-    write(9,'(i4,i4)', advance='no') rad, rad        ! 15-16 radii
-    write(9,'(i9,i9)', advance='no') plot_x, plot_y  ! 17-18
-    write(9,'(i9,i9)', advance='no') plot_x, plot_y  ! 19-20
-    write(9,*)
+    write(fu,'(i4)',    advance='no') depth           !  7 layer
+    write(fu,'(a)',     advance='no') ' -1'           !  8 pen style, unused
+    write(fu,'(a)',     advance='no') ' 20'           !  9 fill intensity
+    write(fu,'(a)',     advance='no') ' 0.000'        ! 10
+    write(fu,'(a)',     advance='no') ' 1'            ! 11
+    write(fu,'(a)',     advance='no') ' 0.000'        ! 12
+    write(fu,'(i9,i9)', advance='no') plot_x, plot_y  ! 13-14 coordinates
+    write(fu,'(i4,i4)', advance='no') rad, rad        ! 15-16 radii
+    write(fu,'(i9,i9)', advance='no') plot_x, plot_y  ! 17-18
+    write(fu,'(i9,i9)', advance='no') plot_x, plot_y  ! 19-20
+    write(fu,*)
   end if
 
   end subroutine

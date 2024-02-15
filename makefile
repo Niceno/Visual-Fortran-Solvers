@@ -47,7 +47,7 @@ ifeq ($(FORTRAN), gnu)
   FC = gfortran
   ifeq ($(DEBUG),yes)
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O0 -g  \
-                                -Wunused-parameter -Warray-temporaries -Wall \
+                                -Wunused-parameter                           \
                                 -cpp
   else
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O3 -cpp
@@ -108,7 +108,8 @@ $(info  $(OPT_COMP))
 #-------------
 
 # Modules in shared directories
-SRC_MOD = Foul_Mod.f90		\
+SRC_MOD = Assert_Mod.f90	\
+          Foul_Mod.f90		\
           Sort_Mod.f90		\
           Grid_Mod.f90		\
           Dense_Mod.f90		\

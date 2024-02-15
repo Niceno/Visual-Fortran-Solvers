@@ -25,5 +25,5 @@ echo "Conversion complete."
 echo "This command worked once:"
 
 # Use the prefix in the ffmpeg command as well
-echo "ffmpeg -framerate 25 -i ${prefix}_%05d.png -c:v libx264 -preset slow output.avi"
+echo "ffmpeg -framerate 5 -i ${prefix}_%05d.png -c:v libx264 -preset slow ${prefix}.avi"
 

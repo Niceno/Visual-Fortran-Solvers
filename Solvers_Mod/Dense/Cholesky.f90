@@ -30,12 +30,12 @@
   real, allocatable :: b(:)
 !-----------------------------------[Locals]-----------------------------------!
   real                      :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type)         :: H   ! helping sparse matrix for discretization
-  type(Dense_Type), pointer :: LL  ! matrix after Cholesky factorization
+  type(Sparse_Type)         :: H  ! helping sparse matrix for discretization
+  type(Dense_Type), pointer :: L  ! matrix after Cholesky factorization
 !==============================================================================!
 
   ! Take aliases
-  LL => P_Dense
+  L => P_Dense
 
   print *, '#=========================================================='
   print *, '# Solving the sytem with Cholesky factorization'
@@ -48,9 +48,9 @@
   call Solvers_Mod_Allocate_Vectors(H % n)
 
   ! Create two full matrices from a sparse
-  call Solvers_Mod_Convert_Sparse_to_Dense(A,  H)
-  call Solvers_Mod_Convert_Sparse_to_Dense(LL, H)
-  LL % val(:,:) = 0
+  call Solvers_Mod_Convert_Sparse_to_Dense(A, H)
+  call Solvers_Mod_Convert_Sparse_to_Dense(L, H)
+  L % val(:,:) = 0
 
   ! Just plot and print original matrix
   call IO % Plot_Dense ("a",  A)
@@ -60,20 +60,20 @@
   !   Actual computation   !
   !------------------------!
 
-  ! Perform Cholesky factorization on the matrix to fin the lower one
+  ! Perform Cholesky factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Dense_Cholesky_Factorization(LL, A)
+  call Solvers_Mod_Dense_Cholesky_Factorization(L, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("ll_after_cholesky_factorization",  LL)
-  call IO % Print_Dense("LL after Cholesky factorization:", LL)
+  call IO % Plot_Dense ("ll_after_cholesky_factorization",  L)
+  call IO % Print_Dense("LL after Cholesky factorization:", L)
 
   ! Compute y by forward substitution (solve: Ly=b)
   call Cpu_Time(time_ss)
-  call Solvers_Mod_Dense_Forward_Substitution(y, LL, b)
+  call Solvers_Mod_Dense_Forward_Substitution(y, L, b)
 
   ! Compute x by backward substitution (solve: Ux=y; use transposed L for U)
-  call Solvers_Mod_Dense_Backward_Substitution(x, LL, y, t=.true.)
+  call Solvers_Mod_Dense_Backward_Substitution(x, L, y, t=.true.)
   call Cpu_Time(time_se)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps

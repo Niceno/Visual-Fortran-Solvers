@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Dense_Ldlt_Factorization(LDL, A)
+  subroutine Solvers_Mod_Dense_Ldlt_Factorization(LD, A)
 !------------------------------------------------------------------------------!
 !>  Computes LDL' factorization on square (full) matrices.
 !------------------------------------------------------------------------------!
@@ -25,8 +25,8 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type) :: LDL  !! factorized matrix (three in one, really)
-  type(Dense_Type) :: A    !! original matrix
+  type(Dense_Type) :: LD  !! factorized matrix (only L and D are stored)
+  type(Dense_Type) :: A   !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, k, s, n, bw
   real    :: sum
@@ -39,34 +39,38 @@
   bw = A % bw
 
   ! Initialize the values
-  LDL % val(:,:) = 0.0
+  LD % val(:,:) = 0.0
 
   !-------------------------------!
   !   Perform the factorization   !
   !-------------------------------!
-  do k = 1, n
+  do k = 1, n  ! <-A
 
-    ! Work out the diagonal D
+    ! Work out (and store) the diagonal D
     sum = 0.0
     do s = max(1, k - bw), k - 1
-      sum = sum + LDL % val(k,s)**2 * LDL % val(s,s)
-      call IO % Plot_Dense("factorization", LDL, B=A, src1=(/k,s,GREEN/), src2=(/s,s,GREEN2/))
+      Assert(k > s)  ! =--> (k,s) in L
+      sum = sum + LD % val(k,s)**2 * LD % val(s,s)
+      call IO % Plot_Dense("dens_ldlt", LD, B=A, src1=(/k,s,GREEN/), src2=(/s,s,GREEN2/))
     end do
-    LDL % val(k,k) = A % val(k,k) - sum
-    call IO % Plot_Dense("factorization", LDL, B=A, targ=(/k,k,PINK2/))
+    LD % val(k,k) = A % val(k,k) - sum
+    call IO % Plot_Dense("dens_ldlt", LD, B=A, targ=(/k,k,PINK2/))
 
     ! Work out (and store) the L
     do i = k + 1, min(k + bw, n)
+      Assert(i > k)  ! =--> (i,k) in L
       sum = 0.0
       do s = max(1, k - bw, i - bw), k - 1
-        sum = sum + LDL % val(i,s) * LDL % val(k,s) * LDL % val(s,s)
-        call IO % Plot_Dense("factorization", LDL, B=A, src1=(/i,s,GREEN/), src2=(/k,s,GREEN2/), src3=(/s,s,GREEN4/))
+        Assert(k > s)  ! =--> (k,s) in L
+        Assert(i > s)  ! =--> (i,s) in L
+        sum = sum + LD % val(i,s) * LD % val(k,s) * LD % val(s,s)
+        call IO % Plot_Dense("dens_ldlt", LD, B=A, src1=(/i,s,GREEN/), src2=(/k,s,GREEN2/), src3=(/s,s,GREEN4/))
       end do
-      LDL % val(i,k) = (A % val(i,k) - sum) / LDL % val(k,k)
-      call IO % Plot_Dense("factorization", LDL, B=A, targ=(/i,k,PINK2/))
+      LD % val(i,k) = (A % val(i,k) - sum) / LD % val(k,k)
+      call IO % Plot_Dense("dens_ldlt", LD, B=A, targ=(/i,k,PINK2/))
     end do
-  end do
+  end do       ! A->
 
-  call IO % Plot_Snippet(__FILE__, 47, 68)
+  call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   end subroutine

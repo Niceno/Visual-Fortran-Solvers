@@ -15,12 +15,8 @@
 # define __F__ __FILE__(index(__FILE__,'/',back=.true.)+1:len(__FILE__))
 
 ! Definition of Assert
-# if T_FLOWS_ASSERT == 1
-#   if __GFORTRAN__ == 1
-#     define Assert(X) call Handle_Assert(.not.(X), "X", __FILE__, __LINE__)
-#   else
-#     define Assert(X) call Handle_Assert(.not.(X), #X, __FILE__, __LINE__)
-#   endif
+# if __GFORTRAN__ == 1
+#   define Assert(X) call Handle_Assert(.not.(X), "X", __FILE__, __LINE__)
 # else
-#   define Assert(X)
+#   define Assert(X) call Handle_Assert(.not.(X), #X, __FILE__, __LINE__)
 # endif
