@@ -1,0 +1,31 @@
+!-----------------------------------------------------!
+!   One below the other, with additional row in the   !
+!   sparse matrix case to retreive a column number    !
+!-----------------------------------------------------!
+
+! Initialize a dense matrix
+do i = 1, n
+  do j = 1, n
+    A % val(i,j) = 0.0
+  end do
+end do
+
+! Initialize a sparse matrix
+do i = 1, n
+  do ij = A % row(i), A % row(i+1) - 1
+    j = A % col(ij)
+    A % val(ij) = 0.0
+  end do
+end do
+
+!---------------------------------------------------!
+!   One next to another, without any redundanices   !
+!---------------------------------------------------!
+
+! Initialize a dense matrix             ! Initialize a sparse matrix
+do i = 1, n                             do i = 1, n
+  do j = 1, n                             do ij = A % row(i), A % row(i+1) - 1
+    A % val(i,j) = 0.0                      A % val(ij) = 0.0
+  end do                                  end do
+end do                                  end do
+
