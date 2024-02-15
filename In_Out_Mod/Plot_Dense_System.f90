@@ -74,9 +74,10 @@
   !                            !
   !----------------------------!
 
-  ! This is just to deserve a "bounding box", to avoid jittering amimations
-  call IO % Plot_Box(9, 1, 1,   WHITE, 999)
-  call IO % Plot_Box(9, n, n+5, WHITE, 999)
+  ! Place brackets around the matrix and the vectors
+  call IO % Plot_Brackets(9, (/1,n/), (/1,  n  /), 40)
+  call IO % Plot_Brackets(9, (/1,n/), (/n+3,n+3/), 40)
+  call IO % Plot_Brackets(9, (/1,n/), (/n+5,n+5/), 40)
 
   min_a = minval(A % val(:,:))
   max_a = maxval(A % val(:,:))

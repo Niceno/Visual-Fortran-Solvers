@@ -61,20 +61,21 @@
     logical :: scale_by_size  = .true.
 
     contains
-      procedure :: Plot_Box
-      procedure :: Plot_Bracket_Left
-      procedure :: Plot_Bracket_Right
-      procedure :: Plot_Circle
-      procedure :: Plot_Dense
-      procedure :: Plot_Dense_System
-      procedure :: Plot_Header
-      procedure :: Plot_Ring
-      procedure :: Plot_Snippet
-      procedure :: Plot_Sparse
-      procedure :: Plot_Square
-      procedure :: Print_Legend
-      procedure :: Print_Dense
-      procedure :: Print_Sparse
+      procedure          :: Plot_Box
+      procedure, private :: Plot_Bracket_Left
+      procedure, private :: Plot_Bracket_Right
+      procedure          :: Plot_Brackets
+      procedure          :: Plot_Circle
+      procedure          :: Plot_Dense
+      procedure          :: Plot_Dense_System
+      procedure          :: Plot_Header
+      procedure          :: Plot_Ring
+      procedure          :: Plot_Snippet
+      procedure          :: Plot_Sparse
+      procedure          :: Plot_Square
+      procedure          :: Print_Legend
+      procedure          :: Print_Dense
+      procedure          :: Print_Sparse
 
   end type
 
@@ -88,6 +89,7 @@
 #   include "In_Out_Mod/Plot_Box.f90"
 #   include "In_Out_Mod/Plot_Bracket_Left.f90"
 #   include "In_Out_Mod/Plot_Bracket_Right.f90"
+#   include "In_Out_Mod/Plot_Brackets.f90"
 #   include "In_Out_Mod/Plot_Circle.f90"
 #   include "In_Out_Mod/Plot_Dense.f90"
 #   include "In_Out_Mod/Plot_Dense_System.f90"

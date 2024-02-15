@@ -71,11 +71,8 @@
   !                            !
   !----------------------------!
 
-  ! This is just to deserve a "bounding box", to avoid jittering amimations
-  call IO % Plot_Box(9, 1, 1, WHITE, 999)
-  call IO % Plot_Box(9, n, n, WHITE, 999)
-  call IO % Plot_Bracket_Left (9, (/1,n/), 1, 40)
-  call IO % Plot_Bracket_Right(9, (/1,n/), n, 40)
+  ! Place brackets around the matrix
+  call IO % Plot_Brackets(9, (/1,n/), (/1,n/), 40)
 
   !----------------------------------------------!
   !   Plot the background matrix, if specified   !
