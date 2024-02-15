@@ -71,8 +71,15 @@
   !                            !
   !----------------------------!
 
+  ! Place some invisble boxes to serve as canvas
+  call IO % Plot_Box(9,   0,   0, WHITE, 999)
+  call IO % Plot_Box(9, n+1, n+1, WHITE, 999)
+
   ! Place brackets around the matrix
   call IO % Plot_Brackets(9, (/1,n/), (/1,n/), 40)
+
+  call IO % Plot_Symbol(9, 'U', 1+3, n-3, 40)
+  call IO % Plot_Symbol(9, 'L', n-3, 1+3, 40)
 
   !----------------------------------------------!
   !   Plot the background matrix, if specified   !

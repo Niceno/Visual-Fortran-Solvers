@@ -45,6 +45,7 @@ Dense_Mod/*.f90
 
 #-- ./In_Out_Mod/Legend.f90
 #-- ./In_Out_Mod/Plot_Bracket_Right.f90
+#-- ./In_Out_Mod/Plot_Symbol.f90
 #-- ./In_Out_Mod/Plot_Circle.f90
 #-- ./In_Out_Mod/Print_Dense.f90
 #-- ./In_Out_Mod/Plot_Box.f90

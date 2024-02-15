@@ -74,10 +74,15 @@
   !                            !
   !----------------------------!
 
+  ! Place some invisble boxes to serve as canvas
+  call IO % Plot_Box(9,   0,   0, WHITE, 999)
+  call IO % Plot_Box(9, n+1, n+8, WHITE, 999)
+
   ! Place brackets around the matrix and the vectors
   call IO % Plot_Brackets(9, (/1,n/), (/1,  n  /), 40)
   call IO % Plot_Brackets(9, (/1,n/), (/n+3,n+3/), 40)
-  call IO % Plot_Brackets(9, (/1,n/), (/n+5,n+5/), 40)
+  call IO % Plot_Brackets(9, (/1,n/), (/n+7,n+7/), 40)
+  call IO % Plot_Symbol  (9, '=',   n/2,   n+5,    40)
 
   min_a = minval(A % val(:,:))
   max_a = maxval(A % val(:,:))
@@ -133,11 +138,11 @@
   !--------------------------------!
   do row = 1, n
     ! This is normal, scaled circle for a matrix value
-    call IO % Plot_Circle(9, row, n+5, b(row), min_b, max_b, 50)
+    call IO % Plot_Circle(9, row, n+7, b(row), min_b, max_b, 50)
 
     if(present(srcb)) then
       if(row .eq. srcb(1)) then
-        call IO % Plot_Box(9, row, n+5, srcb(2), 52)
+        call IO % Plot_Box(9, row, n+7, srcb(2), 52)
       end if
     end if
 
