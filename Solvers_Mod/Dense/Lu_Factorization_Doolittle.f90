@@ -34,7 +34,7 @@
 !-----------------------------------[Locals]-----------------------------------!
   type(Dense_Type), pointer :: L  ! pointer to "L"
   type(Dense_Type), pointer :: U  ! pointer to "U"
-  integer                   :: i, j, k, n, bw
+  integer                   :: i, k, s, n, bw
   real                      :: sum
 !==============================================================================!
 
@@ -56,11 +56,11 @@
     do i = k, min(n, k + bw)
       Assert(k <= i)
       sum = 0.0
-      do j = max(1, k - bw, i - bw), k-1
-        Assert(k > j)  ! =--> (k,j) in L
-        Assert(j < i)  ! =--> (j,i) in U
-        sum = sum + L % val(k,j) * U % val(j,i)
-        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/k,j,GREEN/), src2=(/j,i,CYAN/))
+      do s = max(1, k - bw, i - bw), k-1
+        Assert(k > s)  ! =--> (k,s) in L
+        Assert(s < i)  ! =--> (s,i) in U
+        sum = sum + L % val(k,s) * U % val(s,i)
+        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/k,s,GREEN/), src2=(/s,i,CYAN/))
       end do
       LU % val(k,i) = A % val(k,i) - sum
       call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/k,i,PINK2/))
@@ -70,11 +70,11 @@
     do i = k + 1, min(n, k + bw)  ! do not start from i=k, 'cos diaginal is 1
       Assert(i >= k)
       sum = 0.0
-      do j = max(1, k - bw, i - bw), k-1
-        Assert(j < k)  ! =--> (j,k) in U
-        Assert(i > j)  ! =--> (i,j) in L
-        sum = sum + L % val(i,j) * U % val(j,k)
-        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/i,j,GREEN/), src2=(/j,k,CYAN/))
+      do s = max(1, k - bw, i - bw), k-1
+        Assert(s < k)  ! =--> (s,k) in U
+        Assert(i > s)  ! =--> (i,s) in L
+        sum = sum + L % val(i,s) * U % val(s,k)
+        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/i,s,GREEN/), src2=(/s,k,CYAN/))
       end do
       LU % val(i,k) = (A % val(i,k) - sum) / LU % val(k,k)
       call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
