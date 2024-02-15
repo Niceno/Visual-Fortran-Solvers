@@ -74,10 +74,10 @@
         Assert(j < k)  ! =--> (j,k) in U
         Assert(i > j)  ! =--> (i,j) in L
         sum = sum + L % val(i,j) * U % val(j,k)
-!@#$    call IO % Plot_Dense("dens_lu", LU, B=A, src1=(/i,j,GREEN/), src2=(/j,k,CYAN/))
+        call IO % Plot_Dense("dens_lu", LU, B=A, src1=(/i,j,GREEN/), src2=(/j,k,CYAN/))
       end do
       LU % val(i,k) = (A % val(i,k) - sum) / LU % val(k,k)
-!@#$  call IO % Plot_Dense("dens_lu", LU, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
+      call IO % Plot_Dense("dens_lu", LU, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
     end do
 
   end do       ! A->
