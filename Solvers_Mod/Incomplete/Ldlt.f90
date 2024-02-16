@@ -53,8 +53,8 @@
   call Solvers_Mod_Sparse_Ldlt_Factorization(LD, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Sparse ("ldl_after_factorization",   LD)
-  call IO % Print_Sparse("LDL' after factorization:", LD)
+  call IO % Plot_Sparse ("spar_ldlt_factorized",    LD)
+  call IO % Print_Sparse("Sparse LDL' factorized:", LD)
 
   ! Compute x
   call Cpu_Time(time_ss)
@@ -62,7 +62,6 @@
   call Solvers_Mod_Sparse_Forward_Substitution (x, LD, x, d_only=.true.)
   call Solvers_Mod_Sparse_Backward_Substitution(x, LD, x, t=.true., d_one=.true.)
   call Cpu_Time(time_se)
-  !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
   print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss

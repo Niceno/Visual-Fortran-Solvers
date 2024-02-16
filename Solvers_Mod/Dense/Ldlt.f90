@@ -65,8 +65,8 @@
   call Solvers_Mod_Dense_Ldlt_Factorization(LD, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("ld_after_factorization",  LD)
-  call IO % Print_Dense("LD after factorization:", LD)
+  call IO % Plot_Dense ("dens_ldlt_factorized",   LD)
+  call IO % Print_Dense("Dense LDL' factorized:", LD)
 
   ! Compute x
   call Cpu_Time(time_ss)

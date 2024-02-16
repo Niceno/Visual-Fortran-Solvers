@@ -58,8 +58,8 @@
   LU % val(:,:) = 0
 
   ! Just plot and print original matrix
-  call IO % Plot_Dense ("a",  A)
-  call IO % Print_Dense("A:", A)
+  call IO % Plot_Dense ("dens_a",                   A)
+  call IO % Print_Dense("Dense original matrix A:", A)
 
   !------------------------!
   !   Actual computation   !
@@ -74,8 +74,8 @@
   end if
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("lu_after_lu_factorization",  LU)
-  call IO % Print_Dense("LU after LU factorization:", LU)
+  call IO % Plot_Dense ("dens_lu_factorized",   LU)
+  call IO % Print_Dense("Dense LU factorized:", LU)
 
   ! Compute y by forward substitution (solve: Ly=b; diagonal equal to 1)
   call Cpu_Time(time_ss)
