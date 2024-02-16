@@ -65,6 +65,7 @@
         call IO % Plot_Dense("dens_lu_gauss", LU, B=A, targ=(/i,j/), src1=(/k,j/))
       end do
     end do
+
   end do           ! A->
 
   call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
