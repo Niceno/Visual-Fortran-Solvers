@@ -36,9 +36,9 @@
   !----------------------------------------------------------------------!
   !   Initialize the values by copying the original matrix to LU first   !
   !----------------------------------------------------------------------!
-  do k = 1, n  ! <-A
+  do i = 1, n  ! <-A
     do j = 1, n
-      LU % val(k,j) = A % val(k,j)
+      LU % val(i,j) = A % val(i,j)
     end do
   end do       ! A->
 
