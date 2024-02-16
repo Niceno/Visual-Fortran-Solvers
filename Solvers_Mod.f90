@@ -60,11 +60,13 @@
     ! Incomplete solvers
 #   include "Solvers_Mod/Incomplete/Cholesky.f90"
 #   include "Solvers_Mod/Incomplete/Ldlt.f90"
-#   include "Solvers_Mod/Incomplete/Ldlt_From_Tflows.f90"
+#   include "Solvers_Mod/Incomplete/Lu.f90"
+#   include "Solvers_Mod/Incomplete/Tflows_Ldlt.f90"
 
     ! Sparse solver components
 #   include "Solvers_Mod/Sparse/Cholesky_Factorization.f90"
 #   include "Solvers_Mod/Sparse/Ldlt_Factorization.f90"
+#   include "Solvers_Mod/Sparse/Lu_Factorization_Gauss.f90"
 #   include "Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90"
 #   include "Solvers_Mod/Sparse/Tflows_Ldlt_Solution.f90"
 

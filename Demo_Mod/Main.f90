@@ -86,7 +86,8 @@
                        'Section 2 - Incomplete Solvers', 'bright cyan');
   print *, '# 21 - Incomplete Cholesky solver'
   print *, '# 22 - Incomplete LDL'' solver'
-  print *, '# 23 - Bare-bones LDL'' solver from T-Flows'
+  print *, '# 23 - Incomplete LU solver (based on Gauss)'
+  print *, '# 24 - T-Flows'' bare-bones LDL'' solver'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                         'Section 3 - Iterative Solvers', 'bright cyan');
@@ -154,6 +155,8 @@
     case(22)
         call Solvers_Mod_Incomplete_Ldlt(grid, As, x, b, f_in)
     case(23)
+        call Solvers_Mod_Incomplete_Lu(grid, As, x, b, f_in)
+    case(24)
         call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
 
     case(31)
@@ -193,48 +196,6 @@
         print *, "Invalid choice"
 
   end select
-
-
-
-!@  if(choice ==  0) return
-!@
-!@  if(choice == 11) call Solvers_Mod_Gauss   (grid, Ad, x, b)
-!@  if(choice == 12) call Solvers_Mod_Cholesky(grid, Ad, x, b)
-!@  if(choice == 13) call Solvers_Mod_Ldlt    (grid, Ad, x, b)
-!@  if(choice == 14) call Solvers_Mod_Lu      (grid, Ad, x, b, GAUSS)
-!@  if(choice == 15) call Solvers_Mod_Lu      (grid, Ad, x, b, DOOLITTLE)
-!@
-!@  if(choice == 21) call Solvers_Mod_Incomplete_Cholesky        (grid, As, x, b, f_in)
-!@  if(choice == 22) call Solvers_Mod_Incomplete_Ldlt            (grid, As, x, b, f_in)
-!@  if(choice == 23) call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
-!@
-!@  if(choice == 31) call Solvers_Mod_Cg_No_Prec      (grid, As, x, b, n_iter, res)
-!@  if(choice == 32) call Solvers_Mod_Cg_Diag_Prec    (grid, As, x, b, n_iter, res)
-!@  if(choice == 33) call Solvers_Mod_Cg_Tflows_Prec  (grid, As, x, b, n_iter, res)
-!@  if(choice == 34) call Solvers_Mod_Cg_Ldlt_Prec    (grid, As, x, b, n_iter, res, f_in)
-!@  if(choice == 35) call Solvers_Mod_Cg_Cholesky_Prec(grid, As, x, b, n_iter, res, f_in)
-!@
-!@  if(choice == 41) call Demo_Mod_Compress_Decompress
-!@  if(choice == 41) call Demo_Mod_Fill_In(f_in, grid)
-!@
-!@  if(choice == 51) then
-!@    print *, '# Enter the desired resolution: '
-!@    read *, grid % nx, grid % ny, grid % nz
-!@  end if
-!@  if(choice == 52) then
-!@    print *, '# Enter the desired fill-in level: '
-!@    read *, f_in
-!@  end if
-!@  if(choice == 53) then
-!@    print *, '# Enter the desired number of iterations: '
-!@    read *, n_iter
-!@  end if
-!@  if(choice == 54) then
-!@    print *, '# Enter the desired target residual: '
-!@    read *, res
-!@  end if
-!@  if(choice == 55) IO % scale_by_color = .not. IO % scale_by_color
-!@  if(choice == 56) IO % scale_by_size  = .not. IO % scale_by_size
 
   if(test .eq. -1) goto 1
 

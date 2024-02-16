@@ -1,8 +1,8 @@
 !==============================================================================!
   subroutine Solvers_Mod_Dense_Lu_Factorization_Gauss(LU, A)
 !------------------------------------------------------------------------------!
-!>  Performs LU factorization the given matrix "A", based on the Gaussian
-!>  elimination.
+!>  Performs LU factorization the given dense matrix "A", based on the
+!>  Gaussian elimination.
 !------------------------------------------------------------------------------!
 !   LU factorization in full, looks like this:                                 !
 !                                                                              !
