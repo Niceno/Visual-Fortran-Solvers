@@ -5,6 +5,7 @@
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
   use Sort_Mod
+  use Matrix_Mod
   use Grid_Mod
 !------------------------------------------------------------------------------!
   implicit none
@@ -41,9 +42,7 @@
   !   Sparse Type   !
   !                 !
   !-----------------!
-  type Sparse_Type
-    integer              :: n = 0     ! matrix dimension
-    integer              :: nonzeros  ! number of nonzero entries
+  type, extends(Matrix_Type) ::  Sparse_Type
     real,    allocatable :: val(:)    ! value
     integer, allocatable :: col(:)    ! beginning of each row   
     integer, allocatable :: row(:)    ! column positions

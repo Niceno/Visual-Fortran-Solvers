@@ -5,8 +5,10 @@
 #-- ./Foul_Mod/Lower_Case.f90
 #-- ./Foul_Mod/Get_Escape_Sequence.f90
 #-- ./Foul_Mod/Formatted_Write.f90
+#-- ./Matrix_Mod.f90
 #-- ./Dense_Mod.f90
 $(DIR_OBJECT)/Dense_Mod.o:\
+$(DIR_OBJECT)/Matrix_Mod.o \
 $(DIR_OBJECT)/Grid_Mod.o \
 Dense_Mod/*.f90 
 
@@ -138,6 +140,7 @@ $(DIR_OBJECT)/Sparse_Mod.o:\
 Sparse_Mod/*.f90 \
 $(DIR_OBJECT)/Sort_Mod.o \
 Sort_Mod/*.f90 \
+$(DIR_OBJECT)/Matrix_Mod.o \
 $(DIR_OBJECT)/Grid_Mod.o 
 
 #-- ./Demo_Mod.f90

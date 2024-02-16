@@ -111,6 +111,7 @@ SRC_MOD = Assert_Mod.f90	\
           Foul_Mod.f90		\
           Sort_Mod.f90		\
           Grid_Mod.f90		\
+          Matrix_Mod.f90	\
           Dense_Mod.f90		\
           Sparse_Mod.f90	\
           In_Out_Mod.f90	\

@@ -4,6 +4,7 @@
   module Dense_Mod
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
+  use Matrix_Mod
   use Grid_Mod
 !------------------------------------------------------------------------------!
   implicit none
@@ -16,11 +17,9 @@
   !   Dense Type   !
   !                !
   !----------------!
-  type Dense_Type
-    integer              :: n = 0     ! matrix dimension
-    integer              :: nonzeros  ! number of nonzero entries
-    integer              :: bw        ! band width
-    real,    allocatable :: val(:,:)  ! value
+  type, extends(Matrix_Type) :: Dense_Type
+    integer           :: bw        ! band width
+    real, allocatable :: val(:,:)  ! value
 
     contains
       procedure :: Dense_Allocate
