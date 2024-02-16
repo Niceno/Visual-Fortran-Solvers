@@ -51,10 +51,10 @@
       s = L % col(ks)
       Assert(k > s)  ! =--> (k,s) in L
       sum = sum + L % val(ks)**2
-      call IO % Plot_Sparse("spar_chol", L, B=A, src1=(/k,s,GREEN/))
+      call IO % Plot_Sparse("spar_chol", L, B=A, src1=(/k,s/))
     end do
     L % val(L % dia(k)) = sqrt(A % val(A % dia(k)) - sum)
-    call IO % Plot_Sparse("spar_chol", L, B=A, targ=(/k,k,PINK2/))
+    call IO % Plot_Sparse("spar_chol", L, B=A, targ=(/k,k/))
 
     ! Work out (and store) the L
     do ki = L % dia(k) + 1, L % row(k+1) - 1
@@ -83,14 +83,14 @@
         Assert(k > s)  ! =--> (k,s) in L
         Assert(i > s)  ! =--> (i,s) in L
         sum = sum + L % val(ks) * l_val_i(s)
-        call IO % Plot_Sparse("spar_chol", L, B=A, src1=(/i,s,GREEN2/), src2=(/k,s,GREEN/))
+        call IO % Plot_Sparse("spar_chol", L, B=A, src1=(/i,s/), src2=(/k,s/))
       end do
 
       ! Store the lower part only.  At this point you have ki (k,i) for L
       ! but ik (i,k) is defined for A, which might have a different
       ! sparsity pattern.  Hence, it is easier to use mirror of ki for L
       L % val(L % mir(ki)) = (a_val_ik - sum) / L % val(L % dia(k))
-      call IO % Plot_Sparse("spar_chol", L, B=A, targ=(/i,k,PINK2/))
+      call IO % Plot_Sparse("spar_chol", L, B=A, targ=(/i,k/))
 
       l_val_i(:) = 0.0
     end do

@@ -50,12 +50,12 @@
       Assert(i > k)  ! =--> (i,k) in L
       mult = LU % val(i,k) / LU % val(k,k)
       LU % val(i,k) = mult
-      call IO % Plot_Dense("dens_lu_gauss", LU, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
+      call IO % Plot_Dense("dens_lu_gauss", LU, B=A, targ=(/i,k/), src1=(/k,k/))
 
       do j = k + 1, min(k + bw, n)
         Assert(k < j)  ! =--> (k,j) in U
         LU % val(i,j) = LU % val(i,j) - mult * LU % val(k,j)
-        call IO % Plot_Dense("dens_lu_gauss", LU, B=A, targ=(/i,j,PINK2/), src1=(/k,j,CYAN/))
+        call IO % Plot_Dense("dens_lu_gauss", LU, B=A, targ=(/i,j/), src1=(/k,j/))
       end do
     end do
   end do           ! A->

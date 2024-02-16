@@ -53,10 +53,10 @@
     do s = max(1, k - bw), k - 1
       Assert(k > s)  ! =--> (k,s) in L
       sum = sum + LD % val(k,s)**2 * LD % val(s,s)
-      call IO % Plot_Dense("dens_ldlt", LD, B=A, src1=(/k,s,GREEN/), src2=(/s,s,GREEN2/))
+      call IO % Plot_Dense("dens_ldlt", LD, B=A, src1=(/k,s/), src2=(/s,s/))
     end do
     LD % val(k,k) = A % val(k,k) - sum
-    call IO % Plot_Dense("dens_ldlt", LD, B=A, targ=(/k,k,PINK2/))
+    call IO % Plot_Dense("dens_ldlt", LD, B=A, targ=(/k,k/))
 
     ! Work out (and store) the L
     do i = k + 1, min(k + bw, n)
@@ -66,10 +66,10 @@
         Assert(k > s)  ! =--> (k,s) in L
         Assert(i > s)  ! =--> (i,s) in L
         sum = sum + LD % val(i,s) * LD % val(k,s) * LD % val(s,s)
-        call IO % Plot_Dense("dens_ldlt", LD, B=A, src1=(/i,s,GREEN/), src2=(/k,s,GREEN2/), src3=(/s,s,GREEN4/))
+        call IO % Plot_Dense("dens_ldlt", LD, B=A, src1=(/i,s/), src2=(/k,s/), src3=(/s,s/))
       end do
       LD % val(i,k) = (A % val(i,k) - sum) / LD % val(k,k)
-      call IO % Plot_Dense("dens_ldlt", LD, B=A, targ=(/i,k,PINK2/))
+      call IO % Plot_Dense("dens_ldlt", LD, B=A, targ=(/i,k/))
     end do
   end do       ! A->
 

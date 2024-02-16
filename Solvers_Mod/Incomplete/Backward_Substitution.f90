@@ -37,26 +37,32 @@
   if(.not. transposed) then
     do i = n, 1, -1  ! <-A
       sum = b(i)
+      call IO % Plot_Sparse_System("spar_back", U, x, b, srcb=(/i/))
       do ij = U % dia(i) + 1, U % row(i + 1) - 1
         j = U % col(ij)
         sum = sum - U % val(ij) * x(j)
+        call IO % Plot_Sparse_System("spar_back", U, x, b, srca=(/i,j/), srcx=(/j/))
       end do
       x(i) = sum / U % val( U % dia(i) )
+      call IO % Plot_Sparse_System("spar_back", U, x, b, tarx=(/i/), srca=(/i,i/))
     end do           ! A->
     call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
   ! Matrix is transposed, useful for Cholesky factorization which uses only L
   else
 
-    ! Diagonal is not equal to 1
+    ! Diagonal is not equal to 1 (called from Cholesky method)
     if(.not. diagonal_one) then
       do i = n, 1, -1  ! <-B
         sum = b(i)
+        call IO % Plot_Sparse_System("spar_back", U, x, b, srcb=(/i/))
         do ij = U % dia(i) + 1, U % row(i + 1) - 1
           j = U % col(ij)
           sum = sum - U % val(U % mir(ij)) * x(j)
+          call IO % Plot_Sparse_System("spar_back", U, x, b, srca=(/j,i/), srcx=(/j/))
         end do
         x(i) = sum / U % val( U % dia(i) )
+        call IO % Plot_Sparse_System("spar_back", U, x, b, tarx=(/i/), srca=(/i,i/))
       end do           !-> B
       call IO % Plot_Snippet(__FILE__, '<-B', 'B->')
 
@@ -64,11 +70,14 @@
     else
       do i = n, 1, -1  ! <-C
         sum = b(i)
+        call IO % Plot_Sparse_System("spar_back", U, x, b, srcb=(/i/))
         do ij = U % dia(i) + 1, U % row(i + 1) - 1
           j = U % col(ij)
           sum = sum - U % val(U % mir(ij)) * x(j)
+          call IO % Plot_Sparse_System("spar_back", U, x, b, srca=(/j,i/), srcx=(/j/))
         end do
         x(i) = sum
+        call IO % Plot_Sparse_System("spar_back", U, x, b, tarx=(/i/))
       end do           ! C->
       call IO % Plot_Snippet(__FILE__, '<-C', 'C->')
 

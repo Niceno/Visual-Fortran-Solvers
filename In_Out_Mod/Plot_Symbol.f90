@@ -1,13 +1,14 @@
 !==============================================================================!
   subroutine Plot_Symbol(IO, fu, symbol, row, col, depth)
 !------------------------------------------------------------------------------!
-!>  Plots a symbol (single character) in to the Xfig file.
+!>  Plots a symbol (single character) in matrix coordinates in given depth.
+!>  Color is predefined to medium gray though, just like matrix brackets.
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   class(In_Out_Type)       :: IO        !! parent class
   integer,      intent(in) :: fu        !! file unit
-  character(1), intent(in) :: symbol
+  character(*), intent(in) :: symbol
   integer,      intent(in) :: row, col  !! row and column
   integer,      intent(in) :: depth     !! depth
 !-----------------------------------[Locals]-----------------------------------!
@@ -22,7 +23,7 @@
 
   write(fu,'(a)',  advance='no') ' 4'         !  1 text
   write(fu,'(a)',  advance='no') ' 1'         !  2 justification (1 is center)
-  write(fu,'(i3)', advance='no')  49          !  3 color (the same as brackets)
+  write(fu,'(i3)', advance='no') GRAY         !  3 color (the same as brackets)
   write(fu,'(i4)', advance='no') depth        !  4 layer
   write(fu,'(a)',  advance='no') ' -1'        !  5 pen style (not used)
   write(fu,'(a)',  advance='no') ' 16'        !  6 font: 16 is Helvetica
@@ -35,7 +36,7 @@
   write(fu,'(i4)', advance='no') CM           ! 11 length
   write(fu,'(i9)', advance='no') plot_x+d     ! 12 x coordinate
   write(fu,'(i9)', advance='no') plot_y       ! 13 y coordinate
-  write(fu,'(a2)', advance='no') ' '//symbol  ! 14 symbol to plot
+  write(fu,'(a2)', advance='no') ' '//trim(symbol)
   write(fu,'(a)')                '\001'
 
   end subroutine

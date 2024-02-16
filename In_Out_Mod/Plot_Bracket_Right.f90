@@ -1,7 +1,8 @@
 !==============================================================================!
   subroutine Plot_Bracket_Right(IO, fu, rows, col, depth)
 !------------------------------------------------------------------------------!
-!>  Plots box in to the Xfig file.
+!>  Plots right bracket for given matrix coordinates in given depth.
+!>  Color is predefined to medium gray though.
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -25,8 +26,8 @@
   write(fu,'(a)',     advance='no') ' 1'                !  2 it is a polyline
   write(fu,'(a)',     advance='no') ' 0'                !  3 line style
   write(fu,'(a)',     advance='no') ' 4'                !  4 line thickness
-  write(fu,'(i3)',    advance='no')  49                 !  5 line color
-  write(fu,'(i3)',    advance='no')  49                 !  6 fill color
+  write(fu,'(i3)',    advance='no') GRAY                !  5 line color
+  write(fu,'(i3)',    advance='no') GRAY                !  6 fill color
   write(fu,'(i4)',    advance='no') depth               !  7 layer
   write(fu,'(a)',     advance='no') ' -1'               !  8 pen style, unused
   write(fu,'(a)',     advance='no') ' -1'               !  9 fill intensity

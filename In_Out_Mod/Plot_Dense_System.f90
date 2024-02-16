@@ -10,10 +10,10 @@
   type(Dense_Type), intent(in)           :: A         !! matrix to plot
   real,             intent(in)           :: x(:)      !! solution vector
   real,             intent(in)           :: b(:)      !! righ-hand side vector
-  integer,          intent(in), optional :: tarx(2)   !! row, color
-  integer,          intent(in), optional :: srca(3)   !! source from A
-  integer,          intent(in), optional :: srcx(2)   !! source from x
-  integer,          intent(in), optional :: srcb(2)   !! source form b
+  integer,          intent(in), optional :: tarx(:)   !! row
+  integer,          intent(in), optional :: srca(:)   !! source from A
+  integer,          intent(in), optional :: srcx(:)   !! source from x
+  integer,          intent(in), optional :: srcb(:)   !! source form b
 !-----------------------------------[Locals]-----------------------------------!
   integer        :: row, col, n
   integer, save  :: cnt = 0
@@ -26,6 +26,11 @@
 
   ! Take an alias
   n = A % n
+
+  if(present(tarx)) Assert(size(tarx) .eq. 1)
+  if(present(srca)) Assert(size(srca) .eq. 2)
+  if(present(srcx)) Assert(size(srcx) .eq. 1)
+  if(present(srcb)) Assert(size(srcb) .eq. 1)
 
   !------------------------------------------------!
   !                                                !
@@ -103,7 +108,7 @@
       ! If source
       if(present(srca)) then
         if(row .eq. srca(1) .and. col .eq. srca(2)) then
-          call IO % Plot_Box(9, row, col, srca(3), 51)
+          call IO % Plot_Box(9, row, col, SOURCEA, 51)
         end if
       end if
 
@@ -121,13 +126,13 @@
     ! If target for x is present
     if(present(tarx)) then
       if(row .eq. tarx(1)) then
-        call IO % Plot_Box(9, row, n+3, tarx(2), 55)
+        call IO % Plot_Box(9, row, n+3, TARGET, 55)
       end if
     end if
 
     if(present(srcx)) then
       if(row .eq. srcx(1)) then
-        call IO % Plot_Box(9, row, n+3, srcx(2), 52)
+        call IO % Plot_Box(9, row, n+3, SOURCEX, 52)
       end if
     end if
 
@@ -142,7 +147,7 @@
 
     if(present(srcb)) then
       if(row .eq. srcb(1)) then
-        call IO % Plot_Box(9, row, n+7, srcb(2), 52)
+        call IO % Plot_Box(9, row, n+7, SOURCEB, 53)
       end if
     end if
 

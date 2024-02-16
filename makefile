@@ -58,7 +58,7 @@ ifeq ($(FORTRAN), gnu)
   FC = gfortran
   ifeq ($(DEBUG),yes)
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O0 -g  \
-                                -Wunused-parameter                           \
+                                -Wunused-parameter -Wall                     \
                                 -cpp
   else
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O3 -cpp
@@ -78,18 +78,6 @@ ifeq ($(FORTRAN), intel)
   endif
   OPT_LINK = $(OPT_COMP)
 endif 
-
-# Fortran == portland
-ifeq ($(FORTRAN), portland)
-  $(info  # Using Portland Group Fortran compiler with options:)
-  FC = pgfortran
-  ifeq ($(DEBUG),yes)
-    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g
-  else
-    OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3
-  endif
-  OPT_LINK = $(OPT_COMP)
-endif
 
 # Fortran == nvidia
 ifeq ($(FORTRAN), nvidia)

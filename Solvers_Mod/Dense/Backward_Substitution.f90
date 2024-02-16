@@ -42,13 +42,13 @@
   if(.not. transposed) then
     do i = n, 1, -1  ! <-A
       sum = b(i)
-      call IO % Plot_Dense_System("dens_back", U, x, b, srcb=(/i,GREEN2/))
+      call IO % Plot_Dense_System("dens_back", U, x, b, srcb=(/i/))
       do j = i+1, min(i + bw, n)
         sum = sum - U % val(i,j) * x(j)
-        call IO % Plot_Dense_System("dens_back", U, x, b, srca=(/i,j,GREEN/), srcx=(/j,CYAN/))
+        call IO % Plot_Dense_System("dens_back", U, x, b, srca=(/i,j/), srcx=(/j/))
       end do
       x(i) = sum / U % val(i,i)
-      call IO % Plot_Dense_System("dens_back", U, x, b, tarx=(/i,PINK2/), srca=(/i,i,GREEN/))
+      call IO % Plot_Dense_System("dens_back", U, x, b, tarx=(/i/), srca=(/i,i/))
     end do           ! A->
     call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
@@ -57,25 +57,31 @@
   !------------------------------------------------------------------------!
   else
 
-    ! Diagonal is not equal to 1
+    ! Diagonal is not equal to 1 (called from Cholesky method)
     if(.not. diagonal_one) then
       do i = n, 1, -1  ! <-B
         sum = b(i)
+        call IO % Plot_Dense_System("dens_back", U, x, b, srcb=(/i/))
         do j = i+1, min(i + bw, n)
           sum = sum - U % val(j,i) * x(j)
+          call IO % Plot_Dense_System("dens_back", U, x, b, srca=(/j,i/), srcx=(/j/))
         end do
         x(i) = sum / U % val(i,i)
+        call IO % Plot_Dense_System("dens_back", U, x, b, tarx=(/i/), srca=(/i,i/))
       end do           ! B->
       call IO % Plot_Snippet(__FILE__, '<-B', 'B->')
 
-    ! Diagonal is equal to 1, good for LU and LDL' methods
+    ! Diagonal is equal to 1 (called from LU and LDL' methods)
     else
       do i = n, 1, -1  ! <-C
         sum = b(i)
+        call IO % Plot_Dense_System("dens_back", U, x, b, srcb=(/i/))
         do j = i+1, min(i + bw, n)
           sum = sum - U % val(j,i) * x(j)
+          call IO % Plot_Dense_System("dens_back", U, x, b, srca=(/j,i/), srcx=(/j/))
         end do
         x(i) = sum
+        call IO % Plot_Dense_System("dens_back", U, x, b, tarx=(/i/))
       end do           ! C->
       call IO % Plot_Snippet(__FILE__, '<-C', 'C->')
 

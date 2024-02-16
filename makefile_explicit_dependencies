@@ -49,6 +49,7 @@ Dense_Mod/*.f90
 #-- ./In_Out_Mod/Plot_Circle.f90
 #-- ./In_Out_Mod/Print_Dense.f90
 #-- ./In_Out_Mod/Plot_Box.f90
+#-- ./In_Out_Mod/Plot_Sparse_System.f90
 #-- ./In_Out_Mod/Plot_Snippet.f90
 #-- ./In_Out_Mod/Plot_Brackets.f90
 #-- ./In_Out_Mod/Plot_Dense_System.f90
@@ -57,6 +58,7 @@ Dense_Mod/*.f90
 #-- ./In_Out_Mod/Plot_Dense.f90
 #-- ./In_Out_Mod/Load_Linear_System.f90
 #-- ./In_Out_Mod/Plot_Square.f90
+#-- ./In_Out_Mod/Constants.f90
 #-- ./In_Out_Mod/Print_Vector.f90
 #-- ./In_Out_Mod/Print_Sparse.f90
 #-- ./In_Out_Mod/Plot_Header.f90
@@ -88,9 +90,11 @@ Assert_Mod/*.f90
 #-- ./Solvers_Mod/Incomplete/Backward_Substitution.f90
 #-- ./Solvers_Mod/Incomplete/Forward_Substitution.f90
 #-- ./Solvers_Mod/Incomplete/Ldlt.f90
-#-- ./Solvers_Mod/Incomplete/Ldlt_From_Tflows.f90
+#-- ./Solvers_Mod/Incomplete/Tflows_Ldlt.f90
+#-- ./Solvers_Mod/Incomplete/Lu.f90
 #-- ./Solvers_Mod/Sparse/Tflows_Ldlt_Solution.f90
 #-- ./Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90
+#-- ./Solvers_Mod/Sparse/Lu_Factorization_Gauss.f90
 #-- ./Solvers_Mod/Sparse/Cg_Ldlt_Prec.f90
 #-- ./Solvers_Mod/Sparse/Cg_Cholesky_Prec.f90
 #-- ./Solvers_Mod/Sparse/Cg_No_Prec.f90
@@ -115,8 +119,11 @@ $(DIR_OBJECT)/Sort_Mod.o:\
 Sort_Mod/*.f90 
 
 #-- ./.git/objects/9a/d6e6a6363dda995bb1c32435a62d22f5acf905
+#-- ./.git/objects/5c/78774a5a6018625cae13d66b22fcbc8ca7df90
+#-- ./.git/objects/6d/37bb2bc8287ea94dd2b6841af90e6fbea71a54
 #-- ./.git/objects/65/00f4f7fcfe19562d8f634546cf9023a8b9e0b3
 #-- ./.git/objects/f3/da950b7ddeb473a746d10f90493a3a49448584
+#-- ./.git/objects/63/0f14f9cca80224acf90129154d7bc421620f38
 #-- ./.git/objects/80/a6e96fa693202d23fa96fb9a893e0af902735c
 #-- ./.git/objects/b5/ceaf90f8dcb32ebf5ebb2cbfce00d8e93d16f8
 #-- ./.git/objects/7a/f5177ef59c4699d37f908d545d1f8c9fc2920d

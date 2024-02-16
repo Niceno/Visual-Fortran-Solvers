@@ -43,7 +43,7 @@
     a_val_i(:) = 0.0
     do ij = A % row(i), A % row(i+1) - 1
       j = A % col(ij)
-      a_val_i(j) = A % val(kj)
+      a_val_i(j) = A % val(ij)
     end do
 
     ! Copy the values from expanded row to LU matrix
@@ -65,7 +65,7 @@
       ik = LU % mir(ki)  ! go to L instad
       mult = LU % val(ik) / LU % val(LU % dia(k))
       LU % val(ik) = mult
-      call IO % Plot_Sparse("spar_lu_gauss", LU, B=A, targ=(/i,k,YELLOW/), src1=(/k,k,GREEN/))
+      call IO % Plot_Sparse("spar_lu_gauss", LU, B=A, targ=(/i,k/), src1=(/k,k/))
 
       do kj = LU % dia(k) + 1, LU % row(k+1) - 1  ! through columns of row k
         j_in_k = LU % col(kj)                     ! column in row k
@@ -74,7 +74,7 @@
           j_in_i = LU % col(ij)                   ! column in row i
           if(j_in_k .eq. j_in_i) then
             LU % val(ij) = LU % val(ij) - mult * LU % val(kj)
-            call IO % Plot_Sparse("spar_lu_gauss", LU, B=A, targ=(/i,j,PINK2/), src1=(/k,j,CYAN/))
+            call IO % Plot_Sparse("spar_lu_gauss", LU, B=A, targ=(/i,j/), src1=(/k,j/))
           end if
         end do
       end do

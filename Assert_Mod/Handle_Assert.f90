@@ -12,7 +12,7 @@
   character(*) :: file  !! name of the file where the assertion check occurred
   integer      :: line  !! line number where the assertion check occurred
 !-----------------------------------[Locals]-----------------------------------!
-  character(16) :: numb, proc
+  character(16) :: numb
 !==============================================================================!
 
   if(fail) then

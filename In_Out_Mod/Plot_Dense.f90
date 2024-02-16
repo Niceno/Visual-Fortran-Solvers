@@ -9,10 +9,10 @@
   character(len=*), intent(in)           :: name_out  !! output file name
   type(Dense_Type), intent(in)           :: A         !! matrix to plot
   type(Dense_Type), intent(in), optional :: B         !! background matrix
-  integer,          intent(in), optional :: targ(3)   !! row, col, color
-  integer,          intent(in), optional :: src1(3)
-  integer,          intent(in), optional :: src2(3)
-  integer,          intent(in), optional :: src3(3)
+  integer,          intent(in), optional :: targ(:)   !! row, col
+  integer,          intent(in), optional :: src1(:)
+  integer,          intent(in), optional :: src2(:)
+  integer,          intent(in), optional :: src3(:)
 !-----------------------------------[Locals]-----------------------------------!
   integer        :: row, col, n
   integer, save  :: cnt = 0
@@ -23,6 +23,11 @@
 
   ! Take an alias
   n = A % n
+
+  if(present(targ)) Assert(size(targ) .eq. 2)
+  if(present(src1)) Assert(size(src1) .eq. 2)
+  if(present(src2)) Assert(size(src2) .eq. 2)
+  if(present(src3)) Assert(size(src3) .eq. 2)
 
   !------------------------------------------------!
   !                                                !
@@ -111,24 +116,24 @@
       ! If target is present
       if(present(targ)) then
         if(row .eq. targ(1) .and. col .eq. targ(2)) then
-          call IO % Plot_Box(9, row, col, targ(3), 55)
+          call IO % Plot_Box(9, row, col, TARGET, 55)
         end if
       end if
 
       ! If source
       if(present(src1)) then
         if(row .eq. src1(1) .and. col .eq. src1(2)) then
-          call IO % Plot_Box(9, row, col, src1(3), 51)
+          call IO % Plot_Box(9, row, col, SOURCE1, 51)
         end if
       end if
       if(present(src2)) then
         if(row .eq. src2(1) .and. col .eq. src2(2)) then
-          call IO % Plot_Box(9, row, col, src2(3), 52)
+          call IO % Plot_Box(9, row, col, SOURCE2, 52)
         end if
       end if
       if(present(src3)) then
         if(row .eq. src3(1) .and. col .eq. src3(2)) then
-          call IO % Plot_Box(9, row, col, src3(3), 53)
+          call IO % Plot_Box(9, row, col, SOURCE3, 53)
         end if
       end if
     end do

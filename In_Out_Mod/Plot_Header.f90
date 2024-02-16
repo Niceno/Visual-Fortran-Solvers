@@ -11,7 +11,9 @@
   Unused(IO)
 !==============================================================================!
 
-  ! Write the header out
+  !--------------------------!
+  !   Write the header out   !
+  !--------------------------!
   write(fu,'(a)') "#FIG 3.2  Produced by xfig version 3.2.8b"
   write(fu,'(a)') "Landscape"
   write(fu,'(a)') "Center"
@@ -22,7 +24,14 @@
   write(fu,'(a)') "-2"
   write(fu,'(a)') "1200 2"
 
-  ! Define custom colors too
+  !-----------------------------------!
+  !     Define custom colors too      !
+  !- - - - - - - - - - - - - - - - - -!
+  !   If you change this, make sure   !
+  !    you check Constants.h90 too    !
+  !-----------------------------------!
+
+  ! Shades of gray, used to background matrix
   write(fu,'(a)') "0 40 #F8F8F8"  ! 248 starting from close to zero
   write(fu,'(a)') "0 41 #F0F0F0"
   write(fu,'(a)') "0 42 #E8E8E8"  ! 232
@@ -33,8 +42,10 @@
   write(fu,'(a)') "0 47 #C0C0C0"  ! 192 maximum positive value
   write(fu,'(a)') "0 48 #B8B8B8"  ! 184 just if we go over the top
 
-  write(fu,'(a)') "0 49 #808080"  ! used for matrix brackets (medium gray)
+  ! One more shade of gray, medium gray, used for matrix brackets
+  write(fu,'(a)') "0 49 #808080"
 
+  ! Shades of red, from lightest to darkest
   write(fu,'(a)') "0 50 #FFFFFF"  ! starting from close to zero
   write(fu,'(a)') "0 51 #FFDDDD"
   write(fu,'(a)') "0 52 #FFBBBB"
@@ -45,6 +56,7 @@
   write(fu,'(a)') "0 57 #FF1111"  ! maximum positive value
   write(fu,'(a)') "0 58 #FF0000"  ! just if we go over the top
 
+  ! Shades of green, from lightest to darkest
   write(fu,'(a)') "0 60 #FFFFFF"  ! starting from close to zero
   write(fu,'(a)') "0 61 #DDFFDD"
   write(fu,'(a)') "0 62 #BBFFBB"
@@ -55,6 +67,7 @@
   write(fu,'(a)') "0 67 #11FF11"  ! maximum positive value
   write(fu,'(a)') "0 68 #00FF00"  ! just if we go over the top
 
+  ! Shades of blue, from lightest to darkest
   write(fu,'(a)') "0 70 #FFFFFF"  ! starting from close to zero
   write(fu,'(a)') "0 71 #DDDDFF"
   write(fu,'(a)') "0 72 #BBBBFF"

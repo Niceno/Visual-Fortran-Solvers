@@ -60,10 +60,10 @@
         Assert(k > s)  ! =--> (k,s) in L
         Assert(s < i)  ! =--> (s,i) in U
         sum = sum + L % val(k,s) * U % val(s,i)
-        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/k,s,GREEN/), src2=(/s,i,CYAN/))
+        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/k,s/), src2=(/s,i/))
       end do
       LU % val(k,i) = A % val(k,i) - sum
-      call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/k,i,PINK2/))
+      call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/k,i/))
     end do
 
     ! Lower triangular
@@ -74,10 +74,10 @@
         Assert(s < k)  ! =--> (s,k) in U
         Assert(i > s)  ! =--> (i,s) in L
         sum = sum + L % val(i,s) * U % val(s,k)
-        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/i,s,GREEN/), src2=(/s,k,CYAN/))
+        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/i,s/), src2=(/s,k/))
       end do
       LU % val(i,k) = (A % val(i,k) - sum) / LU % val(k,k)
-      call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
+      call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/i,k/), src1=(/k,k/))
     end do
 
   end do       ! A->
