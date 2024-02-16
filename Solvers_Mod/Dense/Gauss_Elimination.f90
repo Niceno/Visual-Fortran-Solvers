@@ -20,9 +20,9 @@
   !---------------------------------------------------------------------!
   !   Initialize the values by copying the original matrix to U first   !
   !---------------------------------------------------------------------!
-  do i = 1, n  ! <-A
+  do k = 1, n  ! <-A
     do j = 1, n
-      U % val(i,j) = A % val(i,j)
+      U % val(k,j) = A % val(k,j)
     end do
   end do       ! A->
 

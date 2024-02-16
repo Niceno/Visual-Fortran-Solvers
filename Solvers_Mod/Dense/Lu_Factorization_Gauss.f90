@@ -36,9 +36,9 @@
   !----------------------------------------------------------------------!
   !   Initialize the values by copying the original matrix to LU first   !
   !----------------------------------------------------------------------!
-  do i = 1, n  ! <-A
+  do k = 1, n  ! <-A
     do j = 1, n
-      LU % val(i,j) = A % val(i,j)
+      LU % val(k,j) = A % val(k,j)
     end do
   end do       ! A->
 
@@ -51,6 +51,7 @@
       mult = LU % val(i,k) / LU % val(k,k)
       LU % val(i,k) = mult
       call IO % Plot_Dense("dens_lu_gauss", LU, B=A, targ=(/i,k,PINK2/), src1=(/k,k,CYAN/))
+
       do j = k + 1, min(k + bw, n)
         Assert(k < j)  ! =--> (k,j) in U
         LU % val(i,j) = LU % val(i,j) - mult * LU % val(k,j)
