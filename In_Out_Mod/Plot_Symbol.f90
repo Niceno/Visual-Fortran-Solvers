@@ -36,7 +36,7 @@
   write(fu,'(i4)', advance='no') CM           ! 11 length
   write(fu,'(i9)', advance='no') plot_x+d     ! 12 x coordinate
   write(fu,'(i9)', advance='no') plot_y       ! 13 y coordinate
-  write(fu,'(a2)', advance='no') ' '//trim(symbol)
+  write(fu,'(a)',  advance='no') ' '//trim(symbol)
   write(fu,'(a)')                '\001'
 
   end subroutine

@@ -37,6 +37,10 @@
   n  = A % n
   bw = A % bw
 
+  ! Set the type of the matrix (in a sense)
+  L % text_u ="U=L'"
+  L % text_l ="L"
+
   !---------------------------!
   !   Initialize the values   !
   !---------------------------!

@@ -42,10 +42,13 @@
     if(.not. diagonal_one) then
       do i = 1, n  ! <-A
         sum = b(i)
+        call IO % Plot_Dense_System("dens_forw", L, x, b, srcb=(/i/))
         do j = max(1, i - bw), i-1
           sum = sum - L % val(i,j)*x(j)
+          call IO % Plot_Dense_System("dens_forw", L, x, b, srca=(/i,j/), srcx=(/j/))
         end do
         x(i) = sum / L % val(i,i)
+        call IO % Plot_Dense_System("dens_forw", L, x, b, tarx=(/i/), srca=(/i,i/))
       end do       ! A->
       call IO % Plot_Snippet(__FILE__, '<-A', 'A->')
 
@@ -53,10 +56,13 @@
     else
       do i = 1, n  ! <-B
         sum = b(i)
+        call IO % Plot_Dense_System("dens_forw", L, x, b, srcb=(/i/))
         do j = max(1, i - bw), i-1
           sum = sum - L % val(i,j)*x(j)
+          call IO % Plot_Dense_System("dens_forw", L, x, b, srca=(/i,j/), srcx=(/j/))
         end do
         x(i) = sum
+        call IO % Plot_Dense_System("dens_forw", L, x, b, tarx=(/i/))
       end do       ! B->
       call IO % Plot_Snippet(__FILE__, '<-B', 'B->')
 
@@ -64,11 +70,12 @@
 
   !-------------------------------------------------!
   !   Trivial solutions with forward substitution   !
-  !    as used in ssecond step of LDL' solution     !
+  !     as used in second step of LDL' solution     !
   !-------------------------------------------------!
   else
     do i = 1, n  ! <-C
       x(i) = b(i) / L % val(i,i)
+      call IO % Plot_Dense_System("dens_forw", L, x, b, tarx=(/i/), srca=(/i,i/), srcb=(/i/))
     end do       ! C->
     call IO % Plot_Snippet(__FILE__, '<-C', 'C->')
 

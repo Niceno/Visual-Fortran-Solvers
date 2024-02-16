@@ -38,11 +38,17 @@
   real                      :: sum
 !==============================================================================!
 
+  print *, '# Factorizing dense matrix with LU Doolittle''s method'
+
   ! Take some aliases
   n  = A % n
   bw = A % bw
   L => LU
   U => LU
+
+  ! Set the type of the matrix (in a sense)
+  L % text_u ="L"
+  U % text_l ="U"
 
   ! Initialize the values
   LU % val(:,:) = 0.0

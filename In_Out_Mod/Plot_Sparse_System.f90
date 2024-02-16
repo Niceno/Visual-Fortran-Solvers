@@ -89,6 +89,9 @@
   call IO % Plot_Brackets(9, (/1,n/), (/n+7,n+7/), 40)
   call IO % Plot_Symbol  (9, '=',   n/2,   n+5,    40)
 
+  call IO % Plot_Symbol(9, A % text_u, 1+3, n-3, 40)
+  call IO % Plot_Symbol(9, A % text_l, n-3, 1+3, 40)
+
   min_a = minval(A % val(:))
   max_a = maxval(A % val(:))
   min_x = minval(x(:))

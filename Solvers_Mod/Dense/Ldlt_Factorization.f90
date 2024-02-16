@@ -32,11 +32,15 @@
   real    :: sum
 !==============================================================================!
 
-  print *, '# Factorizing square (full) matrix with LDL'' method'
+  print *, '# Factorizing dense matrix with LDL'' method'
 
   ! Take some aliases
   n  = A % n
   bw = A % bw
+
+  ! Set the type of the matrix (in a sense)
+  LD % text_u ="U=L'"
+  LD % text_l ="L,D"
 
   !---------------------------!
   !   Initialize the values   !

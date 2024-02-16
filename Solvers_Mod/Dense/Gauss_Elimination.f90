@@ -3,6 +3,15 @@
 !------------------------------------------------------------------------------!
 !>  Performs Gaussian elimination on the given matrix "A" and source term "b".
 !------------------------------------------------------------------------------!
+!   After the Gaussinal elimination, the matrix looks and is stored like this: !
+!                                                                              !
+!       | L11 L12 L13 L14 L15 |                                                !
+!       |     L22 L23 L24 L25 |                                                !
+!   U = |         L33 L34 L35 |                                                !
+!       |             L44 L45 |                                                !
+!       |                 L55 |                                                !
+!                                                                              !
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   type(Dense_Type)   :: U  !! factorize upper triangular matrix
@@ -13,9 +22,15 @@
   real    :: mult
 !==============================================================================!
 
+  print *, '# Factorizing dense matrix with Gaussian elimination'
+
   ! Take some aliases
   n  = A % n
   bw = A % bw
+
+  ! Set the type of the matrix (in a sense)
+  U % text_u ="U"
+  U % text_l ="L=0"
 
   !---------------------------------------------------------------------!
   !   Initialize the values by copying the original matrix to U first   !

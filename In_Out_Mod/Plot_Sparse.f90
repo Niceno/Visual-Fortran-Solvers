@@ -83,8 +83,8 @@
   ! Place brackets around the matrix
   call IO % Plot_Brackets(9, (/1,n/), (/1,n/), 40)
 
-  call IO % Plot_Symbol(9, 'U', 1+3, n-3, 40)
-  call IO % Plot_Symbol(9, 'L', n-3, 1+3, 40)
+  call IO % Plot_Symbol(9, A % text_u, 1+3, n-3, 40)
+  call IO % Plot_Symbol(9, A % text_l, n-3, 1+3, 40)
 
   !----------------------------------------------!
   !   Plot the background matrix, if specified   !

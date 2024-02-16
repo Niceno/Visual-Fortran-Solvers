@@ -22,16 +22,23 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Dense_Type)   :: LU  !! factorized matrix
-  type(Dense_Type)   :: A   !! original matrix
+  type(Dense_Type) :: LU  !! factorized matrix
+  type(Dense_Type) :: A   !! original matrix
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, n, bw
   real    :: mult
 !==============================================================================!
 
+  print *, '# Factorizing dense matrix with LU Gaussian method'
+
   ! Take some aliases
   n  = A % n
   bw = A % bw
+
+  ! Set the type of the matrix (in a sense)
+  LU % text_u ="L"
+  LU % text_l ="U"
+
 
   !----------------------------------------------------------------------!
   !   Initialize the values by copying the original matrix to LU first   !

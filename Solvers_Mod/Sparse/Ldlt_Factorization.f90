@@ -36,7 +36,12 @@
 
   print *, '# Factorizing sparse matrix with LDL'' method'
 
+  ! Take some aliases
   n = A % n  ! some checks would be possible
+
+  ! Set the type of the matrix (in a sense)
+  LD % text_u ="U=L'"
+  LD % text_l ="L,D"
 
   ! Allocate local memory
   allocate( l_val_i(n) ); l_val_i = 0.0

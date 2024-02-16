@@ -35,7 +35,12 @@
 
   print *, '# Factorizing sparse matrix with Cholesky method'
 
+  ! Take some aliases
   n = A % n  ! some checks would be possible
+
+  ! Set the type of the matrix (in a sense)
+  L % text_u ="U=L'"
+  L % text_l ="L"
 
   ! Allocate local memory
   allocate( l_val_i(n) ); l_val_i = 0.0
