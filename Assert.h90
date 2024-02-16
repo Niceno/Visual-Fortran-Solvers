@@ -1,9 +1,9 @@
 !==============================================================================!
 !>  Definition of assertion in T-Flows.  It should be used in conjuction with
-!>  Assert_Mod.  Variable T_FLOWS_ASSERT is passed from the makefile.
+!>  Assert_Mod.  Variable VSF_ASSERT is passed from the makefile.
 !>
 !>  This include file, together with Assert_Mod module, creates an assertion
-!>  system in the T-Flows project. The Assert.h header sets up the macro for
+!>  system in the this project. The Assert.h header sets up the macro for
 !>  assertions, Assert_Mod provides the module in which the Handle_Assert
 !>  subroutine is defined, and Handle_Assert itself implements the logic
 !>  for what happens when an assertion fails. This system enhances the
@@ -15,8 +15,12 @@
 # define __F__ __FILE__(index(__FILE__,'/',back=.true.)+1:len(__FILE__))
 
 ! Definition of Assert
-# if __GFORTRAN__ == 1
-#   define Assert(X) call Handle_Assert(.not.(X), "X", __FILE__, __LINE__)
+# if VFS_ASSERT == 1
+#   if __GFORTRAN__ == 1
+#     define Assert(X) call Handle_Assert(.not.(X), "X", __FILE__, __LINE__)
+#   else
+#     define Assert(X) call Handle_Assert(.not.(X), #X, __FILE__, __LINE__)
+#   endif
 # else
-#   define Assert(X) call Handle_Assert(.not.(X), #X, __FILE__, __LINE__)
+#   define Assert(X)
 # endif

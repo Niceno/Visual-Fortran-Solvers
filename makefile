@@ -1,18 +1,19 @@
 #===============================================================================
 #
-#   SFS Makefile
+#   VFS (Visual Fortran Solvers) Makefile
 #
 #-------------------------------------------------------------------------------
+
+#-------------------------------------
+#   Default options for compilation
+#-------------------------------------
+FORTRAN ?= gnu
+DEBUG   ?= no
+ASSERT  ?= yes
 
 #--------------------------
 #   Variable definitions
 #--------------------------
-
-# Fortran compiler ("gnu", "intel" or "portland")
-FORTRAN = gnu
-
-# Debugging ("yes" or "no")
-DEBUG = no
 
 # Directories for objects and modules. (No need to change.)
 DIR_BINARY = .
@@ -20,19 +21,29 @@ DIR_MODULE = .Modules
 DIR_OBJECT = .Objects
 
 # Program name (This should hardly change)
-PROGRAM_NAME = SFS
+PROGRAM_NAME = VFS
 PROGRAM_FILE = $(DIR_BINARY)/$(PROGRAM_NAME)
+
+#-------------------------------------------
+#   Variables to pass to compiled program
+#-------------------------------------------
+PASS_ON = -DVFS=1
+ifeq ($(ASSERT), yes)
+  PASS_ON += -DVFS_ASSERT=1
+else
+  PASS_ON += -DVFS_ASSERT=0
+endif
 
 $(info #=======================================================================)
 $(info # Compiling $(PROGRAM_NAME) with compiler $(FORTRAN))
 $(info #-----------------------------------------------------------------------)
 $(info # Usage:                                                                )
-$(info #   make <FORTRAN=gnu/intel/portland/nvidia> <DEBUG=no/yes>             )
+$(info #   make <FORTRAN=gnu/intel/nvidia> <ASSERT=yes/no> <DEBUG=no/yes>      )
 $(info #                                                                       )
 $(info # Examples:                                                             )
-$(info #   make                 - compile with gnu compiler                    )
-$(info #   make FORTAN=portland - compile with intel compiler                  )
-$(info #   make DEBUG=yes       - compile with gnu compiler in debug mode      )
+$(info #   make              - compile with gnu compiler                       )
+$(info #   make FORTAN=intel - compile with intel compiler                     )
+$(info #   make DEBUG=yes    - compile with gnu compiler in debug mode         )
 $(info #-----------------------------------------------------------------------)
 
 #-------------------------------------------------------------------------------
@@ -147,12 +158,12 @@ OBJ = $(OBJ_MOD) $(OBJ_FUN)
 # Modules
 $(DIR_OBJECT)/%.o: %.f90 %/*.f90 makefile*
 	@echo FC $<
-	@$(FC) $(OPT_COMP) -c -o $@ $<
+	@$(FC) $(OPT_COMP) $(PASS_ON) -c -o $@ $<
 
 # Functions
 $(DIR_OBJECT)/%.o: %.f90 makefile*
 	@echo FC $<
-	@$(FC) $(OPT_COMP) -c -o $@ $<
+	@$(FC) $(OPT_COMP) $(PASS_ON) -c -o $@ $<
 
 #-----------------------------------
 #   Rule to build main program

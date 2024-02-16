@@ -1,3 +1,5 @@
+#include "Assert.h90"
+
 !==============================================================================!
   module Demo_Mod
 !----------------------------------[Modules]-----------------------------------!
@@ -10,8 +12,8 @@
 
   contains
 
-  include 'Demo_Mod/Compress_Decompress.f90'
-  include 'Demo_Mod/Fill_In.f90'
-  include 'Demo_Mod/Main.f90'
+#   include "Demo_Mod/Compress_Decompress.f90"
+#   include "Demo_Mod/Fill_In.f90"
+#   include "Demo_Mod/Main.f90"
 
   end module
