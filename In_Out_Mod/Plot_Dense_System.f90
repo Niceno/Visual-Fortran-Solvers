@@ -6,7 +6,7 @@
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   class(In_Out_Type)                     :: IO        !! parent class
-  character(len=*), intent(in)           :: name_out  !! output file name
+  character(*),     intent(in)           :: name_out  !! output file name
   type(Dense_Type), intent(in)           :: A         !! matrix to plot
   real,             intent(in)           :: x(:)      !! solution vector
   real,             intent(in)           :: b(:)      !! righ-hand side vector
@@ -15,13 +15,14 @@
   integer,          intent(in), optional :: srcx(:)   !! source from x
   integer,          intent(in), optional :: srcb(:)   !! source form b
 !-----------------------------------[Locals]-----------------------------------!
-  integer        :: row, col, n
-  integer, save  :: cnt = 0
-  real           :: max_a, min_a
-  real           :: max_x, min_x
-  real           :: max_b, min_b
-  character(6)   :: frame = '_00000'
-  character(512) :: full_name = ''
+  integer              :: row, col, n
+  integer,        save :: cnt = 0
+  real                 :: max_a, min_a
+  real                 :: max_x, min_x
+  real                 :: max_b, min_b
+  character(6)         :: frame = '_00000'
+  character(512)       :: full_name = ''
+  character(512), save :: old_name = ''
 !==============================================================================!
 
   ! Take an alias
@@ -38,6 +39,19 @@
   !                                                !
   !------------------------------------------------!
   if(n > 216) return  ! bigger than this, you can't see
+
+  !-----------------------------------!
+  !                                   !
+  !   Restart the counter if needed   !
+  !                                   !
+  !-----------------------------------!
+  if(present(tarx) .or.  &
+     present(srca) .or. present(srcx) .or. present(srcb)) then
+    if(name_out .ne. old_name) then
+      cnt = 0
+      old_name = name_out
+    end if
+  end if
 
   !------------------!
   !                  !
@@ -87,10 +101,10 @@
   call IO % Plot_Brackets(9, (/1,n/), (/1,  n  /), 40)
   call IO % Plot_Brackets(9, (/1,n/), (/n+3,n+3/), 40)
   call IO % Plot_Brackets(9, (/1,n/), (/n+7,n+7/), 40)
-  call IO % Plot_Symbol  (9, '=',   n/2,   n+5,    40)
+  call IO % Plot_Text    (9, '=',   n/2,   n+5,    40, fsize=36)
 
-  call IO % Plot_Symbol(9, A % text_u, 1+3, n-3, 40)
-  call IO % Plot_Symbol(9, A % text_l, n-3, 1+3, 40)
+  call IO % Plot_Text(9, A % text_u, 1+3, n-3, 40, fsize=36)
+  call IO % Plot_Text(9, A % text_l, n-3, 1+3, 40, fsize=36)
 
   min_a = minval(A % val(:,:))
   max_a = maxval(A % val(:,:))
