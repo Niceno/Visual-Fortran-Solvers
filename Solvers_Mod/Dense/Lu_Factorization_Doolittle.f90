@@ -69,7 +69,7 @@
     do j = k, min(n, k + bw)
       Assert(k <= j)  ! =--> (k,j) in U
       sum = 0.0
-      do s = max(1, k - bw, j - bw), k-1
+      do s = max(1, k - bw, j - bw), k-1  ! s is summation index
         Assert(k > s)  ! =--> (k,s) in L
         Assert(s < j)  ! =--> (s,j) in U
         ! Here, (k,s) is travelling horizontally (in row k)
@@ -83,9 +83,9 @@
 
     ! Lower triangular
     do i = k + 1, min(n, k + bw)  ! do not start from i=k, 'cos diaginal is 1
-      Assert(i >= k)  ! =--> (i,k) in L
+      Assert(i > k)  ! =--> (i,k) in L
       sum = 0.0
-      do s = max(1, k - bw, i - bw), k-1
+      do s = max(1, k - bw, i - bw), k-1  ! s is summation index
         Assert(s < k)  ! =--> (s,k) in U
         Assert(i > s)  ! =--> (i,s) in L
         ! Here, (i,s) is travelling horizontally (in row i)
