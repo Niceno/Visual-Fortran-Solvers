@@ -66,6 +66,7 @@
     ! Sparse solver components
 #   include "Solvers_Mod/Sparse/Cholesky_Factorization.f90"
 #   include "Solvers_Mod/Sparse/Ldlt_Factorization.f90"
+#   include "Solvers_Mod/Sparse/Lu_Factorization_Doolittle.f90"
 #   include "Solvers_Mod/Sparse/Lu_Factorization_Gauss.f90"
 #   include "Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90"
 #   include "Solvers_Mod/Sparse/Tflows_Ldlt_Solution.f90"

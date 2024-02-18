@@ -79,15 +79,16 @@
   print *, '# 11 - Gaussian elimination'
   print *, '# 12 - Cholesky solver'
   print *, '# 13 - LDL'' solver'
-  print *, '# 14 - LU solver based on Gaussian algorithm'
-  print *, '# 15 - LU solver based on Doolittle''s algorithm'
+  print *, '# 14 - LU solver (based on Gauss)'
+  print *, '# 15 - LU solver (based on Doolittle)'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                        'Section 2 - Incomplete Solvers', 'bright cyan');
   print *, '# 21 - Incomplete Cholesky solver'
   print *, '# 22 - Incomplete LDL'' solver'
   print *, '# 23 - Incomplete LU solver (based on Gauss)'
-  print *, '# 24 - T-Flows'' bare-bones LDL'' solver'
+  print *, '# 24 - Incomplete LU solver (based on Doolittle)'
+  print *, '# 25 - T-Flows'' bare-bones LDL'' solver'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                         'Section 3 - Iterative Solvers', 'bright cyan');
@@ -155,8 +156,10 @@
     case(22)
         call Solvers_Mod_Incomplete_Ldlt(grid, As, x, b, f_in)
     case(23)
-        call Solvers_Mod_Incomplete_Lu(grid, As, x, b, f_in)
+        call Solvers_Mod_Incomplete_Lu(grid, As, x, b, f_in, GAUSS)
     case(24)
+        call Solvers_Mod_Incomplete_Lu(grid, As, x, b, f_in, DOOLITTLE)
+    case(25)
         call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
 
     case(31)

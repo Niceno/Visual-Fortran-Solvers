@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Incomplete_Lu(grid, A, x, b, fill_in)
+  subroutine Solvers_Mod_Incomplete_Lu(grid, A, x, b, fill_in, option)
 !------------------------------------------------------------------------------!
 !   LU decomposition in full, looks like this:                                 !
 !                                                                              !
@@ -19,11 +19,12 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)   :: grid     !! computational grid
-  type(Sparse_Type) :: A        !! original sparse system matrix
-  real, allocatable :: x(:)     !! unknown
-  real, allocatable :: b(:)     !! right hand side vector
-  integer           :: fill_in  !! fill-in factor
+  type(Grid_Type)     :: grid     !! computational grid
+  type(Sparse_Type)   :: A        !! original sparse system matrix
+  real, allocatable   :: x(:)     !! unknown
+  real, allocatable   :: b(:)     !! right hand side vector
+  integer             :: fill_in  !! fill-in factor
+  integer, intent(in) :: option   !! option for LU factorization
 !-----------------------------------[Locals]-----------------------------------!
   real                       :: time_ps, time_pe, time_ss, time_se
   type(Sparse_Type), pointer :: LU  ! used for LDL' factorization
@@ -33,7 +34,11 @@
   LU => P_Sparse
 
   print *, '#=========================================================='
-  print *, '# Solving the sytem with incomplete LDL'' factorization'
+  if(option .eq. GAUSS) then
+    print *, '# Solving the sytem with Gauss-based LU factorization'
+  else
+    print *, '# Solving the sytem with Doolittle''s LU factorization'
+  end if
   print *, '#----------------------------------------------------------'
 
   !------------------!
@@ -49,7 +54,11 @@
 
   ! Perform LU factorization on the matrix to fin the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Sparse_Lu_Factorization_Gauss(LU, A)
+  if(option .eq. GAUSS) then
+    call Solvers_Mod_Sparse_Lu_Factorization_Gauss(LU, A)
+  else
+    call Solvers_Mod_Sparse_Lu_Factorization_Doolittle(LU, A)
+  end if
   call Cpu_Time(time_pe)
 
   call IO % Plot_Sparse ("spar_lu_factorized",    LU)
