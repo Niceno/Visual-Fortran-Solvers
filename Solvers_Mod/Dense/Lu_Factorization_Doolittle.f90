@@ -72,6 +72,8 @@
       do s = max(1, k - bw, i - bw), k-1
         Assert(k > s)  ! =--> (k,s) in L
         Assert(s < i)  ! =--> (s,i) in U
+        ! Here, (k,s) is travelling horizontally (in row k)
+        ! and (s,i) is travelling vertically (in column i)
         sum = sum + L % val(k,s) * U % val(s,i)
         call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/k,s/), src2=(/s,i/))
       end do
@@ -86,6 +88,8 @@
       do s = max(1, k - bw, i - bw), k-1
         Assert(s < k)  ! =--> (s,k) in U
         Assert(i > s)  ! =--> (i,s) in L
+        ! Here, (i,s) is travelling horizontally (in row i)
+        ! and (s,k) is travelling vertically (in column k)
         sum = sum + L % val(i,s) * U % val(s,k)
         call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/i,s/), src2=(/s,k/))
       end do
