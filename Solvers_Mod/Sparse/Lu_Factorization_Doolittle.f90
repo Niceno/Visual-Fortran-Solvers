@@ -87,11 +87,16 @@
         Assert(s < j)  ! =--> (s,j) in U
         ! Here, (k,s) is travelling horizontally (in row k)
         ! and (s,j) is travelling vertically (in column j)
-        do sj = LU % row(s), LU % row(s+1) - 1
-          if(LU % col(sj) .eq. j) sum = sum + L % val(ks) * U % val(sj)
+        do sj = LU % dia(s) + 1, LU % row(s+1) - 1
+          if(LU % col(sj) .eq. j) then
+            sum = sum + L % val(ks) * U % val(sj)
+            call IO % Plot_Sparse("spar_lu_doolittle", LU, B=A, src1=(/k,s/), src2=(/s,j/))
+            exit
+          end if
         end do
       end do
       U % val(kj) = U % val(kj) - sum
+      call IO % Plot_Sparse("spar_lu_doolittle", LU, B=A, targ=(/k,j/))
     end do
 
     ! Lower triangular
@@ -107,12 +112,17 @@
         Assert(i > s)  ! =--> (i,s) in L
         ! Here, (i,s) is travelling horizontally (in row i)
         ! and (s,k) is travelling vertically (in column k)
-        do si = LU % row(s), LU % row(s+1) - 1
-          is = LU % mir(si)
-          if(LU % col(si) .eq. i) sum = sum + L % val(is) * U % val(sk)
+        do si = LU % dia(s) + 1, LU % row(s+1) - 1
+          if(LU % col(si) .eq. i) then
+            is = LU % mir(si)
+            sum = sum + L % val(is) * U % val(sk)
+            call IO % Plot_Sparse("spar_lu_doolittle", LU, B=A, src1=(/i,s/), src2=(/s,k/))
+            exit
+          end if
         end do
       end do
       L % val(ik) = (L % val(ik) - sum) / L % val(LU % dia(k))
+      call IO % Plot_Sparse("spar_lu_doolittle", LU, B=A, targ=(/i,k/), src1=(/k,k/))
     end do
 
   end do
