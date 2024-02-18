@@ -42,8 +42,8 @@
   U % val(:,:) = 0
 
   ! Just plot and print original matrix
-  call IO % Plot_Dense ("a",  A)
-  call IO % Print_Dense("A:", A)
+  call IO % Plot_Dense ("dens_original",  A)
+  call IO % Print_Dense("Original system matrix:", A)
 
   !------------------------!
   !   Actual computation   !
@@ -54,15 +54,13 @@
   call Solvers_Mod_Gauss_Elimination(U, b, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("u_after_elimination",  U)
-  call IO % Print_Dense("U after elimination:", U)
-  !@ call In_Out_Mod_Print_Vector("vector b after elimination:", b)
+  call IO % Plot_Dense ("dens_gauss_eliminated", U)
+  call IO % Print_Dense("Gaussian elimination:", U)
 
   ! Perform backward substitution Ub=x
   call Cpu_Time(time_ss)
   call Solvers_Mod_Dense_Backward_Substitution(x, U, b)
   call Cpu_Time(time_se)
-  !@ call In_Out_Mod_Print_Vector("Solution x after backward substitution:", x)
 
   print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
   print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss

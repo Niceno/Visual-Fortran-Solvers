@@ -53,8 +53,8 @@
   L % val(:,:) = 0
 
   ! Just plot and print original matrix
-  call IO % Plot_Dense ("a",  A)
-  call IO % Print_Dense("A:", A)
+  call IO % Plot_Dense ("dens_original",  A)
+  call IO % Print_Dense("Original system matrix:", A)
 
   !------------------------!
   !   Actual computation   !
@@ -65,8 +65,8 @@
   call Solvers_Mod_Dense_Cholesky_Factorization(L, A)
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Dense ("ll_after_cholesky_factorization",  L)
-  call IO % Print_Dense("LL after Cholesky factorization:", L)
+  call IO % Plot_Dense ("dens_chol_factorized", L)
+  call IO % Print_Dense("Cholesky factorized:", L)
 
   ! Compute y by forward substitution (solve: Ly=b)
   call Cpu_Time(time_ss)
