@@ -47,8 +47,8 @@
   U => LU
 
   ! Set the type of the matrix (in a sense)
-  L % text_u ="L"
-  U % text_l ="U"
+  L % text_l ="L"
+  U % text_u ="U"
 
   ! Initialize the values
   LU % val(:,:) = 0.0
