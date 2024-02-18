@@ -34,7 +34,7 @@
 !-----------------------------------[Locals]-----------------------------------!
   type(Dense_Type), pointer :: L  ! pointer to "L"
   type(Dense_Type), pointer :: U  ! pointer to "U"
-  integer                   :: i, k, s, n, bw
+  integer                   :: i, j, k, s, n, bw
   real                      :: sum
 !==============================================================================!
 
@@ -50,8 +50,15 @@
   L % text_l ="L"
   U % text_u ="U"
 
-  ! Initialize the values
+  !----------------------------------------------------------------------!
+  !   Initialize the values by copying the original matrix to LU first   !
+  !----------------------------------------------------------------------!
   LU % val(:,:) = 0.0
+  do i = 1, n  ! <-A
+    do j = 1, n
+      LU % val(i,j) = A % val(i,j)
+    end do
+  end do       ! A->
 
   !-------------------------------!
   !   Perform the factorization   !
@@ -60,7 +67,7 @@
 
     ! Upper triangular
     do i = k, min(n, k + bw)
-      Assert(k <= i)
+      Assert(k <= i)  ! =--> (k,i) in U
       sum = 0.0
       do s = max(1, k - bw, i - bw), k-1
         Assert(k > s)  ! =--> (k,s) in L
@@ -68,13 +75,13 @@
         sum = sum + L % val(k,s) * U % val(s,i)
         call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/k,s/), src2=(/s,i/))
       end do
-      LU % val(k,i) = A % val(k,i) - sum
+      U % val(k,i) = U % val(k,i) - sum
       call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/k,i/))
     end do
 
     ! Lower triangular
     do i = k + 1, min(n, k + bw)  ! do not start from i=k, 'cos diaginal is 1
-      Assert(i >= k)
+      Assert(i >= k)  ! =--> (i,k) in L
       sum = 0.0
       do s = max(1, k - bw, i - bw), k-1
         Assert(s < k)  ! =--> (s,k) in U
@@ -82,7 +89,7 @@
         sum = sum + L % val(i,s) * U % val(s,k)
         call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/i,s/), src2=(/s,k/))
       end do
-      LU % val(i,k) = (A % val(i,k) - sum) / LU % val(k,k)
+      L % val(i,k) = (L % val(i,k) - sum) / L % val(k,k)
       call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/i,k/), src1=(/k,k/))
     end do
 
