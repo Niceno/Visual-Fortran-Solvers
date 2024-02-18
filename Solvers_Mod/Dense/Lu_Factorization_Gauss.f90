@@ -39,10 +39,10 @@
   LU % text_u ="L"
   LU % text_l ="U"
 
-
   !----------------------------------------------------------------------!
   !   Initialize the values by copying the original matrix to LU first   !
   !----------------------------------------------------------------------!
+  LU % val(:,:) = 0.0
   do i = 1, n  ! <-A
     do j = 1, n
       LU % val(i,j) = A % val(i,j)
