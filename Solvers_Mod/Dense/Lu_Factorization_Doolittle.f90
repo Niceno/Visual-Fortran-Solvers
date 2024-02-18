@@ -66,19 +66,19 @@
   do k = 1, n  ! <-A
 
     ! Upper triangular
-    do i = k, min(n, k + bw)
-      Assert(k <= i)  ! =--> (k,i) in U
+    do j = k, min(n, k + bw)
+      Assert(k <= j)  ! =--> (k,j) in U
       sum = 0.0
-      do s = max(1, k - bw, i - bw), k-1
+      do s = max(1, k - bw, j - bw), k-1
         Assert(k > s)  ! =--> (k,s) in L
-        Assert(s < i)  ! =--> (s,i) in U
+        Assert(s < j)  ! =--> (s,j) in U
         ! Here, (k,s) is travelling horizontally (in row k)
-        ! and (s,i) is travelling vertically (in column i)
-        sum = sum + L % val(k,s) * U % val(s,i)
-        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/k,s/), src2=(/s,i/))
+        ! and (s,j) is travelling vertically (in column j)
+        sum = sum + L % val(k,s) * U % val(s,j)
+        call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, src1=(/k,s/), src2=(/s,j/))
       end do
-      U % val(k,i) = U % val(k,i) - sum
-      call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/k,i/))
+      U % val(k,j) = U % val(k,j) - sum
+      call IO % Plot_Dense("dens_lu_doolittle", LU, B=A, targ=(/k,j/))
     end do
 
     ! Lower triangular
