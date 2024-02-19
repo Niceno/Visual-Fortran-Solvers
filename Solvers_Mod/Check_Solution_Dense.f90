@@ -1,7 +1,7 @@
 !==============================================================================!
   subroutine Solvers_Mod_Check_Solution_Dense(A, x, b)
 !------------------------------------------------------------------------------!
-!>  Check the solution.
+!>  Check the solution for dense systems.
 !------------------------------------------------------------------------------!
   implicit none
 !------------------------------------------------------------------------------!
@@ -16,8 +16,13 @@
   Assert(A % n .eq. size(x))
   Assert(A % n .eq. size(b))
 
+  ! Save the results for visualization
+  call A % pnt_grid % Save_Vtk_Debug("solution.vtk", x)
+
+  ! Compute y=Ax
   call Lin_Alg_Mod_Dense_X_Vector(y, A, x)
 
+  ! Compute r=b-y
   r = b - y
 
   call Lin_Alg_Mod_Vector_Dot_Vector(error, r, r)

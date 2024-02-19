@@ -10,6 +10,31 @@
 !   Defines a (ludicrously simple) grid                                        !
 !==============================================================================!
 
+  !-----------------------------!
+  !                             !
+  !   Boundary condition type   !
+  !                             !
+  !-----------------------------!
+  type Bc_Type
+
+    ! Types on all sides (N will be for Neumann, D for Dirichlet)
+    character(1) :: west_t
+    character(1) :: east_t
+    character(1) :: south_t
+    character(1) :: north_t
+    character(1) :: bottom_t
+    character(1) :: top_t
+
+    ! Values on all sides
+    real :: west_v
+    real :: east_v
+    real :: south_v
+    real :: north_v
+    real :: bottom_v
+    real :: top_v
+
+  end type
+
   !---------------!
   !               !
   !   Grid Type   !
@@ -26,6 +51,8 @@
     integer :: nx, ny, nz  ! domain resolution in x, y and z direction
     real    :: lx, ly, lz  ! domain size in x, y and z direction
     real    :: dx, dy, dz  ! cell size in x, y and z direction
+
+    type(Bc_Type) :: bc  ! boundary conditions
 
     contains
       procedure :: Create_Grid

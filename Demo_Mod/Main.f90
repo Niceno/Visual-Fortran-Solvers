@@ -13,6 +13,8 @@
   integer           :: choice, f_in, n_iter, file_unit, test
   integer           :: nx, ny, nz
   real              :: lx, ly, lz
+  character(1)      :: bc_t  ! boundary condition type
+  real              :: bc_v  ! boundary condition value
   real              :: res
   logical           :: file_exists
 !==============================================================================!
@@ -54,6 +56,46 @@
     read(file_unit, *) dummy, nx
     read(file_unit, *) dummy, ny
     read(file_unit, *) dummy, nz
+
+    !-------------------------!
+    !   Boundary conditions   !
+    !-------------------------!
+
+    ! West
+    read(file_unit, *) dummy, bc_t, bc_v
+    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
+    Grid % bc % west_t = bc_t
+    Grid % bc % west_v = bc_v
+
+    ! East
+    read(file_unit, *) dummy, bc_t, bc_v
+    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
+    Grid % bc % east_t = bc_t
+    Grid % bc % east_v = bc_v
+
+    ! South
+    read(file_unit, *) dummy, bc_t, bc_v
+    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
+    Grid % bc % south_t = bc_t
+    Grid % bc % south_v = bc_v
+
+    ! North
+    read(file_unit, *) dummy, bc_t, bc_v
+    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
+    Grid % bc % north_t = bc_t
+    Grid % bc % north_v = bc_v
+
+    ! Bottom
+    read(file_unit, *) dummy, bc_t, bc_v
+    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
+    Grid % bc % bottom_t = bc_t
+    Grid % bc % bottom_v = bc_v
+
+    ! Top
+    read(file_unit, *) dummy, bc_t, bc_v
+    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
+    Grid % bc % top_t = bc_t
+    Grid % bc % top_v = bc_v
 
     read(file_unit, *) dummy, f_in
     read(file_unit, *) dummy, n_iter
@@ -107,8 +149,8 @@
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                          'Section 4 - Additional Tests', 'bright cyan');
-  print *, '# 43 - Compressed matrices'
-  print *, '# 44 - Preconditioning matrix'
+  print *, '# 41 - Compressed matrices'
+  print *, '# 42 - Preconditioning matrix'
   print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                          'Section 5 - Various Settings', 'bright cyan');
@@ -187,7 +229,8 @@
 
     case(51)
         print *, "# Enter the desired resolution: "
-        read *, Grid % nx, Grid % ny, Grid % nz
+        read *, nx, ny, nz
+        call Grid % Create_Grid(lx, ly, lz, nx, ny, nz)
     case(52)
         print *, "# Enter the desired fill-in level: "
         read *, f_in

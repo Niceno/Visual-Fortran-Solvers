@@ -13,15 +13,12 @@
 !==============================================================================!
 
   ! Create sparse system matrix
-  call A % Sparse_Create(Grid, singular=.false.)
+  call A % Sparse_Create(Grid, b)
 
   call IO % Plot_Sparse ("sparse_a",  A)
   call IO % Print_Sparse("Sparse A:", A)
 
   allocate(x(A % n))
-  allocate(b(A % n))
-
-  b(:) = 0.1
   x(:) = 0.0
 
   end subroutine

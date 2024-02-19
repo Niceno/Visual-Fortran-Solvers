@@ -43,6 +43,7 @@
                  + nx * ny * (nz+1)
   print '(a,i12,a)', ' # Grid should have ', Grid % n_faces, ' faces'
 
+  if(allocated(Grid % faces_c)) deallocate(Grid % faces_c)
   allocate(Grid % faces_c(2, Grid % n_faces))
 
   s = 0

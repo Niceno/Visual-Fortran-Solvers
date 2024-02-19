@@ -6,11 +6,12 @@
   integer         :: fill_in
   type(Grid_Type) :: Grid
 !-----------------------------------[Locals]-----------------------------------!
-  type(Sparse_Type) :: A  ! original matrix
-  type(Sparse_Type) :: C  ! preconditioning matrix
+  type(Sparse_Type) :: A     ! original matrix
+  type(Sparse_Type) :: C     ! preconditioning matrix
+  real, allocatable :: b(:)  ! righ hand side vector
 !==============================================================================!
 
-  call A % Sparse_Create(Grid, singular=.false.)
+  call A % Sparse_Create(Grid, b)
 
   call IO % Plot_Sparse ("compressed_a",  A)
   call IO % Print_Sparse("Compressed A:", A)

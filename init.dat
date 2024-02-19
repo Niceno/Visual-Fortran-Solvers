@@ -5,6 +5,13 @@ grid_nx  2
 grid_ny  3  
 grid_nz  4  
 
+bc_west    N  0.0
+bc_east    N  0.0
+bc_south   N  0.0
+bc_north   N  0.0
+bc_bottom  D -1.0
+bc_top     D  1.0
+
 f_in     1
 n_iter  10
 res      1.0e-12

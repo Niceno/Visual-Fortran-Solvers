@@ -1,11 +1,11 @@
 !==============================================================================!
-  subroutine Sparse_Create(A, Grid, singular)
+  subroutine Sparse_Create(A, Grid, rhs)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  class(Sparse_Type)  :: A     !! parent class
-  type(Grid_Type)     :: Grid  !! grid on which it is created
-  logical, intent(in) :: singular
+  class(Sparse_Type)      :: A       !! parent class
+  type(Grid_Type), target :: Grid    !! grid on which it is created
+  real,       allocatable :: rhs(:)
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, ni, nj, nk, non_zeros
   integer :: c, w, e, s, n, b, t
@@ -13,11 +13,10 @@
   real    :: dx, dy, dz, a_e, a_w, a_n, a_s, a_t, a_b, a_sum
 !==============================================================================!
 
-  if(singular) then
-    print '(a)', ' # Creating a sparse singular matrix'
-  else
-    print '(a)', ' # Creating a sparse non-singular matrix'
-  end if
+  ! Store pointer to the grid
+  A % pnt_grid => Grid
+
+  print '(a)', ' # Creating a sparse matrix'
 
   ni = Grid % nx
   nj = Grid % ny
@@ -50,15 +49,17 @@
   end do
 
   print '(a,i15)', ' # Number of nonzeros: ', non_zeros
-  A % n        = Grid % nx  &
-               * Grid % ny  &
-               * Grid % nz
   A % nonzeros = non_zeros
+  A % n = Grid % nx  &
+        * Grid % ny  &
+        * Grid % nz
+  Assert(A % n .eq. Grid % n_cells)
   allocate (A % row(Grid % n_cells+1));  A % row = 0
   allocate (A % dia(Grid % n_cells));    A % dia = 0
   allocate (A % col(non_zeros));         A % col = 0
   allocate (A % val(non_zeros));         A % val = 0
   allocate (A % mir(non_zeros));         A % mir = 0
+  allocate (rhs(Grid % n_cells));        rhs = 0
 
   !--------------------------------!
   !   Form the compressed matrix   !
@@ -86,20 +87,70 @@
         a_t = (dx*dy) / dz
         a_b = (dx*dy) / dz
 
-        if(singular) then
-          if(i .eq. ni) a_e = 0.0
-          if(i .eq.  1) a_w = 0.0
-          if(j .eq. nj) a_n = 0.0
-          if(j .eq.  1) a_s = 0.0
-          if(k .eq. nk) a_t = 0.0
-          if(k .eq.  1) a_b = 0.0
-        else
-          if(i .eq. ni) a_e = a_e * 2.0
-          if(i .eq.  1) a_w = a_w * 2.0
-          if(j .eq. nj) a_n = a_n * 2.0
-          if(j .eq.  1) a_s = a_s * 2.0
-          if(k .eq. nk) a_t = a_t * 2.0
-          if(k .eq.  1) a_b = a_b * 2.0
+        ! Set coefficients in the west
+        if(i .eq. 1) then
+          if(Grid % bc % west_t .eq. 'N') then
+            a_w = 0.0
+            rhs(c) = rhs(c) + (dy*dz) * Grid % bc % west_v
+          else if(Grid % bc % west_t .eq. 'D') then
+            a_w = a_w * 2.0
+            rhs(c) = rhs(c) + a_w * Grid % bc % west_v
+          end if
+        end if
+
+        ! Set coefficients in the east
+        if(i .eq. ni) then
+          if(Grid % bc % east_t .eq. 'N') then
+            a_e = 0.0
+            rhs(c) = rhs(c) + (dy*dz) * Grid % bc % east_v
+          else if(Grid % bc % east_t .eq. 'D') then
+            a_e = a_e * 2.0
+            rhs(c) = rhs(c) + a_e * Grid % bc % east_v
+          end if
+        end if
+
+        ! Set coefficients in the south
+        if(j .eq. 1) then
+          if(Grid % bc % south_t .eq. 'N') then
+            a_s = 0.0
+            rhs(c) = rhs(c) + (dx*dz) * Grid % bc % south_v
+          else if(Grid % bc % south_t .eq. 'D') then
+            a_s = a_s * 2.0
+            rhs(c) = rhs(c) + a_s * Grid % bc % south_v
+          end if
+        end if
+
+        ! Set coefficients in the north
+        if(j .eq. nj) then
+          if(Grid % bc % north_t .eq. 'N') then
+            a_n = 0.0
+            rhs(c) = rhs(c) + (dx*dz) * Grid % bc % north_v
+          else if(Grid % bc % north_t .eq. 'D') then
+            a_n = a_n * 2.0
+            rhs(c) = rhs(c) + a_n * Grid % bc % north_v
+          end if
+        end if
+
+        ! Set coefficients at the bottom
+        if(k .eq. 1) then
+          if(Grid % bc % bottom_t .eq. 'N') then
+            a_b = 0.0
+            rhs(c) = rhs(c) + (dx*dy) * Grid % bc % bottom_v
+          else if(Grid % bc % bottom_t .eq. 'D') then
+            a_b = a_b * 2.0
+            rhs(c) = rhs(c) + a_b * Grid % bc % bottom_v
+          end if
+        end if
+
+        ! Set coefficients at the top
+        if(k .eq. nk) then
+          if(Grid % bc % top_t .eq. 'N') then
+            a_t = 0.0
+            rhs(c) = rhs(c) + (dx*dy) * Grid % bc % top_v
+          else if(Grid % bc % top_t .eq. 'D') then
+            a_t = a_t * 2.0
+            rhs(c) = rhs(c) + a_t * Grid % bc % top_v
+          end if
         end if
 
         ! If second pass, set row index
