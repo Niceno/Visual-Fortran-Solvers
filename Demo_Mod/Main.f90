@@ -13,30 +13,31 @@
   integer           :: choice, f_in, n_iter, file_unit, test
   integer           :: nx, ny, nz
   real              :: lx, ly, lz
-  character(1)      :: bc_t  ! boundary condition type
-  real              :: bc_v  ! boundary condition value
   real              :: res
   logical           :: file_exists
 !==============================================================================!
 
+  !-------------------!
+  !                   !
+  !   Read grid.ini   !
+  !                   !
+  !-------------------!
+  call Grid % Load_Grid()
+
   !-------------------------------------!
-  !   Read init.dat file if it exists   !
+  !                                     !
+  !   Read solver initialization file   !
+  !                                     !
   !-------------------------------------!
 
-  ! First check if the init file exists
-  inquire(file  = 'init.dat',  &
-          exist = file_exists)
+  !-----------------------------------------------!
+  !   First check if the solver.ini file exists   !
+  !-----------------------------------------------!
+  inquire(file = 'solver.ini', exist = file_exists)
 
-  ! File doesn't exist
+  !   File doesn't exist
   if(.not. file_exists) then
-
-    print *, "# File 'init.dat' doesn't exist, setting the default values"
-    lx =  1.0
-    ly =  1.0
-    lz =  1.0
-    nx = 10
-    ny = 10
-    nz = 10
+    print *, "# File 'solver.ini' doesn't exist, setting the default values"
 
     f_in   =  1
     n_iter = 10
@@ -44,71 +45,20 @@
 
   ! File exists; open it and read the parameters
   else
-
-    print *, "# Reading the file 'init.dat'"
-    open(newunit = file_unit,   &
-         file    = 'init.dat',  &
-         action  = 'read')
-
-    read(file_unit, *) dummy, lx
-    read(file_unit, *) dummy, ly
-    read(file_unit, *) dummy, lz
-    read(file_unit, *) dummy, nx
-    read(file_unit, *) dummy, ny
-    read(file_unit, *) dummy, nz
-
-    !-------------------------!
-    !   Boundary conditions   !
-    !-------------------------!
-
-    ! West
-    read(file_unit, *) dummy, bc_t, bc_v
-    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
-    Grid % bc % west_t = bc_t
-    Grid % bc % west_v = bc_v
-
-    ! East
-    read(file_unit, *) dummy, bc_t, bc_v
-    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
-    Grid % bc % east_t = bc_t
-    Grid % bc % east_v = bc_v
-
-    ! South
-    read(file_unit, *) dummy, bc_t, bc_v
-    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
-    Grid % bc % south_t = bc_t
-    Grid % bc % south_v = bc_v
-
-    ! North
-    read(file_unit, *) dummy, bc_t, bc_v
-    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
-    Grid % bc % north_t = bc_t
-    Grid % bc % north_v = bc_v
-
-    ! Bottom
-    read(file_unit, *) dummy, bc_t, bc_v
-    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
-    Grid % bc % bottom_t = bc_t
-    Grid % bc % bottom_v = bc_v
-
-    ! Top
-    read(file_unit, *) dummy, bc_t, bc_v
-    Assert(bc_t .eq. 'D' .or. bc_t .eq. 'N')
-    Grid % bc % top_t = bc_t
-    Grid % bc % top_v = bc_v
+    print *, "# Reading the file 'solver.ini'"
+    open(newunit = file_unit, file = 'solver.ini', action = 'read')
 
     read(file_unit, *) dummy, f_in
     read(file_unit, *) dummy, n_iter
     read(file_unit, *) dummy, res
+
+    close(file_unit)
   end if
 
-  !-----------------------------------!
-  !   Create the computational grid   !
-  !-----------------------------------!
-  call Grid % Create_Grid(lx, ly, lz, nx, ny, nz)
-
   !------------------------------------------------------!
+  !                                                      !
   !   Check if command line argument has been supplied   !
+  !                                                      !
   !------------------------------------------------------!
   call get_command_argument(1, arg)
   test = -1
@@ -230,7 +180,7 @@
     case(51)
         print *, "# Enter the desired resolution: "
         read *, nx, ny, nz
-        call Grid % Create_Grid(lx, ly, lz, nx, ny, nz)
+        call Grid % Create_Grid(Grid % lx, Grid % ly, Grid % lz, nx, ny, nz)
     case(52)
         print *, "# Enter the desired fill-in level: "
         read *, f_in

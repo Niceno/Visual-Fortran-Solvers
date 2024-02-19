@@ -58,6 +58,7 @@
       procedure :: Create_Grid
       procedure :: Cell_Number
       procedure :: Cells_I_J_K
+      procedure :: Load_Grid
       procedure :: Save_Vtk_Debug
 
   end type
@@ -66,6 +67,7 @@
 #   include "Grid_Mod/Create_Grid.f90"
 #   include "Grid_Mod/Cell_Number.f90"
 #   include "Grid_Mod/Cells_I_J_K.f90"
+#   include "Grid_Mod/Load_Grid.f90"
 #   include "Grid_Mod/Save_Vtk_Debug.f90"
 
   end module

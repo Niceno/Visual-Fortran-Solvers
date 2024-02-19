@@ -10,7 +10,7 @@
   integer :: i, j, k, ni, nj, nk, non_zeros
   integer :: c, w, e, s, n, b, t
   integer :: col_a, col_b, row_a, row_b, pos_a, pos_b
-  real    :: dx, dy, dz, a_e, a_w, a_n, a_s, a_t, a_b, a_sum
+  real    :: dx, dy, dz, a_e, a_w, a_n, a_s, a_t, a_b
 !==============================================================================!
 
   ! Store pointer to the grid

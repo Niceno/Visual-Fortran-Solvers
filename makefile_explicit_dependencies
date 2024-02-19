@@ -6,6 +6,11 @@
 #-- ./Foul_Mod/Get_Escape_Sequence.f90
 #-- ./Foul_Mod/Formatted_Write.f90
 #-- ./Matrix_Mod.f90
+$(DIR_OBJECT)/Matrix_Mod.o:\
+$(DIR_OBJECT)/Grid_Mod.o \
+Grid_Mod/*.f90 
+
+#-- ./Grid_Mod/Load_Grid.f90
 #-- ./Grid_Mod/Create_Grid.f90
 #-- ./Grid_Mod/Save_Vtk_Debug.f90
 #-- ./Grid_Mod/Cell_Number.f90

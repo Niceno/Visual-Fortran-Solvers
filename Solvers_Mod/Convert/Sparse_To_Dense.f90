@@ -15,6 +15,11 @@
   !---------------------!
   call Dens % Dense_Allocate(Spar % n)
 
+  !-----------------------------!
+  !   Set the pointer to grid   !
+  !-----------------------------!
+  Dens % pnt_grid => Spar % pnt_grid
+
   !------------------------------!
   !   Form the expanded matrix   !
   !------------------------------!
