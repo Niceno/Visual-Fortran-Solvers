@@ -62,8 +62,8 @@
   !---------------------!
   !   solve M * z = r   !
   !---------------------!
-  call Solvers_Mod_Sparse_Forward_Substitution (y, L, r)            ! L y = r
-  call Solvers_Mod_Sparse_Backward_Substitution(z, L, y, t=.true.)  ! U z = y
+  call Solvers_Mod_Sparse_Forward_Substitution (y, L, r)            ! Ly=r
+  call Solvers_Mod_Sparse_Backward_Substitution(z, L, y, t=.true.)  ! Uz=y
 
   !------------------!
   !   rho = r' * z   !
@@ -112,8 +112,8 @@
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
-    call Solvers_Mod_Sparse_Forward_Substitution (y, L, r)            ! L y = r
-    call Solvers_Mod_Sparse_Backward_Substitution(z, L, y, t=.true.)  ! U z = y
+    call Solvers_Mod_Sparse_Forward_Substitution (y, L, r)            ! Ly=r
+    call Solvers_Mod_Sparse_Backward_Substitution(z, L, y, t=.true.)  ! Uz=y
 
     !------------------!
     !   rho = r' * z   !

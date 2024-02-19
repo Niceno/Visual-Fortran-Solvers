@@ -1,7 +1,9 @@
 !==============================================================================!
   subroutine Solvers_Mod_Incomplete_Lu(Grid, A, x, b, fill_in, option)
 !------------------------------------------------------------------------------!
-!   LU decomposition in full, looks like this:                                 !
+!>  Performs incomplete LU solution of a linear system.
+!------------------------------------------------------------------------------!
+!   LU decomposition looks like this:                                          !
 !                                                                              !
 !        |  1                  | | U11 U12 U13         |                       !
 !        | L21  1              | |     U22 U23 U24     |                       !

@@ -75,6 +75,7 @@
 #   include "Solvers_Mod/Sparse/Cg_Cholesky_Prec.f90"
 #   include "Solvers_Mod/Sparse/Cg_Diag_Prec.f90"
 #   include "Solvers_Mod/Sparse/Cg_Ldlt_Prec.f90"
+#   include "Solvers_Mod/Sparse/Cg_Lu_Prec.f90"
 #   include "Solvers_Mod/Sparse/Cg_No_Prec.f90"
 #   include "Solvers_Mod/Sparse/Cg_Tflows_Prec.f90"
 

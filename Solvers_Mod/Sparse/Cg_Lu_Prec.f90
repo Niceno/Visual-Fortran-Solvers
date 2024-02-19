@@ -1,31 +1,52 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cg_Ldlt_Prec(Grid, A, x, b, n_iter, res, f_in)
+  subroutine Solvers_Mod_Cg_Lu_Prec(Grid, A, x, b, n_iter, res, f_in, option)
 !------------------------------------------------------------------------------!
-!>  Performs LDL' preconditioned CG solution of a linear system.
+!>  Performs LU preconditioned CG solution of a linear system.
+!------------------------------------------------------------------------------!
+!   LU decomposition looks like this:                                          !
+!                                                                              !
+!        |  1                  | | U11 U12 U13         |                       !
+!        | L21  1              | |     U22 U23 U24     |                       !
+!   LU = | L31 L32  1          | |         U33 U34 U35 |                       !
+!        |     L42 L43  1      | |             U44 U45 |                       !
+!        |         L53 L54  1  | |                 U55 |                       !
+!                                                                              !
+!   But given that L's diagonal is equal to one, it doesn't have to be stored: !
+!                                                                              !
+!              | U11 U12 U13         |                                         !
+!     stored   | L21 U22 U23 U24     |                                         !
+!   LU       = | L31 L32 U33 U34 U35 |                                         !
+!              |     L42 L43 U44 U45 |                                         !
+!              |         L53 L54 U55 |                                         !
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)   :: Grid     !! computational grid
-  type(Sparse_Type) :: A        !! original sparse system matrix
-  real, allocatable :: x(:)
-  real, allocatable :: b(:)
-  integer           :: n_iter   !! maximum number of iterations
-  real              :: res      !! target residual
-  integer           :: f_in     !! fill-in factor
+  type(Grid_Type)     :: Grid     !! computational grid
+  type(Sparse_Type)   :: A        !! original sparse system matrix
+  real, allocatable   :: x(:)     !! unknown
+  real, allocatable   :: b(:)     !! right hand side vector
+  integer             :: n_iter   !! maximum number of iterations
+  real                :: res      !! target residual
+  integer             :: f_in     !! fill-in factor
+  integer, intent(in) :: option   !! option for LU factorization
 !-----------------------------------[Locals]-----------------------------------!
   integer                    :: n  ! number of unknowns
   integer                    :: i, iter
   real                       :: alpha, beta, rho_old, rho, pap
   real                       :: time_ps, time_pe, time_ss, time_se
-  type(Sparse_Type), pointer :: LD  ! used for LDL' factorization
+  type(Sparse_Type), pointer :: LU  ! used for LU factorization
 !==============================================================================!
 
   ! Take aliases
-  LD => P_Sparse
+  LU => P_Sparse
 
-  print *, '#============================================================'
-  print *, '# Solving the sytem with LDL'' preconditioned CG method'
-  print *, '#------------------------------------------------------------'
+  print *, '#=========================================================='
+  if(option .eq. GAUSS) then
+    print *, '# Solving with Gauss-based LU preconditioned CG method'
+  else
+    print *, '# Solving with Doolittle-based LU preconditioned CG method'
+  end if
+  print *, '#----------------------------------------------------------'
 
   !------------------!
   !                  !
@@ -34,7 +55,7 @@
   !------------------!
   call Discretize % On_Sparse_Matrix(Grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
-  call LD % Sparse_Create_Preconditioning(A, f_in)
+  call LU % Sparse_Create_Preconditioning(A, f_in)
 
   !------------------------!
   !                        !
@@ -43,13 +64,17 @@
   !------------------------!
   n = A % n
 
-  ! Perform LDL' factorization on the matrix to find the lower one
+  ! Perform LU factorization on the matrix to find the lower one
   call Cpu_Time(time_ps)
-  call Solvers_Mod_Sparse_Ldlt_Factorization(LD, A)
+  if(option .eq. GAUSS) then
+    call Solvers_Mod_Sparse_Lu_Factorization_Gauss(LU, A)
+  else
+    call Solvers_Mod_Sparse_Lu_Factorization_Doolittle(LU, A)
+  end if
   call Cpu_Time(time_pe)
 
-  call IO % Plot_Sparse ("sparse_ldl",  LD)
-  call IO % Print_Sparse("Sparse LDL:", LD)
+  call IO % Plot_Sparse ("sparse_lu",  LU)
+  call IO % Print_Sparse("Sparse LU:", LU)
 
   !----------------!
   !   r = b - Ax   !
@@ -62,9 +87,8 @@
   !---------------------!
   !   solve M * z = r   !
   !---------------------!
-  call Solvers_Mod_Sparse_Forward_Substitution (z, LD, r, d_one=.true.)
-  call Solvers_Mod_Sparse_Forward_Substitution (z, LD, z, d_only=.true.)
-  call Solvers_Mod_Sparse_Backward_Substitution(z, LD, z, t=.true., d_one=.true.)
+  call Solvers_Mod_Sparse_Forward_Substitution (y, LU, r, d_one=.true.)  ! Ly=r
+  call Solvers_Mod_Sparse_Backward_Substitution(z, LU, y)                ! Uz=y
 
   !------------------!
   !   rho = r' * z   !
@@ -113,9 +137,8 @@
     !---------------------!
     !   solve M * z = r   !
     !---------------------!
-    call Solvers_Mod_Sparse_Forward_Substitution (z, LD, r, d_one=.true.)
-    call Solvers_Mod_Sparse_Forward_Substitution (z, LD, z, d_only=.true.)
-    call Solvers_Mod_Sparse_Backward_Substitution(z, LD, z, t=.true., d_one=.true.)
+    call Solvers_Mod_Sparse_Forward_Substitution (y, LU, r, d_one=.true.) ! Ly=r
+    call Solvers_Mod_Sparse_Backward_Substitution(z, LU, y)               ! Uz=y
 
     !------------------!
     !   rho = r' * z   !

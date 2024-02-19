@@ -67,12 +67,12 @@
   !------------------------!
   !   Open the main menu   !
   !------------------------!
-1 print *, '#=========================================================='
+1 print *, '#=============================================================='
   call Foul % Formatted_Write(' # ', 'default',  &
                        'Select a Case to Demonstrate', 'bright yellow');
-  print *, '#----------------------------------------------------------'
+  print *, '#--------------------------------------------------------------'
   print *, '#  0 - Exit'
-  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
+  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                            'Section 1 - Direct Solvers', 'bright cyan');
   print *, '# 11 - Gaussian elimination'
@@ -80,7 +80,7 @@
   print *, '# 13 - LDL'' solver'
   print *, '# 14 - LU solver (based on Gauss)'
   print *, '# 15 - LU solver (based on Doolittle)'
-  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
+  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                        'Section 2 - Incomplete Solvers', 'bright cyan');
   print *, '# 21 - Incomplete Cholesky solver'
@@ -88,20 +88,22 @@
   print *, '# 23 - Incomplete LU solver (based on Gauss)'
   print *, '# 24 - Incomplete LU solver (based on Doolittle)'
   print *, '# 25 - T-Flows'' bare-bones LDL'' solver'
-  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
+  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                         'Section 3 - Iterative Solvers', 'bright cyan');
   print *, '# 31 - CG solver without preconditioning'
   print *, '# 32 - CG solver with diagonal preconditioning'
-  print *, '# 33 - CG solver with T-Flows preconditioning'
+  print *, '# 33 - CG solver with Cholesky preconditioning'
   print *, '# 34 - CG solver with LDL'' preconditioning'
-  print *, '# 35 - CG solver with Cholesky preconditioning'
-  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
+  print *, '# 35 - CG solver with LU (based on Gauss) preconditioning'
+  print *, '# 36 - CG solver with LU (based on Doolittle) preconditioning'
+  print *, '# 37 - CG solver with T-Flows preconditioning'
+  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                          'Section 4 - Additional Tests', 'bright cyan');
   print *, '# 41 - Compressed matrices'
   print *, '# 42 - Preconditioning matrix'
-  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
+  print *, '# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
   call Foul % Formatted_Write(' # ', 'default',  &
                          'Section 5 - Various Settings', 'bright cyan');
   write(*,'(a46,3i4)') '# 51 - Change grid resolution, currently at: ',  &
@@ -122,7 +124,7 @@
   else
     print *, '# 56 - Scale by size'
   end if
-  print *, '#----------------------------------------------------------'
+  print *, '#--------------------------------------------------------------'
 
   if(test .eq. -1) then
     read *, choice
@@ -159,18 +161,22 @@
     case(24)
         call Solvers_Mod_Incomplete_Lu(Grid, As, x, b, f_in, DOOLITTLE)
     case(25)
-        call Solvers_Mod_Incomplete_Ldlt_From_Tflows(Grid, As, x, b)
+        call Solvers_Mod_Incomplete_Tflows_Ldlt(Grid, As, x, b)
 
     case(31)
         call Solvers_Mod_Cg_No_Prec(Grid, As, x, b, n_iter, res)
     case(32)
         call Solvers_Mod_Cg_Diag_Prec(Grid, As, x, b, n_iter, res)
     case(33)
-        call Solvers_Mod_Cg_Tflows_Prec(Grid, As, x, b, n_iter, res)
+        call Solvers_Mod_Cg_Cholesky_Prec(Grid, As, x, b, n_iter, res, f_in)
     case(34)
         call Solvers_Mod_Cg_Ldlt_Prec(Grid, As, x, b, n_iter, res, f_in)
     case(35)
-        call Solvers_Mod_Cg_Cholesky_Prec(Grid, As, x, b, n_iter, res, f_in)
+        call Solvers_Mod_Cg_Lu_Prec(Grid, As, x, b, n_iter, res, f_in, GAUSS)
+    case(36)
+        call Solvers_Mod_Cg_Lu_Prec(Grid, As, x, b, n_iter, res, f_in, DOOLITTLE)
+    case(37)
+        call Solvers_Mod_Cg_Tflows_Prec(Grid, As, x, b, n_iter, res)
 
     case(41)
         call Demo_Mod_Compress_Decompress
