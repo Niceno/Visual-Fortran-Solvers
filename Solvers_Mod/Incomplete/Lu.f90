@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Incomplete_Lu(grid, A, x, b, fill_in, option)
+  subroutine Solvers_Mod_Incomplete_Lu(Grid, A, x, b, fill_in, option)
 !------------------------------------------------------------------------------!
 !   LU decomposition in full, looks like this:                                 !
 !                                                                              !
@@ -19,7 +19,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)     :: grid     !! computational grid
+  type(Grid_Type)     :: Grid     !! computational grid
   type(Sparse_Type)   :: A        !! original sparse system matrix
   real, allocatable   :: x(:)     !! unknown
   real, allocatable   :: b(:)     !! right hand side vector
@@ -44,7 +44,7 @@
   !------------------!
   !   Praparations   !
   !------------------!
-  call Discretize % On_Sparse_Matrix(grid, A, x, b)
+  call Discretize % On_Sparse_Matrix(Grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
   call LU % Sparse_Create_Preconditioning(A, fill_in)
 

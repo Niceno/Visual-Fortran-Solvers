@@ -1,16 +1,16 @@
 !==============================================================================!
-  subroutine Demo_Mod_Fill_In(fill_in, grid)
+  subroutine Demo_Mod_Fill_In(fill_in, Grid)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   integer         :: fill_in
-  type(Grid_Type) :: grid
+  type(Grid_Type) :: Grid
 !-----------------------------------[Locals]-----------------------------------!
   type(Sparse_Type) :: A  ! original matrix
   type(Sparse_Type) :: C  ! preconditioning matrix
 !==============================================================================!
 
-  call A % Sparse_Create(grid)
+  call A % Sparse_Create(Grid, singular=.false.)
 
   call IO % Plot_Sparse ("compressed_a",  A)
   call IO % Print_Sparse("Compressed A:", A)

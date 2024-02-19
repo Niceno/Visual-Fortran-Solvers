@@ -6,10 +6,15 @@
 #-- ./Foul_Mod/Get_Escape_Sequence.f90
 #-- ./Foul_Mod/Formatted_Write.f90
 #-- ./Matrix_Mod.f90
+#-- ./Grid_Mod/Create_Grid.f90
+#-- ./Grid_Mod/Save_Vtk_Debug.f90
+#-- ./Grid_Mod/Cell_Number.f90
+#-- ./Grid_Mod/Cells_I_J_K.f90
 #-- ./Dense_Mod.f90
 $(DIR_OBJECT)/Dense_Mod.o:\
 $(DIR_OBJECT)/Matrix_Mod.o \
 $(DIR_OBJECT)/Grid_Mod.o \
+Grid_Mod/*.f90 \
 Dense_Mod/*.f90 
 
 #-- ./Main.f90
@@ -47,7 +52,6 @@ Dense_Mod/*.f90
 
 #-- ./In_Out_Mod/Legend.f90
 #-- ./In_Out_Mod/Plot_Bracket_Right.f90
-#-- ./In_Out_Mod/Plot_Symbol.f90
 #-- ./In_Out_Mod/Plot_Circle.f90
 #-- ./In_Out_Mod/Print_Dense.f90
 #-- ./In_Out_Mod/Plot_Box.f90
@@ -58,6 +62,7 @@ Dense_Mod/*.f90
 #-- ./In_Out_Mod/Plot_Sparse.f90
 #-- ./In_Out_Mod/Plot_Bracket_Left.f90
 #-- ./In_Out_Mod/Plot_Dense.f90
+#-- ./In_Out_Mod/Plot_Text.f90
 #-- ./In_Out_Mod/Load_Linear_System.f90
 #-- ./In_Out_Mod/Plot_Square.f90
 #-- ./In_Out_Mod/Constants.f90
@@ -80,6 +85,7 @@ Dense_Mod/*.f90
 #-- ./Sparse_Mod/Create_Preconditioning.f90
 #-- ./Grid_Mod.f90
 $(DIR_OBJECT)/Grid_Mod.o:\
+Grid_Mod/*.f90 \
 $(DIR_OBJECT)/Assert_Mod.o \
 Assert_Mod/*.f90 
 
@@ -99,6 +105,7 @@ Assert_Mod/*.f90
 #-- ./Solvers_Mod/Sparse/Lu_Factorization_Gauss.f90
 #-- ./Solvers_Mod/Sparse/Cg_Ldlt_Prec.f90
 #-- ./Solvers_Mod/Sparse/Cg_Cholesky_Prec.f90
+#-- ./Solvers_Mod/Sparse/Lu_Factorization_Doolittle.f90
 #-- ./Solvers_Mod/Sparse/Cg_No_Prec.f90
 #-- ./Solvers_Mod/Sparse/Cg_Tflows_Prec.f90
 #-- ./Solvers_Mod/Sparse/Cg_Diag_Prec.f90
@@ -120,15 +127,6 @@ Assert_Mod/*.f90
 $(DIR_OBJECT)/Sort_Mod.o:\
 Sort_Mod/*.f90 
 
-#-- ./.git/objects/9a/d6e6a6363dda995bb1c32435a62d22f5acf905
-#-- ./.git/objects/5c/78774a5a6018625cae13d66b22fcbc8ca7df90
-#-- ./.git/objects/6d/37bb2bc8287ea94dd2b6841af90e6fbea71a54
-#-- ./.git/objects/65/00f4f7fcfe19562d8f634546cf9023a8b9e0b3
-#-- ./.git/objects/f3/da950b7ddeb473a746d10f90493a3a49448584
-#-- ./.git/objects/63/0f14f9cca80224acf90129154d7bc421620f38
-#-- ./.git/objects/80/a6e96fa693202d23fa96fb9a893e0af902735c
-#-- ./.git/objects/b5/ceaf90f8dcb32ebf5ebb2cbfce00d8e93d16f8
-#-- ./.git/objects/7a/f5177ef59c4699d37f908d545d1f8c9fc2920d
 #-- ./Lin_Alg_Mod/Vector_Dot_Vector.f90
 #-- ./Lin_Alg_Mod/Dense_X_Dense.f90
 #-- ./Lin_Alg_Mod/Dense_X_Vector.f90
@@ -141,7 +139,8 @@ Sparse_Mod/*.f90 \
 $(DIR_OBJECT)/Sort_Mod.o \
 Sort_Mod/*.f90 \
 $(DIR_OBJECT)/Matrix_Mod.o \
-$(DIR_OBJECT)/Grid_Mod.o 
+$(DIR_OBJECT)/Grid_Mod.o \
+Grid_Mod/*.f90 
 
 #-- ./Demo_Mod.f90
 $(DIR_OBJECT)/Demo_Mod.o:\

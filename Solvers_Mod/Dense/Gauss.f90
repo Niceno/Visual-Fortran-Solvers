@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Gauss(grid, A, x, b)
+  subroutine Solvers_Mod_Gauss(Grid, A, x, b)
 !------------------------------------------------------------------------------!
 !   In a nutshell:                                                             !
 !   1 - calls Gaussian Elimination                                             !
@@ -7,7 +7,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)   :: grid  !! computational grid
+  type(Grid_Type)   :: Grid  !! computational grid
   type(Dense_Type)  :: A     !! original dense system matrix
   real, allocatable :: x(:)
   real, allocatable :: b(:)
@@ -29,7 +29,7 @@
   !------------------!
   !   Praparations   !
   !------------------!
-  call Discretize % On_Sparse_Matrix(grid, H, x, b)
+  call Discretize % On_Sparse_Matrix(Grid, H, x, b)
   call Solvers_Mod_Allocate_Vectors(H % n)
 
   ! For Gaussian elimination, we should store initial source term

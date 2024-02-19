@@ -3,7 +3,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !-----------------------------------[Locals]-----------------------------------!
-  type(Grid_Type)   :: grid
+  type(Grid_Type)   :: Grid
   type(Dense_Type)  :: Ad
   type(Sparse_Type) :: As
   real, allocatable :: x(:)
@@ -11,6 +11,8 @@
   character(80)     :: dummy
   character(32)     :: arg = ''              ! command line argument
   integer           :: choice, f_in, n_iter, file_unit, test
+  integer           :: nx, ny, nz
+  real              :: lx, ly, lz
   real              :: res
   logical           :: file_exists
 !==============================================================================!
@@ -27,12 +29,12 @@
   if(.not. file_exists) then
 
     print *, "# File 'init.dat' doesn't exist, setting the default values"
-    grid % lx =  1.0
-    grid % ly =  1.0
-    grid % lz =  1.0
-    grid % nx = 10
-    grid % ny = 10
-    grid % nz = 10
+    lx =  1.0
+    ly =  1.0
+    lz =  1.0
+    nx = 10
+    ny = 10
+    nz = 10
 
     f_in   =  1
     n_iter = 10
@@ -46,17 +48,22 @@
          file    = 'init.dat',  &
          action  = 'read')
 
-    read(file_unit, *) dummy, grid % lx
-    read(file_unit, *) dummy, grid % ly
-    read(file_unit, *) dummy, grid % lz
-    read(file_unit, *) dummy, grid % nx
-    read(file_unit, *) dummy, grid % ny
-    read(file_unit, *) dummy, grid % nz
+    read(file_unit, *) dummy, lx
+    read(file_unit, *) dummy, ly
+    read(file_unit, *) dummy, lz
+    read(file_unit, *) dummy, nx
+    read(file_unit, *) dummy, ny
+    read(file_unit, *) dummy, nz
 
     read(file_unit, *) dummy, f_in
     read(file_unit, *) dummy, n_iter
     read(file_unit, *) dummy, res
   end if
+
+  !-----------------------------------!
+  !   Create the computational grid   !
+  !-----------------------------------!
+  call Grid % Create_Grid(lx, ly, lz, nx, ny, nz)
 
   !------------------------------------------------------!
   !   Check if command line argument has been supplied   !
@@ -106,7 +113,7 @@
   call Foul % Formatted_Write(' # ', 'default',  &
                          'Section 5 - Various Settings', 'bright cyan');
   write(*,'(a46,3i4)') '# 51 - Change grid resolution, currently at: ',  &
-                       grid % nx, grid % ny, grid % nz
+                       Grid % nx, Grid % ny, Grid % nz
   write(*,'(a46,1i4)') '# 52 - Change fill-in level, currently at:   ',  &
                        f_in
   write(*,'(a46,1i4)') '# 53 - Change num iterations, currently at:  ',  &
@@ -141,46 +148,46 @@
       return
 
     case(11)
-        call Solvers_Mod_Gauss(grid, Ad, x, b)
+        call Solvers_Mod_Gauss(Grid, Ad, x, b)
     case(12)
-        call Solvers_Mod_Cholesky(grid, Ad, x, b)
+        call Solvers_Mod_Cholesky(Grid, Ad, x, b)
     case(13)
-        call Solvers_Mod_Ldlt(grid, Ad, x, b)
+        call Solvers_Mod_Ldlt(Grid, Ad, x, b)
     case(14)
-        call Solvers_Mod_Lu(grid, Ad, x, b, GAUSS)
+        call Solvers_Mod_Lu(Grid, Ad, x, b, GAUSS)
     case(15)
-        call Solvers_Mod_Lu(grid, Ad, x, b, DOOLITTLE)
+        call Solvers_Mod_Lu(Grid, Ad, x, b, DOOLITTLE)
 
     case(21)
-        call Solvers_Mod_Incomplete_Cholesky(grid, As, x, b, f_in)
+        call Solvers_Mod_Incomplete_Cholesky(Grid, As, x, b, f_in)
     case(22)
-        call Solvers_Mod_Incomplete_Ldlt(grid, As, x, b, f_in)
+        call Solvers_Mod_Incomplete_Ldlt(Grid, As, x, b, f_in)
     case(23)
-        call Solvers_Mod_Incomplete_Lu(grid, As, x, b, f_in, GAUSS)
+        call Solvers_Mod_Incomplete_Lu(Grid, As, x, b, f_in, GAUSS)
     case(24)
-        call Solvers_Mod_Incomplete_Lu(grid, As, x, b, f_in, DOOLITTLE)
+        call Solvers_Mod_Incomplete_Lu(Grid, As, x, b, f_in, DOOLITTLE)
     case(25)
-        call Solvers_Mod_Incomplete_Ldlt_From_Tflows(grid, As, x, b)
+        call Solvers_Mod_Incomplete_Ldlt_From_Tflows(Grid, As, x, b)
 
     case(31)
-        call Solvers_Mod_Cg_No_Prec(grid, As, x, b, n_iter, res)
+        call Solvers_Mod_Cg_No_Prec(Grid, As, x, b, n_iter, res)
     case(32)
-        call Solvers_Mod_Cg_Diag_Prec(grid, As, x, b, n_iter, res)
+        call Solvers_Mod_Cg_Diag_Prec(Grid, As, x, b, n_iter, res)
     case(33)
-        call Solvers_Mod_Cg_Tflows_Prec(grid, As, x, b, n_iter, res)
+        call Solvers_Mod_Cg_Tflows_Prec(Grid, As, x, b, n_iter, res)
     case(34)
-        call Solvers_Mod_Cg_Ldlt_Prec(grid, As, x, b, n_iter, res, f_in)
+        call Solvers_Mod_Cg_Ldlt_Prec(Grid, As, x, b, n_iter, res, f_in)
     case(35)
-        call Solvers_Mod_Cg_Cholesky_Prec(grid, As, x, b, n_iter, res, f_in)
+        call Solvers_Mod_Cg_Cholesky_Prec(Grid, As, x, b, n_iter, res, f_in)
 
     case(41)
         call Demo_Mod_Compress_Decompress
     case(42)
-        call Demo_Mod_Fill_In(f_in, grid)
+        call Demo_Mod_Fill_In(f_in, Grid)
 
     case(51)
         print *, "# Enter the desired resolution: "
-        read *, grid % nx, grid % ny, grid % nz
+        read *, Grid % nx, Grid % ny, Grid % nz
     case(52)
         print *, "# Enter the desired fill-in level: "
         read *, f_in

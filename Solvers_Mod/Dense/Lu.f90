@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Lu(grid, A, x, b, option)
+  subroutine Solvers_Mod_Lu(Grid, A, x, b, option)
 !------------------------------------------------------------------------------!
 !   In a nutshell:                                                             !
 !   1 - calls Lu Factorization                                                 !
@@ -24,7 +24,7 @@
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)     :: grid    !! computational grid
+  type(Grid_Type)     :: Grid    !! computational grid
   type(Dense_Type)    :: A       !! original dense system matrix
   real, allocatable   :: x(:)    !! solution vector
   real, allocatable   :: b(:)    !! right-hand side
@@ -49,7 +49,7 @@
   !------------------!
   !   Praparations   !
   !------------------!
-  call Discretize % On_Sparse_Matrix(grid, H, x, b)
+  call Discretize % On_Sparse_Matrix(Grid, H, x, b)
   call Solvers_Mod_Allocate_Vectors(H % n)
 
   ! Create two full matrices from the sparse one

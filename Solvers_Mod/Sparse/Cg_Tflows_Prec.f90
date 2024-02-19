@@ -1,9 +1,9 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Cg_Tflows_Prec(grid, A, x, b, n_iter, res)
+  subroutine Solvers_Mod_Cg_Tflows_Prec(Grid, A, x, b, n_iter, res)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)   :: grid    !! computational grid
+  type(Grid_Type)   :: Grid    !! computational grid
   type(Sparse_Type) :: A       !! original sparse system matrix
   real, allocatable :: x(:)
   real, allocatable :: b(:)
@@ -30,7 +30,7 @@
   !   Praparations   !
   !                  !
   !------------------!
-  call Discretize % On_Sparse_Matrix(grid, A, x, b)
+  call Discretize % On_Sparse_Matrix(Grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
   call D % Sparse_Create_Preconditioning(A, 0)
 

@@ -1,9 +1,9 @@
 !==============================================================================!
-  subroutine Solvers_Mod_Incomplete_Cholesky(grid, A, x, b, fill_in)
+  subroutine Solvers_Mod_Incomplete_Cholesky(Grid, A, x, b, fill_in)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  type(Grid_Type)   :: grid     !! computational grid
+  type(Grid_Type)   :: Grid     !! computational grid
   type(Sparse_Type) :: A        !! original sparse system matrix
   real, allocatable :: x(:)
   real, allocatable :: b(:)
@@ -23,7 +23,7 @@
   !------------------!
   !   Preparations   !
   !------------------!
-  call Discretize % On_Sparse_Matrix(grid, A, x, b)
+  call Discretize % On_Sparse_Matrix(Grid, A, x, b)
   call Solvers_Mod_Allocate_Vectors(A % n)
   call L % Sparse_Create_Preconditioning(A, fill_in)
 
