@@ -1,9 +1,10 @@
 !==============================================================================!
-  subroutine Load_Grid(Grid)
+  subroutine Load_Grid(Grid, grid_name)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
-  class(Grid_Type) :: Grid
+  class(Grid_Type)         :: Grid
+  character(*), intent(in) :: grid_name
 !-----------------------------------[Locals]-----------------------------------!
   integer       :: nx, ny, nz
   real          :: lx, ly, lz
@@ -14,17 +15,17 @@
   logical       :: file_exists
 !==============================================================================!
 
-  !---------------------------------------------!
-  !   First check if the grid.ini file exists   !
-  !---------------------------------------------!
-  inquire(file = 'grid.ini', exist = file_exists)
+  !-----------------------------------------!
+  !   First check if the grid file exists   !
+  !-----------------------------------------!
+  inquire(file = grid_name, exist = file_exists)
 
   !------------------------!
   !   File doesn't exist   !
   !------------------------!
   if(.not. file_exists) then
 
-    print *, "# File 'grid.ini' doesn't exist, setting the default values"
+    print *, "# File "//grid_name//" doesn't exist, setting the default values"
     lx =  1.0;  ly =  1.0;  lz =  1.0
     nx = 10;    ny = 10;    nz = 10
 
@@ -40,8 +41,8 @@
   !-----------------!
   else
 
-    print *, "# Reading the file 'grid.ini'"
-    open(newunit = file_unit, file = 'grid.ini', action = 'read')
+    print *, "# Reading the file "//grid_name
+    open(newunit = file_unit, file = grid_name, action = 'read')
 
     !--------------------------------!
     !   Dimensions and resolutions   !

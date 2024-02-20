@@ -22,7 +22,7 @@
   !   Read grid.ini   !
   !                   !
   !-------------------!
-  call Grid % Load_Grid()
+  call Grid % Load_Grid("grid.ini")
 
   !-------------------------------------!
   !                                     !
