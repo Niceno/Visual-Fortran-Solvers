@@ -15,10 +15,11 @@
 
   Assert(f_in .ge. 0)
 
-  print *, 'Nonzeros in original sparse matrix: ', A % nonzeros
+  print *, '# Dimension of the original sparse matrix: ', A % n
+  print *, '# Nonzeros in original sparse matrix     : ', A % nonzeros
 
-  allocate(rows_new(A % nonzeros * (f_in+1)))
-  allocate(cols_new(A % nonzeros * (f_in+1)))
+  allocate(rows_new(A % nonzeros * (f_in+1) - A % n))
+  allocate(cols_new(A % nonzeros * (f_in+1) - A % n))
 
   !-----------------------------------------------!
   !   Add aditional diagonals (with duplicates)   !
@@ -41,15 +42,16 @@
             rows_new(non_zeros_tent) = row
             cols_new(non_zeros_tent) = col+f
             non_zeros_tent = non_zeros_tent + 1
-            cols_new(non_zeros_tent) = row
             rows_new(non_zeros_tent) = col+f
+            cols_new(non_zeros_tent) = row
           end if
         end do
       end if
     end do
   end do
 
-  print *, 'Tentative number of nonzeros in the expanded matrix: ', non_zeros_tent
+  print *, '# Members allocated in the expanded matrix: ', size(rows_new)
+  print *, '# Tentative nonzeros in the expanded matrix:', non_zeros_tent
 
   !--------------------------------!
   !   Take duplicate entries out   !
@@ -69,7 +71,6 @@
       cols_new(non_zeros) = cols_new(entry)
     end if
   end do
-! non_zeros = non_zeros - 1
 
   print *, '# Final number of nonzeros in the expanded matrix: ', non_zeros
 
