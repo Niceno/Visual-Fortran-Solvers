@@ -34,6 +34,12 @@ else
   PASS_ON += -DVFS_ASSERT=0
 endif
 
+ifeq ($(DEBUG), yes)
+  PASS_ON += -DVFS_DEBUG=1
+else
+  PASS_ON += -DVFS_DEBUG=0
+endif
+
 $(info #=======================================================================)
 $(info # Compiling $(PROGRAM_NAME) with compiler $(FORTRAN))
 $(info #-----------------------------------------------------------------------)
@@ -51,10 +57,11 @@ $(info #-----------------------------------------------------------------------)
 #-------------------------------------------------------------------------------
 #   Note: Changes only when support to a new Fortran compiler is added.
 #-------------------------------------------------------------------------------
- 
-# Fortran == gnu
+
+#--------------------
+#   Fortran == gnu
+#--------------------
 ifeq ($(FORTRAN), gnu)
-  $(info  # Using GNU Fortran compiler with options:)
   FC = gfortran
   ifeq ($(DEBUG),yes)
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O0 -g  \
@@ -62,13 +69,16 @@ ifeq ($(FORTRAN), gnu)
                                 -cpp
   else
     OPT_COMP = -J $(DIR_MODULE) -fdefault-real-8 -fdefault-integer-8 -O3 -cpp
-  endif 
+  endif
   OPT_LINK = $(OPT_COMP)
-endif 
 
-# Fortran == intel
+  $(info # Using GNU Fortran compiler with options: $(OPT_COMP))
+endif
+
+#----------------------
+#   Fortran == intel
+#----------------------
 ifeq ($(FORTRAN), intel)
-  $(info  # Using Intel Fortran compiler with options:)
   FC = ifort
   ifeq ($(DEBUG),yes)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g -warn all -check all \
@@ -77,11 +87,14 @@ ifeq ($(FORTRAN), intel)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3 -cpp
   endif
   OPT_LINK = $(OPT_COMP)
-endif 
 
-# Fortran == nvidia
+  $(info # Using Intel Fortran compiler with options: $(OPT_COMP))
+endif
+
+#-----------------------
+#   Fortran == nvidia
+#-----------------------
 ifeq ($(FORTRAN), nvidia)
-  $(info  # Using Nvidia Fortran compiler with options:)
   FC = nvfortran
   ifeq ($(DEBUG),yes)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O0 -g -cpp
@@ -89,9 +102,9 @@ ifeq ($(FORTRAN), nvidia)
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3 -cpp
   endif
   OPT_LINK = $(OPT_COMP)
-endif
 
-$(info  $(OPT_COMP))
+  $(info # Using Nvidia Fortran compiler with options: $(OPT_COMP))
+endif
 
 #------------------------------------------------------
 #   List of sources for modules and functions

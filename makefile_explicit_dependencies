@@ -12,8 +12,10 @@ Grid_Mod/*.f90
 
 #-- ./Grid_Mod/Load_Grid.f90
 #-- ./Grid_Mod/Create_Grid.f90
-#-- ./Grid_Mod/Save_Vtk_Debug.f90
+#-- ./Grid_Mod/Save_Vtk_Vector.f90
+#-- ./Grid_Mod/Destroy_Grid.f90
 #-- ./Grid_Mod/Cell_Number.f90
+#-- ./Grid_Mod/Save_Vtk_Scalar.f90
 #-- ./Grid_Mod/Cells_I_J_K.f90
 #-- ./Dense_Mod.f90
 $(DIR_OBJECT)/Dense_Mod.o:\
@@ -107,6 +109,7 @@ Assert_Mod/*.f90
 #-- ./Solvers_Mod/Incomplete/Lu.f90
 #-- ./Solvers_Mod/Sparse/Tflows_Ldlt_Solution.f90
 #-- ./Solvers_Mod/Sparse/Tflows_Ldlt_Factorization.f90
+#-- ./Solvers_Mod/Sparse/Cg_Lu_Prec.f90
 #-- ./Solvers_Mod/Sparse/Lu_Factorization_Gauss.f90
 #-- ./Solvers_Mod/Sparse/Cg_Ldlt_Prec.f90
 #-- ./Solvers_Mod/Sparse/Cg_Cholesky_Prec.f90

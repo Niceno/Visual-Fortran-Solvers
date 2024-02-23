@@ -1,5 +1,5 @@
 !==============================================================================!
-  subroutine Save_Vtk_Debug(Grid, file_name, phi)
+  subroutine Save_Vtk_Scalar(Grid, file_name, phi)
 !------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
@@ -8,7 +8,6 @@
   real             :: phi(Grid % n_cells)  !! solution
 !-----------------------------------[Locals]-----------------------------------!
   integer :: i, j, k, c, fu
-  real    :: xn, yn, zn
 !==============================================================================!
 
   ! Open file
@@ -28,22 +27,19 @@
   ! Write X coordinates
   write(fu,*) ' X_COORDINATES ', Grid % nx+1, ' float'
   do i = 0, Grid % nx
-    xn = i * Grid % dx
-    write(fu, '(es14.5)') xn
+    write(fu, '(es14.5)') Grid % xn(i)
   end do
 
   ! Write Y coordinates
   write(fu,*) ' Y_COORDINATES ', Grid % ny+1, ' float'
   do j = 0, Grid % ny
-    yn = j * Grid % dy
-    write(fu, '(es14.5)') yn
+    write(fu, '(es14.5)') Grid % yn(j)
   end do
 
   ! Write Z coordinates
   write(fu,*) ' Z_COORDINATES ', Grid % nz+1, ' float'
   do k = 0, Grid % nz
-    zn = k * Grid % dz
-    write(fu, '(es14.5)') zn
+    write(fu, '(es14.5)') Grid % zn(k)
   end do
 
   ! Write cell-centered scalar data

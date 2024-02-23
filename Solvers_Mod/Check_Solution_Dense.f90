@@ -17,7 +17,7 @@
   Assert(A % n .eq. size(b))
 
   ! Save the results for visualization
-  call A % pnt_grid % Save_Vtk_Debug("solution.vtk", x)
+  call A % pnt_grid % Save_Vtk_Scalar("solution.vtk", x)
 
   ! Compute y=Ax
   call Lin_Alg_Mod_Dense_X_Vector(y, A, x)

@@ -12,7 +12,6 @@
   character(32)     :: arg = ''              ! command line argument
   integer           :: choice, f_in, n_iter, file_unit, test
   integer           :: nx, ny, nz
-  real              :: lx, ly, lz
   real              :: res
   logical           :: file_exists
 !==============================================================================!
@@ -186,6 +185,7 @@
     case(51)
         print *, "# Enter the desired resolution: "
         read *, nx, ny, nz
+        call Grid % Destroy_Grid()
         call Grid % Create_Grid(Grid % lx, Grid % ly, Grid % lz, nx, ny, nz)
     case(52)
         print *, "# Enter the desired fill-in level: "
