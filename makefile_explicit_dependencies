@@ -17,6 +17,8 @@ Grid_Mod/*.f90
 #-- ./Grid_Mod/Cell_Number.f90
 #-- ./Grid_Mod/Save_Vtk_Scalar.f90
 #-- ./Grid_Mod/Cells_I_J_K.f90
+#-- ./Swap_Mod/Swap_Real.f90
+#-- ./Swap_Mod/Swap_Int.f90
 #-- ./Dense_Mod.f90
 $(DIR_OBJECT)/Dense_Mod.o:\
 $(DIR_OBJECT)/Matrix_Mod.o \
@@ -135,11 +137,16 @@ Assert_Mod/*.f90
 $(DIR_OBJECT)/Sort_Mod.o:\
 Sort_Mod/*.f90 
 
+#-- ./.Modules/swap_int__genmod.f90
 #-- ./Lin_Alg_Mod/Vector_Dot_Vector.f90
 #-- ./Lin_Alg_Mod/Dense_X_Dense.f90
 #-- ./Lin_Alg_Mod/Dense_X_Vector.f90
 #-- ./Lin_Alg_Mod/Dense_T.f90
 #-- ./Lin_Alg_Mod/Sparse_X_Vector.f90
+#-- ./Swap_Mod.f90
+$(DIR_OBJECT)/Swap_Mod.o:\
+Swap_Mod/*.f90 
+
 #-- ./Assert_Mod/Handle_Assert.f90
 #-- ./Sparse_Mod.f90
 $(DIR_OBJECT)/Sparse_Mod.o:\
@@ -170,7 +177,6 @@ In_Out_Mod/*.f90 \
 $(DIR_OBJECT)/Discretize_Mod.o \
 Discretize_Mod/*.f90 
 
-#-- ./Swap_Int.f90
 #-- ./Sort_Mod/Int.f90
 #-- ./Sort_Mod/2_Int.f90
 #-- ./Sort_Mod/Int_Carry_Int.f90

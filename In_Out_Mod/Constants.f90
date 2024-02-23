@@ -1,7 +1,9 @@
 !-------------------------!
 !   Xfig units for 1 cm   !
 !-------------------------!
-integer, parameter :: CM = 450
+integer, parameter :: CM         = 450
+integer, parameter :: CM_HALF    = 225
+integer, parameter :: CM_QUARTER = 112
 
 !-----------------!
 !   Xfig colors   !

@@ -118,7 +118,7 @@
 
     call Lin_Alg_Mod_Vector_Dot_Vector(rho, r, z)
 
-    print '(a,i3,a,1es10.4)', ' #', iter, '; rho = ', sqrt(rho)
+    print '(a,i3,a,1es10.3)', ' #', iter, '; rho = ', sqrt(rho)
     if(sqrt(rho) < res) goto 1
 
     !---------------------------------!
@@ -136,15 +136,15 @@
 
   !@ call In_Out_Mod_Print_Vector("Solution x:", x)
 
-  print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
-  print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss
-  print '(a,1es10.4)', ' # Total time:                  ',  &
+  print '(a,1es10.3)', ' # Time for matrix preparation: ', time_pe - time_ps
+  print '(a,1es10.3)', ' # Time for solution:           ', time_se - time_ss
+  print '(a,1es10.3)', ' # Total time:                  ',  &
                                        time_pe - time_ps + time_se - time_ss
 
   !------------------------!
   !   Check the solution   !
   !------------------------!
-  print '(a,1es10.4)', " # Sqrt(rho):                   ", sqrt(rho)
+  print '(a,1es10.3)', " # Sqrt(rho):                   ", sqrt(rho)
   call Solvers_Mod_Check_Solution_Sparse(A, x, b)
 
   !-------------------------!

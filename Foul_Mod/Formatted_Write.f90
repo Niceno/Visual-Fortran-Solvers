@@ -37,13 +37,18 @@
                    text_22, style_22, text_23, style_23, text_24, style_24,   &
                    forward
 !-----------------------------------[Locals]-----------------------------------!
-  integer        :: output_string_count
-  integer        :: output_lengths(512)
-  integer        :: i
-  character(256) :: format_string
-  character (16) :: escape_sequence
-  character(256) :: output_strings(512)
+  integer                     :: output_string_count
+  integer,        allocatable :: output_lengths(:)
+  integer                     :: i
+  character(256)              :: format_string
+  character (16)              :: escape_sequence
+  character(256), allocatable :: output_strings(:)
+!------------------------[Avoid unused parent warning]-------------------------!
+  Unused(Foul)
 !==============================================================================!
+
+  allocate(output_lengths(512))
+  allocate(output_strings(512))
 
   output_string_count = 0
   format_string       = ''

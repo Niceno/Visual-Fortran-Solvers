@@ -14,7 +14,7 @@
   integer,           intent(in), optional :: src2(:)
   integer,           intent(in), optional :: src3(:)
 !-----------------------------------[Locals]-----------------------------------!
-  integer        :: row, col, pos, n
+  integer        :: row, col, pos, n, ran(2)
   integer, save  :: cnt = 0
   real           :: max_v, min_v
   character(6)   :: frame = '_00000'
@@ -23,6 +23,10 @@
 
   ! Take an alias
   n = A % n
+
+  ! Set the range
+  ran(1) = 1
+  ran(2) = 2
 
   if(present(targ)) Assert(size(targ) .eq. 2)
   if(present(src1)) Assert(size(src1) .eq. 2)
@@ -81,7 +85,7 @@
   call IO % Plot_Box(9, n+1, n+1, WHITE, 999)
 
   ! Place brackets around the matrix
-  call IO % Plot_Brackets(9, (/1,n/), (/1,n/), 40)
+  call IO % Plot_Brackets(9, ran, ran, 40)
 
   call IO % Plot_Text(9, A % text_u, 1+3, n-3, 40, fsize=36)
   call IO % Plot_Text(9, A % text_l, n-3, 1+3, 40, fsize=36)

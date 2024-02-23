@@ -36,7 +36,7 @@
   !   Initialize the values by copying the original matrix to U first   !
   !---------------------------------------------------------------------!
   do i = 1, n  ! <-A
-    do j = 1, n
+    do j = max(i - bw, 1), min(i + bw, n)
       U % val(i,j) = A % val(i,j)
     end do
   end do       ! A->

@@ -15,7 +15,7 @@
   integer,           intent(in), optional :: srcx(:)   !! source from x
   integer,           intent(in), optional :: srcb(:)   !! source form b
 !-----------------------------------[Locals]-----------------------------------!
-  integer        :: row, col, pos, n
+  integer        :: row, col, pos, n, r1(2), r2(2)
   integer, save  :: cnt = 0
   real           :: max_a, min_a
   real           :: max_x, min_x
@@ -84,10 +84,10 @@
   call IO % Plot_Box(9, n+1, n+8, WHITE, 999)
 
   ! Place brackets around the matrix and the vectors
-  call IO % Plot_Brackets(9, (/1,n/), (/1,  n  /), 40)
-  call IO % Plot_Brackets(9, (/1,n/), (/n+3,n+3/), 40)
-  call IO % Plot_Brackets(9, (/1,n/), (/n+7,n+7/), 40)
-  call IO % Plot_Text    (9, '=',   n/2,   n+5,    40, fsize=36)
+  r1=(/1,n/);  r2=(/  1,n  /);  call IO % Plot_Brackets(9, r1, r2, 40)
+  r1=(/1,n/);  r2=(/n+3,n+3/);  call IO % Plot_Brackets(9, r1, r2, 40)
+  r1=(/1,n/);  r2=(/n+7,n+7/);  call IO % Plot_Brackets(9, r1, r2, 40)
+  call IO % Plot_Text(9, '=', n/2, n+5, 40, fsize=36)
 
   call IO % Plot_Text(9, A % text_u, 1+3, n-3, 40, fsize=36)
   call IO % Plot_Text(9, A % text_l, n-3, 1+3, 40, fsize=36)

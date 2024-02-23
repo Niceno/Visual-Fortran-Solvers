@@ -13,11 +13,21 @@
   character (80) :: read_line  ! line as read from the file
   character (80) :: proc_line  ! processed line
   character(512) :: out_file_name
-  integer        :: n, iostat, pos, pos_io, pos_com, lc
+  integer        :: n, iostat, pos, lc
   logical        :: processing, last_line, not_comment, out_exists
 !------------------------[Avoid unused parent warning]-------------------------!
   Unused(IO)
 !==============================================================================!
+
+  !--------------------------------------------------------------------------!
+  !   Fortran compiler does not provide full path to macro __FILE__ and it   !
+  !   therefore very difficult to use this function.  One might use system   !
+  !   calls to find a particular file, but there may be several files with   !
+  !   the same name, residing in different directories. Hence, just return   !
+  !--------------------------------------------------------------------------!
+#ifdef __INTEL_COMPILER
+  return
+#endif
 
   ! Print some useful message, be transparent, tell what you are doing
   call Foul % Formatted_Write(' # Processing the file:          ',  &
@@ -116,8 +126,8 @@
 
         ! Write the processed (worked) line out
         write(9, '(a)',  advance='no') '4 0 0 50 -1 12 22 0.0000 4 450 450 '
-        write(9, '(i9)', advance='no') CM / 2
-        write(9, '(i9)', advance='no') lc * CM - CM / 4
+        write(9, '(i9)', advance='no') CM_HALF
+        write(9, '(i9)', advance='no') lc * CM - CM_QUARTER
         write(9, '(a)',  advance='no') trim(proc_line)
         write(9, '(a)')                '\001'
       end if

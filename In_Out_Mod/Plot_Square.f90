@@ -20,27 +20,27 @@
   maxa = max(abs(minv), abs(maxv))
 
   ! Do not scale by size
-  d = CM / 2
+  d = CM_HALF
 
   ! Scaling by color, but use only shades of green
   if(val > 0) then
     color = 48
-    if(IO % scale_by_color) color = 40 + 8 * (sqrt( val) / sqrt(maxa))
+    if(IO % scale_by_color) color = int(40 + 8 * (sqrt( val) / sqrt(maxa)))
     Assert(color .ge. 40)
     Assert(color .le. 48)
-!   if(IO % scale_by_color) color = 60 + 8 * (      val  /      maxa)
+!   if(IO % scale_by_color) color = int(60 + 8 * (      val  /      maxa))
   else
     color = 48
-    if(IO % scale_by_color) color = 40 + 8 * (sqrt(-val) / sqrt(maxa))
+    if(IO % scale_by_color) color = int(40 + 8 * (sqrt(-val) / sqrt(maxa)))
     Assert(color .ge. 40)
     Assert(color .le. 48)
-!   if(IO % scale_by_color) color = 60 + 8 * (      val  /      maxa)
+!   if(IO % scale_by_color) color = int(60 + 8 * (      val  /      maxa))
   end if
 
   ! Perform actual plotting of a square
   if(abs(val) > 1.0e-15) then
-    plot_x = CM/2 + col * CM
-    plot_y = CM/2 + row * CM
+    plot_x = CM_HALF + col * CM
+    plot_y = CM_HALF + row * CM
     write(fu,'(a)',     advance='no') ' 2'                !  1 polyline
     write(fu,'(a)',     advance='no') ' 2'                !  2 defined as a box
     write(fu,'(a)',     advance='no') ' 0'                !  3 line style

@@ -20,7 +20,7 @@
   plot_x  = (col)     * CM
   plot_y1 = (rows(1)) * CM
   plot_yn = (rows(2)) * CM + CM
-  d       = CM / 4      ! delta
+  d       = CM_QUARTER
 
   write(fu,'(a)',     advance='no') ' 2'                !  1 polyline
   write(fu,'(a)',     advance='no') ' 1'                !  2 it is a polyline

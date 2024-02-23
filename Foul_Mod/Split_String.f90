@@ -20,23 +20,25 @@
   character(*), intent(out) :: substrings(*)
   integer,      intent(out) :: substring_count
 !-----------------------------------[Locals]-----------------------------------!
-  integer :: start_position, end_position
+  integer :: start_pos, end_pos
+!------------------------[Avoid unused parent warning]-------------------------!
+  Unused(Foul)
 !==============================================================================!
 
-  start_position  = 1
+  start_pos  = 1
   substring_count = 0
 
   do
-    end_position = index(string(start_position:), delimiter)
+    end_pos = index(string(start_pos:), delimiter)
 
     substring_count = substring_count + 1
 
-    if (end_position == 0) then
-      substrings(substring_count) = string(start_position:)
-      EXIT
+    if(end_pos == 0) then
+      substrings(substring_count) = string(start_pos:)
+      exit
     else
-      substrings(substring_count) = string(start_position : start_position + end_position - 2)
-      start_position = start_position + end_position
+      substrings(substring_count) = string(start_pos : start_pos + end_pos - 2)
+      start_pos = start_pos + end_pos
     end if
   end do
 

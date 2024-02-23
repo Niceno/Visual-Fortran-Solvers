@@ -21,29 +21,31 @@
 
   ! Scaling by circle size
   rad = 135
-  if(IO % scale_by_size) then
-    rad = 15 + 150 * ( sqrt(abs(val)) /  sqrt(maxa))  ! quadratic scaling
-!   rad = 50 + 100 * (      abs(val)  /       maxa)   ! linear scaling
-!   rad = 50 + 100 * ( sqrt(abs(val)) /  sqrt(maxa))  ! quadratic scaling
-!   rad = 10 + 140 * (      abs(val)  /       maxa)   ! linear scaling
-!   rad = 10 + 140 * ( sqrt(abs(val)) /  sqrt(maxa))  ! quadratic scaling
+  if(IO % scale_by_size .and. abs(val) > TINY) then
+    rad = int(15 + 150 * ( sqrt(abs(val)) /  sqrt(maxa))) ! quadratic scaling
+!   rad = int(50 + 100 * (      abs(val)  /       maxa) ) ! linear scaling
+!   rad = int(50 + 100 * ( sqrt(abs(val)) /  sqrt(maxa))) ! quadratic scaling
+!   rad = int(10 + 140 * (      abs(val)  /       maxa) ) ! linear scaling
+!   rad = int(10 + 140 * ( sqrt(abs(val)) /  sqrt(maxa))) ! quadratic scaling
   end if
 
   ! Scaling by color
-  if(val > 0) then
+  if(val > TINY) then
     color = 58
-    if(IO % scale_by_color) color = 50 + 8 * (sqrt( val) / sqrt( maxv))
-!   if(IO % scale_by_color) color = 50 + 8 * (      val  /       maxv)
-  else
+    if(IO % scale_by_color) color = int(50 + 8 * (sqrt( val) / sqrt( maxv)))
+!   if(IO % scale_by_color) color = int(50 + 8 * (      val  /       maxv)
+  else if(val < -TINY) then
     color = 78
-    if(IO % scale_by_color) color = 70 + 8 * (sqrt(-val) / sqrt(-minv))
-!   if(IO % scale_by_color) color = 70 + 8 * (      val  /      -minv)
+    if(IO % scale_by_color) color = int(70 + 8 * (sqrt(-val) / sqrt(-minv)))
+!   if(IO % scale_by_color) color = int(70 + 8 * (      val  /      -minv)
+  else
+    color = WHITE
   end if
 
   ! Perform actual plotting of a circle
   if(abs(val) > 1.0e-15) then
-    plot_x = CM/2 + col * CM
-    plot_y = CM/2 + row * CM
+    plot_x = CM_HALF + col * CM
+    plot_y = CM_HALF + row * CM
     write(fu,'(a,es12.5)')  '# ', val
     write(fu,'(a)',     advance='no') ' 1'            !  1 ellipse
     write(fu,'(a)',     advance='no') ' 3'            !  2 define with radii

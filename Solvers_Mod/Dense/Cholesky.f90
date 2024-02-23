@@ -76,9 +76,9 @@
   call Solvers_Mod_Dense_Backward_Substitution(x, L, y, t=.true.)
   call Cpu_Time(time_se)
 
-  print '(a,1es10.4)', ' # Time for matrix preparation: ', time_pe - time_ps
-  print '(a,1es10.4)', ' # Time for solution:           ', time_se - time_ss
-  print '(a,1es10.4)', ' # Total time:                  ',  &
+  print '(a,1es10.3)', ' # Time for matrix preparation: ', time_pe - time_ps
+  print '(a,1es10.3)', ' # Time for solution:           ', time_se - time_ss
+  print '(a,1es10.3)', ' # Total time:                  ',  &
                                        time_pe - time_ps + time_se - time_ss
 
   !------------------------!

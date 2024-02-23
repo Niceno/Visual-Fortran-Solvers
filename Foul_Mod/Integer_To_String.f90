@@ -12,6 +12,14 @@
 !   Output:
 !   Return value: String resulting from conversion
 !------------------------------------------------------------------------------!
+!   1 + floor(log10(real(abs(integer_value)))) =
+!   number of digits needed to represent integer_value
+!
+!   int(sign(1, -integer_value) + 1) / 2) =
+!   0, if integer_value is positive
+!   1, if integer_value is negative
+!   (used to make room for sign)
+!------------------------------------------------------------------------------!
   implicit none
 !---------------------------------[Arguments]----------------------------------!
   class(Foul_Type)    :: Foul
@@ -21,14 +29,8 @@
                   + int((sign(1, -integer_value) + 1) / 2),   &
                     string_length, 1)) :: Integer_To_String
   character(16) :: string_buffer
-!------------------------------------------------------------------------------!
-!   1 + floor(log10(real(abs(integer_value)))) =
-!   number of digits needed to represent integer_value
-!
-!   int(sign(1, -integer_value) + 1) / 2) =
-!   0, if integer_value is positive
-!   1, if integer_value is negative
-!   (used to make room for sign)
+!------------------------[Avoid unused parent warning]-------------------------!
+  Unused(Foul)
 !==============================================================================!
 
   write(string_buffer, '(I16)') integer_value

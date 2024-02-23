@@ -1,4 +1,5 @@
 #include "Assert.h90"
+#include "Unused.h90"
 
 !==============================================================================!
 !   FOUL - The Fortran Output Library
@@ -69,11 +70,11 @@
 
   contains
 
-    include 'Foul_Mod/Formatted_Write.f90'
-    include 'Foul_Mod/Get_Escape_Sequence.f90'
-    include 'Foul_Mod/Integer_To_String.f90'
-    include 'Foul_Mod/Lower_Case.f90'
-    include 'Foul_Mod/Split_String.f90'
+#   include "Foul_Mod/Formatted_Write.f90"
+#   include "Foul_Mod/Get_Escape_Sequence.f90"
+#   include "Foul_Mod/Integer_To_String.f90"
+#   include "Foul_Mod/Lower_Case.f90"
+#   include "Foul_Mod/Split_String.f90"
 
   end module Foul_Mod
 

@@ -7,6 +7,7 @@
 !   A suite of routines for input and output                                   !
 !------------------------------------------------------------------------------!
 !----------------------------------[Modules]-----------------------------------!
+  use Const_Mod
   use Foul_Mod
   use Dense_Mod
   use Sparse_Mod
@@ -33,7 +34,6 @@
       procedure          :: Plot_Dense
       procedure          :: Plot_Dense_System
       procedure          :: Plot_Header
-      procedure          :: Plot_Ring
       procedure          :: Plot_Snippet
       procedure          :: Plot_Sparse
       procedure          :: Plot_Sparse_System
@@ -63,7 +63,6 @@
 #   include "In_Out_Mod/Plot_Dense.f90"
 #   include "In_Out_Mod/Plot_Dense_System.f90"
 #   include "In_Out_Mod/Plot_Header.f90"
-#   include "In_Out_Mod/Plot_Ring.f90"
 #   include "In_Out_Mod/Plot_Snippet.f90"
 #   include "In_Out_Mod/Plot_Sparse.f90"
 #   include "In_Out_Mod/Plot_Sparse_System.f90"

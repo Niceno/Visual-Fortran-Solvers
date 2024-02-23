@@ -18,6 +18,7 @@
   !-----------------------------------------!
   !   First check if the grid file exists   !
   !-----------------------------------------!
+  file_exists = .false.
   inquire(file = grid_name, exist = file_exists)
 
   !------------------------!

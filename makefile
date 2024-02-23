@@ -8,8 +8,8 @@
 #   Default options for compilation
 #-------------------------------------
 FORTRAN ?= gnu
-DEBUG   ?= no
 ASSERT  ?= yes
+DEBUG   ?= no
 
 #--------------------------
 #   Variable definitions
@@ -86,6 +86,10 @@ ifeq ($(FORTRAN), intel)
   else
     OPT_COMP = -module $(DIR_MODULE) -r8 -i8 -O3 -cpp
   endif
+
+  # Disable suggestion to use new version of Fortran compiler
+  OPT_COMP += -diag-disable=10448
+
   OPT_LINK = $(OPT_COMP)
 
   $(info # Using Intel Fortran compiler with options: $(OPT_COMP))
@@ -120,8 +124,10 @@ endif
 #-------------
 
 # Modules in shared directories
-SRC_MOD = Assert_Mod.f90	\
+SRC_MOD = Const_Mod.f90		\
+          Assert_Mod.f90	\
           Foul_Mod.f90		\
+          Swap_Mod.f90		\
           Sort_Mod.f90		\
           Grid_Mod.f90		\
           Matrix_Mod.f90	\

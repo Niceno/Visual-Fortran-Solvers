@@ -27,7 +27,7 @@
 
   call Lin_Alg_Mod_Vector_Dot_Vector(error, r, r)
 
-  write(output, '(1es10.4)') sqrt(error)
+  write(output, '(1es10.3)') sqrt(error)
   call Foul % Formatted_Write(' # Error:                       ',  &
                               'white',                             &
                               output,                              &

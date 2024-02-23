@@ -6,6 +6,8 @@
   class(In_Out_Type)  :: IO
   integer, intent(in) :: row
   real,    intent(in) :: max_val
+!------------------------[Avoid unused parent warning]-------------------------!
+  Unused(IO)
 !==============================================================================!
 
   if(row .eq. 1) then

@@ -20,7 +20,7 @@
 
   plot_x = (col) * CM
   plot_y = (row) * CM + CM
-  d      = CM / 2      ! delta
+  d      = CM_HALF     ! delta
 
   write(fu,'(a)',  advance='no') ' 4'         !  1 text
   write(fu,'(a)',  advance='no') ' 1'         !  2 justification (1 is center)
