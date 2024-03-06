@@ -18,8 +18,8 @@
   print *, '# Dimension of the original sparse matrix: ', A % n
   print *, '# Nonzeros in original sparse matrix     : ', A % nonzeros
 
-  allocate(rows_new(A % nonzeros * (f_in+1) - A % n))
-  allocate(cols_new(A % nonzeros * (f_in+1) - A % n))
+  allocate(rows_new(A % nonzeros * (f_in+1)))
+  allocate(cols_new(A % nonzeros * (f_in+1)))
 
   !-----------------------------------------------!
   !   Add aditional diagonals (with duplicates)   !
