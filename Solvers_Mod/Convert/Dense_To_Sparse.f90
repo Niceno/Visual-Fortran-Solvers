@@ -42,11 +42,11 @@
   !---------------------!
   !   Allocate memory   !
   !---------------------!
-  allocate (Spar % row(n+1));       Spar % row = 0
-  allocate (Spar % dia(n));         Spar % dia = 0
-  allocate (Spar % col(non_zeros)); Spar % col = 0
-  allocate (Spar % val(non_zeros)); Spar % val = 0
-  allocate (Spar % mir(non_zeros)); Spar % mir = 0
+  allocate(Spar % row(n+1));       Spar % row = 0
+  allocate(Spar % dia(n));         Spar % dia = 0
+  allocate(Spar % col(non_zeros)); Spar % col = 0
+  allocate(Spar % val(non_zeros)); Spar % val = 0
+  allocate(Spar % mir(non_zeros)); Spar % mir = 0
 
   !--------------------------------------------!
   !   Form the compressed row storage matrix   !

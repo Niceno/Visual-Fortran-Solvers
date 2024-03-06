@@ -79,11 +79,11 @@
   !---------------------------------------------!
   C % n        = A % n
   C % nonzeros = non_zeros
-  allocate (C % row(C % n+1));    C % row = 0
-  allocate (C % dia(C % n));      C % dia = 0
-  allocate (C % col(non_zeros));  C % col = 0
-  allocate (C % val(non_zeros));  C % val = 0
-  allocate (C % mir(non_zeros));  C % mir = 0
+  allocate(C % row(C % n+1));    C % row = 0
+  allocate(C % dia(C % n));      C % dia = 0
+  allocate(C % col(non_zeros));  C % col = 0
+  allocate(C % val(non_zeros));  C % val = 0
+  allocate(C % mir(non_zeros));  C % mir = 0
 
   !----------------------!
   !   Form % col entry   !

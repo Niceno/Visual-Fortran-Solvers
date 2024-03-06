@@ -54,12 +54,12 @@
         * Grid % ny  &
         * Grid % nz
   Assert(A % n .eq. Grid % n_cells)
-  allocate (A % row(Grid % n_cells+1));  A % row = 0
-  allocate (A % dia(Grid % n_cells));    A % dia = 0
-  allocate (A % col(non_zeros));         A % col = 0
-  allocate (A % val(non_zeros));         A % val = 0
-  allocate (A % mir(non_zeros));         A % mir = 0
-  allocate (rhs(Grid % n_cells));        rhs = 0
+  allocate(A % row(Grid % n_cells+1));  A % row = 0
+  allocate(A % dia(Grid % n_cells));    A % dia = 0
+  allocate(A % col(non_zeros));         A % col = 0
+  allocate(A % val(non_zeros));         A % val = 0
+  allocate(A % mir(non_zeros));         A % mir = 0
+  allocate(rhs(Grid % n_cells));        rhs = 0
 
   !--------------------------------!
   !   Form the compressed matrix   !
